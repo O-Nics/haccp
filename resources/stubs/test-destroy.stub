@@ -1,0 +1,75 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Tests\Feature\{{ model }};
+
+use App\Models\{{ model }};
+use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
+
+class {{ model }}DestroyTest extends TestCase
+{
+    use RefreshDatabase;
+
+    private User $user;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->user = User::factory()->create();
+    }
+
+    public function test_can_delete_{{ modelLower }}(): void
+    {
+        ${{ modelLower }} = {{ model }}::factory()->create();
+
+        $response = $this->actingAs($this->user)
+            ->deleteJson("/api/{{ modelPlural }}/{${{ modelLower }}->id}");
+
+        $response->assertStatus(204);
+
+        $this->assertDatabaseMissing('{{ modelTable }}', [
+            'id' => ${{ modelLower }}->id,
+        ]);
+    }
+
+    public function test_cannot_delete_nonexistent_{{ modelLower }}(): void
+    {
+        $response = $this->actingAs($this->user)
+            ->deleteJson('/api/{{ modelPlural }}/99999');
+
+        $response->assertStatus(404);
+    }
+
+    public function test_soft_deleted_{{ modelLower }}_is_not_visible(): void
+    {
+        ${{ modelLower }} = {{ model }}::factory()->create();
+
+        $this->actingAs($this->user)
+            ->deleteJson("/api/{{ modelPlural }}/{${{ modelLower }}->id}");
+
+        // Verify it's not in the list
+        $response = $this->actingAs($this->user)
+            ->getJson('/api/{{ modelPlural }}');
+
+        $response->assertStatus(200)
+            ->assertJsonMissing(['id' => ${{ modelLower }}->id]);
+    }
+
+    public function test_requires_authentication_to_delete_{{ modelLower }}(): void
+    {
+        ${{ modelLower }} = {{ model }}::factory()->create();
+
+        $response = $this->deleteJson("/api/{{ modelPlural }}/{${{ modelLower }}->id}");
+
+        $response->assertStatus(401);
+
+        // Verify it still exists
+        $this->assertDatabaseHas('{{ modelTable }}', [
+            'id' => ${{ modelLower }}->id,
+        ]);
+    }
+}

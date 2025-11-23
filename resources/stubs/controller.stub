@@ -1,0 +1,87 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Http\Controllers\Api;
+
+use App\Http\Controllers\Base\Controller;
+use App\Http\Requests\{{ model }}\Index{{ model }}Request;
+use App\Http\Requests\{{ model }}\Store{{ model }}Request;
+use App\Http\Requests\{{ model }}\Update{{ model }}Request;
+use App\Http\Resources\{{ model }}Resource;
+use App\Models\{{ model }};
+use App\Services\{{ model }}Service;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+
+final class {{ model }}Controller extends Controller
+{
+    public function __construct(
+        private readonly {{ model }}Service $service
+    ) {}
+
+    /**
+     * Display a listing of {{ modelLower }}s
+     */
+    public function index(Index{{ model }}Request $request): AnonymousResourceCollection
+    {
+        $data = $request->toDto();
+
+        $paginated{{ model }}s = $this->service->index(
+            $data,
+            [''] // Add your relations here
+        );
+
+        return {{ model }}Resource::collection($paginated{{ model }}s);
+    }
+
+    /**
+     * Display the specified {{ modelLower }}
+     */
+    public function show({{ model }} ${{ modelLower }}): JsonResponse
+    {
+        return response()->json([
+            'data' => new {{ model }}Resource(${{ modelLower }}),
+        ]);
+    }
+
+    /**
+     * Store a newly created {{ modelLower }}
+     */
+    public function store(Store{{ model }}Request $request): JsonResponse
+    {
+        $data = $request->toDto();
+
+        ${{ modelLower }} = $this->service->store($data);
+
+        return response()->json([
+            'message' => '{{ model }} created successfully',
+            'data' => new {{ model }}Resource(${{ modelLower }}),
+        ], 201);
+    }
+
+    /**
+     * Update the specified {{ modelLower }}
+     */
+    public function update(Update{{ model }}Request $request, {{ model }} ${{ modelLower }}): JsonResponse
+    {
+        $data = $request->toDto();
+
+        $updated{{ model }} = $this->service->update(${{ modelLower }}, $data);
+
+        return response()->json([
+            'message' => '{{ model }} updated successfully',
+            'data' => new {{ model }}Resource($updated{{ model }}),
+        ]);
+    }
+
+    /**
+     * Remove the specified {{ modelLower }}
+     */
+    public function destroy({{ model }} ${{ modelLower }}): JsonResponse
+    {
+        $this->service->destroy(${{ modelLower }});
+
+        return response()->json(null, 204);
+    }
+}

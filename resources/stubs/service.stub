@@ -1,0 +1,59 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Services;
+
+use App\DataTransferObjects\{{ model }}\Index{{ model }}Data;
+use App\DataTransferObjects\{{ model }}\Store{{ model }}Data;
+use App\DataTransferObjects\{{ model }}\Update{{ model }}Data;
+use App\Models\{{ model }};
+use App\Repositories\{{ model }}\{{ model }}RepositoryInterface;
+use Illuminate\Pagination\LengthAwarePaginator;
+
+readonly class {{ model }}Service
+{
+    public function __construct(
+        private {{ model }}RepositoryInterface $repository
+    ) {}
+
+    /**
+     * Get paginated list of {{ model }} records with filtering and sorting (REST: index)
+     */
+    public function index(Index{{ model }}Data $data, array $relations = []): LengthAwarePaginator
+    {
+        return $this->repository->getFilteredPaginated{{ model }}s($data, $relations);
+    }
+
+    /**
+     * Find a specific {{ model }} by ID (REST: show)
+     */
+    public function show({{ model }} ${{ modelLower }}): {{ model }}
+    {
+        return ${{ modelLower }};
+    }
+
+    /**
+     * Create a new {{ model }} (REST: store)
+     */
+    public function store(Store{{ model }}Data $data): {{ model }}
+    {
+        return $this->repository->create($data);
+    }
+
+    /**
+     * Update an existing {{ model }} (REST: update)
+     */
+    public function update({{ model }} ${{ modelLower }}, Update{{ model }}Data $data): {{ model }}
+    {
+        return $this->repository->update(${{ modelLower }}, $data);
+    }
+
+    /**
+     * Delete a {{ model }} (REST: destroy)
+     */
+    public function destroy({{ model }} ${{ modelLower }}): bool
+    {
+        return $this->repository->delete(${{ modelLower }});
+    }
+}

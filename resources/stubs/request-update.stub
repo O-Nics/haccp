@@ -1,0 +1,66 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Http\Requests\{{ model }};
+
+use App\DataTransferObjects\{{ model }}\Update{{ model }}Data;
+use App\Http\Requests\Base\BaseFormRequest;
+
+class Update{{ model }}Request extends BaseFormRequest
+{
+    /**
+     * Determine if the user is authorized to make this request.
+     */
+    public function authorize(): bool
+    {
+        return true;
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     */
+    public function rules(): array
+    {
+        return [
+            // Add your validation rules here
+            // Example:
+            // 'name' => ['sometimes', 'string', 'max:255'],
+            // 'email' => ['sometimes', 'email', 'unique:{{ modelTable }},email,' . $this->route('id')],
+        ];
+    }
+
+    /**
+     * Get custom messages for validator errors.
+     *
+     * @return array<string, string>
+     */
+    public function messages(): array
+    {
+        return [
+            // Add custom messages here
+        ];
+    }
+
+    /**
+     * Get custom attributes for validator errors.
+     *
+     * @return array<string, string>
+     */
+    public function attributes(): array
+    {
+        return [
+            // Add custom attribute names here
+        ];
+    }
+
+    /**
+     * Convert request to DTO
+     */
+    public function toDto(): Update{{ model }}Data
+    {
+        return Update{{ model }}Data::from($this->validated());
+    }
+}

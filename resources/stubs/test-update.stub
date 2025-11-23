@@ -1,0 +1,107 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Tests\Feature\{{ model }};
+
+use App\Models\{{ model }};
+use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
+
+class {{ model }}UpdateTest extends TestCase
+{
+    use RefreshDatabase;
+
+    private User $user;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->user = User::factory()->create();
+    }
+
+    public function test_can_update_{{ modelLower }}(): void
+    {
+        ${{ modelLower }} = {{ model }}::factory()->create();
+
+        $data = [
+            // Add your updated {{ model }} fields here
+        ];
+
+        $response = $this->actingAs($this->user)
+            ->putJson("/api/{{ modelPlural }}/{${{ modelLower }}->id}", $data);
+
+        $response->assertStatus(200)
+            ->assertJsonStructure([
+                'data' => [
+                    'id',
+                    // Add your {{ model }} fields here
+                ],
+            ]);
+
+        $this->assertDatabaseHas('{{ modelTable }}', [
+            'id' => ${{ modelLower }}->id,
+            // Add assertions here
+        ]);
+    }
+
+    public function test_cannot_update_nonexistent_{{ modelLower }}(): void
+    {
+        $data = [
+            // Add your {{ model }} fields here
+        ];
+
+        $response = $this->actingAs($this->user)
+            ->putJson('/api/{{ modelPlural }}/99999', $data);
+
+        $response->assertStatus(404);
+    }
+
+    public function test_validation_fails_with_invalid_data(): void
+    {
+        ${{ modelLower }} = {{ model }}::factory()->create();
+
+        $data = [
+            // Add invalid data here
+        ];
+
+        $response = $this->actingAs($this->user)
+            ->putJson("/api/{{ modelPlural }}/{${{ modelLower }}->id}", $data);
+
+        $response->assertStatus(422);
+    }
+
+    public function test_can_partially_update_{{ modelLower }}(): void
+    {
+        ${{ modelLower }} = {{ model }}::factory()->create();
+
+        $data = [
+            // Add partial update fields here
+        ];
+
+        $response = $this->actingAs($this->user)
+            ->patchJson("/api/{{ modelPlural }}/{${{ modelLower }}->id}", $data);
+
+        $response->assertStatus(200);
+
+        $this->assertDatabaseHas('{{ modelTable }}', [
+            'id' => ${{ modelLower }}->id,
+            // Add assertions here
+        ]);
+    }
+
+    public function test_requires_authentication_to_update_{{ modelLower }}(): void
+    {
+        ${{ modelLower }} = {{ model }}::factory()->create();
+
+        $data = [
+            // Add your {{ model }} fields here
+        ];
+
+        $response = $this->putJson("/api/{{ modelPlural }}/{${{ modelLower }}->id}", $data);
+
+        $response->assertStatus(401);
+    }
+}

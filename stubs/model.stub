@@ -1,0 +1,17 @@
+<?php
+
+namespace {{ namespace }};
+
+{{ factoryImport }}
+use Illuminate\Database\Eloquent\Model;
+
+class {{ class }} extends Model
+{
+    {{ factory }}
+
+    /**
+     * NOTE: This project does NOT use $fillable or $guarded.
+     * Properties are assigned individually with explicit typing.
+     * See CLAUDE.md for more details on this convention.
+     */
+}

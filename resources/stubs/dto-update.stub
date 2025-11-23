@@ -1,0 +1,17 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\DataTransferObjects\{{ model }};
+
+use Spatie\LaravelData\Data;
+
+class Update{{ model }}Data extends Data
+{
+    public function __construct(
+        // Add your {{ model }} fields here (all optional for partial updates)
+        // Example:
+        // public ?string $name = null,
+        // public ?string $description = null,
+    ) {}
+}

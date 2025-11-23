@@ -1,0 +1,49 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Http\Requests\{{ model }};
+
+use App\DataTransferObjects\{{ model }}\Index{{ model }}Data;
+use App\Http\Requests\Base\BaseFormRequest;
+
+class Index{{ model }}Request extends BaseFormRequest
+{
+    /**
+     * Determine if the user is authorized to make this request.
+     */
+    public function authorize(): bool
+    {
+        return true;
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     */
+    public function rules(): array
+    {
+        return [
+            'filterQuery' => ['sometimes', 'nullable', 'string'],
+            'sort' => ['sometimes', 'nullable', 'string'],
+            'order' => ['sometimes', 'nullable', 'string', 'in:asc,desc'],
+            'perPage' => ['sometimes', 'nullable', 'integer', 'min:1', 'max:100'],
+            'page' => ['sometimes', 'nullable', 'integer', 'min:1'],
+        ];
+    }
+
+    /**
+     * Convert request to DTO
+     */
+    public function toDto(): Index{{ model }}Data
+    {
+        return new Index{{ model }}Data(
+            filterQuery: $this->filterQuery,
+            sort: $this->sort,
+            order: $this->order,
+            perPage: $this->perPage ?? 20,
+            page: $this->page ?? 1,
+        );
+    }
+}

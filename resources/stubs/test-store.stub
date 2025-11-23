@@ -1,0 +1,79 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Tests\Feature\{{ model }};
+
+use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
+
+class {{ model }}StoreTest extends TestCase
+{
+    use RefreshDatabase;
+
+    private User $user;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->user = User::factory()->create();
+    }
+
+    public function test_can_create_{{ modelLower }}(): void
+    {
+        $data = [
+            // Add your {{ model }} fields here
+        ];
+
+        $response = $this->actingAs($this->user)
+            ->postJson('/api/{{ modelPlural }}', $data);
+
+        $response->assertStatus(201)
+            ->assertJsonStructure([
+                'data' => [
+                    'id',
+                    // Add your {{ model }} fields here
+                ],
+            ]);
+
+        $this->assertDatabaseHas('{{ modelTable }}', [
+            // Add assertions here
+        ]);
+    }
+
+    public function test_validation_fails_with_empty_data(): void
+    {
+        $response = $this->actingAs($this->user)
+            ->postJson('/api/{{ modelPlural }}', []);
+
+        $response->assertStatus(422)
+            ->assertJsonValidationErrors([
+                // Add your required fields here
+            ]);
+    }
+
+    public function test_validation_fails_with_invalid_data_types(): void
+    {
+        $data = [
+            // Add invalid data types here
+        ];
+
+        $response = $this->actingAs($this->user)
+            ->postJson('/api/{{ modelPlural }}', $data);
+
+        $response->assertStatus(422);
+    }
+
+    public function test_requires_authentication_to_create_{{ modelLower }}(): void
+    {
+        $data = [
+            // Add your {{ model }} fields here
+        ];
+
+        $response = $this->postJson('/api/{{ modelPlural }}', $data);
+
+        $response->assertStatus(401);
+    }
+}

@@ -1,0 +1,27 @@
+
+    /**
+     * Scope to filter {{ model }}s by search query
+     */
+    public function scopeFiltered($query, ?string $searchQuery, array $searchableFields = ['name'])
+    {
+        if (!$searchQuery) {
+            return $query;
+        }
+
+        return $query->where(function ($q) use ($searchQuery, $searchableFields) {
+            foreach ($searchableFields as $field) {
+                $q->orWhere($field, 'LIKE', "%{$searchQuery}%");
+            }
+        });
+    }
+
+    /**
+     * Scope to order {{ model }}s
+     */
+    public function scopeOrder($query, ?string $sortField = 'created_at', ?string $sortOrder = 'asc')
+    {
+        $sortField = $sortField ?? 'created_at';
+        $sortOrder = in_array(strtolower($sortOrder), ['asc', 'desc']) ? strtolower($sortOrder) : 'asc';
+
+        return $query->orderBy($sortField, $sortOrder);
+    }

@@ -1,0 +1,113 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Repositories\{{ model }};
+
+use App\DataTransferObjects\{{ model }}\Index{{ model }}Data;
+use App\DataTransferObjects\{{ model }}\Store{{ model }}Data;
+use App\DataTransferObjects\{{ model }}\Update{{ model }}Data;
+use App\Models\{{ model }};
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
+
+readonly class {{ model }}Repository implements {{ model }}RepositoryInterface
+{
+    public function __construct(
+        private {{ model }} $model
+    ) {}
+
+    /**
+     * Get all {{ model }} records
+     */
+    public function all(): Collection
+    {
+        return $this->model->all();
+    }
+
+    /**
+     * Get filtered and paginated {{ model }} records
+     */
+    public function getFilteredPaginated{{ model }}s(
+        Index{{ model }}Data $indexData,
+        array $relations
+    ): LengthAwarePaginator {
+        return {{ model }}::query()
+            ->with($relations)
+            ->filtered($indexData->filterQuery, ['name']) // Update filterable fields
+            ->order($indexData->sort, $indexData->order)
+            ->paginate(
+                perPage: $indexData->perPage,
+                page: $indexData->page,
+            );
+    }
+
+    /**
+     * Get paginated {{ model }} records
+     */
+    public function paginate(int $perPage = 15): LengthAwarePaginator
+    {
+        return $this->model->paginate($perPage);
+    }
+
+    /**
+     * Find a {{ model }} by ID
+     */
+    public function find(int $id): ?{{ model }}
+    {
+        return $this->model->find($id);
+    }
+
+    /**
+     * Create a new {{ model }}
+     */
+    public function create(Store{{ model }}Data $data): {{ model }}
+    {
+        ${{ modelLower }} = new {{ model }};
+        // TODO: Assign all properties from $data
+        // Example:
+        // ${{ modelLower }}->name = $data->name;
+        // ${{ modelLower }}->description = $data->description;
+        ${{ modelLower }}->save();
+
+        return ${{ modelLower }};
+    }
+
+    /**
+     * Update an existing {{ model }}
+     */
+    public function update({{ model }} ${{ modelLower }}, Update{{ model }}Data $data): {{ model }}
+    {
+        // TODO: Assign all properties from $data
+        // Example:
+        // ${{ modelLower }}->name = $data->name;
+        // ${{ modelLower }}->description = $data->description;
+        ${{ modelLower }}->save();
+
+        return ${{ modelLower }};
+    }
+
+    /**
+     * Delete a {{ model }}
+     */
+    public function delete({{ model }} ${{ modelLower }}): bool
+    {
+        return ${{ modelLower }}->delete();
+    }
+
+    /**
+     * Find {{ model }} by specific criteria
+     */
+    public function findBy(string $field, mixed $value): ?{{ model }}
+    {
+        return $this->model->where($field, $value)->first();
+    }
+
+    /**
+     * Get {{ model }} records matching criteria
+     */
+    public function getBy(string $field, mixed $value): Collection
+    {
+        return $this->model->where($field, $value)->get();
+    }
+}
