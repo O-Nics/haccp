@@ -31,7 +31,7 @@ class MeTest extends TestCase
         $accessToken = $loginResponse->json('tokens.access.token');
 
         $response = $this->withToken($accessToken)
-            ->getJson(route('auth.me'));
+            ->getJson(route('user.me'));
 
         $response->assertStatus(200)
             ->assertJsonStructure([
@@ -71,7 +71,7 @@ class MeTest extends TestCase
         $accessToken = $login1->json('tokens.access.token');
 
         $response = $this->withToken($accessToken)
-            ->getJson(route('auth.me'));
+            ->getJson(route('user.me'));
 
         $response->assertStatus(200);
 
@@ -79,7 +79,7 @@ class MeTest extends TestCase
 
     public function test_me_endpoint_requires_authentication(): void
     {
-        $response = $this->getJson(route('auth.me'));
+        $response = $this->getJson(route('user.me'));
 
         $response->assertStatus(401);
     }
@@ -87,7 +87,7 @@ class MeTest extends TestCase
     public function test_me_endpoint_with_invalid_token_fails(): void
     {
         $response = $this->withToken('invalid-token')
-            ->getJson(route('auth.me'));
+            ->getJson(route('user.me'));
 
         $response->assertStatus(401);
     }
@@ -112,7 +112,7 @@ class MeTest extends TestCase
         $accessToken = $loginResponse->json('tokens.access.token');
 
         $response = $this->withToken($accessToken)
-            ->getJson(route('auth.me'));
+            ->getJson(route('user.me'));
 
         $response->assertStatus(200)
             ->assertJsonFragment([
