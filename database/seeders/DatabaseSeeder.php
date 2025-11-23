@@ -24,13 +24,24 @@ class DatabaseSeeder extends Seeder
 
     public function local()
     {
-        $this->call(UserSeeder::class);
+        // 1. System roles and permissions (must be first)
         $this->call(RoleSeeder::class);
         $this->call(PermissionSeeder::class);
         $this->call(RolePermissionSeeder::class);
-        $this->call(RestaurantRolePermissionSeeder::class);
+
+        // 2. Users (need roles to exist)
+        $this->call(UserSeeder::class);
+
+        // 3. Restaurant types and restaurants
         $this->call(RestaurantTypeSeeder::class);
         $this->call(RestaurantSeeder::class);
+
+        // 4. Restaurant-specific roles and permissions
+        $this->call(RestaurantRoleSeeder::class);
+        $this->call(RestaurantRolePermissionSeeder::class);
+
+        // 5. Link users to restaurants (must be last)
+        $this->call(RestaurantUserSeeder::class);
     }
 
     public function production()
