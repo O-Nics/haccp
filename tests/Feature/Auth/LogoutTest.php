@@ -39,7 +39,7 @@ class LogoutTest extends TestCase
 
         // Logout
         $response = $this->withToken($accessToken)
-            ->postJson(route('auth.logout'), [
+            ->postJson(route('user.logout'), [
                 'device_id' => $deviceId,
             ]);
 
@@ -52,7 +52,7 @@ class LogoutTest extends TestCase
 
     public function test_logout_requires_authentication(): void
     {
-        $response = $this->postJson(route('auth.logout'), [
+        $response = $this->postJson(route('user.logout'), [
             'device_id' => 'test-device-001',
         ]);
 
@@ -88,7 +88,7 @@ class LogoutTest extends TestCase
 
         // Logout from device 1
         $this->withToken($login1->json('tokens.access.token'))
-            ->postJson(route('auth.logout'), [
+            ->postJson(route('user.logout'), [
                 'device_id' => 'device-001',
             ]);
 
@@ -116,7 +116,7 @@ class LogoutTest extends TestCase
 
         // Try to logout with wrong device id
         $response = $this->withToken($accessToken)
-            ->postJson(route('auth.logout'), [
+            ->postJson(route('user.logout'), [
                 'device_id' => 'wrong-device-id',
             ]);
 
@@ -150,7 +150,7 @@ class LogoutTest extends TestCase
 
         // Logout
         $this->withToken($accessToken)
-            ->postJson(route('auth.logout'), [
+            ->postJson(route('user.logout'), [
                 'device_id' => $deviceId,
             ]);
 
@@ -182,7 +182,7 @@ class LogoutTest extends TestCase
 
         // Logout
         $this->withToken($accessToken)
-            ->postJson(route('auth.logout'), [
+            ->postJson(route('user.logout'), [
                 'device_id' => $deviceId,
             ]);
 
@@ -194,7 +194,7 @@ class LogoutTest extends TestCase
 
         // Try to access protected route with same token (should fail because token is deleted)
         $response = $this->withToken($accessToken)
-            ->getJson(route('auth.me'));
+            ->getJson(route('user.me'));
         $response->assertStatus(401);
 
     }

@@ -98,7 +98,7 @@ class DeviceIndexTest extends TestCase
         $response->assertStatus(200);
 
         $devices = $response->json('data');
-        //        dd($response->json());
+
         // Most recent should be first
         $this->assertEquals('device-002', $devices[0]['device_id']);
         $this->assertEquals('device-001', $devices[1]['device_id']);
