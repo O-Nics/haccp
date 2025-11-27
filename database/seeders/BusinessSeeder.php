@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
-use App\Models\Restaurant;
-use App\Models\RestaurantType;
+use App\Models\Business;
+use App\Models\BusinessType;
 use Illuminate\Database\Seeder;
 
-class RestaurantSeeder extends Seeder
+class BusinessSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        $restaurants = [
+        $businesses = [
             [
                 'name' => 'Le Gourmet Parisien',
                 'siret' => '12345678901234',
@@ -51,29 +51,28 @@ class RestaurantSeeder extends Seeder
             ],
         ];
 
-        foreach ($restaurants as $restaurantData) {
-            $type = RestaurantType::where('name', $restaurantData['type'])->first();
+        foreach ($businesses as $businessData) {
+            $type = BusinessType::where('name', $businessData['type'])->first();
 
             if (! $type) {
                 continue;
             }
 
-            $restaurant = new Restaurant;
-            $restaurant->restaurant_type_id = $type->id;
-            $restaurant->name = $restaurantData['name'];
-            $restaurant->siret = $restaurantData['siret'];
-            $restaurant->address = $restaurantData['address'];
-            $restaurant->postal_code = $restaurantData['postal_code'];
-            $restaurant->city = $restaurantData['city'];
-            $restaurant->country = $restaurantData['country'];
-            $restaurant->phone = $restaurantData['phone'];
-            $restaurant->email = $restaurantData['email'];
-            $restaurant->save();
+            Business::factory()->withBusinessType($type)->withOwner()->create([
+                'name' => $businessData['name'],
+                'siret' => $businessData['siret'],
+                'address' => $businessData['address'],
+                'postal_code' => $businessData['postal_code'],
+                'city' => $businessData['city'],
+                'country' => $businessData['country'],
+                'phone' => $businessData['phone'],
+                'email' => $businessData['email'],
+            ]);
         }
 
         // Create 2 additional random restaurants
         for ($i = 0; $i < 2; $i++) {
-            Restaurant::factory()->withRestaurantType()->create();
+            Business::factory()->withBusinessType()->withOwner()->create();
         }
     }
 }

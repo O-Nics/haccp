@@ -2,13 +2,14 @@
 
 namespace Database\Factories;
 
-use App\Models\Restaurant;
-use App\Models\RestaurantType;
+use App\Models\Business;
+use App\Models\BusinessType;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class RestaurantFactory extends Factory
+class BusinessFactory extends Factory
 {
-    protected $model = Restaurant::class;
+    protected $model = Business::class;
 
     public function definition(): array
     {
@@ -24,12 +25,21 @@ class RestaurantFactory extends Factory
         ];
     }
 
-    public function withRestaurantType(?RestaurantType $type = null): Factory
+    public function withBusinessType(?BusinessType $type = null): Factory
     {
         if ($type === null) {
-            $type = RestaurantType::factory()->createQuietly();
+            $type = BusinessType::factory()->createQuietly();
         }
 
-        return $this->for($type, 'restaurantType');
+        return $this->for($type, 'businessType');
+    }
+
+    public function withOwner(?User $user = null): Factory
+    {
+        if ($user === null) {
+            $user = User::factory()->createQuietly();
+        }
+
+        return $this->for($user, 'owner');
     }
 }

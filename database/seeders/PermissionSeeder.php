@@ -22,21 +22,21 @@ class PermissionSeeder extends Seeder
             ['name' => 'user.update', 'display_name' => 'Modifier un utilisateur', 'description' => 'Modifier les informations d\'un utilisateur'],
             ['name' => 'user.delete', 'display_name' => 'Supprimer un utilisateur', 'description' => 'Supprimer un utilisateur'],
 
-            // Restaurant Management
+            // Business Management
             ['name' => 'restaurant.view_any', 'display_name' => 'Voir les restaurants', 'description' => 'Voir la liste des restaurants'],
             ['name' => 'restaurant.view', 'display_name' => 'Voir un restaurant', 'description' => 'Voir les détails d\'un restaurant'],
             ['name' => 'restaurant.create', 'display_name' => 'Créer un restaurant', 'description' => 'Créer un nouveau restaurant'],
             ['name' => 'restaurant.update', 'display_name' => 'Modifier un restaurant', 'description' => 'Modifier les informations d\'un restaurant'],
             ['name' => 'restaurant.delete', 'display_name' => 'Supprimer un restaurant', 'description' => 'Supprimer un restaurant'],
 
-            // Restaurant Role Management
+            // Business Role Management
             ['name' => 'restaurant_role.view_any', 'display_name' => 'Voir les rôles', 'description' => 'Voir la liste des rôles du restaurant'],
             ['name' => 'restaurant_role.view', 'display_name' => 'Voir un rôle', 'description' => 'Voir les détails d\'un rôle'],
             ['name' => 'restaurant_role.create', 'display_name' => 'Créer un rôle', 'description' => 'Créer un nouveau rôle personnalisé'],
             ['name' => 'restaurant_role.update', 'display_name' => 'Modifier un rôle', 'description' => 'Modifier un rôle existant'],
             ['name' => 'restaurant_role.delete', 'display_name' => 'Supprimer un rôle', 'description' => 'Supprimer un rôle personnalisé'],
 
-            // Restaurant User Management
+            // Business User Management
             ['name' => 'restaurant_user.view_any', 'display_name' => 'Voir les employés', 'description' => 'Voir la liste des employés'],
             ['name' => 'restaurant_user.view', 'display_name' => 'Voir un employé', 'description' => 'Voir les détails d\'un employé'],
             ['name' => 'restaurant_user.invite', 'display_name' => 'Inviter un employé', 'description' => 'Inviter un nouvel employé'],

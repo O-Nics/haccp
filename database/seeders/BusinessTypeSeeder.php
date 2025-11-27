@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\RestaurantType;
+use App\Models\BusinessType;
 use Illuminate\Database\Seeder;
 
-class RestaurantTypeSeeder extends Seeder
+class BusinessTypeSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,8 +14,8 @@ class RestaurantTypeSeeder extends Seeder
     {
         $types = ['traditional', 'brasserie', 'fast_food', 'cafe', 'bakery', 'caterer', 'food_truck', 'other'];
         foreach ($types as $type) {
-            if (! RestaurantType::where('name', $type)->exists()) {
-                RestaurantType::factory()->create(['name' => $type]);
+            if (! BusinessType::where('name', $type)->exists()) {
+                BusinessType::factory()->create(['name' => $type]);
             }
         }
     }

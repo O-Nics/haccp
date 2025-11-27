@@ -2,12 +2,12 @@
 
 namespace Database\Factories;
 
-use App\Models\RestaurantType;
+use App\Models\BusinessType;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class RestaurantTypeFactory extends Factory
+class BusinessTypeFactory extends Factory
 {
-    protected $model = RestaurantType::class;
+    protected $model = BusinessType::class;
 
     public function definition(): array
     {

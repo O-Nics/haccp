@@ -2,406 +2,318 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Project Metadata
+- **Purpose**: Multi-tenant restaurant HACCP management system
+- **API Consumers**: Mobile apps (iOS/Android), Web dashboard
+- **Scale**: Multi-device per user, multi-restaurant per user
+- **Security Level**: High (food safety compliance)
+- **Data Retention**: Soft deletes (regulatory requirements)
+- **Tech**: Laravel 12 + PHP 8.4 + Sanctum + Multi-device auth
+
+## Quick Reference
+- **Authentication Flow**: AuthService → DeviceService → TokenPairDTO
+- **Repositories**: `app/Repositories/{Model}/` (interface + implementation)
+- **DTOs**: `app/DataTransferObjects/` (Spatie Data)
+- **Base Classes**: `app/Models/Base/`, `app/Http/Requests/Base/`
+- **Custom Commands**: `php artisan make:repository --crud`, `devices:cleanup`
+- **Tests**: Pest → `php artisan test --filter={name}`
+- **API Docs**: `/docs/api` (Scramble auto-generated)
+
+## File Patterns (Predictable Structure)
+```
+Controllers:  app/Http/Controllers/Api/{Domain}/{Action}Controller.php
+Requests:     app/Http/Requests/{Domain}/{Action}Request.php
+DTOs:         app/DataTransferObjects/{Domain}/{Name}Data.php
+Services:     app/Services/{Domain}/{Domain}Service.php
+Repositories: app/Repositories/{Model}/{Model}Repository[Interface].php
+Resources:    app/Http/Resources/{Model}Resource.php
+Events:       app/Events/{PastTense}.php (e.g., UserLoggedIn)
+Listeners:    app/Listeners/{Verb}{Noun}.php (e.g., SendNewDeviceLoginEmail)
+Routes:       routes/api/{domain}.php (modular: auth, devices, user, health)
+```
+
 ## Workflow Requirements
-- Update CLAUDE.md with any significant architectural changes, new conventions, or important information.
-- Ensure CLAUDE.md reflects the current state of the codebase for accurate assistance.
-- Always ask for clarifying questions if unsure about project specifics or in planning mode.
-- Use clear and concise language to describe complex concepts.
-- Organize information into sections with headings for easy navigation.
-- Include code snippets where relevant to illustrate commands or configurations.
-- Highlight any custom tools, scripts, or configurations unique to this project.
-- Document any third-party libraries or frameworks that are integral to the project.
-- Provide context on the project's purpose, key features, and intended audience.
-- Maintain this file as a living document, updating it as the project evolves.
-- When referencing files or directories, use relative paths from the project root.
-- Avoid jargon or abbreviations that may not be universally understood.
-- Prioritize clarity and completeness to facilitate effective collaboration with Claude Code.
+- Update CLAUDE.md with architectural changes, new conventions, or important patterns
+- Always ask clarifying questions if unsure about project specifics or in planning mode
+- Maintain this file as a living document as the project evolves
+- Use relative paths from project root when referencing files
 
-## Project Overview
+## Common Commands
 
-Laravel 12 authentication starter with **multi-device support**, **access/refresh/remember tokens**, and **client-managed device IDs**. Built with PHP 8.4, emphasizing type safety (strict types, enums, DTOs, readonly classes).
-
-### Core Features
-- **Client-Side Device Management**: Device IDs generated and managed by client (mobile/web app)
-- **Token-Based Expiration**: Tokens expire (access, refresh, remember), not devices
-- **Flexible Device Limits**: Configurable max devices per user (null = unlimited)
-- **Remember Me Support**: Extended token expiration for trusted devices
-- **New Device Notifications**: Email alerts only on login from unknown devices (not on register)
-- **Simple & Robust**: No fingerprinting, no security logs - focus on core auth only
-
-## Development Commands
-
-### Setup and Installation
+### Development
 ```bash
-composer setup              # Full setup: install deps, copy .env, generate key, migrate, build assets
-composer install            # Install PHP dependencies
-php artisan key:generate    # Generate app key
-php artisan migrate         # Run database migrations
+composer dev          # Full stack: server + queue + logs + vite
+php artisan serve     # Development server
+php artisan pail --filter=auth  # Monitor auth logs
+composer test         # Run all tests
+php artisan test --filter=LoginTest  # Run specific test
+./vendor/bin/pint     # Code formatting (PSR-12)
 ```
 
-### Development Server
+### Setup
 ```bash
-composer dev                # Concurrent: server + queue + logs + vite (port auto-assigned)
-php artisan serve           # Development server only
-php artisan queue:listen    # Queue worker
-php artisan pail            # Real-time logs
-npm run dev                 # Vite dev server
+composer setup  # Full setup: deps, .env, key, migrate, npm build
 ```
 
-### Testing
+### Custom Artisan Commands
 ```bash
-composer test               # Clear config cache + run PHPUnit
-php artisan test            # Run all tests
-php artisan test --filter AuthTest  # Run specific test
+php artisan make:repository {name} --crud  # Scaffold repository pattern
+php artisan make:mailable {name}           # Create mailable
+php artisan devices:cleanup                # Clean expired devices
+php artisan ide-helper:models              # Regenerate PHPDoc
 ```
 
-### Code Quality
+### Debugging
 ```bash
-./vendor/bin/pint           # Laravel Pint (code formatting)
-php artisan ide-helper:generate  # Generate IDE helper files
+php artisan tinker
+> Device::with('user')->latest()->first()  # Check last device
+> User::find('uuid')->devices              # User's devices
+
+php artisan route:list --path=api/auth     # List auth routes
+php artisan pail --filter=auth             # Real-time auth logs
 ```
 
-### API Documentation
-```bash
-# Access at /docs/api
-# Powered by Scramble (dedoc/scramble)
-# Automatically generates OpenAPI docs from routes/controllers
+## Architecture Patterns
+
+### Request/Response Flow (7 Layers)
+1. **Routes** (`routes/api/*.php`) → Modular by domain
+2. **Middleware** → ThrottleAuth, SecureHeaders, auth:sanctum
+3. **Controllers** → Single-action or resourceful
+4. **FormRequests** → Extend BaseFormRequest (Spatie Data integration)
+5. **Services** → Business logic (`final readonly class`)
+6. **Repositories** → Data access (interface + implementation)
+7. **Resources** → API response formatting
+
+### Repository Pattern (CRITICAL)
+**Location**: `app/Repositories/{Model}/`
+**Structure**: `{Model}RepositoryInterface.php` + `{Model}Repository.php`
+**Binding**: MUST register in `AppServiceProvider::register()` as singleton:
+```php
+$this->app->singleton(
+    UserRepositoryInterface::class,
+    UserRepository::class
+);
 ```
+**Generation**: `php artisan make:repository {Model} --crud`
+**Pattern**: All repositories are `final readonly class`
 
-### Code Generation Commands
-```bash
-php artisan make:all Product        # Generate complete CRUD: Model, Migration, Factory, Controller, Service, Repository, DTOs, Requests, Resource, Tests
-php artisan make:service Product    # Generate only the service class
-php artisan make:repository Product # Generate repository interface + implementation
+### Service Layer
+**Location**: `app/Services/{Domain}/`
+**Pattern**: `final readonly class` with constructor DI
+**Key Services**:
+- `AuthService`: login, register, refresh, logout → TokenPairDTO
+- `DeviceService`: registerDevice, rotateRefreshToken, revokeDevice
+- `PasswordService`: Password reset flow
 
-# make:all generates:
-# - Model with scopes (filtered, order)
-# - Migration & Factory
-# - Controller (with Route Model Binding)
-# - 3 Form Requests (Index, Store, Update) with toDto()
-# - 3 DTOs (IndexData, StoreData, UpdateData)
-# - Service with REST methods
-# - Repository (Interface + Concrete)
-# - Resource for JSON responses
-# - 5 Test files (Index, Show, Store, Update, Destroy)
-# - Auto-binds repository in AppServiceProvider
-```
+### Base Classes (MUST Extend)
 
-## Architecture Overview
+**BaseModel** (`app/Models/Base/BaseModel.php`):
+- `filtered($query, $searchableColumns)` - Multi-column search
+- `order($sort, $order)` - Sorting with created_at fallback
+- `betweenDates($column, $start, $end)` - Date range
+- `forPeriod($start, $end, $colStart, $colEnd)` - Period overlap
 
-### Authentication Flow
-- **Service Layer Pattern**: `AuthService` and `DeviceService` handle all business logic
-- **Sanctum-based**: Access tokens + refresh tokens (SHA-256 hashed)
-- **Device Management**: Client-provided device IDs, server validates and tracks
-- **Token Rotation**: Refresh tokens automatically rotate on use (configurable in `config/auth.php`)
+**BaseFormRequest** (`app/Http/Requests/Base/BaseFormRequest.php`):
+- `value($key)` - Returns value or `Optional`
+- `valueEnum($key, $enumClass)` - Parse enums
+- `valueCarbon($key)` - Parse dates
+- `valueFile($key)` - Handle uploads
 
-### Key Components
+## Authentication Architecture
 
-**Controllers** (`app/Http/Controllers/Api/`)
-- `AuthController`: register, login, refresh, logout, me
-- `DeviceController`: index (list devices), destroy (revoke single device), revokeOthers (revoke all except current)
+### Dual-Token System
+**Access Token** (Sanctum): 15 min (JWT-like, stored in personal_access_tokens)
+**Refresh Token**: 30 days / 1 year (SHA-256 hashed, stored in devices table)
+**Rotation**: Automatic on refresh (configurable: `config/auth.php`)
 
-**Services** (`app/Services/`)
-- `AuthService`: User authentication, token generation, remember me support
-- `DeviceService`: Device registration/update, max device enforcement, token validation
-
-**Models**
-- `User` (uses `HasDevices` trait): Multi-device support
-- `UserDevice`: Tracks devices with refresh tokens (tokens expire, not devices)
-
-**Repositories** (`app/Repositories/`)
-- `UserRepository`: User data access layer
-- `UserDeviceRepository`: Device CRUD operations, find by user+device_id
-
-**DTOs** (`app/DataTransferObjects/`)
-- Type-safe data transfer using `Spatie\LaravelData\Data`
-- `TokenPairDTO`: API response with access + refresh tokens
-- `DeviceInfoData`: Client device information (device_id, device_name, device_type, platform, browser)
-- Auth DTOs: `LoginData`, `RegisterData`, `RefreshTokenData`, `LogoutData`
-
-**Events** (`app/Events/`)
-- `UserLoggedIn`: Dispatched on successful login
-- `SuspiciousLoginDetected`: Dispatched when login from NEW device (not on register)
-- `DeviceRevoked`: For future use
-
-**Listeners** (`app/Listeners/`)
-- `SendNewDeviceLoginEmail`: Sends email when user logs in from new device (queued)
-
-**Form Requests** (`app/Http/Requests/`)
-- All inherit from `BaseFormRequest` which provides helper methods:
-  - `value($key)`: Returns value or `Spatie\LaravelData\Optional`
-  - `valueEnum($key, $enumClass)`: Type-safe enum extraction
-  - `valueCarbon($key)`: Parse dates safely
-  - `toDto()`: Convert to main DTO
-  - `toDeviceDto()`: Convert to DeviceInfoData
-  - `rememberMe()`: Boolean helper for remember_me checkbox
-
-### Configuration
-
-**`config/auth.php`** - All auth settings centralized here:
-
-#### Token Configuration
+**Config** (`config/auth.php`):
 ```php
 'tokens' => [
-    'access' => [
-        'expiration' => 15, // minutes
-    ],
-    'refresh' => [
-        'expiration' => 43200, // 30 days in minutes
-        'rotation' => true, // Rotate refresh token on each use
-    ],
-    'remember' => [
-        'expiration' => 525600, // 1 year in minutes
-    ],
+    'access' => ['expiration' => 15],        // minutes
+    'refresh' => ['expiration' => 43200, 'rotation' => true],
+    'remember' => ['expiration' => 525600],
 ],
+'devices' => ['max_per_user' => null, 'force_logout_oldest' => true],
 ```
 
-#### Device Management
+### Device Fingerprinting
+**device_id**: UUID v7 (time-sortable, better indexing than v4)
+**Tracking**: device_name, device_type (enum), platform (enum), user_agent, ip_address, browser
+**Security**: refresh_token_hash (SHA-256), token_expires_at, last_used_at
+
+**Device Model Methods**:
 ```php
-'devices' => [
-    'max_per_user' => null, // null = unlimited, int = max devices
-    'force_logout_oldest' => true, // Auto-logout oldest when limit reached
-],
+setRefreshToken($token)      // Hash with SHA-256
+verifyRefreshToken($token)   // Constant-time comparison
+isTokenExpired()             // Check expiration
+touchLastUsed()              // Update activity
 ```
 
-#### Security/Rate Limiting
+### Multi-Tenant Restaurant System
+**Models**: Restaurant, RestaurantUser (pivot), RestaurantRole, RestaurantType, Role, Permission
+**User Relations**:
 ```php
-'security' => [
-    'rate_limit' => [
-        'login_attempts' => 5,
-        'lockout_minutes' => 15,
-    ],
-],
+$user->restaurantUsers()           // All associations
+$user->restaurantUserInvitations() // Invitations sent
+$user->ownedRestaurants()          // Owner of
 ```
 
-### Custom Stubs
+## Naming Conventions (STRICT)
 
-Project includes customized artisan stubs in `/stubs/`:
-- `request.stub`: Extends `BaseFormRequest` instead of `FormRequest`
-- All default Laravel stubs are present for consistency
+| Type | Pattern | Example |
+|------|---------|---------|
+| Controller | `{Action}Controller` | `LoginController` |
+| Request | `{Action}Request` | `LoginRequest` |
+| DTO | `{Action}Data` or `{Name}DTO` | `LoginData`, `TokenPairDTO` |
+| Resource | `{Model}Resource` | `UserResource` |
+| Repository | `{Model}Repository[Interface]` | `UserRepository` |
+| Service | `{Domain}Service` | `AuthService` |
+| Event | `{PastTense}` | `UserLoggedIn`, `DeviceRevoked` |
+| Listener | `{Verb}{Noun}` | `SendNewDeviceLoginEmail` |
+| Enum | `{Singular}` | `DeviceType`, `Platform` |
 
-When creating new Form Requests:
+## Type Safety (PHP 8.4)
+
+### REQUIRED in ALL Files
+```php
+declare(strict_types=1);
+```
+
+### Patterns
+- **Services/Repositories**: `final readonly class` with constructor DI
+- **Enums**: Backed enums for device_type, platform, etc.
+- **Typed properties**: All class properties MUST have types
+- **Return types**: All methods MUST declare return types
+- **Constructor promotion**: Use for DI parameters
+
+## Common Gotchas
+
+1. **NEVER** use `FormRequest` directly → Always extend `BaseFormRequest`
+2. **NEVER** forget `declare(strict_types=1);` at top of PHP files
+3. **NEVER** forget to bind repositories in `AppServiceProvider::register()`
+4. **ALWAYS** use `final readonly class` for services/repositories
+5. **ALWAYS** use UUID v7 (not v4) for new ID fields
+6. **ALWAYS** extend `BaseModel` or `BaseAuthenticable` for models
+7. Device tokens use **SHA-256**, NOT bcrypt
+8. Soft deletes on User and Restaurant models (regulatory requirement)
+
+## Adding New Features (Checklist)
+
+1. **Model** → Migration (UUID v7 if primary key, indexes for foreign keys)
+2. **Repository** → Interface + Implementation + Bind in `AppServiceProvider`
+3. **DTO** → Using Spatie Data (`app/DataTransferObjects/`)
+4. **FormRequest** → Extend `BaseFormRequest` (not `FormRequest`)
+5. **Service** → `final readonly class` with constructor DI
+6. **Controller** → Single-action or resourceful
+7. **Route** → Modular file (`routes/api/{domain}.php`)
+8. **Resource** → For API response formatting
+9. **Tests** → Pest feature tests (`tests/Feature/`)
+10. **Event/Listener** → If needed (register in `AppServiceProvider::boot()`)
+
+## Performance Patterns
+
+- Use eager loading in repositories to avoid N+1 queries
+- Leverage `BaseModel` scopes: `filtered()`, `order()`, `betweenDates()`, `forPeriod()`
+- Index: device_id, user_id, email, created_at, foreign keys
+- UUIDs v7 for time-sorted queries (better than v4)
+- Cache: Token config values from `config/auth.php`
+- Soft deletes: User, Restaurant (don't permanently delete)
+
+## Events & Listeners
+
+**Pattern**: Registered in `AppServiceProvider::boot()`
+```php
+Event::listen(NewDeviceDetected::class, SendNewDeviceLoginEmail::class);
+```
+
+**Key Events**:
+- `UserLoggedIn` - Successful login
+- `NewDeviceDetected` - New device logs in → Sends email notification
+- `DeviceRevoked` - Device removed
+
+## Testing (Pest)
+
+**Location**: `tests/Feature/` (HTTP), `tests/Unit/` (isolated)
+**Pattern**:
+```php
+it('can login with valid credentials', function () {
+    // Arrange, Act, Assert
+})->group('auth');
+```
+
+**Run Tests**:
 ```bash
-php artisan make:request MyRequest
-# Auto-generates with BaseFormRequest parent class
+php artisan test --filter=LoginTest    # Specific test
+php artisan test --filter=auth         # Group
+php artisan test --parallel            # Parallel execution
 ```
 
-### Database Schema
+## Agent Usage Guidelines
 
-**Users** (`users` table):
-- Standard auth fields + OAuth support (google_id, facebook_id, apple_id)
-- `last_login_at` tracking
+### When to Use Task/Explore Agents
+- Multi-file refactoring across repositories
+- Finding all implementations of a pattern (e.g., "all repositories")
+- Analyzing authentication flow across services (multi-file)
+- Security vulnerability scanning across codebase
+- Checking consistency (e.g., "all FormRequests extend BaseFormRequest")
 
-**Devices** (`user_devices` table):
-- `device_id` (string, unique per user) - PROVIDED BY CLIENT
-- `device_name`, `device_type` (enum), `platform` (enum), `browser`, `ip_address`, `user_agent`
-- `refresh_token_hash` (SHA-256)
-- `token_expires_at` - When the refresh token expires
-- `last_used_at`, `created_at`, `updated_at`
-- Unique index: `(user_id, device_id)`
+### When NOT to Use Agents
+- Reading a single known file → Use `Read` tool
+- Simple keyword searches → Use `Grep` tool
+- Known file locations → Use direct tools
+- Single-file edits → Use `Edit` tool
 
-**Key Points**:
-- Devices DON'T expire, only tokens do
-- Client provides `device_id` on register/login
-- Server updates existing device or creates new one
-- `token_expires_at` determines refresh token validity
-
-### Middleware
-
-**`ThrottleAuth`** - Custom rate limiting middleware
-- Applied to login endpoint
-- Configurable in `config/auth.php`
-
-### Routes Structure
-
-**`routes/api.php`**:
-- `POST /api/auth/register` - Create account (requires device_id, device_name, remember_me)
-- `POST /api/auth/login` - Login (requires device_id, device_name, remember_me)
-- `POST /api/auth/refresh` - Refresh tokens (requires device_id, refresh_token)
-- `POST /api/auth/logout` - Logout current device (auth required)
-- `GET /api/auth/me` - Get user info with devices (auth required)
-- `GET /api/devices` - List all devices (auth required)
-- `DELETE /api/devices/{deviceId}` - Revoke specific device (auth required)
-- `POST /api/devices/revoke-others` - Revoke all except current (auth required, requires current_device_id)
-- `GET /health` - Health check endpoint
-
-### Testing Setup
-
-- Pest PHP + PHPUnit configured
-- SQLite in-memory database for tests
-- Helper package: `spatie/test-time` for time manipulation
-- Tests in `tests/Feature/Auth/` for auth flows
-
-### PHP 8.4 & Laravel 12 Features Used
-
-- **Strict types**: All files use `declare(strict_types=1)`
-- **Property hooks** via `protected function casts(): array` (new Laravel 12 syntax)
-- **Readonly classes**: DTOs and services are readonly
-- **Enums**: `DeviceType`, `Platform` for type safety
-- **Carbon 3**: Latest version with improved performance
-
-### Key Conventions
-
-1. **Type Safety**: Always use strict types, type hints, and return types
-2. **Service Layer**: Business logic goes in services, controllers stay thin
-3. **DTOs Everywhere**:
-   - Use `Spatie\LaravelData\Data` for all DTOs
-   - Every FormRequest must have `toDto()` method
-   - Requests with device info should have `toDeviceDto()` method
-   - Services accept DTOs, not individual parameters or arrays
-   - Example:
-     ```php
-     // ✅ CORRECT
-     public function login(LoginData $data, DeviceInfoData $deviceInfo, bool $rememberMe)
-
-     // ❌ WRONG
-     public function login(string $email, string $password, string $deviceId)
-     ```
-4. **No Mass Assignment / No Fillable**:
-   - **NEVER** use `$fillable` or `$guarded` in models
-   - **NEVER** use `Model::create(array)` or `$model->update(array)` or `$model->fill(array)`
-   - **ALWAYS** assign properties individually with explicit typing
-   - Example:
-     ```php
-     // ✅ CORRECT
-     $device = new UserDevice;
-     $device->device_id = $deviceInfo->deviceId;
-     $device->device_name = $deviceInfo->deviceName;
-     $device->save();
-
-     // ❌ WRONG - Never do this
-     $device = UserDevice::create([
-         'device_id' => $deviceInfo->deviceId,
-     ]);
-     ```
-5. **Form Requests**:
-   - Extend `BaseFormRequest` for consistent validation handling
-   - All requests must implement `toDto()` method returning a Data class
-   - Device-aware requests must also implement `toDeviceDto(): DeviceInfoData`
-6. **Eloquent Scopes**: Use query scopes (`activeToken()`, `expiredToken()`) on models
-7. **Route Model Binding**: Use typed route parameters (e.g., `public function show(User $user)`)
-8. **Events & Listeners**:
-   - Events dispatched: `UserLoggedIn`, `SuspiciousLoginDetected` (login only, not register)
-   - Listeners handle side effects (email) - keeps services clean
-   - Email listener is queued for async processing
-9. **Repository Pattern - Database Access Layer**:
-   - **ALL database reads/writes MUST go through repositories**
-   - **NEVER** call Eloquent methods directly in services, controllers, or models
-   - Models should ONLY contain:
-     - Relationships (e.g., `belongsTo()`, `hasMany()`)
-     - Accessors/Mutators (e.g., `getFullNameAttribute()`)
-     - Business logic helpers (e.g., `isTokenExpired()`, `verifyRefreshToken()`)
-     - NO database operations (no `save()`, `delete()`, `where()`, `find()`, etc.)
-   - Services should ONLY call repository methods, never touch models directly
-   - Example:
-     ```php
-     // ✅ CORRECT - In Service
-     $this->userRepository->deleteTokensByDeviceId($user, $deviceId);
-     $this->deviceRepository->delete($device);
-
-     // ❌ WRONG - Never do this in services
-     $user->tokens()->where('name', $deviceId)->delete();
-     $device->delete();
-
-     // ✅ CORRECT - In Model (business logic only)
-     public function isTokenExpired(): bool {
-         return $this->token_expires_at?->isPast() ?? false;
-     }
-
-     // ❌ WRONG - Never do this in models
-     public function updateLastLogin(): void {
-         $this->last_login_at = now();
-         $this->save(); // Database operation!
-     }
-     ```
-10. **Architecture Pattern**: Request → Controller → Service → Repository → Model + Events/Listeners
-   - Controllers: HTTP handling only, no business logic, no database access
-   - Services: Business logic, call repositories, dispatch events, NO direct database access
-   - Repositories: ONLY place for database operations (queries, inserts, updates, deletes)
-   - Models: Relationships, accessors, business logic helpers - NO database operations
-   - Traits: Reusable code only (relationships), NO business logic, NO database operations
-
-## Client Integration Guide
-
-### Register Flow
-```json
-POST /api/auth/register
-{
-  "email": "user@example.com",
-  "password": "SecureP@ss123",
-  "password_confirmation": "SecureP@ss123",
-  "device_id": "client-generated-uuid-or-string",
-  "device_name": "iPhone 14 Pro",
-  "device_type": "mobile",
-  "platform": "ios",
-  "browser": "Safari",
-  "remember_me": false
-}
+### Common Agent Tasks Examples
+```
+"Find all repositories that don't follow the {Model}Repository pattern"
+"Analyze the complete authentication flow from LoginRequest to TokenPairDTO"
+"Find all places where Device model is queried without eager loading"
+"Check all FormRequests for consistency with BaseFormRequest usage"
+"Find all controllers that don't use single-action pattern"
 ```
 
-**Response:**
-```json
-{
-  "message": "User registered successfully",
-  "access_token": "...",
-  "access_token_expires_in": 900,
-  "refresh_token": "...",
-  "refresh_token_expires_in": 2592000,
-  "device_id": "client-generated-uuid-or-string"
-}
+## Security
+
+- **Rate Limiting**: `ThrottleAuth` middleware (5 attempts / 15 min)
+- **Token Hashing**: Refresh tokens SHA-256, passwords bcrypt (auto via casting)
+- **CORS**: Configure in `config/cors.php`
+- **Headers**: `SecureHeaders` middleware
+- **Email Verification**: `MustVerifyEmail` on User model
+
+## Database
+
+**UUIDs v7**: User IDs (time-sortable, better indexing than v4)
+**Soft Deletes**: User, Restaurant (regulatory requirement)
+**Indexes**: device_id, user_id, email, timestamps, foreign keys
+
+**PHPDoc**: All models have extensive `@property`, `@method`, `@mixin` blocks for IDE support
+
+## Environment Variables
+
+```bash
+# Token expiration (minutes)
+ACCESS_TOKEN_EXPIRATION=15
+REFRESH_TOKEN_EXPIRATION=43200    # 30 days
+REMEMBER_TOKEN_EXPIRATION=525600  # 1 year
+
+# Device limits
+MAX_DEVICES_PER_USER=5
+
+# Rate limiting
+AUTH_RATE_LIMIT_ATTEMPTS=5
+AUTH_RATE_LIMIT_DECAY=15
 ```
 
-### Login Flow
-```json
-POST /api/auth/login
-{
-  "email": "user@example.com",
-  "password": "SecureP@ss123",
-  "device_id": "client-generated-uuid-or-string",
-  "device_name": "iPhone 14 Pro",
-  "device_type": "mobile",
-  "platform": "ios",
-  "browser": "Safari",
-  "remember_me": true
-}
-```
+## External Dependencies Documentation
 
-**Notes:**
-- If `device_id` exists for this user → updates device info, no email sent
-- If `device_id` is new → creates device, sends "new device" email to user
-- If `remember_me=true` → uses 1 year token expiration instead of 30 days
+- [Spatie Laravel Data](https://spatie.be/docs/laravel-data) - DTO validation & transformation
+- [Scramble](https://scramble.dedoc.co/) - OpenAPI documentation generation
+- [Pest](https://pestphp.com/) - Testing framework
+- [Laravel Sanctum](https://laravel.com/docs/12.x/sanctum) - API authentication
+- [Laravel Pint](https://laravel.com/docs/12.x/pint) - Code style (PSR-12)
 
-### Refresh Token Flow
-```json
-POST /api/auth/refresh
-{
-  "device_id": "client-generated-uuid-or-string",
-  "refresh_token": "..."
-}
-```
+## Architectural Changes Log
 
-**Response:** Same as login/register response
-
-### Logout Flow
-```json
-POST /api/auth/logout
-Headers: Authorization: Bearer {access_token}
-{
-  "device_id": "client-generated-uuid-or-string"
-}
-```
-
-### Device Management
-```json
-GET /api/devices
-Headers: Authorization: Bearer {access_token}
-
-DELETE /api/devices/{deviceId}
-Headers: Authorization: Bearer {access_token}
-
-POST /api/devices/revoke-others
-Headers: Authorization: Bearer {access_token}
-{
-  "current_device_id": "client-generated-uuid-or-string"
-}
-```
+- **2025-11-27**: Optimized CLAUDE.md for token efficiency and agent usage
+- **2025-11-27**: Removed `make:all` command (use `make:repository --crud` instead)
+- **2025-11-23**: Added Restaurant multi-tenant system with RBAC

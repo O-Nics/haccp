@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('restaurant_roles', function (Blueprint $table) {
+        Schema::create('business_roles', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('restaurant_id')->constrained('restaurants')->onDelete('cascade');
+            $table->foreignId('business_id')->constrained('businesses')->cascadeOnDelete();
             $table->string('name');
             $table->string('display_name');
             $table->tinyText('description')->nullable();
@@ -22,7 +22,7 @@ return new class extends Migration
             $table->softDeletes();
             $table->timestamps();
 
-            $table->unique(['restaurant_id', 'name']);
+            $table->unique(['business_id', 'name']);
         });
     }
 
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('restaurant_roles');
+        Schema::dropIfExists('business_roles');
     }
 };

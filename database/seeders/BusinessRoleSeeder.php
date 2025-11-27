@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
-use App\Models\Restaurant;
-use App\Models\RestaurantRole;
+use App\Models\Business;
+use App\Models\BusinessRole;
 use Illuminate\Database\Seeder;
 
-class RestaurantRoleSeeder extends Seeder
+class BusinessRoleSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -16,7 +16,7 @@ class RestaurantRoleSeeder extends Seeder
      */
     public function run(): void
     {
-        $restaurants = Restaurant::all();
+        $businesses = Business::all();
 
         // Default roles that every restaurant should have
         $defaultRoles = [
@@ -52,10 +52,10 @@ class RestaurantRoleSeeder extends Seeder
             ],
         ];
 
-        foreach ($restaurants as $restaurant) {
+        foreach ($businesses as $business) {
             foreach ($defaultRoles as $roleData) {
-                $role = new RestaurantRole;
-                $role->restaurant_id = $restaurant->id;
+                $role = new BusinessRole;
+                $role->business_id = $business->id;
                 $role->name = $roleData['name'];
                 $role->display_name = $roleData['display_name'];
                 $role->description = $roleData['description'];

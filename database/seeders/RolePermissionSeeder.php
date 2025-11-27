@@ -75,7 +75,7 @@ class RolePermissionSeeder extends Seeder
                 // If pattern ends with *, get all permissions matching the prefix
                 if (str_ends_with($pattern, '.*')) {
                     $prefix = str_replace('.*', '', $pattern);
-                    $permissions = Permission::where('name', 'like', $prefix . '.%')->get();
+                    $permissions = Permission::where('name', 'like', $prefix.'.%')->get();
                 } else {
                     $permissions = Permission::where('name', $pattern)->get();
                 }

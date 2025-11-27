@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
+use App\Models\BusinessRole;
 use App\Models\Permission;
-use App\Models\RestaurantRole;
 use Illuminate\Database\Seeder;
 
-class RestaurantRolePermissionSeeder extends Seeder
+class BusinessRolePermissionSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -71,7 +71,7 @@ class RestaurantRolePermissionSeeder extends Seeder
 
         // Apply permissions to all restaurants' roles
         foreach ($rolePermissions as $roleName => $permissionPatterns) {
-            $restaurantRoles = RestaurantRole::where('name', $roleName)->get();
+            $restaurantRoles = BusinessRole::where('name', $roleName)->get();
 
             foreach ($restaurantRoles as $role) {
                 foreach ($permissionPatterns as $pattern) {

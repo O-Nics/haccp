@@ -2,12 +2,12 @@
 
 namespace Database\Factories;
 
-use App\Models\RestaurantRolePermission;
+use App\Models\BusinessRolePermission;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class RestaurantRolePermissionFactory extends Factory
+class BusinessRolePermissionFactory extends Factory
 {
-    protected $model = RestaurantRolePermission::class;
+    protected $model = BusinessRolePermission::class;
 
     public function definition(): array
     {

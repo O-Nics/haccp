@@ -19,6 +19,8 @@ use Illuminate\Support\Carbon;
  * @property-read \App\Models\RolePermission|null $pivot
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Permission> $permissions
  * @property-read int|null $permissions_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\BusinessUser> $restaurantUsers
+ * @property-read int|null $restaurant_users_count
  *
  * @method static \Database\Factories\RoleFactory factory($count = null, $state = [])
  * @method static Builder<static>|Role newModelQuery()
@@ -45,6 +47,6 @@ class Role extends Model
 
     public function restaurantUsers(): HasMany
     {
-        return $this->hasMany(RestaurantUser::class);
+        return $this->hasMany(BusinessUser::class);
     }
 }

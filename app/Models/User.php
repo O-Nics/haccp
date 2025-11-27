@@ -41,6 +41,12 @@ use Laravel\Sanctum\PersonalAccessToken;
  * @property-read string $full_name
  * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
+ * @property-read Collection<int, \App\Models\Business> $ownedRestaurants
+ * @property-read int|null $owned_restaurants_count
+ * @property-read Collection<int, \App\Models\BusinessUser> $restaurantUserInvitations
+ * @property-read int|null $restaurant_user_invitations_count
+ * @property-read Collection<int, \App\Models\BusinessUser> $restaurantUsers
+ * @property-read int|null $restaurant_users_count
  * @property-read Collection<int, PersonalAccessToken> $tokens
  * @property-read int|null $tokens_count
  *
@@ -106,11 +112,16 @@ class User extends BaseAuthenticable implements MustVerifyEmail
 
     public function restaurantUsers(): HasMany
     {
-        return $this->hasMany(RestaurantUser::class, 'user_id', 'id');
+        return $this->hasMany(BusinessUser::class, 'user_id', 'id');
     }
 
     public function restaurantUserInvitations(): HasMany
     {
-        return $this->hasMany(RestaurantUser::class, 'invited_by', 'id');
+        return $this->hasMany(BusinessUser::class, 'invited_by', 'id');
+    }
+
+    public function ownedRestaurants(): HasMany
+    {
+        return $this->hasMany(Business::class, 'owner_id', 'id');
     }
 }

@@ -29,5 +29,5 @@ Route::prefix('auth')
         Route::post('password/reset', [PasswordController::class, 'reset'])
             ->name('password.reset');
 
-}
-);
+    }
+    );

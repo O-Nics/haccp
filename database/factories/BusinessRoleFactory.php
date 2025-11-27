@@ -2,14 +2,14 @@
 
 namespace Database\Factories;
 
-use App\Models\Restaurant;
-use App\Models\RestaurantRole;
+use App\Models\Business;
+use App\Models\BusinessRole;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Carbon;
 
-class RestaurantRoleFactory extends Factory
+class BusinessRoleFactory extends Factory
 {
-    protected $model = RestaurantRole::class;
+    protected $model = BusinessRole::class;
 
     public function definition(): array
     {
@@ -23,12 +23,12 @@ class RestaurantRoleFactory extends Factory
         ];
     }
 
-    public function withRestaurant(?Restaurant $restaurant): Factory
+    public function withBusiness(?Business $restaurant): Factory
     {
         if ($restaurant === null) {
-            $restaurant = Restaurant::factory()->createQuietly();
+            $restaurant = Business::factory()->createQuietly();
         }
 
-        return $this->for($restaurant, 'restaurant');
+        return $this->for($restaurant, 'business');
     }
 }
