@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Password;
+namespace Feature\Auth\Password;
 
 use App\Mail\Password\PasswordResetMail;
 use App\Models\PasswordResetToken;
@@ -25,7 +25,7 @@ class ForgotPasswordTest extends TestCase
             'password' => Hash::make('SecureP@ss123'),
         ]);
 
-        $response = $this->postJson(route('auth.password.forgot'), [
+        $response = $this->postJson(route('password.forgot'), [
             'email' => 'test@example.com',
         ]);
 
@@ -52,7 +52,7 @@ class ForgotPasswordTest extends TestCase
 
     public function test_forgot_password_fails_with_invalid_email(): void
     {
-        $response = $this->postJson(route('auth.password.forgot'), [
+        $response = $this->postJson(route('password.forgot'), [
             'email' => 'invalid-email',
         ]);
 
@@ -62,7 +62,7 @@ class ForgotPasswordTest extends TestCase
 
     public function test_forgot_password_fails_with_non_existent_email(): void
     {
-        $response = $this->postJson(route('auth.password.forgot'), [
+        $response = $this->postJson(route('password.forgot'), [
             'email' => 'nonexistent@example.com',
         ]);
 
@@ -88,7 +88,7 @@ class ForgotPasswordTest extends TestCase
         $oldTokenId = $oldToken->id;
 
         // Request new reset
-        $response = $this->postJson(route('auth.password.forgot'), [
+        $response = $this->postJson(route('password.forgot'), [
             'email' => 'test@example.com',
         ]);
 
@@ -114,7 +114,7 @@ class ForgotPasswordTest extends TestCase
 
         // Request with non-existent email should still return 200
         // to prevent email enumeration attacks
-        $response = $this->postJson(route('auth.password.forgot'), [
+        $response = $this->postJson(route('password.forgot'), [
             'email' => 'nonexistent@example.com',
         ]);
 

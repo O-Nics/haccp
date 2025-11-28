@@ -119,7 +119,7 @@ class EmailNormalizationTest extends TestCase
             'email' => 'test@example.com',
         ]);
 
-        $response = $this->postJson(route('auth.password.forgot'), [
+        $response = $this->postJson(route('password.forgot'), [
             'email' => '  TEST@EXAMPLE.COM  ',
         ]);
 

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Password;
+namespace Feature\Auth\Password;
 
 use App\Models\PasswordResetToken;
 use App\Models\User;
@@ -29,7 +29,7 @@ class ConfirmPasswordResetTest extends TestCase
         $resetToken->expires_at = now()->addHour();
         $resetToken->save();
 
-        $response = $this->postJson(route('auth.password.confirm'), [
+        $response = $this->postJson(route('password.confirm'), [
             'email' => 'test@example.com',
             'token' => $token,
         ]);
@@ -58,7 +58,7 @@ class ConfirmPasswordResetTest extends TestCase
         $resetToken->expires_at = now()->addHour();
         $resetToken->save();
 
-        $response = $this->postJson(route('auth.password.confirm'), [
+        $response = $this->postJson(route('password.confirm'), [
             'email' => 'test@example.com',
             'token' => 'invalid-token-abc123',
         ]);
@@ -81,7 +81,7 @@ class ConfirmPasswordResetTest extends TestCase
         $resetToken->expires_at = now()->subMinute(); // Expired
         $resetToken->save();
 
-        $response = $this->postJson(route('auth.password.confirm'), [
+        $response = $this->postJson(route('password.confirm'), [
             'email' => 'test@example.com',
             'token' => $token,
         ]);
@@ -107,7 +107,7 @@ class ConfirmPasswordResetTest extends TestCase
         $resetToken->confirmed_at = now(); // Already confirmed
         $resetToken->save();
 
-        $response = $this->postJson(route('auth.password.confirm'), [
+        $response = $this->postJson(route('password.confirm'), [
             'email' => 'test@example.com',
             'token' => $token,
         ]);
@@ -120,7 +120,7 @@ class ConfirmPasswordResetTest extends TestCase
 
     public function test_confirm_fails_with_non_existent_token(): void
     {
-        $response = $this->postJson(route('auth.password.confirm'), [
+        $response = $this->postJson(route('password.confirm'), [
             'email' => 'test@example.com',
             'token' => PasswordResetToken::generateToken(),
         ]);

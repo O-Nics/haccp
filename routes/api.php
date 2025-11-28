@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Route;
 
 require __DIR__.'/api/health.php';
 require __DIR__.'/api/auth.php';
+require __DIR__.'/api/password.php';
 
 Route::middleware('auth:sanctum')->group(function () {
     require __DIR__.'/api/devices.php';

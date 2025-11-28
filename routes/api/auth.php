@@ -21,13 +21,5 @@ Route::prefix('auth')
 
         Route::post('refresh', RefreshController::class)
             ->name('refresh');
-
-        Route::post('password/forgot', [PasswordController::class, 'forgot'])
-            ->name('password.forgot');
-        Route::post('password/confirm', [PasswordController::class, 'confirm'])
-            ->name('password.confirm');
-        Route::post('password/reset', [PasswordController::class, 'reset'])
-            ->name('password.reset');
-
     }
-    );
+);

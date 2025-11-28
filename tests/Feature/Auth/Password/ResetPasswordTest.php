@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Password;
+namespace Feature\Auth\Password;
 
 use App\Mail\Password\PasswordResetConfirmedMail;
 use App\Models\PasswordResetToken;
@@ -34,7 +34,7 @@ class ResetPasswordTest extends TestCase
         $resetToken->confirmed_at = now(); // Token is confirmed
         $resetToken->save();
 
-        $response = $this->postJson(route('auth.password.reset'), [
+        $response = $this->postJson(route('password.reset'), [
             'email' => 'test@example.com',
             'token' => $token,
             'password' => 'NewPassword123',
@@ -79,7 +79,7 @@ class ResetPasswordTest extends TestCase
         $resetToken->confirmed_at = null; // Not confirmed
         $resetToken->save();
 
-        $response = $this->postJson(route('auth.password.reset'), [
+        $response = $this->postJson(route('password.reset'), [
             'email' => 'test@example.com',
             'token' => $token,
             'password' => 'NewPassword123',
@@ -116,7 +116,7 @@ class ResetPasswordTest extends TestCase
         $resetToken->confirmed_at = now();
         $resetToken->save();
 
-        $response = $this->postJson(route('auth.password.reset'), [
+        $response = $this->postJson(route('password.reset'), [
             'email' => 'test@example.com',
             'token' => $token,
             'password' => 'NewPassword123',
@@ -151,7 +151,7 @@ class ResetPasswordTest extends TestCase
         $resetToken->confirmed_at = now();
         $resetToken->save();
 
-        $response = $this->postJson(route('auth.password.reset'), [
+        $response = $this->postJson(route('password.reset'), [
             'email' => 'test@example.com',
             'token' => $token,
             'password' => 'NewPassword123',
@@ -182,7 +182,7 @@ class ResetPasswordTest extends TestCase
         $resetToken->confirmed_at = now();
         $resetToken->save();
 
-        $response = $this->postJson(route('auth.password.reset'), [
+        $response = $this->postJson(route('password.reset'), [
             'email' => 'test@example.com',
             'token' => $token,
             'password' => '123', // Too short
@@ -211,7 +211,7 @@ class ResetPasswordTest extends TestCase
         $resetToken->confirmed_at = now();
         $resetToken->save();
 
-        $response = $this->postJson(route('auth.password.reset'), [
+        $response = $this->postJson(route('password.reset'), [
             'email' => 'a@a.fr',
             'token' => $token,
             'password' => 'NewPassword123',
