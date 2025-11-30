@@ -8,7 +8,7 @@ use App\DataTransferObjects\Auth\LoginData;
 use App\DataTransferObjects\Auth\RefreshTokenData;
 use App\DataTransferObjects\Auth\RegisterData;
 use App\DataTransferObjects\DeviceInfoData;
-use App\DataTransferObjects\TokenPairDTO;
+use App\DataTransferObjects\AuthData;
 use App\Exceptions\InvalidCredentialsException;
 use App\Models\User;
 use App\Repositories\User\UserRepositoryInterface;
@@ -31,8 +31,7 @@ final readonly class AuthService
      */
     public function login(
         LoginData $data,
-        DeviceInfoData $deviceInfo,
-    ): TokenPairDTO {
+    ): AuthData {
 
         $user = $this->userRepository->findByEmail($data->email);
 
@@ -40,7 +39,7 @@ final readonly class AuthService
             throw new InvalidCredentialsException;
         }
 
-        return $this->generateTokens($user, $deviceInfo, $data->rememberMe);
+        return $this->generateTokens($user, $data->deviceInfo, $data->rememberMe);
     }
 
     /**
@@ -48,11 +47,10 @@ final readonly class AuthService
      */
     public function register(
         RegisterData $data,
-        DeviceInfoData $deviceInfo,
-    ): TokenPairDTO {
+    ): AuthData {
         $user = $this->userRepository->store($data);
 
-        return $this->generateTokens($user, $deviceInfo, $data->remember_me, isRegister: true);
+        return $this->generateTokens($user, $data->deviceInfo, $data->remember_me, isRegister: true);
     }
 
     /**
@@ -63,7 +61,7 @@ final readonly class AuthService
         DeviceInfoData $deviceInfo,
         bool $rememberMe = false,
         bool $isRegister = false
-    ): TokenPairDTO {
+    ): AuthData {
 
         $tokenType = $rememberMe ? 'remember' : 'refresh';
         $expirationMinutes = config("auth.tokens.{$tokenType}.expiration");
@@ -81,7 +79,8 @@ final readonly class AuthService
 
         $this->userRepository->updateLastLogin($user);
 
-        return new TokenPairDTO(
+        return new AuthData(
+            user: $user,
             accessToken: $accessToken,
             accessTokenExpiresIn: $accessTokenExpiration * 60,
             refreshToken: $device->getAttribute('plain_refresh_token'),
@@ -95,7 +94,7 @@ final readonly class AuthService
      *
      * @throws InvalidCredentialsException
      */
-    public function refresh(RefreshTokenData $refreshTokenData): TokenPairDTO
+    public function refresh(RefreshTokenData $refreshTokenData): AuthData
     {
         // Find device by device_id first
         $device = $this->deviceRepository->findByDeviceId($refreshTokenData->deviceId);
@@ -133,7 +132,7 @@ final readonly class AuthService
             expiresAt: now()->addMinutes($accessTokenExpiration)
         )->plainTextToken;
 
-        return new TokenPairDTO(
+        return new AuthData(
             accessToken: $accessToken,
             accessTokenExpiresIn: $accessTokenExpiration * 60,
             refreshToken: $newRefreshToken,

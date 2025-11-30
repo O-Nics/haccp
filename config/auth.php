@@ -156,8 +156,9 @@ return [
     */
     'security' => [
         'rate_limit' => [
-            'login_attempts' => (int) env('AUTH_RATE_LIMIT_ATTEMPTS', 5),
-            'lockout_minutes' => (int) env('AUTH_RATE_LIMIT_DECAY', 15),
+            'enabled' => (bool) env('AUTH_RATE_LIMIT_ENABLED', true),
+            'login_attempts' => (int) env('AUTH_RATE_LIMIT_ATTEMPTS', 15),
+            'lockout_minutes' => (int) env('AUTH_RATE_LIMIT_DECAY', 1),
         ],
     ],
 ];

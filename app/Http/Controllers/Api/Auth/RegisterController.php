@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Auth;
 use App\Http\Controllers\Base\Controller;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Http\Requests\Device\DeviceRequest;
+use App\Http\Resources\AuthResponse;
 use App\Services\Auth\AuthService;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,15 +23,12 @@ class RegisterController extends Controller
      *
      * @unauthenticated
      */
-    public function __invoke(RegisterRequest $request, DeviceRequest $deviceRequest): JsonResponse
+    public function __invoke(RegisterRequest $request): AuthResponse
     {
-        $tokens = $this->authService->register(
+        $authData = $this->authService->register(
             data: $request->toDto(),
-            deviceInfo: $deviceRequest->toDto(),
         );
 
-        return response()->json([
-            ...$tokens->toApiResponse(),
-        ], Response::HTTP_CREATED);
+        return new AuthResponse($authData);
     }
 }

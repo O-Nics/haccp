@@ -22,7 +22,6 @@ class LogoutController extends Controller
      */
     public function __invoke(LogoutRequest $request): JsonResponse
     {
-
         $this->authService->logout(
             user: auth()->user(),
             deviceId: $request->toDto()->deviceId

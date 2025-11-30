@@ -19,6 +19,14 @@ final readonly class ThrottleAuth
 
     public function handle(Request $request, Closure $next): Response
     {
+        if (app()->environment(['local', 'testing'])) {
+            return $next($request);
+        }
+
+        if (! config('auth.security.rate_limit.enabled')) {
+            return $next($request);
+        }
+
         $key = $this->resolveRequestSignature($request);
         $maxAttempts = config('auth.security.rate_limit.login_attempts');
         $decayMinutes = config('auth.security.rate_limit.lockout_minutes');
@@ -26,9 +34,10 @@ final readonly class ThrottleAuth
         if ($this->limiter->tooManyAttempts($key, $maxAttempts)) {
             $seconds = $this->limiter->availableIn($key);
 
+            // en FR
             return response()->json([
                 'message' => sprintf(
-                    'Too many login attempts. Please try again in %d minutes.',
+                    'Trop de tentatives de connexion. Veuillez réessayer dans %d minute(s).',
                     ceil($seconds / 60)
                 ),
                 'retry_after' => $seconds,

@@ -5,33 +5,37 @@ declare(strict_types=1);
 use App\Http\Middleware\EnforceExpectsJson;
 use App\Http\Middleware\IdentifyRequest;
 use App\Http\Middleware\SecureHeaders;
+use App\Http\Middleware\ThrottleAuth;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
+use Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
         api: __DIR__.'/../routes/api.php',
         health: '/',
-        apiPrefix: 'api',
         then: function () {}
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->api(prepend: [
-            \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
+            EnsureFrontendRequestsAreStateful::class,
         ]);
         $middleware->api(append: [
             EnforceExpectsJson::class,
             SecureHeaders::class,
             IdentifyRequest::class,
         ]);
-        $middleware->alias([
-            'throttle.auth' => \App\Http\Middleware\ThrottleAuth::class,
-        ]);
+//        $middleware->alias([
+//            'throttle.auth' => ThrottleAuth::class,
+//        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        $exceptions->render(function (AuthenticationException $e, $request) {
+        $exceptions->render(function (AuthenticationException $e, Request $request) {
             if (! ($request->is('api/*') || $request->expectsJson())) {
                 return null;
             }
@@ -40,6 +44,41 @@ return Application::configure(basePath: dirname(__DIR__))
                 'success' => false,
                 'message' => "Vous n'êtes pas connecté.",
             ], 401);
+        });
+
+        // 🔥 Post-traitement global des réponses d'erreur API
+        $exceptions->respond(function (
+            SymfonyResponse $response,
+            Throwable $e,
+            Request $request
+        ) {
+            // On ne touche que l'API / JSON
+            if (! ($request->is('api/*') || $request->expectsJson())) {
+                return $response;
+            }
+
+            // On ne modifie que les réponses JSON
+            if (! $response instanceof JsonResponse) {
+                return $response;
+            }
+
+            $data = $response->getData(true);
+
+            $message = $data['message'] ?? null;
+
+            if (!is_string($message) || $message === 'Server Error') {
+                $message = 'Une erreur interne est survenue';
+            }
+
+            if (mb_strlen($message) > 45) {
+                $message = 'Une erreur est survenue';
+            }
+
+            $data['message'] = $message;
+
+            $response->setData($data);
+
+            return $response;
         });
 
     })->create();

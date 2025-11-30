@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\DataTransferObjects\Auth;
 
+use App\DataTransferObjects\DeviceInfoData;
 use Spatie\LaravelData\Data;
 
 class LoginData extends Data
@@ -12,5 +13,6 @@ class LoginData extends Data
         public string $email,
         public string $password,
         public bool $rememberMe = false,
+        public DeviceInfoData $deviceInfo,
     ) {}
 }
