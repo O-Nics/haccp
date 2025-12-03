@@ -12,7 +12,7 @@ class LoginData extends Data
     public function __construct(
         public string $email,
         public string $password,
-        public bool $rememberMe = false,
+        public bool $rememberMe,
         public DeviceInfoData $deviceInfo,
     ) {}
 }

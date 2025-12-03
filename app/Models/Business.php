@@ -14,11 +14,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property int $id
  * @property int $business_type_id
  * @property string $name
- * @property string $owner_id
- * @property string $siret
+ * @property string $organisation_id
  * @property string $address
  * @property string $postal_code
  * @property string $city
+ * @property string $timezone
  * @property string $country
  * @property string|null $phone
  * @property string $email
@@ -30,7 +30,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property-read \App\Models\BusinessType $businessType
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\BusinessUser> $businessUsers
  * @property-read int|null $business_users_count
- * @property-read \App\Models\User $owner
+ * @property-read \App\Models\Organisation|null $organisation
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $users
  * @property-read int|null $users_count
  *
@@ -48,10 +48,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static Builder<static>|Business whereEmail($value)
  * @method static Builder<static>|Business whereId($value)
  * @method static Builder<static>|Business whereName($value)
- * @method static Builder<static>|Business whereOwnerId($value)
+ * @method static Builder<static>|Business whereOrganisationId($value)
  * @method static Builder<static>|Business wherePhone($value)
  * @method static Builder<static>|Business wherePostalCode($value)
- * @method static Builder<static>|Business whereSiret($value)
+ * @method static Builder<static>|Business whereTimezone($value)
  * @method static Builder<static>|Business whereUpdatedAt($value)
  * @method static Builder<static>|Business withTrashed(bool $withTrashed = true)
  * @method static Builder<static>|Business withoutTrashed()
@@ -77,9 +77,9 @@ class Business extends Model
         return $this->hasMany(BusinessUser::class);
     }
 
-    public function owner(): BelongsTo
+    public function organisation(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'owner_id');
+        return $this->belongsTo(Organisation::class, 'organisation_id');
     }
 
     public function users(): BelongsToMany

@@ -18,7 +18,6 @@ class BusinessSeeder extends Seeder
         $businesses = [
             [
                 'name' => 'Le Gourmet Parisien',
-                'siret' => '12345678901234',
                 'address' => '15 Rue de la Gastronomie',
                 'postal_code' => '75001',
                 'city' => 'Paris',
@@ -29,7 +28,6 @@ class BusinessSeeder extends Seeder
             ],
             [
                 'name' => 'Brasserie du Marché',
-                'siret' => '98765432109876',
                 'address' => '28 Avenue des Champs',
                 'postal_code' => '69002',
                 'city' => 'Lyon',
@@ -40,7 +38,6 @@ class BusinessSeeder extends Seeder
             ],
             [
                 'name' => 'Quick Burger',
-                'siret' => '55566677788899',
                 'address' => '42 Boulevard de la Restauration',
                 'postal_code' => '13001',
                 'city' => 'Marseille',
@@ -58,9 +55,8 @@ class BusinessSeeder extends Seeder
                 continue;
             }
 
-            Business::factory()->withBusinessType($type)->withOwner()->create([
+            Business::factory()->withBusinessType($type)->withOrganisation()->create([
                 'name' => $businessData['name'],
-                'siret' => $businessData['siret'],
                 'address' => $businessData['address'],
                 'postal_code' => $businessData['postal_code'],
                 'city' => $businessData['city'],
@@ -72,7 +68,7 @@ class BusinessSeeder extends Seeder
 
         // Create 2 additional random restaurants
         for ($i = 0; $i < 2; $i++) {
-            Business::factory()->withBusinessType()->withOwner()->create();
+            Business::factory()->withBusinessType()->withOrganisation()->create();
         }
     }
 }

@@ -38,7 +38,7 @@ final class PasswordController extends Controller
     /**
      * Confirm password reset token
      */
-    public function confirm(ConfirmPasswordResetRequest $request): JsonResponse
+    public function checkReset(ConfirmPasswordResetRequest $request): JsonResponse
     {
         $data = $request->toDto();
 

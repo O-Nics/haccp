@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Business;
 use App\Models\BusinessType;
+use App\Models\Organisation;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -15,7 +16,6 @@ class BusinessFactory extends Factory
     {
         return [
             'name' => $this->faker->company(),
-            'siret' => $this->faker->unique()->numerify('##############'),
             'address' => $this->faker->streetAddress(),
             'postal_code' => $this->faker->postcode(),
             'city' => $this->faker->city(),
@@ -34,12 +34,12 @@ class BusinessFactory extends Factory
         return $this->for($type, 'businessType');
     }
 
-    public function withOwner(?User $user = null): Factory
+    public function withOrganisation(?Organisation $organisation = null, ?User $user = null): Factory
     {
-        if ($user === null) {
-            $user = User::factory()->createQuietly();
+        if ($organisation === null) {
+            $organisation = Organisation::factory()->withOwner($user)->createQuietly();
         }
 
-        return $this->for($user, 'owner');
+        return $this->for($organisation, 'organisation');
     }
 }

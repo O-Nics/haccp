@@ -84,6 +84,7 @@ class BusinessRolePermissionSeeder extends Seeder
                     }
 
                     foreach ($permissions as $permission) {
+                        $role->loadMissing('permissions');
                         if (! $role->permissions->contains($permission->id)) {
                             $role->permissions()->attach($permission->id);
                         }

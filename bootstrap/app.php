@@ -12,8 +12,8 @@ use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 use Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful;
+use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -30,9 +30,9 @@ return Application::configure(basePath: dirname(__DIR__))
             SecureHeaders::class,
             IdentifyRequest::class,
         ]);
-//        $middleware->alias([
-//            'throttle.auth' => ThrottleAuth::class,
-//        ]);
+        //        $middleware->alias([
+        //            'throttle.auth' => ThrottleAuth::class,
+        //        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         $exceptions->render(function (AuthenticationException $e, Request $request) {
@@ -66,7 +66,7 @@ return Application::configure(basePath: dirname(__DIR__))
 
             $message = $data['message'] ?? null;
 
-            if (!is_string($message) || $message === 'Server Error') {
+            if (! is_string($message) || $message === 'Server Error') {
                 $message = 'Une erreur interne est survenue';
             }
 

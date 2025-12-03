@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api\Auth;
 use App\Exceptions\InvalidCredentialsException;
 use App\Http\Controllers\Base\Controller;
 use App\Http\Requests\Auth\LoginRequest;
-use App\Http\Requests\Device\DeviceRequest;
 use App\Http\Resources\AuthResponse;
 use App\Models\User;
 use App\Services\Auth\AuthService;

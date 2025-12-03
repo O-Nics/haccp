@@ -17,6 +17,7 @@ use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Notifications\DatabaseNotificationCollection;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\HasApiTokens;
 use Laravel\Sanctum\PersonalAccessToken;
 
@@ -41,6 +42,8 @@ use Laravel\Sanctum\PersonalAccessToken;
  * @property-read string $full_name
  * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
+ * @property-read Collection<int, \App\Models\Organisation> $organizations
+ * @property-read int|null $organizations_count
  * @property-read Collection<int, \App\Models\Business> $ownedRestaurants
  * @property-read int|null $owned_restaurants_count
  * @property-read Collection<int, \App\Models\BusinessUser> $restaurantUserInvitations
@@ -123,5 +126,15 @@ class User extends BaseAuthenticable implements MustVerifyEmail
     public function ownedRestaurants(): HasMany
     {
         return $this->hasMany(Business::class, 'owner_id', 'id');
+    }
+
+    public function checkPassword(string $password): bool
+    {
+        return Hash::check($password, $this->password);
+    }
+
+    public function organizations(): HasMany
+    {
+        return $this->hasMany(Organisation::class, 'owner_id', 'id');
     }
 }

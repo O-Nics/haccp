@@ -11,7 +11,6 @@ use App\DataTransferObjects\DeviceInfoData;
 use App\Enums\DeviceType;
 use App\Enums\Platform;
 use App\Http\Requests\Base\BaseFormRequest;
-use App\Http\Requests\Device\DeviceRequest;
 use Illuminate\Validation\Rule;
 
 class LoginRequest extends BaseFormRequest
@@ -72,6 +71,4 @@ class LoginRequest extends BaseFormRequest
             )
         );
     }
-
-
 }

@@ -47,7 +47,7 @@ class LoginTest extends TestCase
                             'expires_in',
                         ],
                     ],
-                ]
+                ],
             ]);
 
         $this->assertCount(1, Device::all());

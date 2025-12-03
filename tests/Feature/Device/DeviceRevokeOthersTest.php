@@ -151,7 +151,6 @@ class DeviceRevokeOthersTest extends TestCase
             'remember_me' => false,
         ]);
 
-
         $this->assertCount(1, Device::all());
 
         // Revoke all except current (which is the only one)

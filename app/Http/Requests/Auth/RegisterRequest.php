@@ -22,7 +22,7 @@ class RegisterRequest extends BaseFormRequest
     public function rules(): array
     {
         return [
-            'email' => app()->environment(['local','testing'])
+            'email' => app()->environment(['local', 'testing'])
                 ? ['required', 'email', 'max:255', 'unique:users,email']
                 : ['required', 'email:rfc,dns', 'max:255', 'unique:users,email'],
             'password' => ['required', 'confirmed', Password::min(8)
