@@ -43,7 +43,7 @@ class DeviceDestroyTest extends TestCase
         $this->assertCount(2, Device::all());
 
         // Revoke device 2 using device 1's token
-        $response = $this->withToken($login1->json('tokens.access.token'))
+        $response = $this->withToken($login1->json('data.tokens.access.token'))
             ->deleteJson(route('devices.destroy', ['deviceId' => 'device-002']));
 
         $response->assertStatus(200)
@@ -68,7 +68,7 @@ class DeviceDestroyTest extends TestCase
             'remember_me' => false,
         ]);
 
-        $response = $this->withToken($loginResponse->json('tokens.access.token'))
+        $response = $this->withToken($loginResponse->json('data.tokens.access.token'))
             ->deleteJson(route('devices.destroy', ['deviceId' => 'non-existent']));
 
         $response->assertStatus(404)
@@ -106,7 +106,7 @@ class DeviceDestroyTest extends TestCase
         ]);
 
         // User 1 tries to revoke User 2's device
-        $response = $this->withToken($login1->json('tokens.access.token'))
+        $response = $this->withToken($login1->json('data.tokens.access.token'))
             ->deleteJson(route('devices.destroy', ['deviceId' => 'user2-device']));
 
         $response->assertStatus(404);
@@ -137,8 +137,8 @@ class DeviceDestroyTest extends TestCase
             'remember_me' => false,
         ]);
 
-        $accessToken = $loginResponse->json('tokens.access.token');
-        $deviceId = $loginResponse->json('device_id');
+        $accessToken = $loginResponse->json('data.tokens.access.token');
+        $deviceId = 'device-001';
 
         $this->assertCount(1, Device::all());
         $this->assertCount(1, PersonalAccessToken::all());

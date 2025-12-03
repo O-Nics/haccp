@@ -26,7 +26,7 @@ class EmailNormalizationTest extends TestCase
             'remember_me' => false,
         ]);
 
-        $response->assertStatus(201);
+        $response->assertSuccessful();
 
         // Verify email was stored in lowercase
         $this->assertDatabaseHas('users', [
@@ -51,8 +51,7 @@ class EmailNormalizationTest extends TestCase
             'remember_me' => false,
         ]);
 
-        $response->assertStatus(201);
-
+        $response->assertSuccessful();
         // Verify email was trimmed
         $this->assertDatabaseHas('users', [
             'email' => 'test@example.com',

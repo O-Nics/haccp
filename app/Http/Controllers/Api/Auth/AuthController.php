@@ -13,6 +13,7 @@ use App\Http\Requests\Auth\LogoutRequest;
 use App\Http\Requests\Auth\RefreshTokenRequest;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Http\Requests\Device\DeviceRequest;
+use App\Http\Resources\AuthResponse;
 use App\Http\Resources\UserResource;
 use App\Services\Auth\AuthService;
 use Illuminate\Http\JsonResponse;
@@ -30,16 +31,14 @@ final class AuthController extends Controller
      *
      * @unauthenticated
      */
-    public function register(RegisterRequest $request, DeviceRequest $deviceRequest): JsonResponse
+    public function register(RegisterRequest $request): AuthResponse
     {
-        $tokens = $this->authService->register(
+        $authData = $this->authService->register(
             data: $request->toDto(),
-            deviceInfo: $deviceRequest->toDto(),
         );
 
-        return response()->json([
-            ...$tokens->toApiResponse(),
-        ], Response::HTTP_CREATED);
+        return new AuthResponse($authData);
+
     }
 
     /**
@@ -49,14 +48,13 @@ final class AuthController extends Controller
      *
      * @throws InvalidCredentialsException
      */
-    public function login(LoginRequest $request, DeviceRequest $deviceRequest): array
+    public function login(LoginRequest $request): AuthResponse
     {
-        $tokens = $this->authService->login(
+        $authData = $this->authService->login(
             data: $request->toDto(),
-            deviceInfo: $deviceRequest->toDto(),
         );
 
-        return $tokens->toApiResponse();
+        return new AuthResponse($authData);
     }
 
     /**
@@ -66,13 +64,13 @@ final class AuthController extends Controller
      *
      * @throws InvalidCredentialsException
      */
-    public function refresh(RefreshTokenRequest $request): array
+    public function refresh(RefreshTokenRequest $request): AuthResponse
     {
-        $tokens = $this->authService->refresh(
+        $authData = $this->authService->refresh(
             refreshTokenData: $request->toDto()
         );
 
-        return $tokens->toApiResponse();
+        return new AuthResponse($authData);
     }
 
     /**

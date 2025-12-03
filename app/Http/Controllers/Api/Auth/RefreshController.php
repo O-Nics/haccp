@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Auth;
 use App\Exceptions\InvalidCredentialsException;
 use App\Http\Controllers\Base\Controller;
 use App\Http\Requests\Auth\RefreshTokenRequest;
+use App\Http\Resources\AuthResponse;
 use App\Models\User;
 use App\Services\Auth\AuthService;
 
@@ -23,12 +24,12 @@ class RefreshController extends Controller
      *
      * @unauthenticated
      */
-    public function __invoke(RefreshTokenRequest $request): array
+    public function __invoke(RefreshTokenRequest $request): AuthResponse
     {
-        $tokens = $this->authService->refresh(
+        $authData = $this->authService->refresh(
             refreshTokenData: $request->toDto()
         );
 
-        return $tokens->toApiResponse();
+        return new AuthResponse($authData);
     }
 }

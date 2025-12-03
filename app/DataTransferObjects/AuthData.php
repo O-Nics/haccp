@@ -12,7 +12,6 @@ use Spatie\LaravelData\Data;
 class AuthData extends Data
 {
     public function __construct(
-        public ?User $user = null,
         public string $accessToken,
         public int $accessTokenExpiresIn,
         public string $refreshToken,

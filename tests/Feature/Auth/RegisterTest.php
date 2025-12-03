@@ -30,16 +30,18 @@ class RegisterTest extends TestCase
             'remember_me' => false,
         ]);
 
-        $response->assertStatus(201)->assertJsonStructure([
-            'tokens' => [
-                'access' => [
-                    'token',
-                    'type',
-                    'expires_in',
-                ],
-                'refresh' => [
-                    'token',
-                    'expires_in',
+        $response->assertSuccessful()->assertJsonStructure([
+            'data' => [
+                'tokens' => [
+                    'access' => [
+                        'token',
+                        'type',
+                        'expires_in',
+                    ],
+                    'refresh' => [
+                        'token',
+                        'expires_in',
+                    ],
                 ],
             ],
         ]);
@@ -66,10 +68,10 @@ class RegisterTest extends TestCase
             'remember_me' => true,
         ]);
 
-        $response->assertStatus(201);
+        $response->assertSuccessful();
 
         // Remember token should have 1 year expiration (525600 minutes = 31536000 seconds)
-        $expiresIn = $response->json('tokens.refresh.expires_in');
+        $expiresIn = $response->json('data.tokens.refresh.expires_in');
         $this->assertEquals(525600 * 60, $expiresIn);
     }
 

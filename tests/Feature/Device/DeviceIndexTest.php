@@ -41,7 +41,7 @@ class DeviceIndexTest extends TestCase
             'remember_me' => false,
         ]);
 
-        $accessToken = $login1->json('tokens.access.token');
+        $accessToken = $login1->json('data.tokens.access.token');
 
         $response = $this->withToken($accessToken)
             ->getJson(route('devices.index'));
@@ -92,7 +92,7 @@ class DeviceIndexTest extends TestCase
             'remember_me' => false,
         ]);
 
-        $response = $this->withToken($login2->json('tokens.access.token'))
+        $response = $this->withToken($login2->json('data.tokens.access.token'))
             ->getJson(route('devices.index'));
 
         $response->assertStatus(200);
@@ -142,7 +142,7 @@ class DeviceIndexTest extends TestCase
         ]);
 
         // User 1 should only see their device
-        $response = $this->withToken($login1->json('tokens.access.token'))
+        $response = $this->withToken($login1->json('data.tokens.access.token'))
             ->getJson(route('devices.index'));
         $response->assertStatus(200);
         $this->assertEquals(1, $response->json('meta.total'));
@@ -164,7 +164,7 @@ class DeviceIndexTest extends TestCase
             'remember_me' => false,
         ]);
 
-        $accessToken = $loginResponse->json('tokens.access.token');
+        $accessToken = $loginResponse->json('data.tokens.access.token');
 
         $response = $this->withToken($accessToken)
             ->getJson(route('devices.index'));

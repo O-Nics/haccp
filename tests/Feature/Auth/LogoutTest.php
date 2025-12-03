@@ -31,8 +31,8 @@ class LogoutTest extends TestCase
             'remember_me' => false,
         ]);
 
-        $accessToken = $loginResponse->json('tokens.access.token');
-        $deviceId = $loginResponse->json('device_id');
+        $accessToken = $loginResponse->json('data.tokens.access.token');
+        $deviceId = 'test-device-001';
 
         $this->assertCount(1, Device::all());
         $this->assertCount(1, PersonalAccessToken::all());
@@ -87,7 +87,7 @@ class LogoutTest extends TestCase
         $this->assertCount(2, Device::all());
 
         // Logout from device 1
-        $this->withToken($login1->json('tokens.access.token'))
+        $this->withToken($login1->json('data.tokens.access.token'))
             ->postJson(route('user.logout'), [
                 'device_id' => 'device-001',
             ]);
@@ -112,7 +112,7 @@ class LogoutTest extends TestCase
             'remember_me' => false,
         ]);
 
-        $accessToken = $loginResponse->json('tokens.access.token');
+        $accessToken = $loginResponse->json('data.tokens.access.token');
 
         // Try to logout with wrong device id
         $response = $this->withToken($accessToken)
@@ -143,8 +143,8 @@ class LogoutTest extends TestCase
             'remember_me' => false,
         ]);
 
-        $accessToken = $loginResponse->json('tokens.access.token');
-        $deviceId = $loginResponse->json('device_id');
+        $accessToken = $loginResponse->json('data.tokens.access.token');
+        $deviceId = 'test-device-001';
 
         $this->assertCount(1, PersonalAccessToken::where('name', 'test-device-001')->get());
 
@@ -174,8 +174,8 @@ class LogoutTest extends TestCase
             'remember_me' => false,
         ]);
 
-        $accessToken = $loginResponse->json('tokens.access.token');
-        $deviceId = $loginResponse->json('device_id');
+        $accessToken = $loginResponse->json('data.tokens.access.token');
+        $deviceId = 'test-device-001';
 
         // Verify token exists before logout
         $this->assertEquals(1, PersonalAccessToken::count());

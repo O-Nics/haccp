@@ -52,7 +52,7 @@ class DeviceRevokeOthersTest extends TestCase
         $this->assertCount(3, Device::all());
 
         // Revoke all except device-001
-        $response = $this->withToken($login1->json('tokens.access.token'))
+        $response = $this->withToken($login1->json('data.tokens.access.token'))
             ->postJson(route('devices.revoke-others'), [
                 'current_device_id' => 'device-001',
             ]);
@@ -95,7 +95,7 @@ class DeviceRevokeOthersTest extends TestCase
 
         $this->assertCount(2, PersonalAccessToken::all());
         // Revoke all except device-001
-        $this->withToken($login1->json('tokens.access.token'))
+        $this->withToken($login1->json('data.tokens.access.token'))
             ->postJson(route('devices.revoke-others'), [
                 'current_device_id' => 'device-001',
             ]);
@@ -120,7 +120,7 @@ class DeviceRevokeOthersTest extends TestCase
             'remember_me' => false,
         ]);
 
-        $response = $this->withToken($loginResponse->json('tokens.access.token'))
+        $response = $this->withToken($loginResponse->json('data.tokens.access.token'))
             ->postJson(route('devices.revoke-others'), []);
 
         $response->assertStatus(422)
@@ -155,7 +155,7 @@ class DeviceRevokeOthersTest extends TestCase
         $this->assertCount(1, Device::all());
 
         // Revoke all except current (which is the only one)
-        $response = $this->withToken($loginResponse->json('tokens.access.token'))
+        $response = $this->withToken($loginResponse->json('data.tokens.access.token'))
             ->postJson(route('devices.revoke-others'), [
                 'current_device_id' => 'device-001',
             ]);

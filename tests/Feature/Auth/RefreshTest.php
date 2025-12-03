@@ -31,8 +31,8 @@ class RefreshTest extends TestCase
             'remember_me' => false,
         ]);
 
-        $refreshToken = $loginResponse->json('tokens.refresh.token');
-        $deviceId = $loginResponse->json('device_id');
+        $refreshToken = $loginResponse->json('data.tokens.refresh.token');
+        $deviceId = 'test-device-001';
 
         // Refresh tokens
         $response = $this->postJson(route('auth.refresh'), [
@@ -42,21 +42,23 @@ class RefreshTest extends TestCase
 
         $response->assertStatus(200)
             ->assertJsonStructure([
-                'tokens' => [
-                    'access' => [
-                        'token',
-                        'type',
-                        'expires_in',
-                    ],
-                    'refresh' => [
-                        'token',
-                        'expires_in',
+                'data' => [
+                    'tokens' => [
+                        'access' => [
+                            'token',
+                            'type',
+                            'expires_in',
+                        ],
+                        'refresh' => [
+                            'token',
+                            'expires_in',
+                        ],
                     ],
                 ],
             ]);
 
         // New refresh token should be different (rotation enabled)
-        $newRefreshToken = $response->json('tokens.refresh.token');
+        $newRefreshToken = $response->json('data.tokens.refresh.token');
         $this->assertNotEquals($refreshToken, $newRefreshToken);
     }
 
@@ -76,8 +78,8 @@ class RefreshTest extends TestCase
             'remember_me' => false,
         ]);
 
-        $oldRefreshToken = $loginResponse->json('tokens.refresh.token');
-        $deviceId = $loginResponse->json('device_id');
+        $oldRefreshToken = $loginResponse->json('data.tokens.refresh.token');
+        $deviceId = 'test-device-001';
 
         $oldDevice = Device::where('device_id', $deviceId)->first();
         $oldTokenHash = $oldDevice->refresh_token_hash;
@@ -109,7 +111,7 @@ class RefreshTest extends TestCase
             'remember_me' => false,
         ]);
 
-        $deviceId = $loginResponse->json('device_id');
+        $deviceId = 'test-device-001';
 
         // Try to refresh with invalid token (must be 64 chars to pass validation)
         $response = $this->postJson(route('auth.refresh'), [
@@ -136,8 +138,8 @@ class RefreshTest extends TestCase
             'remember_me' => false,
         ]);
 
-        $refreshToken = $loginResponse->json('tokens.refresh.token');
-        $deviceId = $loginResponse->json('device_id');
+        $refreshToken = $loginResponse->json('data.tokens.refresh.token');
+        $deviceId = 'test-device-001';
         // Manually expire the token by setting the device's refresh_token_expires_at in the past
         $device = Device::where('device_id', $deviceId)->first();
         $device->token_expires_at = now()->subMinutes(1);
@@ -177,8 +179,8 @@ class RefreshTest extends TestCase
             'remember_me' => false,
         ]);
 
-        $oldRefreshToken = $loginResponse->json('tokens.refresh.token');
-        $deviceId = $loginResponse->json('device_id');
+        $oldRefreshToken = $loginResponse->json('data.tokens.refresh.token');
+        $deviceId = 'test-device-001';
 
         // First refresh - should succeed
         $refreshResponse = $this->postJson(route('auth.refresh'), [

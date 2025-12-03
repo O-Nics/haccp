@@ -15,6 +15,7 @@ use App\Repositories\UserDevice\UserDeviceRepositoryInterface;
 use Dedoc\Scramble\Scramble;
 use Dedoc\Scramble\Support\Generator\OpenApi;
 use Dedoc\Scramble\Support\Generator\SecurityScheme;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 
@@ -47,6 +48,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Model::preventLazyLoading(! app()->isProduction());
+
         // Configure Scramble API documentation
         Scramble::configure()
             ->withDocumentTransformers(function (OpenApi $openApi) {

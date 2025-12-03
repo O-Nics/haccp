@@ -28,7 +28,7 @@ class UserTest extends TestCase
             'remember_me' => false,
         ]);
 
-        $accessToken = $loginResponse->json('tokens.access.token');
+        $accessToken = $loginResponse->json('data.tokens.access.token');
 
         $response = $this->withToken($accessToken)
             ->getJson(route('user.me'));
@@ -68,7 +68,7 @@ class UserTest extends TestCase
             'remember_me' => false,
         ]);
 
-        $accessToken = $login1->json('tokens.access.token');
+        $accessToken = $login1->json('data.tokens.access.token');
 
         $response = $this->withToken($accessToken)
             ->getJson(route('user.me'));
@@ -109,7 +109,7 @@ class UserTest extends TestCase
             'remember_me' => false,
         ]);
 
-        $accessToken = $loginResponse->json('tokens.access.token');
+        $accessToken = $loginResponse->json('data.tokens.access.token');
 
         $response = $this->withToken($accessToken)
             ->getJson(route('user.me'));

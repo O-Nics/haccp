@@ -35,17 +35,19 @@ class LoginTest extends TestCase
 
         $response->assertStatus(200)
             ->assertJsonStructure([
-                'tokens' => [
-                    'access' => [
-                        'token',
-                        'type',
-                        'expires_in',
+                'data' => [
+                    'tokens' => [
+                        'access' => [
+                            'token',
+                            'type',
+                            'expires_in',
+                        ],
+                        'refresh' => [
+                            'token',
+                            'expires_in',
+                        ],
                     ],
-                    'refresh' => [
-                        'token',
-                        'expires_in',
-                    ],
-                ],
+                ]
             ]);
 
         $this->assertCount(1, Device::all());
@@ -178,7 +180,7 @@ class LoginTest extends TestCase
         $response->assertStatus(200);
 
         // Remember token should have 1 year expiration
-        $expiresIn = $response->json('tokens.refresh.expires_in');
+        $expiresIn = $response->json('data.tokens.refresh.expires_in');
         $this->assertEquals(525600 * 60, $expiresIn); // 1 year in seconds
     }
 }
