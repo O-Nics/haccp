@@ -25,12 +25,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\BusinessRole> $businessRoles
- * @property-read int|null $business_roles_count
  * @property-read \App\Models\BusinessType $businessType
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\BusinessUser> $businessUsers
  * @property-read int|null $business_users_count
- * @property-read \App\Models\Organisation|null $organisation
+ * @property-read \App\Models\Organisation $organisation
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $users
  * @property-read int|null $users_count
  *
@@ -65,11 +63,6 @@ class Business extends Model
     public function businessType(): BelongsTo
     {
         return $this->belongsTo(BusinessType::class);
-    }
-
-    public function businessRoles(): HasMany
-    {
-        return $this->hasMany(BusinessRole::class);
     }
 
     public function businessUsers(): HasMany
