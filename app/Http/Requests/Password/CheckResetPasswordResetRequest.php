@@ -7,7 +7,7 @@ namespace App\Http\Requests\Password;
 use App\DataTransferObjects\Password\ConfirmPasswordResetData;
 use App\Http\Requests\Base\BaseFormRequest;
 
-class ConfirmPasswordResetRequest extends BaseFormRequest
+class CheckResetPasswordResetRequest extends BaseFormRequest
 {
     public function authorize(): bool
     {

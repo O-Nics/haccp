@@ -6,7 +6,7 @@ namespace App\Http\Controllers\Api\Auth;
 
 use App\Exceptions\InvalidCredentialsException;
 use App\Http\Controllers\Base\Controller;
-use App\Http\Requests\Password\ConfirmPasswordResetRequest;
+use App\Http\Requests\Password\CheckResetPasswordResetRequest;
 use App\Http\Requests\Password\ForgotPasswordRequest;
 use App\Http\Requests\Password\ResetPasswordRequest;
 use App\Services\Password\PasswordService;
@@ -38,7 +38,7 @@ final class PasswordController extends Controller
     /**
      * Confirm password reset token
      */
-    public function checkReset(ConfirmPasswordResetRequest $request): JsonResponse
+    public function checkReset(CheckResetPasswordResetRequest $request): JsonResponse
     {
         $data = $request->toDto();
 
@@ -54,6 +54,7 @@ final class PasswordController extends Controller
             ], 400);
         }
     }
+
 
     /**
      * Reset password

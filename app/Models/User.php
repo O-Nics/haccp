@@ -113,19 +113,14 @@ class User extends BaseAuthenticable implements MustVerifyEmail
         return trim("{$this->first_name} {$this->last_name}");
     }
 
-    public function restaurantUsers(): HasMany
+    public function businessUsers(): HasMany
     {
         return $this->hasMany(BusinessUser::class, 'user_id', 'id');
     }
 
-    public function restaurantUserInvitations(): HasMany
+    public function businessUserInvitations(): HasMany
     {
         return $this->hasMany(BusinessUser::class, 'invited_by', 'id');
-    }
-
-    public function ownedRestaurants(): HasMany
-    {
-        return $this->hasMany(Business::class, 'owner_id', 'id');
     }
 
     public function checkPassword(string $password): bool
