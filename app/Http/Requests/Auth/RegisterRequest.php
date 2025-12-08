@@ -62,11 +62,11 @@ class RegisterRequest extends BaseFormRequest
     public function toDto(): RegisterData
     {
         return new RegisterData(
-            first_name: $this->input('first_name'),
-            last_name: $this->input('last_name'),
+            firstName: $this->input('first_name'),
+            lastName: $this->input('last_name'),
             email: $this->input('email'),
             password: $this->input('password'),
-            remember_me: $this->boolean('remember_me'),
+            rememberMe: $this->boolean('remember_me'),
             deviceInfo: new DeviceInfoData(
                 deviceId: $this->input('device_id'),
                 deviceName: $this->input('device_name'),

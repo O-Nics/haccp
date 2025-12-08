@@ -22,8 +22,8 @@ readonly class UserRepository implements UserRepositoryInterface
     public function store(RegisterData $registerData): User
     {
         $user = new User;
-        $user->first_name = $registerData->first_name;
-        $user->last_name = $registerData->last_name;
+        $user->first_name = $registerData->firstName;
+        $user->last_name = $registerData->lastName;
         $user->email = $registerData->email;
         $user->password = Hash::make($registerData->password);
         $user->save();

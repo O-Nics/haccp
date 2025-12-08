@@ -27,7 +27,7 @@ class UserResource extends JsonResource
             'updated_at' => $this->updated_at,
 
             // Relations
-//            'oragnisations' => OrganisationResource::collection($this->whenLoaded('organisations')),
+            //            'oragnisations' => OrganisationResource::collection($this->whenLoaded('organisations')),
             'devices' => DeviceResource::collection($this->whenLoaded('devices')),
 
         ];

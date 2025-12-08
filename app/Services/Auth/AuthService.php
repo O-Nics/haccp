@@ -50,7 +50,7 @@ final readonly class AuthService
     ): AuthData {
         $user = $this->userRepository->store($data);
 
-        return $this->generateTokens($user, $data->deviceInfo, $data->remember_me, isRegister: true);
+        return $this->generateTokens($user, $data->deviceInfo, $data->rememberMe, isRegister: true);
     }
 
     /**

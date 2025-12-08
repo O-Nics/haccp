@@ -55,7 +55,6 @@ final class PasswordController extends Controller
         }
     }
 
-
     /**
      * Reset password
      */

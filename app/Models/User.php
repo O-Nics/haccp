@@ -37,6 +37,10 @@ use Laravel\Sanctum\PersonalAccessToken;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property Carbon|null $deleted_at
+ * @property-read Collection<int, \App\Models\BusinessUser> $businessUserInvitations
+ * @property-read int|null $business_user_invitations_count
+ * @property-read Collection<int, \App\Models\BusinessUser> $businessUsers
+ * @property-read int|null $business_users_count
  * @property-read Collection<int, \App\Models\Device> $devices
  * @property-read int|null $devices_count
  * @property-read string $full_name
@@ -44,12 +48,6 @@ use Laravel\Sanctum\PersonalAccessToken;
  * @property-read int|null $notifications_count
  * @property-read Collection<int, \App\Models\Organisation> $organizations
  * @property-read int|null $organizations_count
- * @property-read Collection<int, \App\Models\Business> $ownedRestaurants
- * @property-read int|null $owned_restaurants_count
- * @property-read Collection<int, \App\Models\BusinessUser> $restaurantUserInvitations
- * @property-read int|null $restaurant_user_invitations_count
- * @property-read Collection<int, \App\Models\BusinessUser> $restaurantUsers
- * @property-read int|null $restaurant_users_count
  * @property-read Collection<int, PersonalAccessToken> $tokens
  * @property-read int|null $tokens_count
  *
