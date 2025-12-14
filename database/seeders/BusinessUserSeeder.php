@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Database\Seeders;
 
 use App\Models\Business;
+use App\Models\BusinessRole;
 use App\Models\BusinessUser;
-use App\Models\OrganisationRole;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -37,12 +37,11 @@ class BusinessUserSeeder extends Seeder
         }
 
         // Le Gourmet Parisien - Business 1
-        $gourmetOrganisation = $gourmetParisien->organisation;
-        $gerantRole = OrganisationRole::where('organisation_id', $gourmetOrganisation->id)
+        $gerantRole = BusinessRole::where('business_id', $gourmetParisien->id)
             ->where('name', 'gerant')->first();
-        $chefRole = OrganisationRole::where('organisation_id', $gourmetOrganisation->id)
+        $chefRole = BusinessRole::where('business_id', $gourmetParisien->id)
             ->where('name', 'chef_cuisine')->first();
-        $cuisinierRole = OrganisationRole::where('organisation_id', $gourmetOrganisation->id)
+        $cuisinierRole = BusinessRole::where('business_id', $gourmetParisien->id)
             ->where('name', 'cuisinier')->first();
 
         // Jean = Owner (system role) of Le Gourmet Parisien
@@ -51,19 +50,19 @@ class BusinessUserSeeder extends Seeder
             $businessUser->business_id = $gourmetParisien->id;
             $businessUser->user_id = $jean->id;
             $businessUser->role_id = $ownerRole->id;
-            $businessUser->organisation_role_id = null;
+            $businessUser->business_role_id = null;
             $businessUser->status = 'active';
             $businessUser->joined_at = now();
             $businessUser->save();
         }
 
-        // Marie = Chef de Cuisine (organisation role)
+        // Marie = Chef de Cuisine (business role)
         if ($chefRole && $marie) {
             $businessUser = new BusinessUser;
             $businessUser->business_id = $gourmetParisien->id;
             $businessUser->user_id = $marie->id;
             $businessUser->role_id = null;
-            $businessUser->organisation_role_id = $chefRole->id;
+            $businessUser->business_role_id = $chefRole->id;
             $businessUser->invited_by = $jean->id;
             $businessUser->status = 'active';
             $businessUser->invited_at = now()->subDays(10);
@@ -71,13 +70,13 @@ class BusinessUserSeeder extends Seeder
             $businessUser->save();
         }
 
-        // Pierre = Cuisinier (organisation role)
+        // Pierre = Cuisinier (business role)
         if ($cuisinierRole && $pierre) {
             $businessUser = new BusinessUser;
             $businessUser->business_id = $gourmetParisien->id;
             $businessUser->user_id = $pierre->id;
             $businessUser->role_id = null;
-            $businessUser->organisation_role_id = $cuisinierRole->id;
+            $businessUser->business_role_id = $cuisinierRole->id;
             $businessUser->invited_by = $jean->id;
             $businessUser->status = 'active';
             $businessUser->invited_at = now()->subDays(5);
@@ -87,10 +86,9 @@ class BusinessUserSeeder extends Seeder
 
         // Brasserie du Marché - Business 2
         if ($brasserieMarche && $sophie) {
-            $brasserieOrganisation = $brasserieMarche->organisation;
-            $gerantRole2 = OrganisationRole::where('organisation_id', $brasserieOrganisation->id)
+            $gerantRole2 = BusinessRole::where('business_id', $brasserieMarche->id)
                 ->where('name', 'gerant')->first();
-            $serveurRole = OrganisationRole::where('organisation_id', $brasserieOrganisation->id)
+            $serveurRole = BusinessRole::where('business_id', $brasserieMarche->id)
                 ->where('name', 'serveur')->first();
 
             // Sophie = Manager (system role)
@@ -99,7 +97,7 @@ class BusinessUserSeeder extends Seeder
                 $businessUser->business_id = $brasserieMarche->id;
                 $businessUser->user_id = $sophie->id;
                 $businessUser->role_id = $managerRole->id;
-                $businessUser->organisation_role_id = null;
+                $businessUser->business_role_id = null;
                 $businessUser->status = 'active';
                 $businessUser->joined_at = now()->subDays(20);
                 $businessUser->save();
@@ -111,7 +109,7 @@ class BusinessUserSeeder extends Seeder
                 $businessUser->business_id = $brasserieMarche->id;
                 $businessUser->user_id = $pierre->id;
                 $businessUser->role_id = null;
-                $businessUser->organisation_role_id = $serveurRole->id;
+                $businessUser->business_role_id = $serveurRole->id;
                 $businessUser->invited_by = $sophie->id;
                 $businessUser->status = 'active';
                 $businessUser->invited_at = now()->subDays(3);
@@ -122,8 +120,7 @@ class BusinessUserSeeder extends Seeder
 
         // Quick Burger - Business 3
         if ($quickBurger && $admin) {
-            $quickBurgerOrganisation = $quickBurger->organisation;
-            $gerantRole3 = OrganisationRole::where('organisation_id', $quickBurgerOrganisation->id)
+            $gerantRole3 = BusinessRole::where('business_id', $quickBurger->id)
                 ->where('name', 'gerant')->first();
 
             // Admin = Owner of Quick Burger
@@ -132,7 +129,7 @@ class BusinessUserSeeder extends Seeder
                 $businessUser->business_id = $quickBurger->id;
                 $businessUser->user_id = $admin->id;
                 $businessUser->role_id = $ownerRole->id;
-                $businessUser->organisation_role_id = null;
+                $businessUser->business_role_id = null;
                 $businessUser->status = 'active';
                 $businessUser->joined_at = now()->subDays(30);
                 $businessUser->save();
@@ -152,14 +149,14 @@ class BusinessUserSeeder extends Seeder
 
         foreach ($randomUsers as $user) {
             $business = $allBusinesses->random();
-            $randomOrganisationRole = OrganisationRole::where('organisation_id', $business->organisation_id)->inRandomOrder()->first();
+            $randomBusinessRole = BusinessRole::where('business_id', $business->id)->inRandomOrder()->first();
 
-            if ($randomOrganisationRole) {
+            if ($randomBusinessRole) {
                 $businessUser = new BusinessUser;
                 $businessUser->business_id = $business->id;
                 $businessUser->user_id = $user->id;
                 $businessUser->role_id = null;
-                $businessUser->organisation_role_id = $randomOrganisationRole->id;
+                $businessUser->business_role_id = $randomBusinessRole->id;
                 $businessUser->status = rand(0, 1) ? 'active' : 'invited';
                 $businessUser->invited_at = now()->subDays(rand(1, 60));
                 if ($businessUser->status === 'active') {

@@ -4,21 +4,21 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
-use App\Models\Organisation;
-use App\Models\OrganisationRole;
+use App\Models\Business;
+use App\Models\BusinessRole;
 use Illuminate\Database\Seeder;
 
 class BusinessRoleSeeder extends Seeder
 {
     /**
      * Run the database seeds.
-     * Create organisation-specific custom roles for each organisation
+     * Create business-specific custom roles for each business
      */
     public function run(): void
     {
-        $organisations = Organisation::all();
+        $businesses = Business::all();
 
-        // Default roles that every organisation should have
+        // Default roles that every business should have
         $defaultRoles = [
             [
                 'name' => 'gerant',
@@ -52,10 +52,10 @@ class BusinessRoleSeeder extends Seeder
             ],
         ];
 
-        foreach ($organisations as $organisation) {
+        foreach ($businesses as $business) {
             foreach ($defaultRoles as $roleData) {
-                $role = new OrganisationRole;
-                $role->organisation_id = $organisation->id;
+                $role = new BusinessRole;
+                $role->business_id = $business->id;
                 $role->name = $roleData['name'];
                 $role->display_name = $roleData['display_name'];
                 $role->description = $roleData['description'];

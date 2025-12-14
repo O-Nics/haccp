@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
-use App\Models\OrganisationRole;
+use App\Models\BusinessRole;
 use App\Models\Permission;
 use Illuminate\Database\Seeder;
 
@@ -12,7 +12,7 @@ class BusinessRolePermissionSeeder extends Seeder
 {
     /**
      * Run the database seeds.
-     * Assign permissions to restaurant-specific roles
+     * Assign permissions to business-specific roles
      */
     public function run(): void
     {
@@ -69,11 +69,11 @@ class BusinessRolePermissionSeeder extends Seeder
             ],
         ];
 
-        // Apply permissions to all restaurants' roles
+        // Apply permissions to all businesses' roles
         foreach ($rolePermissions as $roleName => $permissionPatterns) {
-            $restaurantRoles = OrganisationRole::where('name', $roleName)->get();
+            $businessRoles = BusinessRole::where('name', $roleName)->get();
 
-            foreach ($restaurantRoles as $role) {
+            foreach ($businessRoles as $role) {
                 foreach ($permissionPatterns as $pattern) {
                     // If pattern ends with *, get all permissions matching the prefix
                     if (str_ends_with($pattern, '.*')) {
