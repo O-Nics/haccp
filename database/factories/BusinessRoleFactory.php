@@ -2,14 +2,14 @@
 
 namespace Database\Factories;
 
-use App\Models\Organisation;
-use App\Models\OrganisationRole;
+use App\Models\Business;
+use App\Models\BusinessRole;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Carbon;
 
-class OrganisationRoleFactory extends Factory
+class BusinessRoleFactory extends Factory
 {
-    protected $model = OrganisationRole::class;
+    protected $model = BusinessRole::class;
 
     public function definition(): array
     {
@@ -23,12 +23,12 @@ class OrganisationRoleFactory extends Factory
         ];
     }
 
-    public function withOrganisation(?Organisation $organisation): Factory
+    public function withBusiness(?Business $business): Factory
     {
-        if ($organisation === null) {
-            $organisation = Organisation::factory()->createQuietly();
+        if ($business === null) {
+            $business = Business::factory()->createQuietly();
         }
 
-        return $this->for($organisation, 'organisation');
+        return $this->for($business, 'business');
     }
 }
