@@ -80,7 +80,7 @@ final readonly class AuthService
         $this->userRepository->updateLastLogin($user);
 
         return new AuthData(
-            user: $user,
+            user: $user->load(['businessUsers']),
             accessToken: $accessToken,
             accessTokenExpiresIn: $accessTokenExpiration * 60,
             refreshToken: $device->getAttribute('plain_refresh_token'),
