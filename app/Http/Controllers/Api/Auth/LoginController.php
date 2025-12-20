@@ -32,8 +32,11 @@ class LoginController extends Controller
 
         $authData->user->load([
             'devices',
-            'businessUsers.business',
+            'businesses',
+            //            'businessUsers.business',
         ]);
+
+        //        dd($authData->user->businesses);
 
         return new AuthResponse($authData);
     }

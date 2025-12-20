@@ -63,7 +63,6 @@ class UserSeeder extends Seeder
             $user->email_verified_at = $userData['email_verified_at'];
             $user->save();
 
-
         }
 
         // Create additional random users for testing

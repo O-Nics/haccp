@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\DatabaseNotification;
@@ -41,6 +42,9 @@ use Laravel\Sanctum\PersonalAccessToken;
  * @property-read int|null $business_user_invitations_count
  * @property-read Collection<int, \App\Models\BusinessUser> $businessUsers
  * @property-read int|null $business_users_count
+ * @property-read \App\Models\BusinessUser|null $pivot
+ * @property-read Collection<int, \App\Models\Business> $businesses
+ * @property-read int|null $businesses_count
  * @property-read Collection<int, \App\Models\Device> $devices
  * @property-read int|null $devices_count
  * @property-read string $full_name
@@ -110,15 +114,21 @@ class User extends BaseAuthenticable implements MustVerifyEmail
 
         return trim("{$this->first_name} {$this->last_name}");
     }
-
-    public function businessUsers(): HasMany
+    public function businesses(): BelongsToMany
     {
-        return $this->hasMany(BusinessUser::class, 'user_id', 'id');
-    }
-
-    public function businessUserInvitations(): HasMany
-    {
-        return $this->hasMany(BusinessUser::class, 'invited_by', 'id');
+        return $this->belongsToMany(Business::class, 'business_users', 'user_id', 'business_id')
+            ->using(BusinessUser::class)
+            ->withPivot([
+                'id',
+                'invited_by',
+                'role_id',
+                'business_role_id',
+                'invited_at',
+                'joined_at',
+                'status',
+                'created_at',
+                'updated_at',
+            ]);
     }
 
     public function checkPassword(string $password): bool

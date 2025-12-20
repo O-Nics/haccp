@@ -3,26 +3,25 @@
 namespace App\Http\Resources;
 
 use App\Models\Business;
-use App\Models\BusinessUser;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * @mixin BusinessUser
+ * @mixin Business
  */
 class BusinessUserResource extends JsonResource
 {
     public function toArray(Request $request): array
     {
+
         return [
             'id' => $this->id,
-
-
-            // Relations
-            'role'=>$this->businessRole,
-            'devices' => DeviceResource::collection($this->whenLoaded('devices')),
-            'business' => $this->whenLoaded('business'),
+            'name' => $this->name,
+            'role' => $this->pivot->businessRole ?? $this->pivot->role,
+            'invited_by' => new UserResource($this->pivot->invitedBy),
+            'invited_at' => $this->pivot->invited_at,
+            'joined_at' => $this->pivot->joined_at,
+            'status' => $this->pivot->status,
 
         ];
     }

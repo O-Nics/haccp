@@ -19,9 +19,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Business $business
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\BusinessUser> $businessUsers
  * @property-read int|null $business_users_count
- * @property-read \App\Models\Business $business
  * @property-read \App\Models\BusinessRolePermission|null $pivot
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Permission> $permissions
  * @property-read int|null $permissions_count
@@ -31,6 +31,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|BusinessRole newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|BusinessRole onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|BusinessRole query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|BusinessRole whereBusinessId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|BusinessRole whereColor($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|BusinessRole whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|BusinessRole whereDeletedAt($value)
@@ -38,7 +39,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|BusinessRole whereDisplayName($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|BusinessRole whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|BusinessRole whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|BusinessRole whereBusinessId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|BusinessRole whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|BusinessRole withTrashed(bool $withTrashed = true)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|BusinessRole withoutTrashed()

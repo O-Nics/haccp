@@ -25,12 +25,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\BusinessRole> $businessRoles
+ * @property-read int|null $business_roles_count
  * @property-read \App\Models\BusinessType $businessType
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\BusinessUser> $businessUsers
  * @property-read int|null $business_users_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\BusinessRole> $businessRoles
- * @property-read int|null $business_roles_count
  * @property-read \App\Models\Organisation $organisation
+ * @property-read \App\Models\BusinessUser|null $pivot
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $users
  * @property-read int|null $users_count
  *
@@ -85,7 +86,8 @@ class Business extends Model
     public function users(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'business_users')
-            ->withPivot(['role_id', 'business_role_id', 'status', 'invited_at', 'joined_at', 'invited_by'])
+            ->using(BusinessUser::class)
+            ->withPivot(['id', 'role_id', 'business_role_id', 'status', 'invited_at', 'joined_at', 'invited_by'])
             ->withTimestamps();
     }
 }

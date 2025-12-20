@@ -3,9 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Support\Carbon;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 
 /**
  * @property int $id
@@ -14,14 +13,14 @@ use Illuminate\Support\Carbon;
  * @property string|null $invited_by
  * @property int|null $role_id
  * @property int|null $business_role_id
- * @property Carbon|null $invited_at
- * @property Carbon|null $joined_at
+ * @property \Illuminate\Support\Carbon|null $invited_at
+ * @property \Illuminate\Support\Carbon|null $joined_at
  * @property string $status
- * @property Carbon|null $created_at
- * @property Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Business $business
- * @property-read \App\Models\User|null $invitedBy
  * @property-read \App\Models\BusinessRole|null $businessRole
+ * @property-read \App\Models\User|null $invitedBy
  * @property-read \App\Models\Role|null $role
  * @property-read \App\Models\User $user
  *
@@ -29,12 +28,12 @@ use Illuminate\Support\Carbon;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|BusinessUser newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|BusinessUser query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|BusinessUser whereBusinessId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|BusinessUser whereBusinessRoleId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|BusinessUser whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|BusinessUser whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|BusinessUser whereInvitedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|BusinessUser whereInvitedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|BusinessUser whereJoinedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|BusinessUser whereBusinessRoleId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|BusinessUser whereRoleId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|BusinessUser whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|BusinessUser whereUpdatedAt($value)
@@ -42,9 +41,15 @@ use Illuminate\Support\Carbon;
  *
  * @mixin \Eloquent
  */
-class BusinessUser extends Model
+class BusinessUser extends Pivot
 {
-    use HasFactory;
+    protected $table = 'business_users';
+    public $incrementing = true;
+
+    /**
+     * Relations to eager load on every query.
+     */
+    protected $with = ['businessRole', 'role', 'invitedBy'];
 
     protected function casts(): array
     {

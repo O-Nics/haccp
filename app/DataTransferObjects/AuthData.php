@@ -7,7 +7,6 @@ declare(strict_types=1);
 namespace App\DataTransferObjects;
 
 use App\Models\User;
-use phpDocumentor\Reflection\Php\Function_;
 use Spatie\LaravelData\Data;
 
 class AuthData extends Data

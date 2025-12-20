@@ -29,8 +29,8 @@ class UserResource extends JsonResource
             // Relations
             //            'oragnisations' => OrganisationResource::collection($this->whenLoaded('organisations')),
             'devices' => DeviceResource::collection($this->whenLoaded('devices')),
-            'businesses' => BusinessUserResource::collection($this->whenLoaded('businessUsers'))
-//            'businesses' => BusinessUserResource::collection($this->businessUsers)
+            'businesses' => BusinessUserResource::collection($this->whenLoaded('businesses')),
+            //            'businesses' => BusinessUserResource::collection($this->businessUsers)
 
         ];
     }
