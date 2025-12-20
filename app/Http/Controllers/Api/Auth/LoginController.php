@@ -30,6 +30,11 @@ class LoginController extends Controller
             data: $request->toDto(),
         );
 
+        $authData->user->load([
+            'devices',
+            'businessUsers.business',
+        ]);
+
         return new AuthResponse($authData);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Business;
 use App\Models\BusinessUser;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -19,8 +20,9 @@ class BusinessUserResource extends JsonResource
 
 
             // Relations
+            'role'=>$this->businessRole,
             'devices' => DeviceResource::collection($this->whenLoaded('devices')),
-            'businesses' => BusinessUserResource::collection($this->whenLoaded('businessUsers'))
+            'business' => $this->whenLoaded('business'),
 
         ];
     }
