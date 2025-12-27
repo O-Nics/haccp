@@ -6,6 +6,8 @@ declare(strict_types=1);
 
 namespace App\DataTransferObjects;
 
+use App\Models\Business;
+use App\Models\BusinessUser;
 use App\Models\User;
 use Spatie\LaravelData\Data;
 
@@ -19,5 +21,6 @@ class AuthData extends Data
         public int $refreshTokenExpiresIn,
         public string $deviceId,
         public string $tokenType = 'Bearer',
+        public ?Business $activeBusiness = null,
     ) {}
 }

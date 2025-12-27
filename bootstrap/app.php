@@ -52,6 +52,10 @@ return Application::configure(basePath: dirname(__DIR__))
             Throwable $e,
             Request $request
         ) {
+
+            if(! app()->isProduction()){
+                return $response;
+            }
             // On ne touche que l'API / JSON
             if (! ($request->is('api/*') || $request->expectsJson())) {
                 return $response;

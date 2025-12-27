@@ -14,5 +14,6 @@ class LoginData extends Data
         public string $password,
         public bool $rememberMe,
         public DeviceInfoData $deviceInfo,
+        public ?string $activeBusiness,
     ) {}
 }

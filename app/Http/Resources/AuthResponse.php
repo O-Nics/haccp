@@ -28,6 +28,7 @@ class AuthResponse extends JsonResource
                     'expires_in' => $this->refreshTokenExpiresIn,
                 ],
             ],
+            'active_business' => $this->activeBusiness ? new BusinessUserResource($this->activeBusiness) : null,
         ];
     }
 }

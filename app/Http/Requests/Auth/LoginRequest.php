@@ -35,6 +35,7 @@ class LoginRequest extends BaseFormRequest
             'platform' => ['nullable', 'string', 'max:50'],
             'browser' => ['nullable', 'string', 'max:100'],
             'user_agent' => ['nullable', 'string', 'max:512'],
+            'active_business_id' => ['nullable', 'string'],
         ];
     }
 
@@ -68,7 +69,9 @@ class LoginRequest extends BaseFormRequest
                     : Platform::fromUserAgent($this->input('user_agent') ?? $this->userAgent()),
                 browser: $this->input('browser'),
                 userAgent: $this->input('user_agent') ?? $this->userAgent(),
-            )
+
+            ),
+            activeBusiness: $this->input('active_business_id')
         );
     }
 }

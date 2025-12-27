@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Auth;
 
+use App\DataTransferObjects\Auth\CheckAuthData;
 use App\DataTransferObjects\Auth\LoginData;
 use App\DataTransferObjects\Auth\RefreshTokenData;
 use App\DataTransferObjects\Auth\RegisterData;
@@ -39,7 +40,14 @@ final readonly class AuthService
             throw new InvalidCredentialsException;
         }
 
-        return $this->generateTokens($user, $data->deviceInfo, $data->rememberMe);
+        return $this->generateTokens($user, $data->deviceInfo, $data->rememberMe, $data->activeBusiness, isRegister: false);
+    }
+
+    public function checkAuth(
+        CheckAuthData $data,
+        User $user,
+    ): AuthData {
+        return $this->generateTokens($user, $data->deviceInfo, $data->rememberMe, $data->activeBusiness);
     }
 
     /**
@@ -50,7 +58,7 @@ final readonly class AuthService
     ): AuthData {
         $user = $this->userRepository->store($data);
 
-        return $this->generateTokens($user, $data->deviceInfo, $data->rememberMe, isRegister: true);
+        return $this->generateTokens($user, $data->deviceInfo, $data->rememberMe, null, isRegister: true);
     }
 
     /**
@@ -59,8 +67,9 @@ final readonly class AuthService
     private function generateTokens(
         User $user,
         DeviceInfoData $deviceInfo,
-        bool $rememberMe = false,
-        bool $isRegister = false
+        bool $rememberMe,
+        ?string $activeBusiness,
+        bool $isRegister = false,
     ): AuthData {
 
         $tokenType = $rememberMe ? 'remember' : 'refresh';
@@ -77,6 +86,10 @@ final readonly class AuthService
             expiresAt: now()->addMinutes($accessTokenExpiration)
         )->plainTextToken;
 
+        $business = $activeBusiness && $user->businesses()->where('businesses.id', $activeBusiness)->exists()
+            ? $user->businesses()->where('businesses.id', $activeBusiness)->first()
+            : null;
+
         $this->userRepository->updateLastLogin($user);
 
         return new AuthData(
@@ -86,6 +99,7 @@ final readonly class AuthService
             refreshToken: $device->getAttribute('plain_refresh_token'),
             refreshTokenExpiresIn: $expirationMinutes * 60,
             deviceId: $device->device_id,
+            activeBusiness: $business,
         );
     }
 

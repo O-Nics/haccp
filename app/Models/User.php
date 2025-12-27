@@ -38,10 +38,6 @@ use Laravel\Sanctum\PersonalAccessToken;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property Carbon|null $deleted_at
- * @property-read Collection<int, \App\Models\BusinessUser> $businessUserInvitations
- * @property-read int|null $business_user_invitations_count
- * @property-read Collection<int, \App\Models\BusinessUser> $businessUsers
- * @property-read int|null $business_users_count
  * @property-read \App\Models\BusinessUser|null $pivot
  * @property-read Collection<int, \App\Models\Business> $businesses
  * @property-read int|null $businesses_count
@@ -114,6 +110,7 @@ class User extends BaseAuthenticable implements MustVerifyEmail
 
         return trim("{$this->first_name} {$this->last_name}");
     }
+
     public function businesses(): BelongsToMany
     {
         return $this->belongsToMany(Business::class, 'business_users', 'user_id', 'business_id')
