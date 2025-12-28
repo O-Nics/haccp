@@ -14,7 +14,7 @@ final class InvalidRefreshTokenException extends Exception
 {
     public function __construct()
     {
-        parent::__construct('Invalid or expired refresh token', Response::HTTP_UNAUTHORIZED);
+        parent::__construct('Invalid or expired refresh token', Response::HTTP_BAD_REQUEST);
     }
 
     public function render(): JsonResponse

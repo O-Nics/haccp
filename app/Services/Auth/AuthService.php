@@ -11,6 +11,7 @@ use App\DataTransferObjects\Auth\RegisterData;
 use App\DataTransferObjects\AuthData;
 use App\DataTransferObjects\DeviceInfoData;
 use App\Exceptions\InvalidCredentialsException;
+use App\Exceptions\InvalidRefreshTokenException;
 use App\Models\User;
 use App\Repositories\User\UserRepositoryInterface;
 use App\Repositories\UserDevice\UserDeviceRepositoryInterface;
@@ -124,11 +125,11 @@ final readonly class AuthService
         }
 
         if (! $device->verifyRefreshToken($refreshTokenData->refreshToken)) {
-            throw new InvalidCredentialsException;
+            throw new InvalidRefreshTokenException;
         }
 
         if ($device->isTokenExpired()) {
-            throw new InvalidCredentialsException;
+            throw new InvalidRefreshTokenException();
         }
 
         $expirationMinutes = $device->created_at && $device->token_expires_at
