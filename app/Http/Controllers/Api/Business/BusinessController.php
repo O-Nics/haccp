@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api\Business;
 
 use App\Http\Controllers\Base\Controller;
-use App\Http\Resources\BusinessUserResource;
+use App\Http\Resources\BusinessResource;
 use App\Services\Device\DeviceService;
 
 /**
@@ -23,7 +23,7 @@ final class BusinessController extends Controller
 
         $user->load('businesses');
 
-        return BusinessUserResource::collection($user->businesses);
+        return BusinessResource::collection($user->businesses);
 
     }
 }
