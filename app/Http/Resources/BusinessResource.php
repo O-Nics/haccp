@@ -18,11 +18,8 @@ class BusinessResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'status' => $this->pivot->status,
-            //            'role' => new RoleResource($this->pivot->businessRole ?? $this->pivot->role),
-            //            'invited_by' => new UserResource($this->pivot->invitedBy),
-            //            'invited_at' => $this->pivot->invited_at,
-            //            'joined_at' => $this->pivot->joined_at,
-
+            'roles' => $this->whenLoaded('businessRoles'),
+            'role' => $this->pivot != null ? new RoleResource($this->pivot->businessRole ?? $this->pivot->role) : null,
         ];
     }
 }
