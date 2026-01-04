@@ -17,12 +17,10 @@ class RoleResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            'id' => $this->id,
             'name' => $this->name,
             'display_name' => $this->display_name,
             'description' => $this->description,
-
-            // Relations
-            'business' => new BusinessResource($this->whenLoaded('business')),
         ];
     }
 }

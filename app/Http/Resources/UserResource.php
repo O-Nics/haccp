@@ -25,11 +25,16 @@ class UserResource extends JsonResource
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
 
+
             // Relations
-            //            'oragnisations' => OrganisationResource::collection($this->whenLoaded('organisations')),
             'devices' => DeviceResource::collection($this->whenLoaded('devices')),
             'businesses' => BusinessResource::collection($this->whenLoaded('businesses')),
-            //            'businesses' => BusinessUserResource::collection($this->businessUsers)
+            // Pivot Data
+            'invited_by' => new UserResource($this->whenLoaded('invitedBy')),
+            'invited_at' => $this->pivot?->invited_at,
+            'joined_at' => $this->pivot?->joined_at,
+            'status' => $this->pivot?->status,
+            'role' => $this->pivot != null ? new RoleResource($this->pivot->businessRole ?? $this->pivot->role) : null,
 
         ];
     }

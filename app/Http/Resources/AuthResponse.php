@@ -19,12 +19,14 @@ class AuthResponse extends JsonResource
             'user' => new UserResource($this->user),
             'tokens' => [
                 'access' => [
+//                    'token' => 'falseToken',
                     'token' => $this->accessToken,
                     'type' => $this->tokenType,
                     'expires_in' => $this->accessTokenExpiresIn,
                 ],
                 'refresh' => [
                     'token' => $this->refreshToken,
+//                    'token' => "dz",
                     'expires_in' => $this->refreshTokenExpiresIn,
                 ],
             ],
