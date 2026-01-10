@@ -25,8 +25,6 @@ return new class extends Migration
             $table->text('user_agent')->nullable();
 
             // Token management (tokens expire, not devices)
-            $table->string('refresh_token_hash', 64);
-            $table->timestamp('token_expires_at')->nullable(); // When refresh token expires
 
             $table->timestamp('last_used_at')->nullable();
             $table->timestamps();
