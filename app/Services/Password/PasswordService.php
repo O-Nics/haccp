@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Services\Password;
 
-use App\DataTransferObjects\Password\ConfirmPasswordResetData;
-use App\DataTransferObjects\Password\ForgotPasswordData;
-use App\DataTransferObjects\Password\ResetPasswordData;
 use App\Exceptions\InvalidCredentialsException;
+use App\Features\Auth\Data\ConfirmPasswordResetData;
+use App\Features\Auth\Data\ForgotPasswordData;
+use App\Features\Auth\Data\ResetPasswordData;
 use App\Mail\Password\PasswordResetConfirmedMail;
 use App\Mail\Password\PasswordResetMail;
 use App\Models\PasswordResetToken;

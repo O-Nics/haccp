@@ -72,7 +72,7 @@ class LoginTest extends TestCase
             'remember_me' => false,
         ]);
 
-        Event::assertDispatched(\App\Events\NewDeviceDetected::class);
+        Event::assertDispatched(\App\Events\NewDeviceDetectedEvent::class);
     }
 
     public function test_login_with_existing_device_updates_device_info(): void

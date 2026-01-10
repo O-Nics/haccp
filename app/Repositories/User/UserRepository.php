@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repositories\User;
 
-use App\DataTransferObjects\Auth\RegisterData;
+use App\Features\Auth\Data\RegisterData;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 

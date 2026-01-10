@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Password;
 
-use App\DataTransferObjects\Password\ConfirmPasswordResetData;
+use App\Features\Auth\Data\ConfirmPasswordResetData;
 use App\Http\Requests\Base\BaseFormRequest;
 
 class CheckResetPasswordResetRequest extends BaseFormRequest

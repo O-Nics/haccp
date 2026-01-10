@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Password;
 
-use App\DataTransferObjects\Password\ForgotPasswordData;
+use App\Features\Auth\Data\ForgotPasswordData;
 use App\Http\Requests\Base\BaseFormRequest;
 
 class ForgotPasswordRequest extends BaseFormRequest

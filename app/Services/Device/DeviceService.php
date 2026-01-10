@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Services\Device;
 
 use App\DataTransferObjects\DeviceInfoData;
-use App\Events\NewDeviceDetected;
+use App\Events\NewDeviceDetectedEvent;
 use App\Models\Device;
 use App\Models\User;
 use App\Repositories\User\UserRepositoryInterface;
@@ -38,7 +38,7 @@ final readonly class DeviceService
             $device = $this->deviceRepository->store($deviceInfo, $expirationMinutes, $user);
 
             if (! $isRegister) {
-                NewDeviceDetected::dispatch($user, $device);
+                NewDeviceDetectedEvent::dispatch($user, $device);
             }
         }
 

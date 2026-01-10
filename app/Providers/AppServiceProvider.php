@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
-use App\Events\NewDeviceDetected;
-use App\Listeners\SendNewDeviceLoginEmail;
+use App\Events\NewDeviceDetectedEvent;
+use App\Features\Auth\Mails\SendNewDeviceLoginEmail;
 use App\Repositories\PasswordReset\PasswordResetRepository;
 use App\Repositories\PasswordReset\PasswordResetRepositoryInterface;
 use App\Repositories\User\UserRepository;
@@ -59,6 +59,6 @@ class AppServiceProvider extends ServiceProvider
             });
 
         // Register event listeners
-        Event::listen(NewDeviceDetected::class, SendNewDeviceLoginEmail::class);
+        Event::listen(NewDeviceDetectedEvent::class, SendNewDeviceLoginEmail::class);
     }
 }

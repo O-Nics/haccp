@@ -11,8 +11,9 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('user')
     ->name('user.')
     ->group(function () {
-        Route::post('logout', LogoutController::class)
-            ->name('logout');
-        Route::get('me', [UserController::class, 'user'])
-            ->name('me');
+
+        Route::get('user', [UserController::class, 'user'])
+            ->name('user');
+        Route::get('{business}/users', [UserController::class, 'businessUsers'])
+            ->name('business.users');
     });
