@@ -6,7 +6,7 @@ namespace App\Features\Auth\Resources;
 
 use App\Features\Auth\Data\AuthData;
 use App\Features\Business\Requests\BusinessResource;
-use App\Http\Resources\UserResource;
+use App\Features\User\Resources\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -20,16 +20,8 @@ class AuthResponse extends JsonResource
         return [
             'user' => new UserResource($this->user),
             'tokens' => [
-                'access' => [
-                    'token' => $this->accessToken,
-                    'type' => $this->tokenType,
-                    'expires_in' => $this->accessTokenExpiresIn,
-                ],
-                'refresh' => [
-                    'token' => $this->refreshToken,
-                   'type' => $this->tokenType,
-                    'expires_in' => $this->refreshTokenExpiresIn,
-                ],
+                'access' => new TokenResponse($this->accessToken),
+                'refresh' => new TokenResponse($this->refreshToken),
             ],
             'active_business' => $this->activeBusiness ? new BusinessResource($this->activeBusiness) : null,
         ];

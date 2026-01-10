@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Features\Auth\Controllers;
 
-use App\Exceptions\InvalidCredentialsException;
-use App\Http\Controllers\Base\Controller;
-use App\Http\Requests\Password\CheckResetPasswordResetRequest;
-use App\Http\Requests\Password\ForgotPasswordRequest;
-use App\Http\Requests\Password\ResetPasswordRequest;
-use App\Services\Password\PasswordService;
+use App\Core\Controllers\Controller;
+use App\Core\Exceptions\InvalidCredentialsException;
+use App\Features\Auth\Requests\CheckResetPasswordResetRequest;
+use App\Features\Auth\Requests\ForgotPasswordRequest;
+use App\Features\Auth\Requests\ResetPasswordRequest;
+use App\Features\Auth\Services\PasswordService;
 use Illuminate\Http\JsonResponse;
 
 /**

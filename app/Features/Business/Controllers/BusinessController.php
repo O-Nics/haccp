@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Features\Business\Controllers;
 
+use App\Core\Controllers\Controller;
 use App\Features\Business\Requests\BusinessResource;
-use App\Http\Controllers\Base\Controller;
 
 /**
  * DeviceController handles HTTP device management requests

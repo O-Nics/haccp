@@ -2,10 +2,9 @@
 
 declare(strict_types=1);
 
-use App\Http\Middleware\EnforceExpectsJson;
-use App\Http\Middleware\IdentifyRequest;
-use App\Http\Middleware\SecureHeaders;
-use App\Http\Middleware\ThrottleAuth;
+use App\Core\Middlewares\EnforceExpectsJson;
+use App\Core\Middlewares\IdentifyRequest;
+use App\Core\Middlewares\SecureHeaders;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;

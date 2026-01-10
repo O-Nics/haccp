@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Http\Controllers\Api\Auth\PasswordController;
+use App\Features\Auth\Controllers\PasswordController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('password')

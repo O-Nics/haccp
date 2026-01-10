@@ -13,8 +13,8 @@ namespace PHPSTORM_META {
     */
     override(new \Illuminate\Contracts\Container\Container, map([
         '' => '@',
-            'App\Repositories\PasswordReset\PasswordResetRepositoryInterface' => \App\Repositories\PasswordReset\PasswordResetRepository::class,
-            'App\Repositories\UserDevice\UserDeviceRepositoryInterface' => \App\Repositories\UserDevice\UserDeviceRepository::class,
+            'App\Repositories\PasswordReset\PasswordResetRepositoryInterface' => \App\Features\Auth\Repositories\PasswordReset\PasswordResetRepository::class,
+            'App\Repositories\UserDevice\UserDeviceRepositoryInterface' => \App\Features\Device\Repositories\UserDevice\UserDeviceRepository::class,
             'App\Repositories\User\UserRepositoryInterface' => \App\Repositories\User\UserRepository::class,
             'Illuminate\Bus\BatchRepository' => \Illuminate\Bus\DatabaseBatchRepository::class,
             'Illuminate\Contracts\Auth\Access\Gate' => \Illuminate\Auth\Access\Gate::class,
@@ -78,8 +78,8 @@ namespace PHPSTORM_META {
         ]));
     override(\Illuminate\Container\Container::makeWith(0), map([
         '' => '@',
-            'App\Repositories\PasswordReset\PasswordResetRepositoryInterface' => \App\Repositories\PasswordReset\PasswordResetRepository::class,
-            'App\Repositories\UserDevice\UserDeviceRepositoryInterface' => \App\Repositories\UserDevice\UserDeviceRepository::class,
+            'App\Repositories\PasswordReset\PasswordResetRepositoryInterface' => \App\Features\Auth\Repositories\PasswordReset\PasswordResetRepository::class,
+            'App\Repositories\UserDevice\UserDeviceRepositoryInterface' => \App\Features\Device\Repositories\UserDevice\UserDeviceRepository::class,
             'App\Repositories\User\UserRepositoryInterface' => \App\Repositories\User\UserRepository::class,
             'Illuminate\Bus\BatchRepository' => \Illuminate\Bus\DatabaseBatchRepository::class,
             'Illuminate\Contracts\Auth\Access\Gate' => \Illuminate\Auth\Access\Gate::class,
@@ -143,8 +143,8 @@ namespace PHPSTORM_META {
         ]));
     override(\Illuminate\Contracts\Container\Container::get(0), map([
         '' => '@',
-            'App\Repositories\PasswordReset\PasswordResetRepositoryInterface' => \App\Repositories\PasswordReset\PasswordResetRepository::class,
-            'App\Repositories\UserDevice\UserDeviceRepositoryInterface' => \App\Repositories\UserDevice\UserDeviceRepository::class,
+            'App\Repositories\PasswordReset\PasswordResetRepositoryInterface' => \App\Features\Auth\Repositories\PasswordReset\PasswordResetRepository::class,
+            'App\Repositories\UserDevice\UserDeviceRepositoryInterface' => \App\Features\Device\Repositories\UserDevice\UserDeviceRepository::class,
             'App\Repositories\User\UserRepositoryInterface' => \App\Repositories\User\UserRepository::class,
             'Illuminate\Bus\BatchRepository' => \Illuminate\Bus\DatabaseBatchRepository::class,
             'Illuminate\Contracts\Auth\Access\Gate' => \Illuminate\Auth\Access\Gate::class,
@@ -208,8 +208,8 @@ namespace PHPSTORM_META {
         ]));
     override(\Illuminate\Contracts\Container\Container::make(0), map([
         '' => '@',
-            'App\Repositories\PasswordReset\PasswordResetRepositoryInterface' => \App\Repositories\PasswordReset\PasswordResetRepository::class,
-            'App\Repositories\UserDevice\UserDeviceRepositoryInterface' => \App\Repositories\UserDevice\UserDeviceRepository::class,
+            'App\Repositories\PasswordReset\PasswordResetRepositoryInterface' => \App\Features\Auth\Repositories\PasswordReset\PasswordResetRepository::class,
+            'App\Repositories\UserDevice\UserDeviceRepositoryInterface' => \App\Features\Device\Repositories\UserDevice\UserDeviceRepository::class,
             'App\Repositories\User\UserRepositoryInterface' => \App\Repositories\User\UserRepository::class,
             'Illuminate\Bus\BatchRepository' => \Illuminate\Bus\DatabaseBatchRepository::class,
             'Illuminate\Contracts\Auth\Access\Gate' => \Illuminate\Auth\Access\Gate::class,
@@ -273,8 +273,8 @@ namespace PHPSTORM_META {
         ]));
     override(\Illuminate\Contracts\Container\Container::makeWith(0), map([
         '' => '@',
-            'App\Repositories\PasswordReset\PasswordResetRepositoryInterface' => \App\Repositories\PasswordReset\PasswordResetRepository::class,
-            'App\Repositories\UserDevice\UserDeviceRepositoryInterface' => \App\Repositories\UserDevice\UserDeviceRepository::class,
+            'App\Repositories\PasswordReset\PasswordResetRepositoryInterface' => \App\Features\Auth\Repositories\PasswordReset\PasswordResetRepository::class,
+            'App\Repositories\UserDevice\UserDeviceRepositoryInterface' => \App\Features\Device\Repositories\UserDevice\UserDeviceRepository::class,
             'App\Repositories\User\UserRepositoryInterface' => \App\Repositories\User\UserRepository::class,
             'Illuminate\Bus\BatchRepository' => \Illuminate\Bus\DatabaseBatchRepository::class,
             'Illuminate\Contracts\Auth\Access\Gate' => \Illuminate\Auth\Access\Gate::class,
@@ -338,8 +338,8 @@ namespace PHPSTORM_META {
         ]));
     override(\App::get(0), map([
         '' => '@',
-            'App\Repositories\PasswordReset\PasswordResetRepositoryInterface' => \App\Repositories\PasswordReset\PasswordResetRepository::class,
-            'App\Repositories\UserDevice\UserDeviceRepositoryInterface' => \App\Repositories\UserDevice\UserDeviceRepository::class,
+            'App\Repositories\PasswordReset\PasswordResetRepositoryInterface' => \App\Features\Auth\Repositories\PasswordReset\PasswordResetRepository::class,
+            'App\Repositories\UserDevice\UserDeviceRepositoryInterface' => \App\Features\Device\Repositories\UserDevice\UserDeviceRepository::class,
             'App\Repositories\User\UserRepositoryInterface' => \App\Repositories\User\UserRepository::class,
             'Illuminate\Bus\BatchRepository' => \Illuminate\Bus\DatabaseBatchRepository::class,
             'Illuminate\Contracts\Auth\Access\Gate' => \Illuminate\Auth\Access\Gate::class,
@@ -403,8 +403,8 @@ namespace PHPSTORM_META {
         ]));
     override(\App::make(0), map([
         '' => '@',
-            'App\Repositories\PasswordReset\PasswordResetRepositoryInterface' => \App\Repositories\PasswordReset\PasswordResetRepository::class,
-            'App\Repositories\UserDevice\UserDeviceRepositoryInterface' => \App\Repositories\UserDevice\UserDeviceRepository::class,
+            'App\Repositories\PasswordReset\PasswordResetRepositoryInterface' => \App\Features\Auth\Repositories\PasswordReset\PasswordResetRepository::class,
+            'App\Repositories\UserDevice\UserDeviceRepositoryInterface' => \App\Features\Device\Repositories\UserDevice\UserDeviceRepository::class,
             'App\Repositories\User\UserRepositoryInterface' => \App\Repositories\User\UserRepository::class,
             'Illuminate\Bus\BatchRepository' => \Illuminate\Bus\DatabaseBatchRepository::class,
             'Illuminate\Contracts\Auth\Access\Gate' => \Illuminate\Auth\Access\Gate::class,
@@ -468,8 +468,8 @@ namespace PHPSTORM_META {
         ]));
     override(\App::makeWith(0), map([
         '' => '@',
-            'App\Repositories\PasswordReset\PasswordResetRepositoryInterface' => \App\Repositories\PasswordReset\PasswordResetRepository::class,
-            'App\Repositories\UserDevice\UserDeviceRepositoryInterface' => \App\Repositories\UserDevice\UserDeviceRepository::class,
+            'App\Repositories\PasswordReset\PasswordResetRepositoryInterface' => \App\Features\Auth\Repositories\PasswordReset\PasswordResetRepository::class,
+            'App\Repositories\UserDevice\UserDeviceRepositoryInterface' => \App\Features\Device\Repositories\UserDevice\UserDeviceRepository::class,
             'App\Repositories\User\UserRepositoryInterface' => \App\Repositories\User\UserRepository::class,
             'Illuminate\Bus\BatchRepository' => \Illuminate\Bus\DatabaseBatchRepository::class,
             'Illuminate\Contracts\Auth\Access\Gate' => \Illuminate\Auth\Access\Gate::class,
@@ -533,8 +533,8 @@ namespace PHPSTORM_META {
         ]));
     override(\app(0), map([
         '' => '@',
-            'App\Repositories\PasswordReset\PasswordResetRepositoryInterface' => \App\Repositories\PasswordReset\PasswordResetRepository::class,
-            'App\Repositories\UserDevice\UserDeviceRepositoryInterface' => \App\Repositories\UserDevice\UserDeviceRepository::class,
+            'App\Repositories\PasswordReset\PasswordResetRepositoryInterface' => \App\Features\Auth\Repositories\PasswordReset\PasswordResetRepository::class,
+            'App\Repositories\UserDevice\UserDeviceRepositoryInterface' => \App\Features\Device\Repositories\UserDevice\UserDeviceRepository::class,
             'App\Repositories\User\UserRepositoryInterface' => \App\Repositories\User\UserRepository::class,
             'Illuminate\Bus\BatchRepository' => \Illuminate\Bus\DatabaseBatchRepository::class,
             'Illuminate\Contracts\Auth\Access\Gate' => \Illuminate\Auth\Access\Gate::class,
@@ -598,8 +598,8 @@ namespace PHPSTORM_META {
         ]));
     override(\resolve(0), map([
         '' => '@',
-            'App\Repositories\PasswordReset\PasswordResetRepositoryInterface' => \App\Repositories\PasswordReset\PasswordResetRepository::class,
-            'App\Repositories\UserDevice\UserDeviceRepositoryInterface' => \App\Repositories\UserDevice\UserDeviceRepository::class,
+            'App\Repositories\PasswordReset\PasswordResetRepositoryInterface' => \App\Features\Auth\Repositories\PasswordReset\PasswordResetRepository::class,
+            'App\Repositories\UserDevice\UserDeviceRepositoryInterface' => \App\Features\Device\Repositories\UserDevice\UserDeviceRepository::class,
             'App\Repositories\User\UserRepositoryInterface' => \App\Repositories\User\UserRepository::class,
             'Illuminate\Bus\BatchRepository' => \Illuminate\Bus\DatabaseBatchRepository::class,
             'Illuminate\Contracts\Auth\Access\Gate' => \Illuminate\Auth\Access\Gate::class,
@@ -663,8 +663,8 @@ namespace PHPSTORM_META {
         ]));
     override(\Psr\Container\ContainerInterface::get(0), map([
         '' => '@',
-            'App\Repositories\PasswordReset\PasswordResetRepositoryInterface' => \App\Repositories\PasswordReset\PasswordResetRepository::class,
-            'App\Repositories\UserDevice\UserDeviceRepositoryInterface' => \App\Repositories\UserDevice\UserDeviceRepository::class,
+            'App\Repositories\PasswordReset\PasswordResetRepositoryInterface' => \App\Features\Auth\Repositories\PasswordReset\PasswordResetRepository::class,
+            'App\Repositories\UserDevice\UserDeviceRepositoryInterface' => \App\Features\Device\Repositories\UserDevice\UserDeviceRepository::class,
             'App\Repositories\User\UserRepositoryInterface' => \App\Repositories\User\UserRepository::class,
             'Illuminate\Bus\BatchRepository' => \Illuminate\Bus\DatabaseBatchRepository::class,
             'Illuminate\Contracts\Auth\Access\Gate' => \Illuminate\Auth\Access\Gate::class,
@@ -2299,7 +2299,7 @@ namespace PHPSTORM_META {
     override(\optional(0), type(0));
 
             registerArgumentsSet('auth', );
-        registerArgumentsSet('configs', 
+        registerArgumentsSet('configs',
 'hashing.driver','hashing.bcrypt.rounds','hashing.bcrypt.verify','hashing.bcrypt.limit','hashing.argon.memory',
 'hashing.argon.threads','hashing.argon.time','hashing.argon.verify','hashing.rehash_on_login','concurrency.default',
 'broadcasting.default','broadcasting.connections.reverb.driver','broadcasting.connections.reverb.key','broadcasting.connections.reverb.secret','broadcasting.connections.reverb.app_id',
@@ -2401,15 +2401,15 @@ namespace PHPSTORM_META {
 'ide-helper.type_overrides.integer','ide-helper.type_overrides.boolean','ide-helper.include_class_docblocks','ide-helper.force_fqn','ide-helper.use_generics_annotations',
 'ide-helper.macro_default_return_types.Illuminate\\Http\\Client\\Factory','ide-helper.additional_relation_types','ide-helper.additional_relation_return_types','ide-helper.enforce_nullable_relationships','ide-helper.post_migrate',
 'tinker.commands','tinker.alias','tinker.dont_alias',);
-        registerArgumentsSet('middleware', 
+        registerArgumentsSet('middleware',
 'web','api','auth','auth.basic','auth.session',
 'cache.headers','can','guest','password.confirm','precognitive',
 'signed','throttle','verified',);
-        registerArgumentsSet('routes', 
+        registerArgumentsSet('routes',
 'sanctum.csrf-cookie','health','auth.register','auth.login','auth.refresh',
 'auth.check-auth','password.forgot','password.confirm','password.reset','devices.index',
 'devices.destroy','devices.revoke-others','user.logout','user.me','businesses.index','storage.local','scramble.docs.ui','scramble.docs.document',);
-        registerArgumentsSet('views', 
+        registerArgumentsSet('views',
 'emails.password.confirmed','emails.password.reset','emails.passwordReset','layouts.mails','scramble::docs',
 'vendor.mail.html.button','vendor.mail.html.footer','vendor.mail.html.header','vendor.mail.html.layout','vendor.mail.html.message',
 'vendor.mail.html.panel','vendor.mail.html.subcopy','vendor.mail.html.table','vendor.mail.text.button','vendor.mail.text.footer',
@@ -2427,7 +2427,7 @@ namespace PHPSTORM_META {
 'laravel-exceptions::503','laravel-exceptions::layout','laravel-exceptions::minimal','notifications::email','pagination::bootstrap-4',
 'pagination::bootstrap-5','pagination::default','pagination::semantic-ui','pagination::simple-bootstrap-4','pagination::simple-bootstrap-5',
 'pagination::simple-default','pagination::simple-tailwind','pagination::tailwind','scramble::docs',);
-        registerArgumentsSet('translations', 
+        registerArgumentsSet('translations',
 'auth.failed','auth.password','auth.throttle','pagination.previous','pagination.next',
 'passwords.reset','passwords.sent','passwords.throttled','passwords.token','passwords.user',
 'validation.accepted','validation.accepted_if','validation.active_url','validation.after','validation.after_or_equal',
@@ -2457,7 +2457,7 @@ namespace PHPSTORM_META {
 'validation.same','validation.size.array','validation.size.file','validation.size.numeric','validation.size.string',
 'validation.starts_with','validation.string','validation.timezone','validation.unique','validation.uploaded',
 'validation.uppercase','validation.url','validation.ulid','validation.uuid','validation.custom.attribute-name.rule-name',);
-        registerArgumentsSet('env', 
+        registerArgumentsSet('env',
 'APP_NAME','APP_ENV','APP_KEY','APP_DEBUG','APP_TIMEZONE',
 'APP_URL','FRONTEND_URL','APP_LOCALE','APP_FALLBACK_LOCALE','APP_FAKER_LOCALE',
 'APP_MAINTENANCE_DRIVER','APP_MAINTENANCE_STORE','DB_CONNECTION','DB_HOST','DB_PORT',
@@ -2467,7 +2467,7 @@ namespace PHPSTORM_META {
 'QUEUE_CONNECTION','REDIS_CLIENT','REDIS_HOST','REDIS_PASSWORD','REDIS_PORT',
 'ACCESS_TOKEN_EXPIRATION','REFRESH_TOKEN_EXPIRATION','REMEMBER_TOKEN_EXPIRATION','MAX_DEVICES_PER_USER','AUTH_RATE_LIMIT_ENABLED',
 'AUTH_RATE_LIMIT_ATTEMPTS','AUTH_RATE_LIMIT_DECAY',);
-        
+
                 expectedArguments(\Illuminate\Support\Facades\Gate::has(), 0, argumentsSet('auth'));
     expectedArguments(\Illuminate\Support\Facades\Gate::allows(), 0, argumentsSet('auth'));
     expectedArguments(\Illuminate\Support\Facades\Gate::denies(), 0, argumentsSet('auth'));
@@ -2531,5 +2531,5 @@ namespace PHPSTORM_META {
                 expectedArguments(\Illuminate\Contracts\Translation\Translator::get(), 0, argumentsSet('translations'));
                 expectedArguments(\env(), 0, argumentsSet('env'));
                 expectedArguments(\Illuminate\Support\Env::get(), 0, argumentsSet('env'));
-            
+
 }

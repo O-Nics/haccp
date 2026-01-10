@@ -6,18 +6,15 @@ declare(strict_types=1);
 
 namespace App\Features\Auth\Controllers;
 
-use App\Exceptions\InvalidCredentialsException;
-use App\Http\Controllers\Base\Controller;
-use App\Http\Requests\Auth\CheckAuthRequest;
-use App\Http\Requests\Auth\LoginRequest;
-use App\Http\Requests\Auth\LogoutRequest;
-use App\Http\Requests\Auth\RefreshTokenRequest;
-use App\Http\Requests\Auth\RegisterRequest;
-use App\Http\Resources\AuthResponse;
-use App\Http\Resources\UserResource;
-use App\Services\Auth\AuthService;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
+use App\Core\Controllers\Controller;
+use App\Core\Exceptions\InvalidCredentialsException;
+use App\Features\Auth\Resources\AuthResponse;
+use App\Features\Auth\Services\AuthService;
+use App\Features\Auth\Requests\CheckAuthRequest;
+use App\Features\Auth\Requests\LoginRequest;
+use App\Features\Auth\Requests\LogoutRequest;
+use App\Features\Auth\Requests\RefreshTokenRequest;
+use App\Features\Auth\Requests\RegisterRequest;
 use Illuminate\Http\Response;
 
 final class AuthController extends Controller

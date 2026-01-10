@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Enums\DeviceType;
-use App\Enums\Platform;
-use App\Models\Base\BaseModel;
+use App\Features\Device\Enums\DeviceType;
+use App\Features\Device\Enums\Platform;
+use App\Models\Core\BaseModel;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

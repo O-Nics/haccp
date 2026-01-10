@@ -4,7 +4,7 @@
 
 declare(strict_types=1);
 
-use App\Http\Controllers\Api\Device\DeviceController;
+use App\Features\Device\Controllers\DeviceController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('devices')

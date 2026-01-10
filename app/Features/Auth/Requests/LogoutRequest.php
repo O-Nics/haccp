@@ -4,10 +4,10 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Requests\Auth;
+namespace App\Features\Auth\Requests;
 
 use App\Features\Auth\Data\LogoutData;
-use App\Http\Requests\Base\BaseFormRequest;
+use App\Core\Requests\BaseFormRequest;
 
 class LogoutRequest extends BaseFormRequest
 {

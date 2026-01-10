@@ -1,0 +1,44 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Features\User\Resources;
+
+use App\Features\Business\Requests\BusinessResource;
+use App\Features\Device\Resources\DeviceResource;
+use App\Http\Resources\RoleResource;
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
+
+/**
+ * @mixin User
+ */
+class UserResource extends JsonResource
+{
+    public function toArray(Request $request): array
+    {
+        return [
+            'id' => $this->id,
+            'first_name' => $this->first_name,
+            'last_name' => $this->last_name,
+            'email' => $this->email,
+            'email_verified_at' => $this->email_verified_at,
+            'last_login_at' => $this->last_login_at,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
+
+
+            // Relations
+            'devices' => DeviceResource::collection($this->whenLoaded('devices')),
+            'businesses' => BusinessResource::collection($this->whenLoaded('businesses')),
+            // Pivot Data
+            'invited_by' => new UserResource($this->whenLoaded('invitedBy')),
+            'invited_at' => $this->pivot?->invited_at,
+            'joined_at' => $this->pivot?->joined_at,
+            'status' => $this->pivot?->status,
+            'role' => $this->pivot != null ? new RoleResource($this->pivot->businessRole ?? $this->pivot->role) : null,
+
+        ];
+    }
+}

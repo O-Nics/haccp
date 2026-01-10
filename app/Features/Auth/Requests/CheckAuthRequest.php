@@ -4,13 +4,13 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Requests\Auth;
+namespace App\Features\Auth\Requests;
 
-use App\DataTransferObjects\DeviceInfoData;
-use App\Enums\DeviceType;
-use App\Enums\Platform;
+use App\Core\Requests\BaseFormRequest;
 use App\Features\Auth\Data\CheckAuthData;
-use App\Http\Requests\Base\BaseFormRequest;
+use App\Features\Device\Data\DeviceInfoData;
+use App\Features\Device\Enums\DeviceType;
+use App\Features\Device\Enums\Platform;
 use Illuminate\Validation\Rule;
 
 class CheckAuthRequest extends BaseFormRequest

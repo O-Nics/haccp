@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Feature\Auth\Password;
 
-use App\Mail\Password\PasswordResetConfirmedMail;
+use App\Features\Auth\Mails\PasswordResetConfirmedMail;
 use App\Models\PasswordResetToken;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;

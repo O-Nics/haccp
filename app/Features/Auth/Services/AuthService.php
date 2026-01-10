@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace App\Features\Auth\Services;
 
-use App\DataTransferObjects\DeviceInfoData;
-use App\Exceptions\InvalidCredentialsException;
-use App\Exceptions\InvalidRefreshTokenException;
+use App\Core\Exceptions\InvalidCredentialsException;
+use App\Core\Exceptions\InvalidRefreshTokenException;
 use App\Features\Auth\Data\AuthData;
 use App\Features\Auth\Data\CheckAuthData;
 use App\Features\Auth\Data\LoginData;
 use App\Features\Auth\Data\RefreshTokenData;
 use App\Features\Auth\Data\RegisterData;
 use App\Features\Auth\Data\TokenData;
+use App\Features\Device\Data\DeviceInfoData;
+use App\Features\Device\Repositories\UserDevice\UserDeviceRepositoryInterface;
+use App\Features\Device\Services\DeviceService;
 use App\Models\User;
-use App\Repositories\User\UserRepositoryInterface;
-use App\Repositories\UserDevice\UserDeviceRepositoryInterface;
-use App\Services\Device\DeviceService;
+use App\Features\User\Repositories\User\UserRepositoryInterface;
 use Illuminate\Support\Facades\Hash;
 
 final readonly class AuthService

@@ -4,7 +4,7 @@
 
 declare(strict_types=1);
 
-use App\Http\Controllers\Api\Business\BusinessController;
+use App\Features\Business\Controllers\BusinessController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('businesses')

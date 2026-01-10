@@ -135,7 +135,7 @@ class RegisterTest extends TestCase
             'device_name' => 'iPhone 14 Pro',
         ]);
 
-        Event::assertNotDispatched(\App\Events\NewDeviceDetectedEvent::class);
+        Event::assertNotDispatched(\App\Core\Events\NewDeviceDetectedEvent::class);
 
     }
 }

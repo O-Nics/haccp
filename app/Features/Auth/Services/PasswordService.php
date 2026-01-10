@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace App\Features\Auth\Services;
 
-use App\Exceptions\InvalidCredentialsException;
+use App\Core\Exceptions\InvalidCredentialsException;
 use App\Features\Auth\Data\ConfirmPasswordResetData;
 use App\Features\Auth\Data\ForgotPasswordData;
 use App\Features\Auth\Data\ResetPasswordData;
-use App\Mail\Password\PasswordResetConfirmedMail;
-use App\Mail\Password\PasswordResetMail;
+use App\Features\Auth\Mails\PasswordResetConfirmedMail;
+use App\Features\Auth\Mails\PasswordResetMail;
+use App\Features\Auth\Repositories\PasswordReset\PasswordResetRepositoryInterface;
 use App\Models\PasswordResetToken;
-use App\Repositories\PasswordReset\PasswordResetRepositoryInterface;
-use App\Repositories\User\UserRepositoryInterface;
+use App\Features\User\Repositories\User\UserRepositoryInterface;
 use Illuminate\Support\Facades\Mail;
 
 final readonly class PasswordService

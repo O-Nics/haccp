@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Features\Auth\Data;
 
-use App\DataTransferObjects\DeviceInfoData;
+use App\Features\Device\Data\DeviceInfoData;
 use Spatie\LaravelData\Data;
 
 class RegisterData extends Data
