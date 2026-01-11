@@ -3,30 +3,28 @@
 namespace App\Features\User\Controllers;
 
 use App\Core\Controllers\Controller;
+use App\Features\User\Repositories\User\UserRepositoryInterface;
 use App\Features\User\Resources\UserResource;
-use App\Models\Business;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class UserController extends Controller
 {
+
+    public function __construct(private readonly UserRepositoryInterface $userRepository)
+    {
+
+    }
     /**
      * Get authenticated user
      *
      * Returns the currently authenticated user's information.
+     * @param Request $request
+     * @return UserResource
      */
     public function user(Request $request): UserResource
     {
         $user = auth()->user();
 
         return UserResource::make($user);
-    }
-
-    public function businessUsers(Business $business): AnonymousResourceCollection
-    {
-        $businessUsers = $business->users()->get();
-
-        return UserResource::collection($businessUsers);
-
     }
 }

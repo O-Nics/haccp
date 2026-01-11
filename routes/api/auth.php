@@ -19,8 +19,6 @@ Route::prefix('auth')
         Route::post('refresh','refresh')
             ->name('refresh');
 
-
-
         Route::middleware('auth:sanctum')->group(function () {
             Route::post('logout','logout')
                 ->name('logout');

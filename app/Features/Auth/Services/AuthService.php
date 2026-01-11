@@ -11,6 +11,7 @@ use App\Features\Auth\Data\CheckAuthData;
 use App\Features\Auth\Data\LoginData;
 use App\Features\Auth\Data\RefreshTokenData;
 use App\Features\Auth\Data\RegisterData;
+use App\Features\Business\Data\RegisterUserData;
 use App\Features\Session\Data\DeviceInfoData;
 use App\Features\Session\Repositories\Device\DeviceRepositoryInterface;
 use App\Features\Session\Resources\DeviceService;
@@ -59,7 +60,13 @@ final readonly class AuthService
     public function register(
         RegisterData $data,
     ): AuthData {
-        $user = $this->userRepository->store($data);
+        $registerData = new RegisterUserData(
+            firstName: $data->firstName,
+            lastName: $data->lastName,
+            email: $data->email,
+            password: $data->password,
+        );
+        $user = $this->userRepository->store($registerData);
 
         return $this->generateSession($user, $data->deviceInfo, $data->rememberMe, null, isRegister: true);
     }

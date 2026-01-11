@@ -6,7 +6,7 @@ namespace App\Features\Auth\Resources;
 
 use App\Core\Resources\BaseJsonResource;
 use App\Features\Auth\Data\AuthData;
-use App\Features\Business\Requests\BusinessResource;
+use App\Features\Business\Resources\BusinessResource;
 use App\Features\User\Resources\UserResource;
 use Illuminate\Http\Request;
 

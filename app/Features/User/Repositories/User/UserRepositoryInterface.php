@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Features\User\Repositories\User;
 
-use App\Features\Auth\Data\RegisterData;
+use App\Features\Business\Data\RegisterUserData;
 use App\Models\User;
 
 interface UserRepositoryInterface
 {
     public function findByEmail(string $email): ?User;
 
-    public function store(RegisterData $registerData): User;
+    public function store(RegisterUserData $registerData): User;
 
     public function updateLastLogin(User $user): void;
 

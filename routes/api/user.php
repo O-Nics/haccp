@@ -13,6 +13,4 @@ Route::prefix('user')
 
         Route::get('user', [UserController::class, 'user'])
             ->name('user');
-        Route::get('{business}/users', [UserController::class, 'businessUsers'])
-            ->name('business.users');
     });

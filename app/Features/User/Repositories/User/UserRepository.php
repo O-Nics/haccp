@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Features\User\Repositories\User;
 
-use App\Features\Auth\Data\RegisterData;
+use App\Features\Business\Data\RegisterUserData;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
@@ -19,7 +19,7 @@ readonly class UserRepository implements UserRepositoryInterface
         return $this->model->where('email', $email)->first();
     }
 
-    public function store(RegisterData $registerData): User
+    public function store(RegisterUserData $registerData): User
     {
         $user = new User;
         $user->first_name = $registerData->firstName;

@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace App\Features\User\Resources;
 
 use App\Core\Resources\BaseJsonResource;
-use App\Features\Business\Requests\BusinessResource;
-use App\Features\Session\Resources\DeviceResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 

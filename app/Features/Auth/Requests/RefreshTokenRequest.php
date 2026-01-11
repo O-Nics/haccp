@@ -19,7 +19,7 @@ class RefreshTokenRequest extends BaseFormRequest
     public function rules(): array
     {
         return [
-            'refresh_token' => ['required', 'string', 'size:64'],
+            'refresh_token' => ['required', 'string'],
             'device_id' => ['required', 'string'],
         ];
     }
