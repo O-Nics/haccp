@@ -16,7 +16,6 @@ use App\Features\Auth\Requests\RefreshTokenRequest;
 use App\Features\Auth\Requests\RegisterRequest;
 use App\Features\Auth\Resources\AuthResponseResource;
 use App\Features\Auth\Services\AuthService;
-use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response ;
 
 final class AuthController extends Controller
@@ -32,16 +31,13 @@ final class AuthController extends Controller
      *
      * @unauthenticated
      */
-    public function register(RegisterRequest $request): JsonResponse
+    public function register(RegisterRequest $request): AuthResponseResource
     {
         $authData = $this->authService->register(
             data: $request->toDto(),
         );
 
-        return apiResponse(
-            new AuthResponseResource($authData),
-            Response::HTTP_CREATED
-        );
+        return new AuthResponseResource($authData)->status(Response::HTTP_CREATED);
     }
 
     /**
@@ -53,13 +49,13 @@ final class AuthController extends Controller
      *
      * @throws InvalidCredentialsException
      */
-    public function login(LoginRequest $request): JsonResponse
+    public function login(LoginRequest $request): AuthResponseResource
     {
         $authData = $this->authService->login(
             data: $request->toDto(),
         );
 
-        return apiResponse(new AuthResponseResource($authData));
+        return new AuthResponseResource($authData);
     }
 
     /**
@@ -71,13 +67,13 @@ final class AuthController extends Controller
      *
      * @throws InvalidRefreshTokenException
      */
-    public function refresh(RefreshTokenRequest $request): JsonResponse
+    public function refresh(RefreshTokenRequest $request): AuthResponseResource
     {
         $authData = $this->authService->refresh(
             refreshTokenData: $request->toDto()
         );
 
-        return apiResponse(new AuthResponseResource($authData));
+        return new AuthResponseResource($authData)->status(Response::HTTP_OK);
     }
 
     /**
@@ -87,14 +83,14 @@ final class AuthController extends Controller
      *
      * @unauthenticated
      */
-    public function logout(LogoutRequest $request): JsonResponse
+    public function logout(LogoutRequest $request): \Illuminate\Http\Response
     {
         $this->authService->logout(
             user: $request->user(),
             deviceId: $request->toDto()->deviceId
         );
 
-        return apiSuccess();
+        return response()->noContent();
     }
 
     /**
@@ -102,7 +98,7 @@ final class AuthController extends Controller
      *
      * Returns the authentication status and user information for the currently authenticated user.
      */
-    public function checkAuth(CheckAuthRequest $request): JsonResponse
+    public function checkAuth(CheckAuthRequest $request): AuthResponseResource
     {
         $user = auth()->user();
         $authData = $this->authService->checkAuth(
@@ -114,6 +110,6 @@ final class AuthController extends Controller
             'businesses',
         ]);
 
-        return apiResponse(new AuthResponseResource($authData));
+        return new AuthResponseResource($authData);
     }
 }
