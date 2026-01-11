@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Features\Session\Repositories\Device;
 
+use App\Core\Repositories\BaseRepository;
 use App\Features\Session\Data\DeviceInfoData;
 use App\Features\Session\Data\IndexDeviceData;
 use App\Models\Device;
@@ -11,11 +12,12 @@ use App\Models\User;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
 
-readonly class DeviceRepository implements DeviceRepositoryInterface
+class DeviceRepository extends BaseRepository implements DeviceRepositoryInterface
 {
     public function __construct(
-        private Device $model
-    ) {}
+    ) {
+        $this->model = Device::class;
+    }
 
     public function findByDeviceId(string $deviceId): ?Device
     {

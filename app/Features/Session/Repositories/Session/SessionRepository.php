@@ -4,15 +4,17 @@ declare(strict_types=1);
 
 namespace App\Features\Session\Repositories\Session;
 
+use App\Core\Repositories\BaseRepository;
 use App\Models\Device;
 use App\Models\Session;
 use App\Models\User;
 
-final readonly class SessionRepository implements SessionRepositoryInterface
+class SessionRepository extends BaseRepository implements SessionRepositoryInterface
 {
     public function __construct(
-        private Session $model
-    ) {}
+    ) {
+        $this->model = Session::class;
+    }
 
     /**
      * Find an active session by device_id

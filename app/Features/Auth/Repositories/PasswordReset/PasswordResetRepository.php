@@ -4,13 +4,15 @@ declare(strict_types=1);
 
 namespace App\Features\Auth\Repositories\PasswordReset;
 
+use App\Core\Repositories\BaseRepository;
 use App\Models\PasswordResetToken;
 
-readonly class PasswordResetRepository implements PasswordResetRepositoryInterface
+class PasswordResetRepository extends BaseRepository implements PasswordResetRepositoryInterface
 {
-    public function __construct(
-        private PasswordResetToken $model
-    ) {}
+    public function __construct()
+    {
+        $this->model = PasswordResetToken::class;
+    }
 
     public function findByEmailAndToken(string $email, string $token): ?PasswordResetToken
     {

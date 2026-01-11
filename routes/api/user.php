@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('user')
     ->name('user.')
     ->group(function () {
-
         Route::get('user', [UserController::class, 'user'])
             ->name('user');
     });

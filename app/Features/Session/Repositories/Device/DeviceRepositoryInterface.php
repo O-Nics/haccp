@@ -21,8 +21,6 @@ interface DeviceRepositoryInterface
 
     public function update(Device $device, DeviceInfoData $deviceInfoData): Device;
 
-    public function getFilteredPaginatedDevices(User $user, IndexDeviceData $data): LengthAwarePaginator;
-
     public function delete(Device $device): bool;
 
     public function getAllDevicesExcept(User $user, Device $exceptDevice): Collection;
