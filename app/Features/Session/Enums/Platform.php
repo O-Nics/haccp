@@ -6,7 +6,6 @@ declare(strict_types=1);
 
 namespace App\Features\Session\Enums;
 
-
 enum Platform: string
 {
     case IOS = 'ios';
@@ -48,7 +47,6 @@ enum Platform: string
         if (! $userAgent) {
             return self::UNKNOWN;
         }
-
 
         return match (true) {
             str_contains($userAgent, 'iphone') ||

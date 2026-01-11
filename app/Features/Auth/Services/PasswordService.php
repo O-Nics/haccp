@@ -11,8 +11,8 @@ use App\Features\Auth\Data\ResetPasswordData;
 use App\Features\Auth\Mails\PasswordResetConfirmedMail;
 use App\Features\Auth\Mails\PasswordResetMail;
 use App\Features\Auth\Repositories\PasswordReset\PasswordResetRepositoryInterface;
-use App\Models\PasswordResetToken;
 use App\Features\User\Repositories\User\UserRepositoryInterface;
+use App\Models\PasswordResetToken;
 use Illuminate\Support\Facades\Mail;
 
 final readonly class PasswordService

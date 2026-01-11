@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Features\Business\Data;
+namespace App\Features\Auth\Data;
 
 use Spatie\LaravelData\Data;
 
-class RegisterUserData extends Data
+class StoreUserData extends Data
 {
     public function __construct(
         public string $firstName,

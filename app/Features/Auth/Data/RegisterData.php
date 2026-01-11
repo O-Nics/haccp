@@ -10,10 +10,7 @@ use Spatie\LaravelData\Data;
 class RegisterData extends Data
 {
     public function __construct(
-        public string $firstName,
-        public string $lastName,
-        public string $email,
-        public string $password,
+        public StoreUserData $storeUserData,
         public bool $rememberMe,
         public DeviceInfoData $deviceInfo,
 

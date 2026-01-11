@@ -3,7 +3,6 @@
 namespace App\Features\Business\Repositories;
 
 use App\Core\Repositories\BaseRepository;
-use App\Features\Business\Repositories\BusinessRepositoryInterface;
 use App\Features\User\Data\IndexBusinessUserData;
 use App\Models\Business;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
@@ -14,6 +13,7 @@ class BusinessRepository extends BaseRepository implements BusinessRepositoryInt
     {
         $this->model = Business::class;
     }
+
     public function getBusinessUsersPaginated(Business $business, IndexBusinessUserData $indexBusinessUserData, ?array $relation = []): LengthAwarePaginator
     {
         return $business

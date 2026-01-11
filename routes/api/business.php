@@ -13,7 +13,7 @@ Route::prefix('businesses')
     ->group(function () {
         Route::get('/', 'index')
             ->name('index');
-        Route::get('{business}/users','businessUsers')
+        Route::get('{business}/users', 'businessUsers')
             ->name('business.users');
         Route::post('{business}/invite', 'inviteUser')
             ->name('business.invite');

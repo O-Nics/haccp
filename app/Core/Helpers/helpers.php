@@ -14,16 +14,13 @@ if (! function_exists('apiResponse')) {
      * @param  int  $status  HTTP status code (default: 200)
      * @param  array<string, mixed>  $headers  Additional headers
      * @param  string|null  $message  Optional message for success/error responses
-     * @return JsonResponse
      *
      * @example
      * // With JsonResource (automatically wrapped in 'data')
      * return apiResponse(new UserResource($user), 201);
-     *
      * @example
      * // With array data
      * return apiResponse(['message' => 'Success'], 200);
-     *
      * @example
      * // With custom message
      * return apiResponse(null, 204, [], 'Resource deleted successfully');
@@ -65,7 +62,6 @@ if (! function_exists('apiSuccess')) {
      * @param  mixed  $data  Data to return
      * @param  string|null  $message  Success message
      * @param  int  $status  HTTP status code (default: 200)
-     * @return JsonResponse
      *
      * @example
      * return apiSuccess($user, 'User created successfully', 201);
@@ -86,11 +82,9 @@ if (! function_exists('apiError')) {
      * @param  string  $message  Error message
      * @param  int  $status  HTTP status code (default: 400)
      * @param  array<string, mixed>  $errors  Validation errors or additional error details
-     * @return JsonResponse
      *
      * @example
      * return apiError('Invalid credentials', 401);
-     *
      * @example
      * // With validation errors
      * return apiError('Validation failed', 422, ['email' => ['Email is required']]);

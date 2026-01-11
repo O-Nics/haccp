@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Core\Providers;
 
-use App\Core\Events\NewDeviceDetectedEvent;
-use App\Features\Auth\Mails\SendNewDeviceLoginEmail;
 use App\Features\Auth\Repositories\PasswordReset\PasswordResetRepository;
 use App\Features\Auth\Repositories\PasswordReset\PasswordResetRepositoryInterface;
 use App\Features\Business\Repositories\BusinessRepository;
@@ -16,11 +14,6 @@ use App\Features\Session\Repositories\Session\SessionRepository;
 use App\Features\Session\Repositories\Session\SessionRepositoryInterface;
 use App\Features\User\Repositories\User\UserRepository;
 use App\Features\User\Repositories\User\UserRepositoryInterface;
-use Dedoc\Scramble\Scramble;
-use Dedoc\Scramble\Support\Generator\OpenApi;
-use Dedoc\Scramble\Support\Generator\SecurityScheme;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryServiceProvider extends ServiceProvider
@@ -40,5 +33,5 @@ class RepositoryServiceProvider extends ServiceProvider
     /**
      * Bootstrap any application services.
      */
-    public function boot(): void{}
+    public function boot(): void {}
 }

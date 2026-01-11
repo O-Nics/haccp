@@ -20,10 +20,8 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
  */
 final class BusinessController extends Controller
 {
-    public function __construct(private readonly BusinessService $businessService, private readonly BusinessRepositoryInterface $businessRepository)
-    {
+    public function __construct(private readonly BusinessService $businessService, private readonly BusinessRepositoryInterface $businessRepository) {}
 
-    }
     /**
      * List all businesses for the authenticated user
      */
@@ -41,8 +39,6 @@ final class BusinessController extends Controller
      * Get users of a business
      *
      * Returns a list of users associated with the specified business.
-     * @param Business $business
-     * @return AnonymousResourceCollection
      */
     public function businessUsers(Business $business, IndexBusinessUserRequest $indexBusinessUserRequest): AnonymousResourceCollection
     {
@@ -57,9 +53,8 @@ final class BusinessController extends Controller
 
     public function inviteUser(Business $business, InviteUserRequest $inviteUserRequest): BusinessUserResource
     {
-        $user =  $this->businessService->inviteUserToBusiness($business, $inviteUserRequest->toDto());
+        $user = $this->businessService->inviteUserToBusiness($business, $inviteUserRequest->toDto());
+
         return new BusinessUserResource($user);
     }
-
-
 }

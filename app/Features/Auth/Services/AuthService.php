@@ -11,7 +11,6 @@ use App\Features\Auth\Data\CheckAuthData;
 use App\Features\Auth\Data\LoginData;
 use App\Features\Auth\Data\RefreshTokenData;
 use App\Features\Auth\Data\RegisterData;
-use App\Features\Business\Data\RegisterUserData;
 use App\Features\Session\Data\DeviceInfoData;
 use App\Features\Session\Repositories\Device\DeviceRepositoryInterface;
 use App\Features\Session\Resources\DeviceService;
@@ -23,9 +22,9 @@ use Illuminate\Support\Facades\Hash;
 final readonly class AuthService
 {
     public function __construct(
-        private DeviceService             $deviceService,
-        private SessionService            $sessionService,
-        private UserRepositoryInterface   $userRepository,
+        private DeviceService $deviceService,
+        private SessionService $sessionService,
+        private UserRepositoryInterface $userRepository,
         private DeviceRepositoryInterface $deviceRepository,
     ) {}
 
@@ -60,13 +59,7 @@ final readonly class AuthService
     public function register(
         RegisterData $data,
     ): AuthData {
-        $registerData = new RegisterUserData(
-            firstName: $data->firstName,
-            lastName: $data->lastName,
-            email: $data->email,
-            password: $data->password,
-        );
-        $user = $this->userRepository->store($registerData);
+        $user = $this->userRepository->store($data->storeUserData);
 
         return $this->generateSession($user, $data->deviceInfo, $data->rememberMe, null, isRegister: true);
     }
@@ -75,11 +68,11 @@ final readonly class AuthService
      * Generate tokens for a user
      */
     private function generateSession(
-        User           $user,
+        User $user,
         DeviceInfoData $deviceInfo,
-        bool           $rememberMe,
-        ?string        $activeBusinessId,
-        bool           $isRegister = false,
+        bool $rememberMe,
+        ?string $activeBusinessId,
+        bool $isRegister = false,
     ): AuthData {
         $tokenType = $rememberMe ? 'remember' : 'refresh';
         $expirationMinutes = config("auth.tokens.{$tokenType}.expiration");

@@ -6,6 +6,7 @@ namespace App\Features\Auth\Requests;
 
 use App\Core\Requests\BaseFormRequest;
 use App\Features\Auth\Data\RegisterData;
+use App\Features\Auth\Data\StoreUserData;
 use App\Features\Session\Data\DeviceInfoData;
 use App\Features\Session\Enums\DeviceType;
 use App\Features\Session\Enums\Platform;
@@ -62,10 +63,12 @@ class RegisterRequest extends BaseFormRequest
     public function toDto(): RegisterData
     {
         return new RegisterData(
-            firstName: $this->input('first_name'),
-            lastName: $this->input('last_name'),
-            email: $this->input('email'),
-            password: $this->input('password'),
+            storeUserData: new StoreUserData(
+                firstName: $this->input('first_name'),
+                lastName: $this->input('last_name'),
+                email: $this->input('email'),
+                password: $this->input('password'),
+            ),
             rememberMe: $this->boolean('remember_me'),
             deviceInfo: new DeviceInfoData(
                 deviceId: $this->input('device_id'),

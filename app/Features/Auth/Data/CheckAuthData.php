@@ -10,8 +10,8 @@ use Spatie\LaravelData\Data;
 class CheckAuthData extends Data
 {
     public function __construct(
-        public bool           $rememberMe,
+        public bool $rememberMe,
         public DeviceInfoData $deviceInfo,
-        public ?string        $activeBusinessId,
+        public ?string $activeBusinessId,
     ) {}
 }

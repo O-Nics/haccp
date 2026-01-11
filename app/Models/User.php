@@ -43,13 +43,13 @@ use Laravel\Sanctum\PersonalAccessToken;
  * @property-read int|null $businesses_count
  * @property-read Collection<int, \App\Models\Device> $devices
  * @property-read int|null $devices_count
- * @property-read Collection<int, \App\Models\Session> $sessions
- * @property-read int|null $sessions_count
  * @property-read string $full_name
  * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
  * @property-read Collection<int, \App\Models\Organisation> $organizations
  * @property-read int|null $organizations_count
+ * @property-read Collection<int, \App\Models\Session> $sessions
+ * @property-read int|null $sessions_count
  * @property-read Collection<int, PersonalAccessToken> $tokens
  * @property-read int|null $tokens_count
  *

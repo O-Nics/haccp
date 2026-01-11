@@ -28,7 +28,7 @@ class IndexBusinessUserRequest extends BaseFormRequest
             filterQuery: $this->filter_query,
             sort: $this->sort ?? 'created_at',
             order: $this->order ?? 'asc',
-            perPage: $this->per_page ?? 2,
+            perPage: $this->per_page ?? 25,
             page: $this->page ?? 1,
         );
     }

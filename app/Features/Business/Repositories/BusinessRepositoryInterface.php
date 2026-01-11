@@ -8,6 +8,5 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 interface BusinessRepositoryInterface
 {
-    public function getBusinessUsersPaginated(Business $business, IndexBusinessUserData $indexBusinessUserData, ?array $relation = []) : LengthAwarePaginator;
-
+    public function getBusinessUsersPaginated(Business $business, IndexBusinessUserData $indexBusinessUserData, ?array $relation = []): LengthAwarePaginator;
 }

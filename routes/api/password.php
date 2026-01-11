@@ -15,4 +15,4 @@ Route::prefix('password')
         Route::post('reset', [PasswordController::class, 'reset'])
             ->name('reset');
     }
-);
+    );

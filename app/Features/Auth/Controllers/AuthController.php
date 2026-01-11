@@ -9,13 +9,13 @@ namespace App\Features\Auth\Controllers;
 use App\Core\Controllers\Controller;
 use App\Core\Exceptions\InvalidCredentialsException;
 use App\Core\Exceptions\InvalidRefreshTokenException;
-use App\Features\Auth\Resources\AuthResponseResource;
-use App\Features\Auth\Services\AuthService;
 use App\Features\Auth\Requests\CheckAuthRequest;
 use App\Features\Auth\Requests\LoginRequest;
 use App\Features\Auth\Requests\LogoutRequest;
 use App\Features\Auth\Requests\RefreshTokenRequest;
 use App\Features\Auth\Requests\RegisterRequest;
+use App\Features\Auth\Resources\AuthResponseResource;
+use App\Features\Auth\Services\AuthService;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
@@ -29,6 +29,7 @@ final class AuthController extends Controller
      * Register a new user
      *
      * Returns an authentication response after registering a new user with the provided registration data and device information.
+     *
      * @unauthenticated
      */
     public function register(RegisterRequest $request): JsonResponse
@@ -47,6 +48,7 @@ final class AuthController extends Controller
      * Login user
      *
      * Returns an authentication response after logging in a user with the provided credentials and device information.
+     *
      * @unauthenticated
      *
      * @throws InvalidCredentialsException
@@ -64,6 +66,7 @@ final class AuthController extends Controller
      * Refresh tokens
      *
      * Returns a new authentication response with refreshed tokens using the provided refresh token data.
+     *
      * @unauthenticated
      *
      * @throws InvalidRefreshTokenException
@@ -81,6 +84,7 @@ final class AuthController extends Controller
      * Logout user
      *
      * Logs out the user by invalidating the session associated with the provided device ID.
+     *
      * @unauthenticated
      */
     public function logout(LogoutRequest $request): JsonResponse
@@ -112,5 +116,4 @@ final class AuthController extends Controller
 
         return apiResponse(new AuthResponseResource($authData));
     }
-
 }

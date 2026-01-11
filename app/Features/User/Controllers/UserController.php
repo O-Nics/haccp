@@ -9,17 +9,12 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+    public function __construct(private readonly UserRepositoryInterface $userRepository) {}
 
-    public function __construct(private readonly UserRepositoryInterface $userRepository)
-    {
-
-    }
     /**
      * Get authenticated user
      *
      * Returns the currently authenticated user's information.
-     * @param Request $request
-     * @return UserResource
      */
     public function user(Request $request): UserResource
     {

@@ -12,7 +12,6 @@ return new class extends Migration
     public function up(): void
     {
 
-
         Schema::create('password_reset_tokens', function (Blueprint $table) {
             $table->id();
             $table->string('email')->index();
@@ -23,7 +22,6 @@ return new class extends Migration
 
             $table->index(['email', 'token']);
         });
-
 
         Schema::create('jobs', function (Blueprint $table) {
             $table->id();

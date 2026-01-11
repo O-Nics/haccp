@@ -35,6 +35,7 @@ final class PasswordController extends Controller
 
     /**
      * Confirm password reset token
+     *
      * @throws InvalidCredentialsException
      */
     public function checkReset(CheckResetPasswordResetRequest $request): JsonResponse
@@ -48,6 +49,7 @@ final class PasswordController extends Controller
 
     /**
      * Reset password
+     *
      * @throws InvalidCredentialsException
      */
     public function reset(ResetPasswordRequest $request): JsonResponse

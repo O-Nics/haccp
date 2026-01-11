@@ -39,7 +39,6 @@ enum DeviceType: string
             return self::UNKNOWN;
         }
 
-
         return match (true) {
             str_contains($userAgent, 'mobile') ||
             str_contains($userAgent, 'android') ||

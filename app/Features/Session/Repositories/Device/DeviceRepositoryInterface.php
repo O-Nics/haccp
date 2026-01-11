@@ -5,10 +5,8 @@ declare(strict_types=1);
 namespace App\Features\Session\Repositories\Device;
 
 use App\Features\Session\Data\DeviceInfoData;
-use App\Features\Session\Data\IndexDeviceData;
 use App\Models\Device;
 use App\Models\User;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
 
 interface DeviceRepositoryInterface

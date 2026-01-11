@@ -20,8 +20,6 @@ final readonly class SessionService
 
     /**
      * Create a new session with access and refresh tokens
-     *
-     * @return SessionData
      */
     public function createSession(User $user, Device $device, int $expirationMinutes): SessionData
     {
@@ -64,7 +62,6 @@ final readonly class SessionService
     /**
      * Refresh a session by rotating tokens
      *
-     * @return SessionData
      *
      * @throws InvalidRefreshTokenException
      */

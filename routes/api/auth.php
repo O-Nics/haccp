@@ -10,22 +10,20 @@ Route::prefix('auth')
     ->name('auth.')
     ->controller(AuthController::class)
     ->group(function () {
-        Route::post('register','register')->name('register');
+        Route::post('register', 'register')->name('register');
 
-        Route::post('login','login')
+        Route::post('login', 'login')
             ->middleware(ThrottleAuth::class)
             ->name('login');
 
-        Route::post('refresh','refresh')
+        Route::post('refresh', 'refresh')
             ->name('refresh');
 
         Route::middleware('auth:sanctum')->group(function () {
-            Route::post('logout','logout')
+            Route::post('logout', 'logout')
                 ->name('logout');
             Route::post('check-auth', 'checkAuth')
                 ->name('check-auth');
         });
 
     });
-
-

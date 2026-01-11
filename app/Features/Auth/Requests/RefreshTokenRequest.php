@@ -6,8 +6,8 @@ declare(strict_types=1);
 
 namespace App\Features\Auth\Requests;
 
-use App\Features\Auth\Data\RefreshTokenData;
 use App\Core\Requests\BaseFormRequest;
+use App\Features\Auth\Data\RefreshTokenData;
 
 class RefreshTokenRequest extends BaseFormRequest
 {

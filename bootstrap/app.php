@@ -52,7 +52,7 @@ return Application::configure(basePath: dirname(__DIR__))
             Request $request
         ) {
 
-            if(! app()->isProduction()){
+            if (! app()->isProduction()) {
                 return $response;
             }
             // On ne touche que l'API / JSON

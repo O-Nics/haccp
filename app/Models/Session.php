@@ -17,17 +17,18 @@ use Laravel\Sanctum\PersonalAccessToken;
  * @property int $id
  * @property string $user_id
  * @property int $device_id
- * @property int|null $access_token_id
+ * @property int $access_token_id
  * @property string $refresh_token_hash
  * @property Carbon $refresh_token_expires_at
  * @property Carbon|null $last_used_at
  * @property Carbon|null $revoked_at
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * @property-read User $user
- * @property-read Device $device
- * @property-read PersonalAccessToken|null $accessToken
+ * @property-read PersonalAccessToken $accessToken
+ * @property-read \App\Models\Device $device
+ * @property-read \App\Models\User $user
  *
+ * @method static Builder<static>|Session active()
  * @method static Builder<static>|Session betweenDates($column, ?string $startAt = null, ?string $endAt = null, $boolean = 'and', $not = false)
  * @method static Builder<static>|Session filtered(?string $filterQuery = null, array $searchableColumns = [])
  * @method static Builder<static>|Session forPeriod(?string $startAt = null, ?string $endAt = null, ?string $columnStart = 'start_at', ?string $columnEnd = 'end_at')
