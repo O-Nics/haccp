@@ -16,7 +16,7 @@ class PasswordResetRepository extends BaseRepository implements PasswordResetRep
 
     public function findByEmailAndToken(string $email, string $token): ?PasswordResetToken
     {
-        return $this->model
+        return $this->query()
             ->where('email', $email)
             ->where('token', $token)
             ->first();
@@ -24,7 +24,7 @@ class PasswordResetRepository extends BaseRepository implements PasswordResetRep
 
     public function findLatestByEmail(string $email): ?PasswordResetToken
     {
-        return $this->model
+        return $this->query()
             ->where('email', $email)
             ->latest('created_at')
             ->first();
@@ -54,14 +54,14 @@ class PasswordResetRepository extends BaseRepository implements PasswordResetRep
 
     public function deleteExpiredTokens(): int
     {
-        return $this->model
+        return $this->query()
             ->where('expires_at', '<', now())
             ->delete();
     }
 
     public function deleteAllByEmail(string $email): int
     {
-        return $this->model
+        return $this->query()
             ->where('email', $email)
             ->delete();
     }

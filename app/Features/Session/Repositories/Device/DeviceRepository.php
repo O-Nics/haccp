@@ -21,7 +21,7 @@ class DeviceRepository extends BaseRepository implements DeviceRepositoryInterfa
 
     public function findByDeviceId(string $deviceId): ?Device
     {
-        return $this->model->where('device_id', $deviceId)->first();
+        return $this->query()->where('device_id', $deviceId)->first();
     }
 
     public function findByUserAndDeviceId(User $user, string $deviceId): ?Device

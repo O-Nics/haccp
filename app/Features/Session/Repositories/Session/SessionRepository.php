@@ -21,7 +21,7 @@ class SessionRepository extends BaseRepository implements SessionRepositoryInter
      */
     public function findActiveByDeviceId(string $deviceId): ?Session
     {
-        return $this->model
+        return $this->query()
             ->whereHas('device', fn ($query) => $query->where('device_id', $deviceId))
             ->active()
             ->first();
