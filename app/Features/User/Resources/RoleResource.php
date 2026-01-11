@@ -21,6 +21,8 @@ class RoleResource extends BaseJsonResource
             'name' => $this->name,
             'display_name' => $this->display_name,
             'description' => $this->description,
+
+            'permissions' => $this->permissions,
         ];
     }
 }
