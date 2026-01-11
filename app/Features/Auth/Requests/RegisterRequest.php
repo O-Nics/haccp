@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Features\Auth\Requests;
 
-use App\Features\Auth\Data\RegisterData;
-use App\Features\Device\Data\DeviceInfoData;
-use App\Features\Device\Enums\DeviceType;
-use App\Features\Device\Enums\Platform;
 use App\Core\Requests\BaseFormRequest;
+use App\Features\Auth\Data\RegisterData;
+use App\Features\Session\Data\DeviceInfoData;
+use App\Features\Session\Enums\DeviceType;
+use App\Features\Session\Enums\Platform;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
 

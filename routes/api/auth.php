@@ -19,10 +19,11 @@ Route::prefix('auth')
         Route::post('refresh','refresh')
             ->name('refresh');
 
-        Route::post('logout','logout')
-            ->name('logout');
+
 
         Route::middleware('auth:sanctum')->group(function () {
+            Route::post('logout','logout')
+                ->name('logout');
             Route::post('check-auth', 'checkAuth')
                 ->name('check-auth');
         });

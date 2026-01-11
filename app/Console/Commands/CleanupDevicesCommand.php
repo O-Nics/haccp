@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Console\Commands;
 
-use App\Features\Device\Services\DeviceService;
+use App\Features\Session\Resources\DeviceService;
 use Illuminate\Console\Command;
 
 /**

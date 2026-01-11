@@ -151,6 +151,16 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Session Management
+    |--------------------------------------------------------------------------
+    */
+    'sessions' => [
+        'cleanup_expired_after' => 7, // days to keep revoked sessions
+        'max_concurrent_per_device' => 1, // Enforce single session per device (via unique constraint)
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Security Configuration
     |--------------------------------------------------------------------------
     */

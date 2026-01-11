@@ -31,7 +31,6 @@ return new class extends Migration
 
             // Indexes
             $table->unique(['user_id', 'device_id']);
-            $table->index('token_expires_at');
         });
     }
 

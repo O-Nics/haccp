@@ -8,14 +8,16 @@ namespace App\Features\Auth\Controllers;
 
 use App\Core\Controllers\Controller;
 use App\Core\Exceptions\InvalidCredentialsException;
-use App\Features\Auth\Resources\AuthResponse;
+use App\Core\Exceptions\InvalidRefreshTokenException;
+use App\Features\Auth\Resources\AuthResponseResource;
 use App\Features\Auth\Services\AuthService;
 use App\Features\Auth\Requests\CheckAuthRequest;
 use App\Features\Auth\Requests\LoginRequest;
 use App\Features\Auth\Requests\LogoutRequest;
 use App\Features\Auth\Requests\RefreshTokenRequest;
 use App\Features\Auth\Requests\RegisterRequest;
-use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
+use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 final class AuthController extends Controller
 {
@@ -29,14 +31,16 @@ final class AuthController extends Controller
      * Returns an authentication response after registering a new user with the provided registration data and device information.
      * @unauthenticated
      */
-    public function register(RegisterRequest $request): AuthResponse
+    public function register(RegisterRequest $request): JsonResponse
     {
         $authData = $this->authService->register(
             data: $request->toDto(),
         );
 
-        return new AuthResponse($authData);
-
+        return apiResponse(
+            new AuthResponseResource($authData),
+            ResponseAlias::HTTP_CREATED
+        );
     }
 
     /**
@@ -47,13 +51,13 @@ final class AuthController extends Controller
      *
      * @throws InvalidCredentialsException
      */
-    public function login(LoginRequest $request): AuthResponse
+    public function login(LoginRequest $request): JsonResponse
     {
         $authData = $this->authService->login(
             data: $request->toDto(),
         );
 
-        return new AuthResponse($authData);
+        return apiResponse(new AuthResponseResource($authData));
     }
 
     /**
@@ -62,15 +66,15 @@ final class AuthController extends Controller
      * Returns a new authentication response with refreshed tokens using the provided refresh token data.
      * @unauthenticated
      *
-     * @throws InvalidCredentialsException
+     * @throws InvalidRefreshTokenException
      */
-    public function refresh(RefreshTokenRequest $request): AuthResponse
+    public function refresh(RefreshTokenRequest $request): JsonResponse
     {
         $authData = $this->authService->refresh(
             refreshTokenData: $request->toDto()
         );
 
-        return new AuthResponse($authData);
+        return apiResponse(new AuthResponseResource($authData));
     }
 
     /**
@@ -79,15 +83,14 @@ final class AuthController extends Controller
      * Logs out the user by invalidating the session associated with the provided device ID.
      * @unauthenticated
      */
-    public function logout(LogoutRequest $request): Response
+    public function logout(LogoutRequest $request): JsonResponse
     {
-
         $this->authService->logout(
             user: $request->user(),
             deviceId: $request->toDto()->deviceId
         );
 
-        return response()->noContent();
+        return apiSuccess(null, 'Logged out successfully', ResponseAlias::HTTP_NO_CONTENT);
     }
 
     /**
@@ -95,7 +98,7 @@ final class AuthController extends Controller
      *
      * Returns the authentication status and user information for the currently authenticated user.
      */
-    public function checkAuth(CheckAuthRequest $request): AuthResponse
+    public function checkAuth(CheckAuthRequest $request): JsonResponse
     {
         $user = auth()->user();
         $authData = $this->authService->checkAuth(
@@ -103,12 +106,11 @@ final class AuthController extends Controller
             user: $user,
         );
 
-
         $authData->user->load([
             'businesses',
         ]);
 
-        return new AuthResponse($authData);
+        return apiResponse(new AuthResponseResource($authData));
     }
 
 }

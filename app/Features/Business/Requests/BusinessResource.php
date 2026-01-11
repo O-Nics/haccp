@@ -1,16 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Features\Business\Requests;
 
-use App\Http\Resources\RoleResource;
+use App\Core\Resources\BaseJsonResource;
+use App\Features\User\Resources\RoleResource;
 use App\Models\Business;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
  * @mixin Business
  */
-class BusinessResource extends JsonResource
+class BusinessResource extends BaseJsonResource
 {
     public function toArray(Request $request): array
     {

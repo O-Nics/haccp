@@ -8,8 +8,10 @@ use App\Core\Events\NewDeviceDetectedEvent;
 use App\Features\Auth\Mails\SendNewDeviceLoginEmail;
 use App\Features\Auth\Repositories\PasswordReset\PasswordResetRepository;
 use App\Features\Auth\Repositories\PasswordReset\PasswordResetRepositoryInterface;
-use App\Features\Device\Repositories\UserDevice\UserDeviceRepository;
-use App\Features\Device\Repositories\UserDevice\UserDeviceRepositoryInterface;
+use App\Features\Session\Repositories\Device\DeviceRepository;
+use App\Features\Session\Repositories\Device\DeviceRepositoryInterface;
+use App\Features\Session\Repositories\Session\SessionRepository;
+use App\Features\Session\Repositories\Session\SessionRepositoryInterface;
 use App\Features\User\Repositories\User\UserRepository;
 use App\Features\User\Repositories\User\UserRepositoryInterface;
 use Dedoc\Scramble\Scramble;
@@ -33,13 +35,18 @@ class AppServiceProvider extends ServiceProvider
         );
 
         $this->app->singleton(
-            UserDeviceRepositoryInterface::class,
-            UserDeviceRepository::class
+            DeviceRepositoryInterface::class,
+            DeviceRepository::class
         );
 
         $this->app->singleton(
             PasswordResetRepositoryInterface::class,
             PasswordResetRepository::class
+        );
+
+        $this->app->singleton(
+            SessionRepositoryInterface::class,
+            SessionRepository::class
         );
     }
 

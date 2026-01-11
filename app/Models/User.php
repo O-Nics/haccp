@@ -43,6 +43,8 @@ use Laravel\Sanctum\PersonalAccessToken;
  * @property-read int|null $businesses_count
  * @property-read Collection<int, \App\Models\Device> $devices
  * @property-read int|null $devices_count
+ * @property-read Collection<int, \App\Models\Session> $sessions
+ * @property-read int|null $sessions_count
  * @property-read string $full_name
  * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
@@ -100,6 +102,11 @@ class User extends BaseAuthenticable implements MustVerifyEmail
     public function devices(): HasMany
     {
         return $this->hasMany(Device::class);
+    }
+
+    public function sessions(): HasMany
+    {
+        return $this->hasMany(Session::class);
     }
 
     public function getFullNameAttribute(): string

@@ -30,48 +30,32 @@ final class PasswordController extends Controller
 
         $this->passwordService->sendResetLink($data);
 
-        return response()->json([
-            'message' => 'Password reset link sent to your email',
-        ]);
+        return apiSuccess();
     }
 
     /**
      * Confirm password reset token
+     * @throws InvalidCredentialsException
      */
     public function checkReset(CheckResetPasswordResetRequest $request): JsonResponse
     {
         $data = $request->toDto();
 
-        try {
-            $this->passwordService->confirmResetToken($data);
+        $this->passwordService->confirmResetToken($data);
 
-            return response()->json([
-                'message' => 'Token confirmed successfully. You may now reset your password.',
-            ]);
-        } catch (InvalidCredentialsException $e) {
-            return response()->json([
-                'message' => $e->getMessage(),
-            ], 400);
-        }
+        return apiSuccess();
     }
 
     /**
      * Reset password
+     * @throws InvalidCredentialsException
      */
     public function reset(ResetPasswordRequest $request): JsonResponse
     {
         $data = $request->toDto();
 
-        try {
-            $this->passwordService->resetPassword($data);
+        $this->passwordService->resetPassword($data);
 
-            return response()->json([
-                'message' => 'Password reset successfully',
-            ]);
-        } catch (InvalidCredentialsException $e) {
-            return response()->json([
-                'message' => $e->getMessage(),
-            ], 400);
-        }
+        return apiSuccess();
     }
 }

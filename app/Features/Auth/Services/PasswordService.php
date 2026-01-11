@@ -30,7 +30,6 @@ final readonly class PasswordService
         $user = $this->userRepository->findByEmail($data->email);
 
         if (! $user) {
-            // Don't reveal if email exists or not (security)
             return;
         }
 

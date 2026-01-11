@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace App\Features\User\Resources;
 
+use App\Core\Resources\BaseJsonResource;
 use App\Features\Business\Requests\BusinessResource;
-use App\Features\Device\Resources\DeviceResource;
+use App\Features\Session\Resources\DeviceResource;
 use App\Http\Resources\RoleResource;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
  * @mixin User
  */
-class UserResource extends JsonResource
+class UserResource extends BaseJsonResource
 {
     public function toArray(Request $request): array
     {

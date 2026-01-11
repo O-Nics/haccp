@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Features\Device\Enums\DeviceType;
-use App\Features\Device\Enums\Platform;
+use App\Features\Session\Enums\DeviceType;
+use App\Features\Session\Enums\Platform;
 use App\Models\Core\BaseModel;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Str;
 
 /**
  * @property int $id
@@ -24,12 +24,12 @@ use Illuminate\Support\Str;
  * @property string|null $browser
  * @property string|null $ip_address
  * @property string|null $user_agent
- * @property string $refresh_token_hash
- * @property Carbon|null $token_expires_at
  * @property Carbon|null $last_used_at
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property-read \App\Models\User $user
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Session> $sessions
+ * @property-read int|null $sessions_count
  *
  * @method static Builder<static>|Device betweenDates($column, ?string $startAt = null, ?string $endAt = null, $boolean = 'and', $not = false)
  * @method static \Database\Factories\DeviceFactory factory($count = null, $state = [])
@@ -48,8 +48,6 @@ use Illuminate\Support\Str;
  * @method static Builder<static>|Device whereIpAddress($value)
  * @method static Builder<static>|Device whereLastUsedAt($value)
  * @method static Builder<static>|Device wherePlatform($value)
- * @method static Builder<static>|Device whereRefreshTokenHash($value)
- * @method static Builder<static>|Device whereTokenExpiresAt($value)
  * @method static Builder<static>|Device whereUpdatedAt($value)
  * @method static Builder<static>|Device whereUserAgent($value)
  * @method static Builder<static>|Device whereUserId($value)
@@ -60,17 +58,12 @@ class Device extends BaseModel
 {
     use HasFactory;
 
-    protected $hidden = [
-        'refresh_token_hash',
-    ];
-
     protected function casts(): array
     {
         return [
             'device_type' => DeviceType::class,
             'platform' => Platform::class,
             'last_used_at' => 'datetime',
-            'token_expires_at' => 'datetime',
         ];
     }
 
@@ -79,27 +72,9 @@ class Device extends BaseModel
         return $this->belongsTo(User::class);
     }
 
-    public function isTokenExpired(): bool
+    public function sessions(): HasMany
     {
-        return $this->token_expires_at?->isPast() ?? false;
-    }
-
-    public static function generateRefreshToken(): string
-    {
-        return Str::random(64);
-    }
-
-    public function setRefreshToken(string $token): void
-    {
-        $this->refresh_token_hash = hash('sha256', $token);
-    }
-
-    public function verifyRefreshToken(string $token): bool
-    {
-        return hash_equals(
-            $this->refresh_token_hash,
-            hash('sha256', $token)
-        );
+        return $this->hasMany(Session::class);
     }
 
     public function touchLastUsed(): void

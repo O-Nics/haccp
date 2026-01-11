@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Features\Auth\Data;
 
-use App\Features\Device\Data\DeviceInfoData;
+use App\Features\Session\Data\DeviceInfoData;
 use Spatie\LaravelData\Data;
 
 class LoginData extends Data

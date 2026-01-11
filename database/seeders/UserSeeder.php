@@ -66,6 +66,6 @@ class UserSeeder extends Seeder
         }
 
         // Create additional random users for testing
-        User::factory()->count(15)->create();
+//        User::factory()->count(15)->create();
     }
 }

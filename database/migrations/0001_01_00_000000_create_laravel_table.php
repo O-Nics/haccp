@@ -11,16 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('sessions', function (Blueprint $table) {
-            $table->id();
-            $table->uuidMorphs('tokenable');
-            $table->text('name');
-            $table->string('token', 64)->unique();
-            $table->text('abilities')->nullable();
-            $table->timestamp('last_used_at')->nullable();
-            $table->timestamp('expires_at')->nullable()->index();
-            $table->timestamps();
-        });
+
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
             $table->id();
@@ -78,6 +69,28 @@ return new class extends Migration
             $table->string('owner');
             $table->integer('expiration');
         });
+
+        // Standard Sanctum personal_access_tokens table
+        Schema::create('personal_access_tokens', function (Blueprint $table) {
+            $table->id();
+            $table->uuidMorphs('tokenable');
+            $table->string('name');
+            $table->string('token', 64)->unique();
+            $table->text('abilities')->nullable();
+            $table->timestamp('last_used_at')->nullable();
+            $table->timestamp('expires_at')->nullable()->index();
+            $table->timestamps();
+        });
+
+        Schema::create('sessions', function (Blueprint $table) {
+            $table->string('id')->primary();
+            $table->foreignId('user_id')->nullable()->index();
+            $table->string('ip_address', 45)->nullable();
+            $table->text('user_agent')->nullable();
+            $table->longText('payload');
+            $table->integer('last_activity')->index();
+        });
+
     }
 
     /**
@@ -85,8 +98,13 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('personal_access_tokens');
         Schema::dropIfExists('password_reset_tokens');
+        Schema::dropIfExists('jobs');
+        Schema::dropIfExists('job_batches');
+        Schema::dropIfExists('failed_jobs');
+        Schema::dropIfExists('cache');
+        Schema::dropIfExists('cache_locks');
         Schema::dropIfExists('sessions');
     }
 };

@@ -8,9 +8,9 @@ namespace App\Features\Auth\Requests;
 
 use App\Core\Requests\BaseFormRequest;
 use App\Features\Auth\Data\CheckAuthData;
-use App\Features\Device\Data\DeviceInfoData;
-use App\Features\Device\Enums\DeviceType;
-use App\Features\Device\Enums\Platform;
+use App\Features\Session\Data\DeviceInfoData;
+use App\Features\Session\Enums\DeviceType;
+use App\Features\Session\Enums\Platform;
 use Illuminate\Validation\Rule;
 
 class CheckAuthRequest extends BaseFormRequest
@@ -51,7 +51,7 @@ class CheckAuthRequest extends BaseFormRequest
                 userAgent: $this->input('user_agent') ?? $this->userAgent(),
 
             ),
-            activeBusiness: $this->input('active_business_id')
+            activeBusinessId: $this->input('active_business_id')
         );
     }
 }
