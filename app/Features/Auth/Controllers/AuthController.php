@@ -17,7 +17,7 @@ use App\Features\Auth\Requests\RegisterRequest;
 use App\Features\Auth\Resources\AuthResponseResource;
 use App\Features\Auth\Services\AuthService;
 use Illuminate\Http\JsonResponse;
-use Symfony\Component\HttpFoundation\Response as ResponseAlias;
+use Symfony\Component\HttpFoundation\Response ;
 
 final class AuthController extends Controller
 {
@@ -40,7 +40,7 @@ final class AuthController extends Controller
 
         return apiResponse(
             new AuthResponseResource($authData),
-            ResponseAlias::HTTP_CREATED
+            Response::HTTP_CREATED
         );
     }
 
@@ -94,7 +94,7 @@ final class AuthController extends Controller
             deviceId: $request->toDto()->deviceId
         );
 
-        return apiSuccess(null, 'Logged out successfully', ResponseAlias::HTTP_NO_CONTENT);
+        return apiSuccess();
     }
 
     /**

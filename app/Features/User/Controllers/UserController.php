@@ -16,10 +16,10 @@ class UserController extends Controller
      *
      * Returns the currently authenticated user's information.
      */
-    public function user(Request $request): UserResource
+    public function user(Request $request): \Illuminate\Http\JsonResponse
     {
         $user = auth()->user();
 
-        return UserResource::make($user);
+        return apiResponse(new UserResource($user));
     }
 }
