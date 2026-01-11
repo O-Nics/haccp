@@ -27,13 +27,13 @@ final class BusinessController extends Controller
     /**
      * List all businesses for the authenticated user
      */
-    public function index(): JsonResponse
+    public function index(): AnonymousResourceCollection
     {
         $user = auth()->user();
 
         $user->load('businesses');
 
-        return apiResponse(BusinessResource::collection($user->businesses));
+        return BusinessResource::collection($user->businesses);
 
     }
 
@@ -45,23 +45,24 @@ final class BusinessController extends Controller
      * @param Business $business The business for which to retrieve users.
      * @param IndexBusinessUserRequest $indexBusinessUserRequest The request containing pagination and filtering
      *
-     * @return JsonResponse A JSON response containing a collection of business users.
+     * @return AnonymousResourceCollection A JSON response containing a collection of business users.
      */
-    public function businessUsers(Business $business, IndexBusinessUserRequest $indexBusinessUserRequest): JsonResponse
+    public function businessUsers(Business $business, IndexBusinessUserRequest $indexBusinessUserRequest): AnonymousResourceCollection
     {
         $businessUsers = $this->businessRepository->getBusinessUsersPaginated(
             $business,
             $indexBusinessUserRequest->toDto(),
         );
 
-        return apiResponse(BusinessUserResource::collection($businessUsers));
+        return BusinessUserResource::collection($businessUsers);
 
     }
 
-    public function inviteUser(Business $business, InviteUserRequest $inviteUserRequest): JsonResponse
+    public function inviteUser(Business $business, InviteUserRequest $inviteUserRequest): BusinessUserResource
     {
         $user = $this->businessService->inviteUserToBusiness($business, $inviteUserRequest->toDto());
 
-        return apiResponse(new BusinessUserResource($user), Response::HTTP_CREATED);
+        return new BusinessUserResource($user)->status(201);
+
     }
 }

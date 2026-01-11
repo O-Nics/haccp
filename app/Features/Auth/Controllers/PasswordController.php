@@ -11,6 +11,7 @@ use App\Features\Auth\Requests\ForgotPasswordRequest;
 use App\Features\Auth\Requests\ResetPasswordRequest;
 use App\Features\Auth\Services\PasswordService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
 
 /**
  * PasswordController handles password reset operations
@@ -24,13 +25,13 @@ final class PasswordController extends Controller
     /**
      * Send password reset link
      */
-    public function forgot(ForgotPasswordRequest $request): JsonResponse
+    public function forgot(ForgotPasswordRequest $request): Response
     {
         $data = $request->toDto();
 
         $this->passwordService->sendResetLink($data);
 
-        return apiSuccess();
+        return response()->noContent();
     }
 
     /**
@@ -38,13 +39,13 @@ final class PasswordController extends Controller
      *
      * @throws InvalidCredentialsException
      */
-    public function checkReset(CheckResetPasswordResetRequest $request): JsonResponse
+    public function checkReset(CheckResetPasswordResetRequest $request): Response
     {
         $data = $request->toDto();
 
         $this->passwordService->confirmResetToken($data);
 
-        return apiSuccess();
+        return response()->noContent();
     }
 
     /**
@@ -52,12 +53,12 @@ final class PasswordController extends Controller
      *
      * @throws InvalidCredentialsException
      */
-    public function reset(ResetPasswordRequest $request): JsonResponse
+    public function reset(ResetPasswordRequest $request): Response
     {
         $data = $request->toDto();
 
         $this->passwordService->resetPassword($data);
 
-        return apiSuccess();
+        return response()->noContent();
     }
 }

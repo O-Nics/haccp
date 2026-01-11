@@ -6,13 +6,14 @@ use App\Features\Auth\Controllers\PasswordController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('password')
+    ->controller(PasswordController::class)
     ->name('password.')
     ->group(function () {
-        Route::post('forgot', [PasswordController::class, 'forgot'])
+        Route::post('forgot', 'forgot')
             ->name('forgot');
-        Route::post('confirm', [PasswordController::class, 'checkReset'])
+        Route::post('confirm', 'checkReset')
             ->name('confirm');
-        Route::post('reset', [PasswordController::class, 'reset'])
+        Route::post('reset', 'reset')
             ->name('reset');
     }
     );
