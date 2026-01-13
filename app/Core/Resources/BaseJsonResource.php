@@ -43,4 +43,16 @@ abstract class BaseJsonResource extends JsonResource
         $this->message = $message;
         return $this;
     }
+
+    /**
+     * Create a new anonymous resource collection.
+     *
+     * @param  mixed  $resource
+     * @return BaseAnonymousCollection
+     */
+    public static function collection($resource): BaseAnonymousCollection
+    {
+        return new BaseAnonymousCollection($resource, static::class);
+    }
+
 }

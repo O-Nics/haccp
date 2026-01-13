@@ -112,4 +112,5 @@ final class AuthController extends Controller
 
         return new AuthResponseResource($authData);
     }
+
 }
