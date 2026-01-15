@@ -25,7 +25,6 @@ class BaseAnonymousCollection extends AnonymousResourceCollection
             : [];
     }
 
-
     public function status(int $status): static
     {
         $this->status = $status;

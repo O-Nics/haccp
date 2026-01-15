@@ -18,6 +18,7 @@ use Symfony\Component\HttpFoundation\Response;
 abstract class BaseJsonResource extends JsonResource
 {
     protected int $status = Response::HTTP_OK;
+
     protected ?string $message = null;
 
     public function withResponse($request, $response): void
@@ -35,12 +36,14 @@ abstract class BaseJsonResource extends JsonResource
     public function status(int $status): static
     {
         $this->status = $status;
+
         return $this;
     }
 
     public function message(string $message): static
     {
         $this->message = $message;
+
         return $this;
     }
 
@@ -48,11 +51,9 @@ abstract class BaseJsonResource extends JsonResource
      * Create a new anonymous resource collection.
      *
      * @param  mixed  $resource
-     * @return BaseAnonymousCollection
      */
     public static function collection($resource): BaseAnonymousCollection
     {
         return new BaseAnonymousCollection($resource, static::class);
     }
-
 }

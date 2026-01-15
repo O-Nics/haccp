@@ -1,0 +1,19 @@
+<?php
+
+namespace App\Core\Notifications;
+
+use App\Models\User;
+use Illuminate\Notifications\Notification;
+
+class BaseNotification extends Notification
+{
+    public function mustSend(User $notifiable): bool
+    {
+        return true;
+    }
+
+    public function isConfidential(): bool
+    {
+        return false;
+    }
+}

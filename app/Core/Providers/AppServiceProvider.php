@@ -8,6 +8,8 @@ use App\Core\Events\NewDeviceDetectedEvent;
 use App\Features\Auth\Mails\SendNewDeviceLoginEmail;
 use App\Features\Auth\Repositories\PasswordReset\PasswordResetRepository;
 use App\Features\Auth\Repositories\PasswordReset\PasswordResetRepositoryInterface;
+use App\Features\Notification\Listeners\LogNotificationFailed;
+use App\Features\Notification\Listeners\LogNotificationSent;
 use App\Features\Session\Repositories\Device\DeviceRepository;
 use App\Features\Session\Repositories\Device\DeviceRepositoryInterface;
 use App\Features\Session\Repositories\Session\SessionRepository;
@@ -18,6 +20,8 @@ use Dedoc\Scramble\Scramble;
 use Dedoc\Scramble\Support\Generator\OpenApi;
 use Dedoc\Scramble\Support\Generator\SecurityScheme;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Events\NotificationFailed;
+use Illuminate\Notifications\Events\NotificationSent;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 
@@ -67,5 +71,6 @@ class AppServiceProvider extends ServiceProvider
 
         // Register event listeners
         Event::listen(NewDeviceDetectedEvent::class, SendNewDeviceLoginEmail::class);
+
     }
 }

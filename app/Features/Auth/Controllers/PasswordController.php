@@ -10,7 +10,6 @@ use App\Features\Auth\Requests\CheckResetPasswordResetRequest;
 use App\Features\Auth\Requests\ForgotPasswordRequest;
 use App\Features\Auth\Requests\ResetPasswordRequest;
 use App\Features\Auth\Services\PasswordService;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 
 /**

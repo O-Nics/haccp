@@ -9,6 +9,7 @@ namespace App\Features\Auth\Controllers;
 use App\Core\Controllers\Controller;
 use App\Core\Exceptions\InvalidCredentialsException;
 use App\Core\Exceptions\InvalidRefreshTokenException;
+use App\Features\Auth\Notifications\UserRegisterNotification;
 use App\Features\Auth\Requests\CheckAuthRequest;
 use App\Features\Auth\Requests\LoginRequest;
 use App\Features\Auth\Requests\LogoutRequest;
@@ -16,7 +17,7 @@ use App\Features\Auth\Requests\RefreshTokenRequest;
 use App\Features\Auth\Requests\RegisterRequest;
 use App\Features\Auth\Resources\AuthResponseResource;
 use App\Features\Auth\Services\AuthService;
-use Symfony\Component\HttpFoundation\Response ;
+use Symfony\Component\HttpFoundation\Response;
 
 final class AuthController extends Controller
 {
@@ -54,6 +55,8 @@ final class AuthController extends Controller
         $authData = $this->authService->login(
             data: $request->toDto(),
         );
+
+        $authData->user->notify(new UserRegisterNotification);
 
         return new AuthResponseResource($authData);
     }
@@ -112,5 +115,4 @@ final class AuthController extends Controller
 
         return new AuthResponseResource($authData);
     }
-
 }

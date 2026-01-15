@@ -12,7 +12,6 @@ use App\Features\Business\Resources\BusinessResource;
 use App\Features\Business\Services\BusinessService;
 use App\Features\User\Resources\BusinessUserResource;
 use App\Models\Business;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -42,9 +41,8 @@ final class BusinessController extends Controller
      *
      * Returns a list of users associated with the specified business.
      *
-     * @param Business $business The business for which to retrieve users.
-     * @param IndexBusinessUserRequest $indexBusinessUserRequest The request containing pagination and filtering
-     *
+     * @param  Business  $business  The business for which to retrieve users.
+     * @param  IndexBusinessUserRequest  $indexBusinessUserRequest  The request containing pagination and filtering
      * @return AnonymousResourceCollection A JSON response containing a collection of business users.
      */
     public function businessUsers(Business $business, IndexBusinessUserRequest $indexBusinessUserRequest): AnonymousResourceCollection
