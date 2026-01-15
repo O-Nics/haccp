@@ -2,7 +2,6 @@
 
 namespace App\Features\Notifications\Enums;
 
-
 use App\Core\Enums\Enumerations;
 use App\Features\Notifications\NotificationChannel\NotificationChannelState;
 

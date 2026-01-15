@@ -3,7 +3,7 @@
 namespace App\Features\Notifications\NotificationChannel;
 
 
-use Illuminate\Notifications\Events\NotificationSent;
+use App\Models\NotificationSent;
 
 abstract class NotificationChannelState
 {

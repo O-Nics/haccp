@@ -2,7 +2,7 @@
 
 namespace App\Features\Notifications\NotificationChannel;
 
-use Illuminate\Notifications\Events\NotificationSent;
+use App\Models\NotificationSent;
 use Illuminate\Support\Facades\Mail;
 
 class NotificationChannelEmail extends NotificationChannelState

@@ -50,8 +50,6 @@ use Laravel\Sanctum\PersonalAccessToken;
  * @property-read int|null $organizations_count
  * @property-read Collection<int, \App\Models\Session> $sessions
  * @property-read int|null $sessions_count
- * @property-read Collection<int, \App\Models\NotificationLog> $notificationLogs
- * @property-read int|null $notification_logs_count
  * @property-read Collection<int, PersonalAccessToken> $tokens
  * @property-read int|null $tokens_count
  *
