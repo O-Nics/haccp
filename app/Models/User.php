@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Models\Base\BaseAuthenticable;
+use App\Models\Core\BaseAuthenticable;
 use Eloquent;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Builder;
@@ -48,6 +48,8 @@ use Laravel\Sanctum\PersonalAccessToken;
  * @property-read int|null $notifications_count
  * @property-read Collection<int, \App\Models\Organisation> $organizations
  * @property-read int|null $organizations_count
+ * @property-read Collection<int, \App\Models\Session> $sessions
+ * @property-read int|null $sessions_count
  * @property-read Collection<int, PersonalAccessToken> $tokens
  * @property-read int|null $tokens_count
  *
@@ -102,6 +104,11 @@ class User extends BaseAuthenticable implements MustVerifyEmail
         return $this->hasMany(Device::class);
     }
 
+    public function sessions(): HasMany
+    {
+        return $this->hasMany(Session::class);
+    }
+
     public function getFullNameAttribute(): string
     {
         if (empty($this->first_name) && empty($this->last_name)) {
@@ -136,5 +143,10 @@ class User extends BaseAuthenticable implements MustVerifyEmail
     public function organizations(): HasMany
     {
         return $this->hasMany(Organisation::class, 'owner_id', 'id');
+    }
+
+    public function notificationLogs(): HasMany
+    {
+        return $this->hasMany(NotificationLog::class);
     }
 }

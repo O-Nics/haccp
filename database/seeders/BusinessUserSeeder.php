@@ -21,7 +21,7 @@ class BusinessUserSeeder extends Seeder
     {
         $admin = User::where('email', 'admin@haccp.test')->first();
         $jean = User::where('email', 'jean.dupont@haccp.test')->first();
-        $marie = User::where('email', 'marie.martin@haccp.test')->first();
+        $marie = User::where('email', 'marie.martin@gmail.com')->first();
         $pierre = User::where('email', 'pierre.durand@haccp.test')->first();
         $sophie = User::where('email', 'sophie.leroy@haccp.test')->first();
 

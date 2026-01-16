@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
-use App\Enums\DeviceType;
-use App\Enums\Platform;
+use App\Features\Session\Enums\DeviceType;
+use App\Features\Session\Enums\Platform;
 use App\Models\Device;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
