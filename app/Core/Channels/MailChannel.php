@@ -21,7 +21,6 @@ readonly class MailChannel
 
     public function send(User $notifiable, BaseNotification|Notification $notification): void
     {
-        // Check if the notification should be sent
         if (
             ! method_exists($notification, 'toMail')
             || ($notification instanceof BaseNotification && ! $notification->mustSend($notifiable))
@@ -29,15 +28,30 @@ readonly class MailChannel
             return;
         }
 
-        // Send email
-        $email = $notifiable->routeNotificationFor('mail', $notification);
+        $email  = $notifiable->routeNotificationFor('mail', $notification);
+        $mailer = config('mail.default');
+
+        if (! $mailer || in_array($mailer, ['log', 'array'], true)) {
+            $this->notificationSentService->store(
+                notifiable: $notifiable,
+                recipient: $email,
+                type: NotificationChannel::Email,
+                notification: $notification,
+                status: NotificationSentStatus::Skipped,
+                errorMessage: 'Mailer disabled',
+            );
+
+            return;
+        }
+
         $errorMessage = null;
 
         try {
             $this->channel->send($notifiable, $notification);
             $status = NotificationSentStatus::Sent;
-        } catch (TransportException $transportException) {
-            // Retry once
+        } catch (TransportException $e) {
+            report($e);
+
             try {
                 $this->channel->send($notifiable, $notification);
                 $status = NotificationSentStatus::Sent;
@@ -52,14 +66,12 @@ readonly class MailChannel
             $errorMessage = $exception->getMessage();
         }
 
-        $this->notificationSentService
-            ->store(
-                notifiable: $notifiable,
-                recipient: $email,
-                type: NotificationChannel::Email,
-                notification: $notification,
-                status: $status,
-                errorMessage: $errorMessage,
-            );
-    }
-}
+        $this->notificationSentService->store(
+            notifiable: $notifiable,
+            recipient: $email,
+            type: NotificationChannel::Email,
+            notification: $notification,
+            status: $status,
+            errorMessage: $errorMessage,
+        );
+    }}

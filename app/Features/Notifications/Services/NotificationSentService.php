@@ -49,8 +49,8 @@ readonly class NotificationSentService
             }
             $html = $mailMessage->render()->toHtml();
 
-// supprimer <style>...</style>
             $subject = $isConfidential ? 'Confidential' : $mailMessage->subject;
+
             $contentHtml = $isConfidential ? 'Confidential' : $html;
 
             $html = preg_replace('#<style.*?>.*?</style>#si', '', $html);

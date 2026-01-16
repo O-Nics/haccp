@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core\Providers;
 
-use App\Core\Events\NewDeviceDetectedEvent;
+use App\Features\Auth\Events\NewDeviceDetectedEvent;
 use App\Features\Auth\Mails\SendNewDeviceLoginEmail;
 use App\Features\Auth\Repositories\PasswordReset\PasswordResetRepository;
 use App\Features\Auth\Repositories\PasswordReset\PasswordResetRepositoryInterface;

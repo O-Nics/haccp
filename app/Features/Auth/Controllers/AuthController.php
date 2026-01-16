@@ -56,8 +56,6 @@ final class AuthController extends Controller
             data: $request->toDto(),
         );
 
-        $authData->user->notify(new UserRegisterNotification);
-
         return new AuthResponseResource($authData);
     }
 

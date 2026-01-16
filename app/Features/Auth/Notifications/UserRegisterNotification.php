@@ -14,9 +14,8 @@ class UserRegisterNotification extends UserMailNotification
     protected function mailMessage(User $user, MailMessage $message): MailMessage
     {
         return $message
-            ->subject('Bienvenue sur Liberlo ✨')
+            ->subject('Bienvenue sur Haccp ✨')
             ->greeting("Bienvenue {$user->first_name},")
-            ->line("Toute l'équipe Haccp vous souhaite la bienvenue. Nous sommes ravis de vous accueillir.")
-            ->action('Accéder à mon espace client', 'https://app.liberlo.com/login');
+            ->line("Toute l'équipe Haccp vous souhaite la bienvenue. Nous sommes ravis de vous accueillir.");
     }
 }

@@ -2,24 +2,24 @@
 
 declare(strict_types=1);
 
-namespace App\Core\Events;
+namespace App\Features\Auth\Listeners;
 
+use App\Features\Auth\Events\NewDeviceDetectedEvent;
 use App\Models\Device;
 use App\Models\User;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Queue\SerializesModels;
 
 /**
  * Event dispatched when a suspicious login is detected
  * (new device type/platform not previously trusted)
  */
-class NewDeviceDetectedEvent
+class NewDeviceDetectedListener
 {
-    use Dispatchable, InteractsWithSockets, SerializesModels;
+    public function __construct() {}
 
-    public function __construct(
-        public readonly User $user,
-        public readonly Device $device,
-    ) {}
+    public function handle(NewDeviceDetectedEvent $event): void
+    {
+        // Envoyer email ou notification à l'utilisateur
+    }
 }

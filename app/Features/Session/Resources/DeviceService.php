@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Features\Session\Resources;
 
-use App\Core\Events\NewDeviceDetectedEvent;
+use App\Features\Auth\Events\NewDeviceDetectedEvent;
 use App\Features\Session\Data\DeviceInfoData;
 use App\Features\Session\Repositories\Device\DeviceRepositoryInterface;
 use App\Models\Device;
@@ -32,7 +32,7 @@ final readonly class DeviceService
             $device = $this->deviceRepository->store($deviceInfo, $user);
 
             if (! $isRegister) {
-                NewDeviceDetectedEvent::dispatch($user, $device);
+                event(new NewDeviceDetectedEvent($user, $device));
             }
         }
 

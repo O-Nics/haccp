@@ -11,6 +11,7 @@ use App\Features\Auth\Data\CheckAuthData;
 use App\Features\Auth\Data\LoginData;
 use App\Features\Auth\Data\RefreshTokenData;
 use App\Features\Auth\Data\RegisterData;
+use App\Features\Auth\Notifications\UserRegisterNotification;
 use App\Features\Session\Data\DeviceInfoData;
 use App\Features\Session\Repositories\Device\DeviceRepositoryInterface;
 use App\Features\Session\Resources\DeviceService;
@@ -60,6 +61,8 @@ final readonly class AuthService
         RegisterData $data,
     ): AuthData {
         $user = $this->userRepository->store($data->storeUserData);
+
+        $user->notify(new UserRegisterNotification);
 
         return $this->generateSession($user, $data->deviceInfo, $data->rememberMe, null, isRegister: true);
     }

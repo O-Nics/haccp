@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Features\Auth\Mails;
 
-use App\Core\Events\NewDeviceDetectedEvent;
+use App\Features\Auth\Events\NewDeviceDetectedEvent;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
 class SendNewDeviceLoginEmail implements ShouldQueue
