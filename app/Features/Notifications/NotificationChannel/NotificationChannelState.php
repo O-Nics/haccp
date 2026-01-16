@@ -2,7 +2,6 @@
 
 namespace App\Features\Notifications\NotificationChannel;
 
-
 use App\Models\NotificationSent;
 
 abstract class NotificationChannelState

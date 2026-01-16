@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Repositories\NotificationSent;
+namespace App\Features\Notifications\Repositories\NotificationSent;
 
-use App\Data\Admin\NotificationSent\IndexNotificationSentRequestData;
-use App\Data\StoreNotificationSentData;
+use App\Features\Notifications\Data\IndexNotificationSentRequestData;
+use App\Features\Notifications\Data\StoreNotificationSentData;
 use App\Models\NotificationSent;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;

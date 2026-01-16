@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Repositories\NotificationSent;
+namespace App\Features\Notifications\Repositories\NotificationSent;
 
-use App\Data\Admin\NotificationSent\IndexNotificationSentRequestData;
-use App\Data\StoreNotificationSentData;
+use App\Features\Notifications\Data\IndexNotificationSentRequestData;
+use App\Features\Notifications\Data\StoreNotificationSentData;
 use App\Models\NotificationSent;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
@@ -38,14 +38,13 @@ class NotificationSentRepository implements NotificationSentRepositoryInterface
     public function store(StoreNotificationSentData $data): NotificationSent
     {
         $notificationSent = new NotificationSent;
-        $notificationSent->pro_client_id = $data->proClientId;
-        $notificationSent->patient_user_id = $data->patientUserId;
-        $notificationSent->pro_user_id = $data->proUserId;
+        $notificationSent->user_id = $data->userId;
         $notificationSent->recipient = $data->recipient;
         $notificationSent->type = $data->type;
         $notificationSent->name = $data->name;
         $notificationSent->subject = $data->subject;
-        $notificationSent->content = $data->content;
+        $notificationSent->content_html = $data->contentHtml;
+        $notificationSent->content_text = $data->contentText;
         $notificationSent->status = $data->status;
         $notificationSent->error_message = $data->errorMessage;
         $notificationSent->save();

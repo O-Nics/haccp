@@ -13,14 +13,16 @@ return new class extends Migration
     {
         Schema::create('notification_sents', function (Blueprint $table) {
             $table->id();
+            $table->foreignUuid('user_id')->constrained('users');
 
             $table->string('recipient'); // email or phone
             $table->string('name'); // notification name
-            $table->enum('type', ['sms', 'email', 'liberlo']);
-            $table->enum('status', ['sent', 'error', 'blocked']);
+            $table->string('type');
+            $table->string('status'); // sent, failed, pending
 
             $table->string('subject')->nullable();
-            $table->longText('content')->nullable();
+            $table->longText('content_html')->nullable();
+            $table->longText('content_text')->nullable();
             $table->datetime('resent_at')->nullable();
             $table->string('error_message')->nullable();
 

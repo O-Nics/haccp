@@ -2,10 +2,10 @@
 
 namespace App\Features\Notifications\Mails;
 
+use App\Core\Channels\MailChannel;
 use App\Core\Notifications\BaseNotification;
 use App\Models\User;
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Channels\MailChannel;
 use Illuminate\Notifications\Messages\MailMessage;
 
 abstract class UserMailNotification extends BaseNotification

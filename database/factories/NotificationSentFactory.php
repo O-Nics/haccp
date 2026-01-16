@@ -1,6 +1,7 @@
 <?php
 
 namespace Database\Factories;
+
 use App\Features\Notifications\Enums\NotificationChannel;
 use App\Features\Notifications\Enums\NotificationSentStatus;
 use App\Models\NotificationSent;

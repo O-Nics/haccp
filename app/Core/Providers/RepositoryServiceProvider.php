@@ -8,6 +8,8 @@ use App\Features\Auth\Repositories\PasswordReset\PasswordResetRepository;
 use App\Features\Auth\Repositories\PasswordReset\PasswordResetRepositoryInterface;
 use App\Features\Business\Repositories\BusinessRepository;
 use App\Features\Business\Repositories\BusinessRepositoryInterface;
+use App\Features\Notifications\Repositories\NotificationSent\NotificationSentRepository;
+use App\Features\Notifications\Repositories\NotificationSent\NotificationSentRepositoryInterface;
 use App\Features\Session\Repositories\Device\DeviceRepository;
 use App\Features\Session\Repositories\Device\DeviceRepositoryInterface;
 use App\Features\Session\Repositories\Session\SessionRepository;
@@ -28,6 +30,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->singleton(PasswordResetRepositoryInterface::class, PasswordResetRepository::class);
         $this->app->singleton(SessionRepositoryInterface::class, SessionRepository::class);
         $this->app->singleton(BusinessRepositoryInterface::class, BusinessRepository::class);
+        $this->app->singleton(NotificationSentRepositoryInterface::class, NotificationSentRepository::class);
     }
 
     /**
