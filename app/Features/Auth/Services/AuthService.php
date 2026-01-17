@@ -10,7 +10,6 @@ use App\Features\Auth\Data\AuthData;
 use App\Features\Auth\Data\CheckAuthData;
 use App\Features\Auth\Data\DeviceData;
 use App\Features\Auth\Data\LoginData;
-use App\Features\Auth\Data\RefreshTokenData;
 use App\Features\Auth\Data\RegisterData;
 use App\Features\Auth\Data\TokenData;
 use App\Features\Auth\Enums\TokenAbilityEnum;
@@ -84,7 +83,6 @@ final readonly class AuthService
             rememberMe: $device->remember_me
         );
 
-
         if ($device->session) {
             $this->authRepository->deleteSession($device->session);
         }
@@ -129,7 +127,7 @@ final readonly class AuthService
     public function refresh(User $user): AuthData
     {
         $session = $user->currentSession();
-        if(! $session) {
+        if (! $session) {
             throw new InvalidRefreshTokenException;
         }
         $device = $session->device;

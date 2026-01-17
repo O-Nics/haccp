@@ -17,12 +17,11 @@ Route::prefix('auth')
             ->middleware(ThrottleAuth::class)
             ->name('login');
 
-        Route::middleware(['auth:sanctum', 'ability:' . TokenAbilityEnum::REFRESH->value ])->group(function () {
+        Route::middleware(['auth:sanctum', 'ability:'.TokenAbilityEnum::REFRESH->value])->group(function () {
             Route::post('refresh', [AuthController::class, 'refresh']);
         });
 
-
-        Route::middleware(['auth:sanctum', 'ability:' . TokenAbilityEnum::ACCESS->value,])->group(function () {
+        Route::middleware(['auth:sanctum', 'ability:'.TokenAbilityEnum::ACCESS->value])->group(function () {
             Route::post('logout', 'logout')
                 ->name('logout');
             Route::post('check-auth', 'checkAuth')

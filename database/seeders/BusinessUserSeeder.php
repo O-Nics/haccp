@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Database\Seeders;
 
 use App\Models\Business;
-use App\Models\BusinessRole;
 use App\Models\BusinessUser;
 use App\Models\Role;
 use App\Models\User;

@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
+use App\Models\Core\BaseModel;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -35,10 +35,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $users
  * @property-read int|null $users_count
  *
+ * @method static Builder<static>|Business betweenDates($column, ?string $startAt = null, ?string $endAt = null, $boolean = 'and', $not = false)
  * @method static \Database\Factories\BusinessFactory factory($count = null, $state = [])
+ * @method static Builder<static>|Business filtered(?string $filterQuery = null, array $searchableColumns = [])
+ * @method static Builder<static>|Business forPeriod(?string $startAt = null, ?string $endAt = null, ?string $columnStart = 'start_at', ?string $columnEnd = 'end_at')
  * @method static Builder<static>|Business newModelQuery()
  * @method static Builder<static>|Business newQuery()
  * @method static Builder<static>|Business onlyTrashed()
+ * @method static Builder<static>|Business order(?string $sort, ?string $order)
  * @method static Builder<static>|Business query()
  * @method static Builder<static>|Business whereAddress($value)
  * @method static Builder<static>|Business whereBusinessTypeId($value)
@@ -59,7 +63,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  *
  * @mixin \Eloquent
  */
-class Business extends Model
+class Business extends BaseModel
 {
     use HasFactory, SoftDeletes;
 

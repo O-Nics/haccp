@@ -2432,10 +2432,10 @@ namespace PHPSTORM_META {
         registerArgumentsSet('middleware', 
 'web','api','auth','auth.basic','auth.session',
 'cache.headers','can','guest','password.confirm','precognitive',
-'signed','throttle','verified',);
+'signed','throttle','verified','abilities','ability',);
         registerArgumentsSet('routes', 
 'sanctum.csrf-cookie','health','health','auth.register','auth.login',
-'auth.refresh','auth.logout','auth.check-auth','password.forgot','password.confirm',
+'auth.','auth.logout','auth.check-auth','password.forgot','password.confirm',
 'password.reset','user.user','businesses.index','businesses.business.users','businesses.business.invite','storage.local','scramble.docs.ui','scramble.docs.document',);
         registerArgumentsSet('views', 
 'emails.password.confirmed','emails.password.reset','emails.passwordReset','layouts.mails','notifications::email',

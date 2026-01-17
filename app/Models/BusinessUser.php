@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Core\BasePivot;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\Pivot;
 
 /**
  * @property int $id
@@ -23,8 +23,12 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
  * @property-read \App\Models\Role|null $role
  * @property-read \App\Models\User $user
  *
+ * @method static Builder<static>|BusinessUser betweenDates($column, ?string $startAt = null, ?string $endAt = null, $boolean = 'and', $not = false)
+ * @method static Builder<static>|BusinessUser filtered(?string $filterQuery = null, array $searchableColumns = [])
+ * @method static Builder<static>|BusinessUser forPeriod(?string $startAt = null, ?string $endAt = null, ?string $columnStart = 'start_at', ?string $columnEnd = 'end_at')
  * @method static \Illuminate\Database\Eloquent\Builder<static>|BusinessUser newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|BusinessUser newQuery()
+ * @method static Builder<static>|BusinessUser order(?string $sort, ?string $order)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|BusinessUser query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|BusinessUser whereBusinessId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|BusinessUser whereBusinessRoleId($value)
@@ -40,7 +44,7 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
  *
  * @mixin \Eloquent
  */
-class BusinessUser extends Pivot
+class BusinessUser extends BasePivot
 {
     protected $table = 'business_users';
 

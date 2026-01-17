@@ -21,7 +21,7 @@ return new class extends Migration
 
             $table->timestamp('invited_at')->nullable();
             $table->timestamp('joined_at')->nullable();
-            $table->enum('status', ['invited', 'active', 'inactive'])->default('invited');
+            $table->string('status')->default('invited');
 
             $table->timestamps();
 
