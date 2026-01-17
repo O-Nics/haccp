@@ -9,11 +9,8 @@ namespace App\Features\Auth\Controllers;
 use App\Core\Controllers\Controller;
 use App\Core\Exceptions\InvalidCredentialsException;
 use App\Core\Exceptions\InvalidRefreshTokenException;
-use App\Features\Auth\Notifications\UserRegisterNotification;
 use App\Features\Auth\Requests\CheckAuthRequest;
 use App\Features\Auth\Requests\LoginRequest;
-use App\Features\Auth\Requests\LogoutRequest;
-use App\Features\Auth\Requests\RefreshTokenRequest;
 use App\Features\Auth\Requests\RegisterRequest;
 use App\Features\Auth\Resources\AuthResponseResource;
 use App\Features\Auth\Services\AuthService;
@@ -68,10 +65,10 @@ final class AuthController extends Controller
      *
      * @throws InvalidRefreshTokenException
      */
-    public function refresh(RefreshTokenRequest $request): AuthResponseResource
+    public function refresh(): AuthResponseResource
     {
         $authData = $this->authService->refresh(
-            refreshTokenData: $request->toDto()
+            user: auth()->user(),
         );
 
         return new AuthResponseResource($authData)->status(Response::HTTP_OK);
@@ -84,11 +81,10 @@ final class AuthController extends Controller
      *
      * @unauthenticated
      */
-    public function logout(LogoutRequest $request): \Illuminate\Http\Response
+    public function logout(): \Illuminate\Http\Response
     {
         $this->authService->logout(
-            user: $request->user(),
-            deviceId: $request->toDto()->deviceId
+            user: auth()->user(),
         );
 
         return response()->noContent();

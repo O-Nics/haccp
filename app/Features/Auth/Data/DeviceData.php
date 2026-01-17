@@ -1,0 +1,20 @@
+<?php
+
+// app/DataTransferObjects/TokenPairDTO.php
+
+declare(strict_types=1);
+
+namespace App\Features\Auth\Data;
+
+use Spatie\LaravelData\Data;
+
+class DeviceData extends Data
+{
+    public function __construct(
+        public string $deviceId,
+        public string $devicePlatform,
+        public ?string $deviceModel,
+        public ?bool $rememberMe,
+        public string $ip
+    ) {}
+}

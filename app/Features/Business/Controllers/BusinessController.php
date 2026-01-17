@@ -10,6 +10,7 @@ use App\Features\Business\Requests\IndexBusinessUserRequest;
 use App\Features\Business\Requests\InviteUserRequest;
 use App\Features\Business\Resources\BusinessResource;
 use App\Features\Business\Services\BusinessService;
+use App\Features\User\Data\IndexBusinessUserData;
 use App\Features\User\Resources\BusinessUserResource;
 use App\Models\Business;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -56,11 +57,22 @@ final class BusinessController extends Controller
 
     }
 
-    public function inviteUser(Business $business, InviteUserRequest $inviteUserRequest): BusinessUserResource
+    public function inviteUser(Business $business, InviteUserRequest $inviteUserRequest): AnonymousResourceCollection
     {
-        $user = $this->businessService->inviteUserToBusiness($business, $inviteUserRequest->toDto());
+        $this->businessService->inviteUserToBusiness($business, $inviteUserRequest->toDto());
+        $indexBusinessUserDto = new IndexBusinessUserData(
+            filterQuery: null,
+            sort: $this->sort ?? 'first_name',
+            order: $this->order ?? 'asc',
+            perPage: $this->per_page ?? 25,
+            page: $this->page ?? 1,
+        );
+        $businessUsers = $this->businessRepository->getBusinessUsersPaginated(
+            $business,
+            $indexBusinessUserDto,
+        );
 
-        return new BusinessUserResource($user)->status(201);
+        return BusinessUserResource::collection($businessUsers)->status(Response::HTTP_CREATED);
 
     }
 }

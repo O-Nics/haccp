@@ -12,30 +12,28 @@ return new class extends Migration
     {
         Schema::create('devices', function (Blueprint $table) {
             $table->id();
-            $table->foreignUuid('user_id')->constrained('users')->cascadeOnDelete();
-
-            // Device ID managed by client (unique per user only)
+            $table->foreignUuid('user_id')->constrained()->cascadeOnDelete();
             $table->string('device_id');
-
-            $table->string('device_name');
-            $table->string('device_type', 20)->default('unknown');
-            $table->string('platform', 20)->nullable();
-            $table->string('browser', 100)->nullable();
-            $table->string('ip_address', 45)->nullable();
-            $table->text('user_agent')->nullable();
-
-            // Token management (tokens expire, not devices)
-
-            $table->timestamp('last_used_at')->nullable();
+            $table->string('platform');
+            $table->string('ip_address');
+            $table->string('model')->nullable();
+            $table->boolean('remember_me')->default(false);
             $table->timestamps();
+        });
 
-            // Indexes
-            $table->unique(['user_id', 'device_id']);
+        Schema::create('sessions', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('device_id')->constrained()->cascadeOnDelete();
+            $table->foreignUuid('user_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('access_token_id')->constrained('personal_access_tokens')->cascadeOnDelete();
+            $table->foreignId('refresh_token_id')->constrained('personal_access_tokens')->cascadeOnDelete();
+            $table->timestamps();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('user_devices');
+        Schema::dropIfExists('sessions');
+        Schema::dropIfExists('devices');
     }
 };

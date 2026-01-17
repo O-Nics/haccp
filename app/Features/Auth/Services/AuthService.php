@@ -8,14 +8,14 @@ use App\Core\Exceptions\InvalidCredentialsException;
 use App\Core\Exceptions\InvalidRefreshTokenException;
 use App\Features\Auth\Data\AuthData;
 use App\Features\Auth\Data\CheckAuthData;
+use App\Features\Auth\Data\DeviceData;
 use App\Features\Auth\Data\LoginData;
 use App\Features\Auth\Data\RefreshTokenData;
 use App\Features\Auth\Data\RegisterData;
+use App\Features\Auth\Data\TokenData;
+use App\Features\Auth\Enums\TokenAbilityEnum;
 use App\Features\Auth\Notifications\UserRegisterNotification;
-use App\Features\Session\Data\DeviceInfoData;
-use App\Features\Session\Repositories\Device\DeviceRepositoryInterface;
-use App\Features\Session\Resources\DeviceService;
-use App\Features\Session\Services\SessionService;
+use App\Features\Auth\Repositories\Auth\AuthRepositoryInterface;
 use App\Features\User\Repositories\User\UserRepositoryInterface;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
@@ -23,10 +23,9 @@ use Illuminate\Support\Facades\Hash;
 final readonly class AuthService
 {
     public function __construct(
-        private DeviceService $deviceService,
-        private SessionService $sessionService,
         private UserRepositoryInterface $userRepository,
-        private DeviceRepositoryInterface $deviceRepository,
+        private AuthRepositoryInterface $authRepository,
+        private TokenService $tokenService,
     ) {}
 
     /**
@@ -44,14 +43,14 @@ final readonly class AuthService
             throw new InvalidCredentialsException;
         }
 
-        return $this->generateSession($user, $data->deviceInfo, $data->rememberMe, $data->activeBusiness);
+        return $this->generateSession($user, $data->deviceData, $data->activeBusiness);
     }
 
     public function checkAuth(
         CheckAuthData $data,
         User $user,
     ): AuthData {
-        return $this->generateSession($user, $data->deviceInfo, $data->rememberMe, $data->activeBusinessId);
+        return $this->generateSession($user, $data->deviceInfo, null, $data->activeBusinessId);
     }
 
     /**
@@ -64,7 +63,7 @@ final readonly class AuthService
 
         $user->notify(new UserRegisterNotification);
 
-        return $this->generateSession($user, $data->deviceInfo, $data->rememberMe, null, isRegister: true);
+        return $this->generateSession($user, $data->deviceInfo, null);
     }
 
     /**
@@ -72,19 +71,25 @@ final readonly class AuthService
      */
     private function generateSession(
         User $user,
-        DeviceInfoData $deviceInfo,
-        bool $rememberMe,
+        DeviceData $deviceInfo,
         ?string $activeBusinessId,
-        bool $isRegister = false,
     ): AuthData {
-        $tokenType = $rememberMe ? 'remember' : 'refresh';
-        $expirationMinutes = config("auth.tokens.{$tokenType}.expiration");
 
-        $device = $this->deviceService->registerDevice($user, $deviceInfo, $isRegister);
+        $device = $this->authRepository->createOrUpdateDevice(user: $user, deviceData: $deviceInfo);
 
-        $this->userRepository->deleteTokensByDeviceId($user, $device->device_id);
+        $tokens = $this->tokenService->issueFor(
+            $user,
+            [TokenAbilityEnum::ACCESS->value],
+            [TokenAbilityEnum::REFRESH->value],
+            rememberMe: $device->remember_me
+        );
 
-        $result = $this->sessionService->createSession($user, $device, $expirationMinutes);
+
+        if ($device->session) {
+            $this->authRepository->deleteSession($device->session);
+        }
+
+        $this->authRepository->createSession($user, $device, $tokens);
 
         $business = null;
 
@@ -104,8 +109,14 @@ final readonly class AuthService
 
         return new AuthData(
             user: $user,
-            accessToken: $result->accessToken,
-            refreshToken: $result->refreshToken,
+            accessToken: new TokenData(
+                token: $tokens->accessPlain(),
+                expiresAt: $tokens->accessExpiresAt(),
+            ),
+            refreshToken: new TokenData(
+                token: $tokens->refreshPlain(),
+                expiresAt: $tokens->refreshExpiresAt(),
+            ),
             activeBusiness: $business,
         );
     }
@@ -115,32 +126,33 @@ final readonly class AuthService
      *
      * @throws InvalidRefreshTokenException
      */
-    public function refresh(RefreshTokenData $refreshTokenData): AuthData
+    public function refresh(User $user): AuthData
     {
-        $result = $this->sessionService->refreshSession(
-            deviceId: $refreshTokenData->deviceId,
-            refreshToken: $refreshTokenData->refreshToken
+        $session = $user->currentSession();
+        if(! $session) {
+            throw new InvalidRefreshTokenException;
+        }
+        $device = $session->device;
+
+        $deviceData = new DeviceData(
+            deviceId: $device->device_id,
+            devicePlatform: $device->platform,
+            deviceModel: $device->model,
+            rememberMe: $device->remember_me,
+            ip: $device->ip_address,
         );
 
-        return new AuthData(
-            user: $result->session->user,
-            accessToken: $result->accessToken,
-            refreshToken: $result->refreshToken,
-            activeBusiness: null,
-        );
+        return $this->generateSession($user, $deviceData, null);
     }
 
     /**
      * Logout (revoke session and tokens)
      */
-    public function logout(User $user, string $deviceId): void
+    public function logout(User $user): void
     {
-        $device = $this->deviceRepository->findByUserAndDeviceId($user, $deviceId);
-
-        if ($device) {
-            $this->sessionService->revokeSession($user, $device);
+        $session = $user->currentSession();
+        if ($session) {
+            $this->authRepository->deleteSession($session);
         }
-
-        $user->currentAccessToken()?->delete();
     }
 }

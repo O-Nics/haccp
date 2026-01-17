@@ -26,7 +26,7 @@ class IndexBusinessUserRequest extends BaseFormRequest
     {
         return new IndexBusinessUserData(
             filterQuery: $this->filter_query,
-            sort: $this->sort ?? 'created_at',
+            sort: $this->sort ?? 'first_name',
             order: $this->order ?? 'asc',
             perPage: $this->per_page ?? 25,
             page: $this->page ?? 1,

@@ -4,31 +4,25 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Features\Session\Enums\DeviceType;
-use App\Features\Session\Enums\Platform;
 use App\Models\Core\BaseModel;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Carbon;
 
 /**
  * @property int $id
  * @property string $user_id
  * @property string $device_id
- * @property string $device_name
- * @property DeviceType $device_type
- * @property Platform|null $platform
- * @property string|null $browser
- * @property string|null $ip_address
- * @property string|null $user_agent
- * @property Carbon|null $last_used_at
+ * @property string $platform
+ * @property string $ip_address
+ * @property string|null $model
+ * @property bool $remember_me
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Session> $sessions
- * @property-read int|null $sessions_count
+ * @property-read \App\Models\Session|null $session
  * @property-read \App\Models\User $user
  *
  * @method static Builder<static>|Device betweenDates($column, ?string $startAt = null, ?string $endAt = null, $boolean = 'and', $not = false)
@@ -39,17 +33,14 @@ use Illuminate\Support\Carbon;
  * @method static Builder<static>|Device newQuery()
  * @method static Builder<static>|Device order(?string $sort, ?string $order)
  * @method static Builder<static>|Device query()
- * @method static Builder<static>|Device whereBrowser($value)
  * @method static Builder<static>|Device whereCreatedAt($value)
  * @method static Builder<static>|Device whereDeviceId($value)
- * @method static Builder<static>|Device whereDeviceName($value)
- * @method static Builder<static>|Device whereDeviceType($value)
  * @method static Builder<static>|Device whereId($value)
  * @method static Builder<static>|Device whereIpAddress($value)
- * @method static Builder<static>|Device whereLastUsedAt($value)
+ * @method static Builder<static>|Device whereModel($value)
  * @method static Builder<static>|Device wherePlatform($value)
+ * @method static Builder<static>|Device whereRememberMe($value)
  * @method static Builder<static>|Device whereUpdatedAt($value)
- * @method static Builder<static>|Device whereUserAgent($value)
  * @method static Builder<static>|Device whereUserId($value)
  *
  * @mixin Eloquent
@@ -61,9 +52,7 @@ class Device extends BaseModel
     protected function casts(): array
     {
         return [
-            'device_type' => DeviceType::class,
-            'platform' => Platform::class,
-            'last_used_at' => 'datetime',
+            'remember_me' => 'boolean',
         ];
     }
 
@@ -72,13 +61,8 @@ class Device extends BaseModel
         return $this->belongsTo(User::class);
     }
 
-    public function sessions(): HasMany
+    public function session(): HasOne
     {
-        return $this->hasMany(Session::class);
-    }
-
-    public function touchLastUsed(): void
-    {
-        $this->last_used_at = Carbon::now();
+        return $this->hasOne(Session::class);
     }
 }

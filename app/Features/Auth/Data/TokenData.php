@@ -13,6 +13,5 @@ class TokenData extends Data
     public function __construct(
         public string $token,
         public int $expiresAt,
-        public string $tokenType,
     ) {}
 }

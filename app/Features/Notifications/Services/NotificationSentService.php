@@ -54,13 +54,14 @@ readonly class NotificationSentService
             $contentHtml = $isConfidential ? 'Confidential' : $html;
 
             $html = preg_replace('#<style.*?>.*?</style>#si', '', $html);
-            $contentText = $isConfidential ?  'Confidential' : trim(
+            $contentText = $isConfidential ? 'Confidential' : trim(
                 preg_replace('/\n{3,}/', "\n\n",
                     html_entity_decode(
                         strip_tags($html)
                     )
                 )
-            );        }
+            );
+        }
 
         //        if (method_exists($notification, 'toSms')) {
         //            $smsMessage = $notification->toSms($notifiable);

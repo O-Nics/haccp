@@ -6,9 +6,6 @@ namespace App\Features\Auth\Listeners;
 
 use App\Features\Auth\Events\NewDeviceDetectedEvent;
 use App\Models\Device;
-use App\Models\User;
-use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Foundation\Events\Dispatchable;
 
 /**
  * Event dispatched when a suspicious login is detected

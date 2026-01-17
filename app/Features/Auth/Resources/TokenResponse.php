@@ -18,7 +18,6 @@ class TokenResponse extends JsonResource
         return [
             'token' => $this->token,
             'expires_at' => $this->expiresAt,
-            'token_type' => $this->tokenType,
         ];
     }
 }

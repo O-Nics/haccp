@@ -7,11 +7,8 @@ declare(strict_types=1);
 namespace App\Features\Auth\Requests;
 
 use App\Core\Requests\BaseFormRequest;
+use App\Features\Auth\Data\DeviceData;
 use App\Features\Auth\Data\LoginData;
-use App\Features\Session\Data\DeviceInfoData;
-use App\Features\Session\Enums\DeviceType;
-use App\Features\Session\Enums\Platform;
-use Illuminate\Validation\Rule;
 
 class LoginRequest extends BaseFormRequest
 {
@@ -28,13 +25,9 @@ class LoginRequest extends BaseFormRequest
                 : ['required', 'email:rfc,dns', 'max:255'],
             'password' => ['required', 'string', 'min:8'],
             'remember_me' => ['boolean'],
-
-            'device_name' => ['required', 'string', 'max:255'],
             'device_id' => ['required', 'string'],
-            'device_type' => ['nullable', Rule::enum(DeviceType::class)],
-            'platform' => ['nullable', 'string', 'max:50'],
-            'browser' => ['nullable', 'string', 'max:100'],
-            'user_agent' => ['nullable', 'string', 'max:512'],
+            'device_model' => ['nullable', 'string'],
+            'device_platform' => ['required', 'string'],
             'active_business_id' => ['nullable', 'string'],
         ];
     }
@@ -57,19 +50,12 @@ class LoginRequest extends BaseFormRequest
         return new LoginData(
             email: $this->input('email'),
             password: $this->input('password'),
-            rememberMe: $this->boolean('remember_me'),
-            deviceInfo: new DeviceInfoData(
+            deviceData: new DeviceData(
                 deviceId: $this->input('device_id'),
-                deviceName: $this->input('device_name'),
-                deviceType: $this->input('device_type')
-                    ? DeviceType::from($this->input('device_type'))
-                    : DeviceType::fromUserAgent($this->input('user_agent') ?? $this->userAgent()),
-                platform: $this->input('platform')
-                    ? Platform::from(strtolower($this->input('platform')))
-                    : Platform::fromUserAgent($this->input('user_agent') ?? $this->userAgent()),
-                browser: $this->input('browser'),
-                userAgent: $this->input('user_agent') ?? $this->userAgent(),
-
+                devicePlatform: $this->input('device_platform'),
+                deviceModel: $this->input('device_name'),
+                rememberMe: $this->boolean('remember_me'),
+                ip: $this->ip()
             ),
             activeBusiness: $this->input('active_business_id')
         );

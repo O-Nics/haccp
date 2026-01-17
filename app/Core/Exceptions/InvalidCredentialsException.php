@@ -19,6 +19,8 @@ final class InvalidCredentialsException extends Exception
 
     public function render(): JsonResponse
     {
-        return apiError($this->message, $this->code);
+        return response()->json([
+            'message' => $this->getMessage(),
+        ], $this->getCode());
     }
 }

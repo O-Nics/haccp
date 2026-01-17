@@ -13,11 +13,10 @@ namespace PHPSTORM_META {
     */
     override(new \Illuminate\Contracts\Container\Container, map([
         '' => '@',
+            'App\Features\Auth\Repositories\Auth\AuthRepositoryInterface' => \App\Features\Auth\Repositories\Auth\AuthRepository::class,
             'App\Features\Auth\Repositories\PasswordReset\PasswordResetRepositoryInterface' => \App\Features\Auth\Repositories\PasswordReset\PasswordResetRepository::class,
             'App\Features\Business\Repositories\BusinessRepositoryInterface' => \App\Features\Business\Repositories\BusinessRepository::class,
             'App\Features\Notifications\Repositories\NotificationSent\NotificationSentRepositoryInterface' => \App\Features\Notifications\Repositories\NotificationSent\NotificationSentRepository::class,
-            'App\Features\Session\Repositories\Device\DeviceRepositoryInterface' => \App\Features\Session\Repositories\Device\DeviceRepository::class,
-            'App\Features\Session\Repositories\Session\SessionRepositoryInterface' => \App\Features\Session\Repositories\Session\SessionRepository::class,
             'App\Features\User\Repositories\User\UserRepositoryInterface' => \App\Features\User\Repositories\User\UserRepository::class,
             'Illuminate\Bus\BatchRepository' => \Illuminate\Bus\DatabaseBatchRepository::class,
             'Illuminate\Contracts\Auth\Access\Gate' => \Illuminate\Auth\Access\Gate::class,
@@ -81,11 +80,10 @@ namespace PHPSTORM_META {
         ]));
     override(\Illuminate\Container\Container::makeWith(0), map([
         '' => '@',
+            'App\Features\Auth\Repositories\Auth\AuthRepositoryInterface' => \App\Features\Auth\Repositories\Auth\AuthRepository::class,
             'App\Features\Auth\Repositories\PasswordReset\PasswordResetRepositoryInterface' => \App\Features\Auth\Repositories\PasswordReset\PasswordResetRepository::class,
             'App\Features\Business\Repositories\BusinessRepositoryInterface' => \App\Features\Business\Repositories\BusinessRepository::class,
             'App\Features\Notifications\Repositories\NotificationSent\NotificationSentRepositoryInterface' => \App\Features\Notifications\Repositories\NotificationSent\NotificationSentRepository::class,
-            'App\Features\Session\Repositories\Device\DeviceRepositoryInterface' => \App\Features\Session\Repositories\Device\DeviceRepository::class,
-            'App\Features\Session\Repositories\Session\SessionRepositoryInterface' => \App\Features\Session\Repositories\Session\SessionRepository::class,
             'App\Features\User\Repositories\User\UserRepositoryInterface' => \App\Features\User\Repositories\User\UserRepository::class,
             'Illuminate\Bus\BatchRepository' => \Illuminate\Bus\DatabaseBatchRepository::class,
             'Illuminate\Contracts\Auth\Access\Gate' => \Illuminate\Auth\Access\Gate::class,
@@ -149,11 +147,10 @@ namespace PHPSTORM_META {
         ]));
     override(\Illuminate\Contracts\Container\Container::get(0), map([
         '' => '@',
+            'App\Features\Auth\Repositories\Auth\AuthRepositoryInterface' => \App\Features\Auth\Repositories\Auth\AuthRepository::class,
             'App\Features\Auth\Repositories\PasswordReset\PasswordResetRepositoryInterface' => \App\Features\Auth\Repositories\PasswordReset\PasswordResetRepository::class,
             'App\Features\Business\Repositories\BusinessRepositoryInterface' => \App\Features\Business\Repositories\BusinessRepository::class,
             'App\Features\Notifications\Repositories\NotificationSent\NotificationSentRepositoryInterface' => \App\Features\Notifications\Repositories\NotificationSent\NotificationSentRepository::class,
-            'App\Features\Session\Repositories\Device\DeviceRepositoryInterface' => \App\Features\Session\Repositories\Device\DeviceRepository::class,
-            'App\Features\Session\Repositories\Session\SessionRepositoryInterface' => \App\Features\Session\Repositories\Session\SessionRepository::class,
             'App\Features\User\Repositories\User\UserRepositoryInterface' => \App\Features\User\Repositories\User\UserRepository::class,
             'Illuminate\Bus\BatchRepository' => \Illuminate\Bus\DatabaseBatchRepository::class,
             'Illuminate\Contracts\Auth\Access\Gate' => \Illuminate\Auth\Access\Gate::class,
@@ -217,11 +214,10 @@ namespace PHPSTORM_META {
         ]));
     override(\Illuminate\Contracts\Container\Container::make(0), map([
         '' => '@',
+            'App\Features\Auth\Repositories\Auth\AuthRepositoryInterface' => \App\Features\Auth\Repositories\Auth\AuthRepository::class,
             'App\Features\Auth\Repositories\PasswordReset\PasswordResetRepositoryInterface' => \App\Features\Auth\Repositories\PasswordReset\PasswordResetRepository::class,
             'App\Features\Business\Repositories\BusinessRepositoryInterface' => \App\Features\Business\Repositories\BusinessRepository::class,
             'App\Features\Notifications\Repositories\NotificationSent\NotificationSentRepositoryInterface' => \App\Features\Notifications\Repositories\NotificationSent\NotificationSentRepository::class,
-            'App\Features\Session\Repositories\Device\DeviceRepositoryInterface' => \App\Features\Session\Repositories\Device\DeviceRepository::class,
-            'App\Features\Session\Repositories\Session\SessionRepositoryInterface' => \App\Features\Session\Repositories\Session\SessionRepository::class,
             'App\Features\User\Repositories\User\UserRepositoryInterface' => \App\Features\User\Repositories\User\UserRepository::class,
             'Illuminate\Bus\BatchRepository' => \Illuminate\Bus\DatabaseBatchRepository::class,
             'Illuminate\Contracts\Auth\Access\Gate' => \Illuminate\Auth\Access\Gate::class,
@@ -285,11 +281,10 @@ namespace PHPSTORM_META {
         ]));
     override(\Illuminate\Contracts\Container\Container::makeWith(0), map([
         '' => '@',
+            'App\Features\Auth\Repositories\Auth\AuthRepositoryInterface' => \App\Features\Auth\Repositories\Auth\AuthRepository::class,
             'App\Features\Auth\Repositories\PasswordReset\PasswordResetRepositoryInterface' => \App\Features\Auth\Repositories\PasswordReset\PasswordResetRepository::class,
             'App\Features\Business\Repositories\BusinessRepositoryInterface' => \App\Features\Business\Repositories\BusinessRepository::class,
             'App\Features\Notifications\Repositories\NotificationSent\NotificationSentRepositoryInterface' => \App\Features\Notifications\Repositories\NotificationSent\NotificationSentRepository::class,
-            'App\Features\Session\Repositories\Device\DeviceRepositoryInterface' => \App\Features\Session\Repositories\Device\DeviceRepository::class,
-            'App\Features\Session\Repositories\Session\SessionRepositoryInterface' => \App\Features\Session\Repositories\Session\SessionRepository::class,
             'App\Features\User\Repositories\User\UserRepositoryInterface' => \App\Features\User\Repositories\User\UserRepository::class,
             'Illuminate\Bus\BatchRepository' => \Illuminate\Bus\DatabaseBatchRepository::class,
             'Illuminate\Contracts\Auth\Access\Gate' => \Illuminate\Auth\Access\Gate::class,
@@ -353,11 +348,10 @@ namespace PHPSTORM_META {
         ]));
     override(\App::get(0), map([
         '' => '@',
+            'App\Features\Auth\Repositories\Auth\AuthRepositoryInterface' => \App\Features\Auth\Repositories\Auth\AuthRepository::class,
             'App\Features\Auth\Repositories\PasswordReset\PasswordResetRepositoryInterface' => \App\Features\Auth\Repositories\PasswordReset\PasswordResetRepository::class,
             'App\Features\Business\Repositories\BusinessRepositoryInterface' => \App\Features\Business\Repositories\BusinessRepository::class,
             'App\Features\Notifications\Repositories\NotificationSent\NotificationSentRepositoryInterface' => \App\Features\Notifications\Repositories\NotificationSent\NotificationSentRepository::class,
-            'App\Features\Session\Repositories\Device\DeviceRepositoryInterface' => \App\Features\Session\Repositories\Device\DeviceRepository::class,
-            'App\Features\Session\Repositories\Session\SessionRepositoryInterface' => \App\Features\Session\Repositories\Session\SessionRepository::class,
             'App\Features\User\Repositories\User\UserRepositoryInterface' => \App\Features\User\Repositories\User\UserRepository::class,
             'Illuminate\Bus\BatchRepository' => \Illuminate\Bus\DatabaseBatchRepository::class,
             'Illuminate\Contracts\Auth\Access\Gate' => \Illuminate\Auth\Access\Gate::class,
@@ -421,11 +415,10 @@ namespace PHPSTORM_META {
         ]));
     override(\App::make(0), map([
         '' => '@',
+            'App\Features\Auth\Repositories\Auth\AuthRepositoryInterface' => \App\Features\Auth\Repositories\Auth\AuthRepository::class,
             'App\Features\Auth\Repositories\PasswordReset\PasswordResetRepositoryInterface' => \App\Features\Auth\Repositories\PasswordReset\PasswordResetRepository::class,
             'App\Features\Business\Repositories\BusinessRepositoryInterface' => \App\Features\Business\Repositories\BusinessRepository::class,
             'App\Features\Notifications\Repositories\NotificationSent\NotificationSentRepositoryInterface' => \App\Features\Notifications\Repositories\NotificationSent\NotificationSentRepository::class,
-            'App\Features\Session\Repositories\Device\DeviceRepositoryInterface' => \App\Features\Session\Repositories\Device\DeviceRepository::class,
-            'App\Features\Session\Repositories\Session\SessionRepositoryInterface' => \App\Features\Session\Repositories\Session\SessionRepository::class,
             'App\Features\User\Repositories\User\UserRepositoryInterface' => \App\Features\User\Repositories\User\UserRepository::class,
             'Illuminate\Bus\BatchRepository' => \Illuminate\Bus\DatabaseBatchRepository::class,
             'Illuminate\Contracts\Auth\Access\Gate' => \Illuminate\Auth\Access\Gate::class,
@@ -489,11 +482,10 @@ namespace PHPSTORM_META {
         ]));
     override(\App::makeWith(0), map([
         '' => '@',
+            'App\Features\Auth\Repositories\Auth\AuthRepositoryInterface' => \App\Features\Auth\Repositories\Auth\AuthRepository::class,
             'App\Features\Auth\Repositories\PasswordReset\PasswordResetRepositoryInterface' => \App\Features\Auth\Repositories\PasswordReset\PasswordResetRepository::class,
             'App\Features\Business\Repositories\BusinessRepositoryInterface' => \App\Features\Business\Repositories\BusinessRepository::class,
             'App\Features\Notifications\Repositories\NotificationSent\NotificationSentRepositoryInterface' => \App\Features\Notifications\Repositories\NotificationSent\NotificationSentRepository::class,
-            'App\Features\Session\Repositories\Device\DeviceRepositoryInterface' => \App\Features\Session\Repositories\Device\DeviceRepository::class,
-            'App\Features\Session\Repositories\Session\SessionRepositoryInterface' => \App\Features\Session\Repositories\Session\SessionRepository::class,
             'App\Features\User\Repositories\User\UserRepositoryInterface' => \App\Features\User\Repositories\User\UserRepository::class,
             'Illuminate\Bus\BatchRepository' => \Illuminate\Bus\DatabaseBatchRepository::class,
             'Illuminate\Contracts\Auth\Access\Gate' => \Illuminate\Auth\Access\Gate::class,
@@ -557,11 +549,10 @@ namespace PHPSTORM_META {
         ]));
     override(\app(0), map([
         '' => '@',
+            'App\Features\Auth\Repositories\Auth\AuthRepositoryInterface' => \App\Features\Auth\Repositories\Auth\AuthRepository::class,
             'App\Features\Auth\Repositories\PasswordReset\PasswordResetRepositoryInterface' => \App\Features\Auth\Repositories\PasswordReset\PasswordResetRepository::class,
             'App\Features\Business\Repositories\BusinessRepositoryInterface' => \App\Features\Business\Repositories\BusinessRepository::class,
             'App\Features\Notifications\Repositories\NotificationSent\NotificationSentRepositoryInterface' => \App\Features\Notifications\Repositories\NotificationSent\NotificationSentRepository::class,
-            'App\Features\Session\Repositories\Device\DeviceRepositoryInterface' => \App\Features\Session\Repositories\Device\DeviceRepository::class,
-            'App\Features\Session\Repositories\Session\SessionRepositoryInterface' => \App\Features\Session\Repositories\Session\SessionRepository::class,
             'App\Features\User\Repositories\User\UserRepositoryInterface' => \App\Features\User\Repositories\User\UserRepository::class,
             'Illuminate\Bus\BatchRepository' => \Illuminate\Bus\DatabaseBatchRepository::class,
             'Illuminate\Contracts\Auth\Access\Gate' => \Illuminate\Auth\Access\Gate::class,
@@ -625,11 +616,10 @@ namespace PHPSTORM_META {
         ]));
     override(\resolve(0), map([
         '' => '@',
+            'App\Features\Auth\Repositories\Auth\AuthRepositoryInterface' => \App\Features\Auth\Repositories\Auth\AuthRepository::class,
             'App\Features\Auth\Repositories\PasswordReset\PasswordResetRepositoryInterface' => \App\Features\Auth\Repositories\PasswordReset\PasswordResetRepository::class,
             'App\Features\Business\Repositories\BusinessRepositoryInterface' => \App\Features\Business\Repositories\BusinessRepository::class,
             'App\Features\Notifications\Repositories\NotificationSent\NotificationSentRepositoryInterface' => \App\Features\Notifications\Repositories\NotificationSent\NotificationSentRepository::class,
-            'App\Features\Session\Repositories\Device\DeviceRepositoryInterface' => \App\Features\Session\Repositories\Device\DeviceRepository::class,
-            'App\Features\Session\Repositories\Session\SessionRepositoryInterface' => \App\Features\Session\Repositories\Session\SessionRepository::class,
             'App\Features\User\Repositories\User\UserRepositoryInterface' => \App\Features\User\Repositories\User\UserRepository::class,
             'Illuminate\Bus\BatchRepository' => \Illuminate\Bus\DatabaseBatchRepository::class,
             'Illuminate\Contracts\Auth\Access\Gate' => \Illuminate\Auth\Access\Gate::class,
@@ -693,11 +683,10 @@ namespace PHPSTORM_META {
         ]));
     override(\Psr\Container\ContainerInterface::get(0), map([
         '' => '@',
+            'App\Features\Auth\Repositories\Auth\AuthRepositoryInterface' => \App\Features\Auth\Repositories\Auth\AuthRepository::class,
             'App\Features\Auth\Repositories\PasswordReset\PasswordResetRepositoryInterface' => \App\Features\Auth\Repositories\PasswordReset\PasswordResetRepository::class,
             'App\Features\Business\Repositories\BusinessRepositoryInterface' => \App\Features\Business\Repositories\BusinessRepository::class,
             'App\Features\Notifications\Repositories\NotificationSent\NotificationSentRepositoryInterface' => \App\Features\Notifications\Repositories\NotificationSent\NotificationSentRepository::class,
-            'App\Features\Session\Repositories\Device\DeviceRepositoryInterface' => \App\Features\Session\Repositories\Device\DeviceRepository::class,
-            'App\Features\Session\Repositories\Session\SessionRepositoryInterface' => \App\Features\Session\Repositories\Session\SessionRepository::class,
             'App\Features\User\Repositories\User\UserRepositoryInterface' => \App\Features\User\Repositories\User\UserRepository::class,
             'Illuminate\Bus\BatchRepository' => \Illuminate\Bus\DatabaseBatchRepository::class,
             'Illuminate\Contracts\Auth\Access\Gate' => \Illuminate\Auth\Access\Gate::class,
@@ -2449,23 +2438,24 @@ namespace PHPSTORM_META {
 'auth.refresh','auth.logout','auth.check-auth','password.forgot','password.confirm',
 'password.reset','user.user','businesses.index','businesses.business.users','businesses.business.invite','storage.local','scramble.docs.ui','scramble.docs.document',);
         registerArgumentsSet('views', 
-'emails.password.confirmed','emails.password.reset','emails.passwordReset','layouts.mails','scramble::docs',
-'vendor.mail.html.button','vendor.mail.html.footer','vendor.mail.html.header','vendor.mail.html.layout','vendor.mail.html.message',
-'vendor.mail.html.panel','vendor.mail.html.subcopy','vendor.mail.html.table','vendor.mail.text.button','vendor.mail.text.footer',
-'vendor.mail.text.header','vendor.mail.text.layout','vendor.mail.text.message','vendor.mail.text.panel','vendor.mail.text.subcopy',
-'vendor.mail.text.table','vendor.scramble.docs','welcome','laravel-exceptions-renderer::components.badge','laravel-exceptions-renderer::components.empty-state',
-'laravel-exceptions-renderer::components.file-with-line','laravel-exceptions-renderer::components.formatted-source','laravel-exceptions-renderer::components.frame','laravel-exceptions-renderer::components.frame-code','laravel-exceptions-renderer::components.header',
-'laravel-exceptions-renderer::components.http-method','laravel-exceptions-renderer::components.icons.alert','laravel-exceptions-renderer::components.icons.check','laravel-exceptions-renderer::components.icons.chevron-left','laravel-exceptions-renderer::components.icons.chevron-right',
-'laravel-exceptions-renderer::components.icons.chevrons-down-up','laravel-exceptions-renderer::components.icons.chevrons-left','laravel-exceptions-renderer::components.icons.chevrons-right','laravel-exceptions-renderer::components.icons.chevrons-up-down','laravel-exceptions-renderer::components.icons.copy',
-'laravel-exceptions-renderer::components.icons.database','laravel-exceptions-renderer::components.icons.folder','laravel-exceptions-renderer::components.icons.folder-open','laravel-exceptions-renderer::components.icons.globe','laravel-exceptions-renderer::components.icons.info',
-'laravel-exceptions-renderer::components.icons.laravel-ascii','laravel-exceptions-renderer::components.laravel-ascii-spotlight','laravel-exceptions-renderer::components.layout','laravel-exceptions-renderer::components.query','laravel-exceptions-renderer::components.request-body',
-'laravel-exceptions-renderer::components.request-header','laravel-exceptions-renderer::components.request-url','laravel-exceptions-renderer::components.routing','laravel-exceptions-renderer::components.routing-parameter','laravel-exceptions-renderer::components.section-container',
-'laravel-exceptions-renderer::components.separator','laravel-exceptions-renderer::components.syntax-highlight','laravel-exceptions-renderer::components.topbar','laravel-exceptions-renderer::components.trace','laravel-exceptions-renderer::components.vendor-frame',
-'laravel-exceptions-renderer::components.vendor-frames','laravel-exceptions-renderer::markdown','laravel-exceptions-renderer::show','laravel-exceptions::401','laravel-exceptions::402',
-'laravel-exceptions::403','laravel-exceptions::404','laravel-exceptions::419','laravel-exceptions::429','laravel-exceptions::500',
-'laravel-exceptions::503','laravel-exceptions::layout','laravel-exceptions::minimal','notifications::email','pagination::bootstrap-4',
-'pagination::bootstrap-5','pagination::default','pagination::semantic-ui','pagination::simple-bootstrap-4','pagination::simple-bootstrap-5',
-'pagination::simple-default','pagination::simple-tailwind','pagination::tailwind','scramble::docs',);
+'emails.password.confirmed','emails.password.reset','emails.passwordReset','layouts.mails','notifications::email',
+'scramble::docs','vendor.mail.html.button','vendor.mail.html.footer','vendor.mail.html.header','vendor.mail.html.layout',
+'vendor.mail.html.message','vendor.mail.html.panel','vendor.mail.html.subcopy','vendor.mail.html.table','vendor.mail.text.button',
+'vendor.mail.text.footer','vendor.mail.text.header','vendor.mail.text.layout','vendor.mail.text.message','vendor.mail.text.panel',
+'vendor.mail.text.subcopy','vendor.mail.text.table','vendor.notifications.email','vendor.scramble.docs','welcome',
+'laravel-exceptions-renderer::components.badge','laravel-exceptions-renderer::components.empty-state','laravel-exceptions-renderer::components.file-with-line','laravel-exceptions-renderer::components.formatted-source','laravel-exceptions-renderer::components.frame',
+'laravel-exceptions-renderer::components.frame-code','laravel-exceptions-renderer::components.header','laravel-exceptions-renderer::components.http-method','laravel-exceptions-renderer::components.icons.alert','laravel-exceptions-renderer::components.icons.check',
+'laravel-exceptions-renderer::components.icons.chevron-left','laravel-exceptions-renderer::components.icons.chevron-right','laravel-exceptions-renderer::components.icons.chevrons-down-up','laravel-exceptions-renderer::components.icons.chevrons-left','laravel-exceptions-renderer::components.icons.chevrons-right',
+'laravel-exceptions-renderer::components.icons.chevrons-up-down','laravel-exceptions-renderer::components.icons.copy','laravel-exceptions-renderer::components.icons.database','laravel-exceptions-renderer::components.icons.folder','laravel-exceptions-renderer::components.icons.folder-open',
+'laravel-exceptions-renderer::components.icons.globe','laravel-exceptions-renderer::components.icons.info','laravel-exceptions-renderer::components.icons.laravel-ascii','laravel-exceptions-renderer::components.laravel-ascii-spotlight','laravel-exceptions-renderer::components.layout',
+'laravel-exceptions-renderer::components.query','laravel-exceptions-renderer::components.request-body','laravel-exceptions-renderer::components.request-header','laravel-exceptions-renderer::components.request-url','laravel-exceptions-renderer::components.routing',
+'laravel-exceptions-renderer::components.routing-parameter','laravel-exceptions-renderer::components.section-container','laravel-exceptions-renderer::components.separator','laravel-exceptions-renderer::components.syntax-highlight','laravel-exceptions-renderer::components.topbar',
+'laravel-exceptions-renderer::components.trace','laravel-exceptions-renderer::components.vendor-frame','laravel-exceptions-renderer::components.vendor-frames','laravel-exceptions-renderer::markdown','laravel-exceptions-renderer::show',
+'laravel-exceptions::401','laravel-exceptions::402','laravel-exceptions::403','laravel-exceptions::404','laravel-exceptions::419',
+'laravel-exceptions::429','laravel-exceptions::500','laravel-exceptions::503','laravel-exceptions::layout','laravel-exceptions::minimal',
+'notifications::email','pagination::bootstrap-4','pagination::bootstrap-5','pagination::default','pagination::semantic-ui',
+'pagination::simple-bootstrap-4','pagination::simple-bootstrap-5','pagination::simple-default','pagination::simple-tailwind','pagination::tailwind',
+'scramble::docs',);
         registerArgumentsSet('translations', 
 'auth.failed','auth.password','auth.throttle','pagination.previous','pagination.next',
 'passwords.reset','passwords.sent','passwords.throttled','passwords.token','passwords.user',

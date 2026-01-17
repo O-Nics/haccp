@@ -28,7 +28,7 @@ readonly class MailChannel
             return;
         }
 
-        $email  = $notifiable->routeNotificationFor('mail', $notification);
+        $email = $notifiable->routeNotificationFor('mail', $notification);
         $mailer = config('mail.default');
 
         if (! $mailer || in_array($mailer, ['log', 'array'], true)) {
@@ -74,4 +74,5 @@ readonly class MailChannel
             status: $status,
             errorMessage: $errorMessage,
         );
-    }}
+    }
+}

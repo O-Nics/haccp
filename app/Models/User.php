@@ -44,6 +44,8 @@ use Laravel\Sanctum\PersonalAccessToken;
  * @property-read Collection<int, \App\Models\Device> $devices
  * @property-read int|null $devices_count
  * @property-read string $full_name
+ * @property-read Collection<int, \App\Models\NotificationSent> $notificationSents
+ * @property-read int|null $notification_sents_count
  * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
  * @property-read Collection<int, \App\Models\Organisation> $organizations
@@ -145,8 +147,24 @@ class User extends BaseAuthenticable implements MustVerifyEmail
         return $this->hasMany(Organisation::class, 'owner_id', 'id');
     }
 
-    public function notificationLogs(): HasMany
+    public function notificationSents(): HasMany
     {
-        return $this->hasMany(NotificationLog::class);
+        return $this->hasMany(NotificationSent::class);
+    }
+
+    public function currentSession(): ?Session
+    {
+        $token = $this->currentAccessToken();
+
+        if (! $token) {
+            return null;
+        }
+
+        return $this->sessions()
+            ->where(fn ($q) => $q
+                ->where('access_token_id', $token->id)
+                ->orWhere('refresh_token_id', $token->id)
+            )
+            ->first();
     }
 }
