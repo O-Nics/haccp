@@ -17,7 +17,7 @@ class IndexBusinessUserRequest extends BaseFormRequest
             'filter_query' => ['sometimes', 'nullable', 'string'],
             'sort' => ['sometimes', 'nullable', 'string'],
             'order' => ['sometimes', 'nullable', 'string', 'in:asc,desc'],
-            'per_page' => ['sometimes', 'nullable', 'integer', 'min:1', 'max:100'],
+            'per_page' => ['sometimes', 'nullable', 'integer', 'min:1'],
             'page' => ['sometimes', 'nullable', 'integer', 'min:1'],
         ];
     }
@@ -29,7 +29,7 @@ class IndexBusinessUserRequest extends BaseFormRequest
             sort: $this->sort ?? 'first_name',
             order: $this->order ?? 'asc',
             perPage: (int) ($this->per_page ?? 1),
-            page: (int) ($this->page ?? 1),
+            page: (int) ($this->page ?? 15),
         );
     }
 }
