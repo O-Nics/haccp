@@ -28,8 +28,8 @@ class IndexBusinessUserRequest extends BaseFormRequest
             filterQuery: $this->filter_query,
             sort: $this->sort ?? 'first_name',
             order: $this->order ?? 'asc',
-            perPage: (int) ($this->per_page ?? 1),
-            page: (int) ($this->page ?? 15),
+            perPage: (int) ($this->per_page ?? 15),
+            page: (int) ($this->page ?? 1),
         );
     }
 }
