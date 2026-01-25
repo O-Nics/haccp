@@ -16,8 +16,8 @@ use Illuminate\Support\Carbon;
  * @property string|null $description
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * @property-read \App\Models\RolePermission|\App\Models\BusinessRolePermission|null $pivot
- * @property-read Collection<int, \App\Models\BusinessRole> $businessRoles
+ * @property-read \App\Models\RolePermission|null $pivot
+ * @property-read Collection<int, \App\Models\Role> $businessRoles
  * @property-read int|null $business_roles_count
  * @property-read Collection<int, \App\Models\Role> $roles
  * @property-read int|null $roles_count
@@ -47,7 +47,7 @@ class Permission extends Model
 
     public function businessRoles(): BelongsToMany
     {
-        return $this->belongsToMany(BusinessRole::class, 'business_role_permissions', 'permission_id', 'business_role_id')
-            ->using(BusinessRolePermission::class);
+        return $this->belongsToMany(Role::class, 'business_role_permissions', 'permission_id', 'business_role_id')
+            ->using(RolePermission::class);
     }
 }

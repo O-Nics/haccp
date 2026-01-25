@@ -5,7 +5,6 @@ namespace App\Features\Business\Repositories;
 use App\Core\Repositories\BaseRepository;
 use App\Features\User\Data\IndexBusinessUserData;
 use App\Models\Business;
-use App\Models\BusinessUser;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class BusinessRepository extends BaseRepository implements BusinessRepositoryInterface

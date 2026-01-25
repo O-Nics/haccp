@@ -17,7 +17,6 @@ return new class extends Migration
             $table->foreignUuid('user_id')->constrained('users')->cascadeOnDelete();
             $table->foreignUuid('invited_by')->nullable()->constrained('users')->nullOnDelete();
             $table->foreignId('role_id')->nullable()->constrained('roles')->nullOnDelete();
-            $table->foreignId('business_role_id')->nullable()->constrained('business_roles')->nullOnDelete();
 
             $table->timestamp('invited_at')->nullable();
             $table->timestamp('joined_at')->nullable();

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Core\Middlewares\ThrottleAuth;
 use App\Features\Auth\Controllers\AuthController;
+use App\Features\Auth\Controllers\PasswordController;
 use App\Features\Auth\Enums\TokenAbilityEnum;
 use Illuminate\Support\Facades\Route;
 
@@ -28,4 +29,16 @@ Route::prefix('auth')
                 ->name('check-auth');
         });
 
+        Route::prefix('password')
+            ->controller(PasswordController::class)
+            ->name('password.')
+            ->group(function () {
+                Route::post('forgot', 'forgot')
+                    ->name('forgot');
+                Route::post('confirm', 'checkReset')
+                    ->name('confirm');
+                Route::post('reset', 'reset')
+                    ->name('reset');
+            }
+            );
     });

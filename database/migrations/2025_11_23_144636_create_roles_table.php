@@ -13,10 +13,17 @@ return new class extends Migration
     {
         Schema::create('roles', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
+            $table->foreignId('business_id')->constrained('businesses')->cascadeOnDelete();
+            $table->boolean('is_system')->default(false);
+            $table->string('name');
             $table->string('display_name');
             $table->tinyText('description')->nullable();
+            $table->string('color', 6)->default('232323');
+
+            $table->softDeletes();
             $table->timestamps();
+
+            $table->unique(['business_id', 'name']);
         });
     }
 

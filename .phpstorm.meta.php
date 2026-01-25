@@ -2435,8 +2435,8 @@ namespace PHPSTORM_META {
 'signed','throttle','verified','abilities','ability',);
         registerArgumentsSet('routes', 
 'sanctum.csrf-cookie','health','health','auth.register','auth.login',
-'auth.','auth.logout','auth.check-auth','password.forgot','password.confirm',
-'password.reset','user.user','businesses.index','businesses.business.users','businesses.business.invite','storage.local','scramble.docs.ui','scramble.docs.document',);
+'auth.','auth.logout','auth.check-auth','auth.password.forgot','auth.password.confirm',
+'auth.password.reset','user.user','businesses.index','businesses.business.users','businesses.business.invite','storage.local','scramble.docs.ui','scramble.docs.document',);
         registerArgumentsSet('views', 
 'emails.password.confirmed','emails.password.reset','emails.passwordReset','layouts.mails','notifications::email',
 'scramble::docs','vendor.mail.html.button','vendor.mail.html.footer','vendor.mail.html.header','vendor.mail.html.layout',

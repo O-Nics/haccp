@@ -11,14 +11,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string $user_id
  * @property string|null $invited_by
  * @property int|null $role_id
- * @property int|null $business_role_id
  * @property \Illuminate\Support\Carbon|null $invited_at
  * @property \Illuminate\Support\Carbon|null $joined_at
  * @property string $status
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Business $business
- * @property-read \App\Models\BusinessRole|null $businessRole
+ * @property-read \App\Models\Role|null $businessRole
  * @property-read \App\Models\User|null $invitedBy
  * @property-read \App\Models\Role|null $role
  * @property-read \App\Models\User $user
@@ -31,7 +30,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static Builder<static>|BusinessUser order(?string $sort, ?string $order)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|BusinessUser query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|BusinessUser whereBusinessId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|BusinessUser whereBusinessRoleId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|BusinessUser whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|BusinessUser whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|BusinessUser whereInvitedAt($value)
@@ -80,7 +78,7 @@ class BusinessUser extends BasePivot
 
     public function businessRole(): BelongsTo
     {
-        return $this->belongsTo(BusinessRole::class);
+        return $this->belongsTo(Role::class);
     }
 
     public function role(): BelongsTo
