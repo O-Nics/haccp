@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Core\BaseModel;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -41,7 +42,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *
  * @mixin \Eloquent
  */
-class Organisation extends Model
+class Organisation extends BaseModel
 {
     use HasFactory, HasUuids;
 

@@ -12,6 +12,8 @@ use App\Features\Business\Repositories\BusinessRepository;
 use App\Features\Business\Repositories\BusinessRepositoryInterface;
 use App\Features\Notifications\Repositories\NotificationSent\NotificationSentRepository;
 use App\Features\Notifications\Repositories\NotificationSent\NotificationSentRepositoryInterface;
+use App\Features\Role\Repositories\Role\RoleRepository;
+use App\Features\Role\Repositories\Role\RoleRepositoryInterface;
 use App\Features\User\Repositories\User\UserRepository;
 use App\Features\User\Repositories\User\UserRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
@@ -28,6 +30,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->singleton(PasswordResetRepositoryInterface::class, PasswordResetRepository::class);
         $this->app->singleton(BusinessRepositoryInterface::class, BusinessRepository::class);
         $this->app->singleton(NotificationSentRepositoryInterface::class, NotificationSentRepository::class);
+        $this->app->singleton(RoleRepositoryInterface::class, RoleRepository::class);
     }
 
     /**

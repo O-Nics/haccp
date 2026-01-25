@@ -16,7 +16,7 @@ readonly class UserRepository implements UserRepositoryInterface
 
     public function findByEmail(string $email): ?User
     {
-        return $this->model->where('email', $email)->first();
+        return $this->model->query()->where('email', $email)->first();
     }
 
     public function store(StoreUserData $registerData): User

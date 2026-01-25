@@ -8,11 +8,14 @@ use App\Models\NotificationSent;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 
-class NotificationSentRepository implements NotificationSentRepositoryInterface
+readonly class NotificationSentRepository implements NotificationSentRepositoryInterface
 {
+    public function __construct(
+        private NotificationSent $model
+    ) {}
     public function index(array $relations = []): Collection
     {
-        return NotificationSent::query()
+        return $this->model->query()
             ->with($relations)
             ->get();
     }
@@ -22,7 +25,7 @@ class NotificationSentRepository implements NotificationSentRepositoryInterface
      */
     public function getFilteredPaginated(IndexNotificationSentRequestData $data, array $relations = []): LengthAwarePaginator
     {
-        return NotificationSent::query()
+        return $this->model->query()
             ->with($relations)
             ->filtered($data->filterQuery, ['recipient', 'name', 'subject'])
             ->when($data->status, function ($query, $status) {

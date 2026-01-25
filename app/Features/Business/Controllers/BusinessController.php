@@ -6,10 +6,12 @@ namespace App\Features\Business\Controllers;
 
 use App\Core\Controllers\Controller;
 use App\Features\Business\Repositories\BusinessRepositoryInterface;
+use App\Features\Business\Requests\IndexBusinessRequest;
 use App\Features\Business\Requests\IndexBusinessUserRequest;
 use App\Features\Business\Requests\InviteUserRequest;
 use App\Features\Business\Resources\BusinessResource;
 use App\Features\Business\Services\BusinessService;
+use App\Features\User\Data\IndexBusinessData;
 use App\Features\User\Data\IndexBusinessUserData;
 use App\Features\User\Resources\BusinessUserResource;
 use App\Models\Business;
@@ -27,7 +29,7 @@ final class BusinessController extends Controller
     /**
      * List all businesses for the authenticated user
      */
-    public function index(): AnonymousResourceCollection
+    public function index(IndexBusinessRequest $indexBusinessRequest): AnonymousResourceCollection
     {
         $user = auth()->user();
 

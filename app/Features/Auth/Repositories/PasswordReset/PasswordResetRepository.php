@@ -4,19 +4,17 @@ declare(strict_types=1);
 
 namespace App\Features\Auth\Repositories\PasswordReset;
 
-use App\Core\Repositories\BaseRepository;
 use App\Models\PasswordResetToken;
 
-class PasswordResetRepository extends BaseRepository implements PasswordResetRepositoryInterface
+readonly class PasswordResetRepository  implements PasswordResetRepositoryInterface
 {
-    public function __construct()
-    {
-        $this->model = PasswordResetToken::class;
-    }
+    public function __construct(
+        private PasswordResetToken $model
+    ) {}
 
     public function findByEmailAndToken(string $email, string $token): ?PasswordResetToken
     {
-        return $this->query()
+        return $this->model->query()
             ->where('email', $email)
             ->where('token', $token)
             ->first();
@@ -24,7 +22,7 @@ class PasswordResetRepository extends BaseRepository implements PasswordResetRep
 
     public function findLatestByEmail(string $email): ?PasswordResetToken
     {
-        return $this->query()
+        return $this->model->query()
             ->where('email', $email)
             ->latest('created_at')
             ->first();
@@ -54,14 +52,14 @@ class PasswordResetRepository extends BaseRepository implements PasswordResetRep
 
     public function deleteExpiredTokens(): int
     {
-        return $this->query()
+        return $this->model->query()
             ->where('expires_at', '<', now())
             ->delete();
     }
 
     public function deleteAllByEmail(string $email): int
     {
-        return $this->query()
+        return $this->model->query()
             ->where('email', $email)
             ->delete();
     }

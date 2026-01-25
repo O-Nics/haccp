@@ -2,7 +2,6 @@
 
 namespace App\Features\Auth\Repositories\Auth;
 
-use App\Core\Repositories\BaseRepository;
 use App\Features\Auth\Data\DeviceData;
 use App\Features\Auth\Services\TokenPair;
 use App\Models\Device;
@@ -10,7 +9,7 @@ use App\Models\Session;
 use App\Models\User;
 use Throwable;
 
-class AuthRepository extends BaseRepository implements AuthRepositoryInterface
+class AuthRepository implements AuthRepositoryInterface
 {
     /**
      * @throws Throwable

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Core\BaseModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -27,7 +28,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  *
  * @mixin \Eloquent
  */
-class BusinessType extends Model
+class BusinessType extends BaseModel
 {
     use HasFactory;
 
