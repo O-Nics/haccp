@@ -5,7 +5,6 @@ namespace App\Models;
 use App\Models\Core\BaseModel;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
@@ -23,9 +22,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\User $owner
  *
+ * @method static Builder<static>|Organisation betweenDates($column, ?string $startAt = null, ?string $endAt = null, $boolean = 'and', $not = false)
  * @method static \Database\Factories\OrganisationFactory factory($count = null, $state = [])
+ * @method static Builder<static>|Organisation filtered(?string $filterQuery = null, array $searchableColumns = [])
+ * @method static Builder<static>|Organisation forPeriod(?string $startAt = null, ?string $endAt = null, ?string $columnStart = 'start_at', ?string $columnEnd = 'end_at')
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Organisation newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Organisation newQuery()
+ * @method static Builder<static>|Organisation order(?string $sort, ?string $order)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Organisation query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Organisation whereAddress($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Organisation whereCity($value)

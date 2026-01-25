@@ -4,7 +4,6 @@ namespace App\Models;
 
 use App\Models\Core\BaseModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -27,11 +26,17 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property-read \App\Models\RolePermission|null $pivot
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Permission> $permissions
  * @property-read int|null $permissions_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $users
+ * @property-read int|null $users_count
  *
+ * @method static Builder<static>|Role betweenDates($column, ?string $startAt = null, ?string $endAt = null, $boolean = 'and', $not = false)
  * @method static \Database\Factories\RoleFactory factory($count = null, $state = [])
+ * @method static Builder<static>|Role filtered(?string $filterQuery = null, array $searchableColumns = [])
+ * @method static Builder<static>|Role forPeriod(?string $startAt = null, ?string $endAt = null, ?string $columnStart = 'start_at', ?string $columnEnd = 'end_at')
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Role newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Role newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Role onlyTrashed()
+ * @method static Builder<static>|Role order(?string $sort, ?string $order)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Role query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Role whereBusinessId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Role whereColor($value)
@@ -66,5 +71,11 @@ class Role extends BaseModel
     public function businessUsers(): HasMany
     {
         return $this->hasMany(BusinessUser::class);
+    }
+
+    // les users ayant ce role via businessUsers
+    public function users(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'business_users', 'role_id', 'user_id');
     }
 }

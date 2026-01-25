@@ -8,7 +8,6 @@ namespace App\Features\Business\Requests;
 
 use App\Core\Requests\BaseFormRequest;
 use App\Features\User\Data\IndexBusinessData;
-use App\Features\User\Data\IndexBusinessUserData;
 
 class IndexBusinessRequest extends BaseFormRequest
 {

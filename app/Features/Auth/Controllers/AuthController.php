@@ -28,6 +28,7 @@ final class AuthController extends Controller
      * Returns an authentication response after registering a new user with the provided registration data and device information.
      *
      * @unauthenticated
+     * @return AuthResponseResource
      */
     public function register(RegisterRequest $request): AuthResponseResource
     {
@@ -46,6 +47,7 @@ final class AuthController extends Controller
      * @unauthenticated
      *
      * @throws InvalidCredentialsException
+     * @return AuthResponseResource
      */
     public function login(LoginRequest $request): AuthResponseResource
     {
@@ -64,6 +66,7 @@ final class AuthController extends Controller
      * @unauthenticated
      *
      * @throws InvalidRefreshTokenException
+     * @return AuthResponseResource
      */
     public function refresh(): AuthResponseResource
     {
@@ -78,6 +81,7 @@ final class AuthController extends Controller
      * Logout user
      *
      * Logs out the user by invalidating the session associated with the provided device ID.
+     * @return \Illuminate\Http\Response
      *
      * @unauthenticated
      */
@@ -94,6 +98,7 @@ final class AuthController extends Controller
      * Check authentication status
      *
      * Returns the authentication status and user information for the currently authenticated user.
+     * @return AuthResponseResource
      */
     public function checkAuth(CheckAuthRequest $request): AuthResponseResource
     {

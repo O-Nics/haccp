@@ -6,7 +6,7 @@ namespace App\Features\Auth\Repositories\PasswordReset;
 
 use App\Models\PasswordResetToken;
 
-readonly class PasswordResetRepository  implements PasswordResetRepositoryInterface
+readonly class PasswordResetRepository implements PasswordResetRepositoryInterface
 {
     public function __construct(
         private PasswordResetToken $model

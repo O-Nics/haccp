@@ -1,31 +1,28 @@
 <?php
 
-namespace App\Features\Role\Requests;
+namespace App\Features\BusinessRole\Requests;
 
 use App\Core\Requests\BaseFormRequest;
-use App\Features\Role\Data\IndexRoleData;
+use App\Features\BusinessRole\Data\IndexBusinessRoleData;
 
-class IndexRoleRequest extends BaseFormRequest
+class IndexBusinessRoleRequest extends BaseFormRequest
 {
-
     public function rules(): array
     {
         return [
-            'business_id' => ['required', 'integer', 'exists:businesses,id'],
             'filter.query' => ['sometimes', 'string', 'max:255'],
-            'sort' => ['sometimes', 'string', 'in:name,created_at,updated_at'],
+            'sort' => ['sometimes', 'string', 'in:created_at,display_name,description'],
             'order' => ['sometimes', 'string', 'in:asc,desc'],
             'per_page' => ['sometimes', 'integer', 'min:1', 'max:100'],
             'page' => ['sometimes', 'integer', 'min:1'],
         ];
     }
 
-    public function toDto(): IndexRoleData
+    public function toDto(): IndexBusinessRoleData
     {
-        return new IndexRoleData(
-            businessId: $this->input('business_id'),
-            filterQuery: $this->input('filter.query'),
-            sort: $this->input('sort'),
+        return new IndexBusinessRoleData(
+            filterQuery: $this->input('filter_query'),
+            sort: $this->input('sort') ?? 'created_at',
             order: $this->input('order'),
             perPage: $this->input('per_page', 15),
             page: $this->input('page', 1),

@@ -1,17 +1,16 @@
 <?php
 
-// routes/api/roles.php
+// routes/api/businesses.php
 
 declare(strict_types=1);
 
 use App\Features\Business\Controllers\BusinessController;
-use App\Features\Role\Controllers\RoleController;
 use Illuminate\Support\Facades\Route;
 
-Route::prefix('roles')
-    ->controller(RoleController::class)
-    ->name('roles.')
+Route::prefix('permissions')
+    ->controller(BusinessController::class)
+    ->name('permissions.')
     ->group(function () {
-        Route::get('/', 'index')
+        Route::get('', 'index')
             ->name('index');
     });

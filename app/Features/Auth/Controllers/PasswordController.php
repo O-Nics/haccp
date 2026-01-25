@@ -23,6 +23,7 @@ final class PasswordController extends Controller
 
     /**
      * Send password reset link
+     *
      */
     public function forgot(ForgotPasswordRequest $request): Response
     {
@@ -37,6 +38,7 @@ final class PasswordController extends Controller
      * Confirm password reset token
      *
      * @throws InvalidCredentialsException
+     * @return Response
      */
     public function checkReset(CheckResetPasswordResetRequest $request): Response
     {
@@ -51,6 +53,7 @@ final class PasswordController extends Controller
      * Reset password
      *
      * @throws InvalidCredentialsException
+     * @return Response
      */
     public function reset(ResetPasswordRequest $request): Response
     {

@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Features\Role\Data;
+namespace App\Features\BusinessRole\Data;
 
 use Spatie\LaravelData\Data;
 
-class IndexRoleData extends Data
+class IndexBusinessRoleData extends Data
 {
     public function __construct(
-        public int $businessId,
         public ?string $filterQuery,
         public ?string $sort,
         public ?string $order,

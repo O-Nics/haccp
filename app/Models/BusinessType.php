@@ -4,7 +4,6 @@ namespace App\Models;
 
 use App\Models\Core\BaseModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
@@ -16,9 +15,13 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Business> $businesses
  * @property-read int|null $businesses_count
  *
+ * @method static Builder<static>|BusinessType betweenDates($column, ?string $startAt = null, ?string $endAt = null, $boolean = 'and', $not = false)
  * @method static \Database\Factories\BusinessTypeFactory factory($count = null, $state = [])
+ * @method static Builder<static>|BusinessType filtered(?string $filterQuery = null, array $searchableColumns = [])
+ * @method static Builder<static>|BusinessType forPeriod(?string $startAt = null, ?string $endAt = null, ?string $columnStart = 'start_at', ?string $columnEnd = 'end_at')
  * @method static \Illuminate\Database\Eloquent\Builder<static>|BusinessType newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|BusinessType newQuery()
+ * @method static Builder<static>|BusinessType order(?string $sort, ?string $order)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|BusinessType query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|BusinessType whereCode($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|BusinessType whereCreatedAt($value)

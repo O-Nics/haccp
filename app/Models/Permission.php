@@ -6,7 +6,6 @@ use App\Models\Core\BaseModel;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Carbon;
 
@@ -23,9 +22,13 @@ use Illuminate\Support\Carbon;
  * @property-read Collection<int, \App\Models\Role> $roles
  * @property-read int|null $roles_count
  *
+ * @method static Builder<static>|Permission betweenDates($column, ?string $startAt = null, ?string $endAt = null, $boolean = 'and', $not = false)
  * @method static \Database\Factories\PermissionFactory factory($count = null, $state = [])
+ * @method static Builder<static>|Permission filtered(?string $filterQuery = null, array $searchableColumns = [])
+ * @method static Builder<static>|Permission forPeriod(?string $startAt = null, ?string $endAt = null, ?string $columnStart = 'start_at', ?string $columnEnd = 'end_at')
  * @method static Builder<static>|Permission newModelQuery()
  * @method static Builder<static>|Permission newQuery()
+ * @method static Builder<static>|Permission order(?string $sort, ?string $order)
  * @method static Builder<static>|Permission query()
  * @method static Builder<static>|Permission whereCreatedAt($value)
  * @method static Builder<static>|Permission whereDescription($value)

@@ -2,16 +2,15 @@
 
 declare(strict_types=1);
 
-namespace App\Features\User\Resources;
+namespace App\Core\Resources;
 
-use App\Core\Resources\BaseJsonResource;
-use App\Models\Role;
+use App\Models\Permission;
 use Illuminate\Http\Request;
 
 /**
- * @mixin Role
+ * @mixin Permission
  */
-class RoleResource extends BaseJsonResource
+class PermissionResource extends BaseJsonResource
 {
     public function toArray(Request $request): array
     {
@@ -20,7 +19,6 @@ class RoleResource extends BaseJsonResource
             'name' => $this->name,
             'display_name' => $this->display_name,
             'description' => $this->description,
-            'permissions' => $this->permissions,
         ];
     }
 }

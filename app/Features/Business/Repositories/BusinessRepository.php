@@ -10,8 +10,7 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 readonly class BusinessRepository implements BusinessRepositoryInterface
 {
-    public function __construct(private Business $model)
-    {}
+    public function __construct(private Business $model) {}
 
     public function getUserBusinessPaginated(User $user, IndexBusinessData $indexBusinessData, ?array $relation = []): LengthAwarePaginator
     {
