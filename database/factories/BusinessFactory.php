@@ -1,13 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Factories;
 
 use App\Models\Business;
 use App\Models\BusinessType;
 use App\Models\Organisation;
-use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+/**
+ * @extends Factory<Business>
+ */
 class BusinessFactory extends Factory
 {
     protected $model = Business::class;
@@ -15,31 +19,32 @@ class BusinessFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->company(),
-            'address' => $this->faker->streetAddress(),
-            'postal_code' => $this->faker->postcode(),
-            'city' => $this->faker->city(),
-            'country' => $this->faker->countryCode(),
-            'phone' => $this->faker->optional()->phoneNumber(),
-            'email' => $this->faker->unique()->safeEmail(),
+            'name' => fake()->company(),
+            'address' => fake()->streetAddress(),
+            'postal_code' => fake()->postcode(),
+            'city' => fake()->city(),
+            'timezone' => fake()->timezone(),
+            'country' => fake()->countryCode(),
+            'phone' => fake()->optional()->phoneNumber(),
+            'email' => fake()->unique()->companyEmail(),
         ];
     }
 
-    public function withBusinessType(?BusinessType $type = null): Factory
+    public function withBusinessType(BusinessType|array|null $businessType = null): static
     {
-        if ($type === null) {
-            $type = BusinessType::factory()->createQuietly();
-        }
+        $instance = $businessType instanceof BusinessType
+            ? $businessType
+            : BusinessType::factory()->create(is_array($businessType) ? $businessType : []);
 
-        return $this->for($type, 'businessType');
+        return $this->for($instance, 'businessType');
     }
 
-    public function withOrganisation(?Organisation $organisation = null, ?User $user = null): Factory
+    public function withOrganisation(Organisation|array|null $organisation = null): static
     {
-        if ($organisation === null) {
-            $organisation = Organisation::factory()->withOwner($user)->createQuietly();
-        }
+        $instance = $organisation instanceof Organisation
+            ? $organisation
+            : Organisation::factory()->withOwner()->create(is_array($organisation) ? $organisation : []);
 
-        return $this->for($organisation, 'organisation');
+        return $this->for($instance, 'organisation');
     }
 }

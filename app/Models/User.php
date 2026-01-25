@@ -128,7 +128,6 @@ class User extends BaseAuthenticable implements MustVerifyEmail
                 'id',
                 'invited_by',
                 'role_id',
-                'business_role_id',
                 'invited_at',
                 'joined_at',
                 'status',

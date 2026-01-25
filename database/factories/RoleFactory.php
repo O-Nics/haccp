@@ -1,34 +1,57 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Factories;
 
 use App\Models\Business;
 use App\Models\Role;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Carbon;
 
+/**
+ * @extends Factory<Role>
+ */
 class RoleFactory extends Factory
 {
     protected $model = Role::class;
 
     public function definition(): array
     {
+        $name = fake()->unique()->randomElement([
+            'manager',
+            'employee',
+            'chef',
+            'server',
+            'cashier',
+            'cleaner',
+            'supervisor',
+        ]);
+
         return [
-            'name' => $this->faker->name(),
-            'display_name' => $this->faker->name(),
-            'description' => $this->faker->text(),
-            'color' => $this->faker->word(),
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now(),
+            'is_system' => false,
+            'name' => $name,
+            'display_name' => ucfirst($name),
+            'description' => fake()->optional()->sentence(),
+            'color' => fake()->hexColor(),
         ];
     }
 
-    public function withBusiness(?Business $business): Factory
+    public function withBusiness(Business|array|null $business = null): static
     {
-        if ($business === null) {
-            $business = Business::factory()->createQuietly();
-        }
+        $instance = $business instanceof Business
+            ? $business
+            : Business::factory()
+                ->withBusinessType()
+                ->withOrganisation()
+                ->create(is_array($business) ? $business : []);
 
-        return $this->for($business, 'business');
+        return $this->for($instance, 'business');
+    }
+
+    public function system(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'is_system' => true,
+        ]);
     }
 }

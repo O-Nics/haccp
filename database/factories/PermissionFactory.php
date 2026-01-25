@@ -1,26 +1,29 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Factories;
 
 use App\Models\Permission;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Carbon;
+use Illuminate\Support\Str;
 
+/**
+ * @extends Factory<Permission>
+ */
 class PermissionFactory extends Factory
 {
     protected $model = Permission::class;
 
     public function definition(): array
     {
-        $displayName = $this->faker->unique()->name();
-        $name = str_replace(' ', '_', strtolower($displayName));
+        $displayName = fake()->unique()->words(2, true);
+        $name = Str::snake($displayName);
 
         return [
             'name' => $name,
-            'display_name' => $$displayName,
-            'description' => $this->faker->text(),
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now(),
+            'display_name' => ucwords($displayName),
+            'description' => fake()->optional()->sentence(),
         ];
     }
 }

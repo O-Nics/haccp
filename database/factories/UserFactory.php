@@ -1,30 +1,25 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Factories;
 
-use App\Models\Device;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
+ * @extends Factory<User>
  */
 class UserFactory extends Factory
 {
-    /**
-     * The current password being used by the factory.
-     */
-    protected static ?string $password;
+    protected $model = User::class;
 
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
+    protected static ?string $password = null;
+
     public function definition(): array
     {
         return [
-            'id' => fake()->uuid(),
             'first_name' => fake()->firstName(),
             'last_name' => fake()->lastName(),
             'email' => fake()->unique()->safeEmail(),
@@ -33,25 +28,23 @@ class UserFactory extends Factory
             'pin_code' => fake()->optional()->numerify('######'),
             'notify_email' => fake()->boolean(),
             'notify_sms' => fake()->boolean(),
-            'local' => fake()->locale(),
+            'local' => fake()->randomElement(['fr_FR', 'en_US', 'en_GB']),
             'timezone' => fake()->timezone(),
             'last_login_at' => fake()->optional()->dateTime(),
         ];
-    }
-
-    public function withDevice(Device|array|null $device = null): static
-    {
-        $instance = $device instanceof Device
-            ? $device
-            : Device::factory()->create(is_array($device) ? $device : []);
-
-        return $this->for($instance, 'devices');
     }
 
     public function unverified(): static
     {
         return $this->state(fn (array $attributes) => [
             'email_verified_at' => null,
+        ]);
+    }
+
+    public function verified(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'email_verified_at' => now(),
         ]);
     }
 }

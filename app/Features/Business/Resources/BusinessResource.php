@@ -21,7 +21,7 @@ class BusinessResource extends BaseJsonResource
             'id' => $this->id,
             'name' => $this->name,
             'status' => $this->pivot->status,
-            'role' => $this->pivot != null ? new RoleResource($this->pivot->businessRole ?? $this->pivot->role) : null,
+            'role' => $this->pivot != null ? new RoleResource($this->pivot->role) : null,
         ];
     }
 }

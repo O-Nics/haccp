@@ -1,11 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Factories;
 
 use App\Models\Organisation;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+/**
+ * @extends Factory<Organisation>
+ */
 class OrganisationFactory extends Factory
 {
     protected $model = Organisation::class;
@@ -13,24 +18,23 @@ class OrganisationFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->company(),
-            'siret' => $this->faker->unique()->numerify('###########'),
-            'address' => $this->faker->streetAddress(),
-            'postal_code' => $this->faker->postcode(),
-            'city' => $this->faker->city(),
-            'country' => $this->faker->countryCode(),
-            'phone' => $this->faker->optional()->phoneNumber(),
-            'email' => $this->faker->optional()->safeEmail(),
-
+            'name' => fake()->company(),
+            'siret' => fake()->unique()->numerify('##############'),
+            'address' => fake()->streetAddress(),
+            'postal_code' => fake()->postcode(),
+            'city' => fake()->city(),
+            'country' => fake()->countryCode(),
+            'phone' => fake()->optional()->phoneNumber(),
+            'email' => fake()->optional()->companyEmail(),
         ];
     }
 
-    public function withOwner(?User $user = null): static
+    public function withOwner(User|array|null $user = null): static
     {
-        if ($user === null) {
-            $user = User::factory()->createQuietly();
-        }
+        $instance = $user instanceof User
+            ? $user
+            : User::factory()->create(is_array($user) ? $user : []);
 
-        return $this->for($user, 'owner');
+        return $this->for($instance, 'owner');
     }
 }

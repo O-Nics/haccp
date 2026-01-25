@@ -91,7 +91,7 @@ class Business extends BaseModel
     {
         return $this->belongsToMany(User::class, 'business_users')
             ->using(BusinessUser::class)
-            ->withPivot(['id', 'role_id', 'business_role_id', 'status', 'invited_at', 'joined_at', 'invited_by'])
+            ->withPivot(['id', 'role_id', 'status', 'invited_at', 'joined_at', 'invited_by'])
             ->withTimestamps();
     }
 }
