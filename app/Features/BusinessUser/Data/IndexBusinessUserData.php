@@ -1,14 +1,12 @@
 <?php
 
-// app/DataTransferObjects/TokenPairDTO.php
-
 declare(strict_types=1);
 
-namespace App\Features\User\Data;
+namespace App\Features\BusinessUser\Data;
 
 use Spatie\LaravelData\Data;
 
-class IndexBusinessData extends Data
+class IndexBusinessUserData extends Data
 {
     public function __construct(
         public ?string $filterQuery,

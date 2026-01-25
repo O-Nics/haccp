@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Features\Business\Resources;
+namespace App\Features\BusinessUser\Resources;
 
 use App\Core\Resources\BaseJsonResource;
 use App\Features\BusinessRole\Resources\BusinessRoleResource;
@@ -24,7 +24,6 @@ class BusinessUserResource extends BaseJsonResource
             'joined_at' => $this->pivot?->joined_at,
             'status' => $this->pivot?->status,
             'role' => $this->pivot != null ? new BusinessRoleResource($this->pivot->businessRole ?? $this->pivot->role) : null,
-
         ];
     }
 }

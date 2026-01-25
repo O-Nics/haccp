@@ -1,15 +1,17 @@
 <?php
 
-namespace App\Features\Business\Services;
+declare(strict_types=1);
+
+namespace App\Features\BusinessUser\Services;
 
 use App\Features\Auth\Data\StoreUserData;
-use App\Features\User\Data\InviteUserData;
+use App\Features\BusinessUser\Data\InviteUserData;
 use App\Features\User\Repositories\User\UserRepositoryInterface;
 use App\Models\Business;
 use App\Models\User;
 use Illuminate\Support\Str;
 
-readonly class BusinessService
+final readonly class BusinessUserService
 {
     public function __construct(private UserRepositoryInterface $userRepository) {}
 
@@ -47,6 +49,5 @@ readonly class BusinessService
         $business->save();
 
         return $user;
-
     }
 }

@@ -8,6 +8,10 @@ use App\Features\Auth\Events\NewDeviceDetectedEvent;
 use App\Features\Auth\Mails\SendNewDeviceLoginEmail;
 use App\Features\Auth\Repositories\PasswordReset\PasswordResetRepository;
 use App\Features\Auth\Repositories\PasswordReset\PasswordResetRepositoryInterface;
+use App\Features\Business\Repositories\BusinessRepository;
+use App\Features\Business\Repositories\BusinessRepositoryInterface;
+use App\Features\BusinessUser\Repositories\BusinessUserRepository;
+use App\Features\BusinessUser\Repositories\BusinessUserRepositoryInterface;
 use App\Features\Session\Repositories\Device\DeviceRepository;
 use App\Features\Session\Repositories\Device\DeviceRepositoryInterface;
 use App\Features\Session\Repositories\Session\SessionRepository;
@@ -47,6 +51,16 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(
             SessionRepositoryInterface::class,
             SessionRepository::class
+        );
+
+        $this->app->singleton(
+            BusinessUserRepositoryInterface::class,
+            BusinessUserRepository::class
+        );
+
+        $this->app->singleton(
+            BusinessRepositoryInterface::class,
+            BusinessRepository::class
         );
     }
 

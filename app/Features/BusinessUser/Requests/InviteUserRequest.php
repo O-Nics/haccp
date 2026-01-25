@@ -1,13 +1,11 @@
 <?php
 
-// app/Http/Requests/RefreshTokenRequest.php
-
 declare(strict_types=1);
 
-namespace App\Features\Business\Requests;
+namespace App\Features\BusinessUser\Requests;
 
 use App\Core\Requests\BaseFormRequest;
-use App\Features\User\Data\InviteUserData;
+use App\Features\BusinessUser\Data\InviteUserData;
 
 class InviteUserRequest extends BaseFormRequest
 {

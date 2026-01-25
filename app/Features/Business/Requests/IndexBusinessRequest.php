@@ -1,13 +1,11 @@
 <?php
 
-// app/Http/Requests/RefreshTokenRequest.php
-
 declare(strict_types=1);
 
 namespace App\Features\Business\Requests;
 
 use App\Core\Requests\BaseFormRequest;
-use App\Features\User\Data\IndexBusinessData;
+use App\Features\Business\Data\IndexBusinessData;
 
 class IndexBusinessRequest extends BaseFormRequest
 {
