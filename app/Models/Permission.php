@@ -11,9 +11,10 @@ use Illuminate\Support\Carbon;
 
 /**
  * @property int $id
- * @property string $name
+ * @property string $can
+ * @property string $category
+ * @property string $category_label
  * @property string $display_name
- * @property string|null $description
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property-read \App\Models\RolePermission|null $pivot
@@ -30,11 +31,12 @@ use Illuminate\Support\Carbon;
  * @method static Builder<static>|Permission newQuery()
  * @method static Builder<static>|Permission order(?string $sort, ?string $order)
  * @method static Builder<static>|Permission query()
+ * @method static Builder<static>|Permission whereCan($value)
+ * @method static Builder<static>|Permission whereCategory($value)
+ * @method static Builder<static>|Permission whereCategoryLabel($value)
  * @method static Builder<static>|Permission whereCreatedAt($value)
- * @method static Builder<static>|Permission whereDescription($value)
  * @method static Builder<static>|Permission whereDisplayName($value)
  * @method static Builder<static>|Permission whereId($value)
- * @method static Builder<static>|Permission whereName($value)
  * @method static Builder<static>|Permission whereUpdatedAt($value)
  *
  * @mixin \Eloquent

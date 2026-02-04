@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Features\BusinessRole\Resources;
 
 use App\Core\Resources\BaseJsonResource;
-use App\Core\Resources\PermissionResource;
+use App\Features\Permission\Resources\PermissionResource;
 use App\Features\User\Resources\UserResource;
 use App\Models\Role;
 use Illuminate\Http\Request;

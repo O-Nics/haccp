@@ -17,7 +17,7 @@ class RolePermissionSeeder extends Seeder
         $rolePermissions = [
             'owner' => $allPermissions,
             'manager' => Permission::query()
-                ->whereIn('name', [
+                ->whereIn('can', [
                     'users.view', 'users.create', 'users.edit',
                     'roles.view',
                     'business.view', 'business.edit',
@@ -26,14 +26,14 @@ class RolePermissionSeeder extends Seeder
                 ])
                 ->pluck('id')->toArray(),
             'employee' => Permission::query()
-                ->whereIn('name', [
+                ->whereIn('can', [
                     'business.view',
                     'haccp.view', 'haccp.create',
                     'reports.view',
                 ])
                 ->pluck('id')->toArray(),
             'viewer' => Permission::query()
-                ->whereIn('name', [
+                ->whereIn('can', [
                     'business.view',
                     'haccp.view',
                     'reports.view',

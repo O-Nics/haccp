@@ -13,12 +13,9 @@ final class BusinessRoleController extends Controller
 {
     public function __construct(private readonly BusinessRoleRepositoryInterface $roleRepository) {}
 
-
     /**
      * List all roles for a specific business
      *
-     * @param Business $business
-     * @param IndexBusinessRoleRequest $request
      * @return BaseAnonymousCollection A JSON response containing a collection of business roles.
      */
     public function index(Business $business, IndexBusinessRoleRequest $request): BaseAnonymousCollection

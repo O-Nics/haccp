@@ -19,6 +19,7 @@ final class BusinessController extends Controller
 
     /**
      * List all businesses for the authenticated user
+     *
      * @return BaseAnonymousCollection A JSON response containing a collection of businesses.
      */
     public function index(IndexBusinessRequest $indexBusinessRequest): BaseAnonymousCollection

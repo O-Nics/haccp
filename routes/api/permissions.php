@@ -4,11 +4,11 @@
 
 declare(strict_types=1);
 
-use App\Features\Business\Controllers\BusinessController;
+use App\Features\Permission\Controllers\PermissionsController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('permissions')
-    ->controller(BusinessController::class)
+    ->controller(PermissionsController::class)
     ->name('permissions.')
     ->group(function () {
         Route::get('', 'index')

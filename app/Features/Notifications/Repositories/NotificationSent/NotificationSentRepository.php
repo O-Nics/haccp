@@ -14,7 +14,6 @@ readonly class NotificationSentRepository implements NotificationSentRepositoryI
         private NotificationSent $model
     ) {}
 
-
     public function index(array $relations = []): Collection
     {
         return $this->model->query()

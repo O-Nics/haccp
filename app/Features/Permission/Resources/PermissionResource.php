@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Core\Resources;
+namespace App\Features\Permission\Resources;
 
+use App\Core\Resources\BaseJsonResource;
 use App\Models\Permission;
 use Illuminate\Http\Request;
 
@@ -16,9 +17,10 @@ class PermissionResource extends BaseJsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->name,
+            'can' => $this->can,
+            'category' => $this->category,
+            'category_label' => $this->category_label,
             'display_name' => $this->display_name,
-            'description' => $this->description,
         ];
     }
 }

@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('permissions', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
+            $table->string('can')->unique();
+            $table->string('category')->index();
+            $table->string('category_label');
             $table->string('display_name');
-            $table->tinyText('description')->nullable();
             $table->timestamps();
         });
     }
