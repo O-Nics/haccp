@@ -3,12 +3,12 @@
 namespace App\Features\App\Controllers;
 
 use App\Core\Controllers\Controller;
-use App\Features\App\Data\LoadDataData;
-use App\Features\App\Resources\LoadDataResource;
+use App\Features\App\Data\LoadInitialDataData;
+use App\Features\App\Resources\LoadInitialDataResource;
 use App\Models\Permission;
 use Illuminate\Http\JsonResponse;
 
-class LoadDataController extends Controller
+class LoadInitialDataController extends Controller
 {
     /**
      * Load initial data
@@ -17,12 +17,12 @@ class LoadDataController extends Controller
      *
      * @unauthenticated
      */
-    public function __invoke(): LoadDataResource
+    public function __invoke(): LoadInitialDataResource
     {
         $permissions = Permission::all();
 
-        return new LoadDataResource(
-            new LoadDataData(
+        return new LoadInitialDataResource(
+            new LoadInitialDataData(
                 permissions: $permissions,
             )
         );

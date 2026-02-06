@@ -14,6 +14,5 @@ Route::middleware(['auth:sanctum', 'ability:'.TokenAbilityEnum::ACCESS->value])-
     require __DIR__.'/api/user.php';
     require __DIR__.'/api/business.php';
     require __DIR__.'/api/business-users.php';
-    require __DIR__.'/api/permissions.php';
     require __DIR__.'/api/business-roles.php';
 });

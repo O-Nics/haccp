@@ -5,16 +5,16 @@ declare(strict_types=1);
 namespace App\Features\App\Resources;
 
 use App\Core\Resources\BaseJsonResource;
-use App\Features\App\Data\LoadDataData;
-use App\Features\Permission\Resources\PermissionResource;
+use App\Core\Resources\PermissionResource;
+use App\Features\App\Data\LoadInitialDataData;
 use App\Features\User\Resources\UserResource;
 use App\Models\Role;
 use Illuminate\Http\Request;
 
 /**
- * @mixin LoadDataData
+ * @mixin LoadInitialDataData
  */
-class LoadDataResource extends BaseJsonResource
+class LoadInitialDataResource extends BaseJsonResource
 {
     public function toArray(Request $request): array
     {

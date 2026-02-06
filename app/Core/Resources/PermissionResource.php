@@ -1,8 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
-namespace App\Features\Permission\Resources;
+namespace App\Core\Resources;
 
 use App\Core\Resources\BaseJsonResource;
 use App\Models\Permission;

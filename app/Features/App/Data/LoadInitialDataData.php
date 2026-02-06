@@ -6,7 +6,7 @@ use App\Models\Permission;
 use Illuminate\Support\Collection;
 use Spatie\LaravelData\Data;
 
-class LoadDataData extends Data
+class LoadInitialDataData extends Data
 {
     public function __construct(
         /** @var Collection<Permission> */
