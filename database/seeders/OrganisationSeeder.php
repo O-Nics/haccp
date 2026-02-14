@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Database\Seeders;
 
 use App\Models\Organisation;
-use App\Models\User;
+use Domain\Auth\Models\User;
 use Illuminate\Database\Seeder;
 
 class OrganisationSeeder extends Seeder

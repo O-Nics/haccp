@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Database\Factories;
 
-use App\Models\Device;
-use App\Models\Session;
-use App\Models\User;
+use Domain\Auth\Models\Device;
+use Domain\Auth\Models\Session;
+use Domain\Auth\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**

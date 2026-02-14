@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Core\BaseModel;
+use Domain\Auth\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -32,7 +33,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property-read int|null $business_users_count
  * @property-read \App\Models\Organisation $organisation
  * @property-read \App\Models\BusinessUser|null $pivot
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $users
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Domain\Auth\Models\User> $users
  * @property-read int|null $users_count
  *
  * @method static Builder<static>|Business betweenDates($column, ?string $startAt = null, ?string $endAt = null, $boolean = 'and', $not = false)

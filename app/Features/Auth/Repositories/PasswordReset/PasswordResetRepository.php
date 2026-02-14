@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Features\Auth\Repositories\PasswordReset;
 
-use App\Models\PasswordResetToken;
+use Domain\Auth\Models\PasswordResetToken;
 
 readonly class PasswordResetRepository implements PasswordResetRepositoryInterface
 {

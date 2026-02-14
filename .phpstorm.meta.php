@@ -827,22 +827,22 @@ namespace PHPSTORM_META {
         ]));
 
     override(\auth()->user(), map([
-        '' => \App\Models\User::class,
+        '' => \Domain\Auth\Models\User::class,
     ]));
     override(\Illuminate\Contracts\Auth\Guard::user(), map([
-        '' => \App\Models\User::class,
+        '' => \Domain\Auth\Models\User::class,
     ]));
     override(\Illuminate\Support\Facades\Auth::user(), map([
-        '' => \App\Models\User::class,
+        '' => \Domain\Auth\Models\User::class,
     ]));
     override(\request()->user(), map([
-        '' => \App\Models\User::class,
+        '' => \Domain\Auth\Models\User::class,
     ]));
     override(\Illuminate\Http\Request::user(), map([
-        '' => \App\Models\User::class,
+        '' => \Domain\Auth\Models\User::class,
     ]));
     override(\Illuminate\Support\Facades\Request::user(), map([
-        '' => \App\Models\User::class,
+        '' => \Domain\Auth\Models\User::class,
     ]));
 
     override(\config(), map([
@@ -2545,7 +2545,7 @@ namespace PHPSTORM_META {
     override(\optional(0), type(0));
 
             registerArgumentsSet('auth', );
-        registerArgumentsSet('configs', 
+        registerArgumentsSet('configs',
 'hashing.driver','hashing.bcrypt.rounds','hashing.bcrypt.verify','hashing.bcrypt.limit','hashing.argon.memory',
 'hashing.argon.threads','hashing.argon.time','hashing.argon.verify','hashing.rehash_on_login','concurrency.default',
 'broadcasting.default','broadcasting.connections.reverb.driver','broadcasting.connections.reverb.key','broadcasting.connections.reverb.secret','broadcasting.connections.reverb.app_id',
@@ -2657,17 +2657,17 @@ namespace PHPSTORM_META {
 'ide-helper.type_overrides.boolean','ide-helper.include_class_docblocks','ide-helper.force_fqn','ide-helper.use_generics_annotations','ide-helper.macro_default_return_types.Illuminate\\Http\\Client\\Factory',
 'ide-helper.additional_relation_types','ide-helper.additional_relation_return_types','ide-helper.enforce_nullable_relationships','ide-helper.post_migrate','tinker.commands',
 'tinker.alias','tinker.dont_alias',);
-        registerArgumentsSet('middleware', 
+        registerArgumentsSet('middleware',
 'web','api','auth','auth.basic','auth.session',
 'cache.headers','can','guest','password.confirm','precognitive',
 'signed','throttle','verified','abilities','ability',);
-        registerArgumentsSet('routes', 
+        registerArgumentsSet('routes',
 'sanctum.csrf-cookie','health','health','auth.register','auth.login',
 'auth.','auth.logout','auth.check-auth','auth.password.forgot','auth.password.confirm',
 'auth.password.reset','user.user','businesses.index','businesses.users.index','businesses.users.create',
 'permissions.index','business-roles.index','storage.local','scramble.docs.ui',
 'scramble.docs.document',);
-        registerArgumentsSet('views', 
+        registerArgumentsSet('views',
 'emails.password.confirmed','emails.password.reset','emails.passwordReset','layouts.mails','notifications::email',
 'scramble::docs','vendor.mail.html.button','vendor.mail.html.footer','vendor.mail.html.header','vendor.mail.html.layout',
 'vendor.mail.html.message','vendor.mail.html.panel','vendor.mail.html.subcopy','vendor.mail.html.table','vendor.mail.text.button',
@@ -2686,7 +2686,7 @@ namespace PHPSTORM_META {
 'notifications::email','pagination::bootstrap-4','pagination::bootstrap-5','pagination::default','pagination::semantic-ui',
 'pagination::simple-bootstrap-4','pagination::simple-bootstrap-5','pagination::simple-default','pagination::simple-tailwind','pagination::tailwind',
 'scramble::docs',);
-        registerArgumentsSet('translations', 
+        registerArgumentsSet('translations',
 'auth.failed','auth.password','auth.throttle','pagination.previous','pagination.next',
 'passwords.reset','passwords.sent','passwords.throttled','passwords.token','passwords.user',
 'validation.accepted','validation.accepted_if','validation.active_url','validation.after','validation.after_or_equal',
@@ -2716,7 +2716,7 @@ namespace PHPSTORM_META {
 'validation.same','validation.size.array','validation.size.file','validation.size.numeric','validation.size.string',
 'validation.starts_with','validation.string','validation.timezone','validation.unique','validation.uploaded',
 'validation.uppercase','validation.url','validation.ulid','validation.uuid','validation.custom.attribute-name.rule-name',);
-        registerArgumentsSet('env', 
+        registerArgumentsSet('env',
 'APP_NAME','APP_ENV','APP_KEY','APP_DEBUG','APP_TIMEZONE',
 'APP_URL','FRONTEND_URL','APP_LOCALE','APP_FALLBACK_LOCALE','APP_FAKER_LOCALE',
 'APP_MAINTENANCE_DRIVER','APP_MAINTENANCE_STORE','DB_CONNECTION','DB_HOST','DB_PORT',
@@ -2726,7 +2726,7 @@ namespace PHPSTORM_META {
 'QUEUE_CONNECTION','REDIS_CLIENT','REDIS_HOST','REDIS_PASSWORD','REDIS_PORT',
 'ACCESS_TOKEN_EXPIRATION','REFRESH_TOKEN_EXPIRATION','REMEMBER_TOKEN_EXPIRATION','MAX_DEVICES_PER_USER','AUTH_RATE_LIMIT_ENABLED',
 'AUTH_RATE_LIMIT_ATTEMPTS','AUTH_RATE_LIMIT_DECAY',);
-        
+
                 expectedArguments(\Illuminate\Support\Facades\Gate::has(), 0, argumentsSet('auth'));
     expectedArguments(\Illuminate\Support\Facades\Gate::allows(), 0, argumentsSet('auth'));
     expectedArguments(\Illuminate\Support\Facades\Gate::denies(), 0, argumentsSet('auth'));
@@ -2790,5 +2790,5 @@ namespace PHPSTORM_META {
                 expectedArguments(\Illuminate\Contracts\Translation\Translator::get(), 0, argumentsSet('translations'));
                 expectedArguments(\env(), 0, argumentsSet('env'));
                 expectedArguments(\Illuminate\Support\Env::get(), 0, argumentsSet('env'));
-            
+
 }

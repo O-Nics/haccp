@@ -6,17 +6,17 @@ namespace App\Features\Auth\Services;
 
 use App\Core\Exceptions\InvalidCredentialsException;
 use App\Core\Exceptions\InvalidRefreshTokenException;
-use App\Features\Auth\Data\AuthData;
-use App\Features\Auth\Data\CheckAuthData;
-use App\Features\Auth\Data\DeviceData;
-use App\Features\Auth\Data\LoginData;
-use App\Features\Auth\Data\RegisterData;
-use App\Features\Auth\Data\TokenData;
-use App\Features\Auth\Enums\TokenAbilityEnum;
 use App\Features\Auth\Notifications\UserRegisterNotification;
 use App\Features\Auth\Repositories\Auth\AuthRepositoryInterface;
 use App\Features\User\Repositories\User\UserRepositoryInterface;
-use App\Models\User;
+use Domain\Auth\Data\AuthData;
+use Domain\Auth\Data\CheckAuthData;
+use Domain\Auth\Data\DeviceData;
+use Domain\Auth\Data\LoginData;
+use Domain\Auth\Data\RegisterData;
+use Domain\Auth\Data\TokenData;
+use Domain\Auth\Enums\TokenAbilityEnum;
+use Domain\Auth\Models\User;
 use Illuminate\Support\Facades\Hash;
 
 final readonly class AuthService

@@ -4,8 +4,8 @@
 
 namespace App\Features\Auth\Services;
 
-use App\Models\User;
 use Carbon\Carbon;
+use Domain\Auth\Models\User;
 
 final class TokenService
 {

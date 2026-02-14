@@ -4,7 +4,7 @@
 
 declare(strict_types=1);
 
-use App\Features\Auth\Enums\TokenAbilityEnum;
+use Domain\Auth\Enums\TokenAbilityEnum;
 use Illuminate\Support\Facades\Route;
 
 require __DIR__.'/api/app.php';

@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
 use App\Core\Middlewares\ThrottleAuth;
-use App\Features\Auth\Controllers\AuthController;
-use App\Features\Auth\Controllers\PasswordController;
-use App\Features\Auth\Enums\TokenAbilityEnum;
+use App\Modules\Auth\Controllers\AuthController;
+use App\Modules\Auth\Controllers\PasswordController;
+use Domain\Auth\Enums\TokenAbilityEnum;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('auth')

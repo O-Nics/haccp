@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Core\BaseModel;
+use Domain\Auth\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -26,7 +27,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property-read \App\Models\RolePermission|null $pivot
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Permission> $permissions
  * @property-read int|null $permissions_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $users
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Domain\Auth\Models\User> $users
  * @property-read int|null $users_count
  *
  * @method static Builder<static>|Role betweenDates($column, ?string $startAt = null, ?string $endAt = null, $boolean = 'and', $not = false)

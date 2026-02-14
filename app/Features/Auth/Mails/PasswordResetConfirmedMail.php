@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Features\Auth\Mails;
 
-use App\Models\User;
+use Domain\Auth\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;

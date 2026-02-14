@@ -9,7 +9,7 @@ use App\Features\Notifications\Enums\NotificationChannel;
 use App\Features\Notifications\Enums\NotificationSentStatus;
 use App\Features\Notifications\Repositories\NotificationSent\NotificationSentRepositoryInterface;
 use App\Models\NotificationSent;
-use App\Models\User;
+use Domain\Auth\Models\User;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Pagination\LengthAwarePaginator;

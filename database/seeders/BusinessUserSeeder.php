@@ -6,7 +6,7 @@ namespace Database\Seeders;
 
 use App\Models\Business;
 use App\Models\BusinessUser;
-use App\Models\User;
+use Domain\Auth\Models\User;
 use Illuminate\Database\Seeder;
 
 class BusinessUserSeeder extends Seeder

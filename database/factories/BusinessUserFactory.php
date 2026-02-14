@@ -7,7 +7,7 @@ namespace Database\Factories;
 use App\Models\Business;
 use App\Models\BusinessUser;
 use App\Models\Role;
-use App\Models\User;
+use Domain\Auth\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**

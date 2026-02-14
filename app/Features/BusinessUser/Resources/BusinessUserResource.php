@@ -7,7 +7,7 @@ namespace App\Features\BusinessUser\Resources;
 use App\Core\Resources\BaseJsonResource;
 use App\Features\BusinessRole\Resources\BusinessRoleResource;
 use App\Features\User\Resources\UserResource;
-use App\Models\User;
+use Domain\Auth\Models\User;
 use Illuminate\Http\Request;
 
 /**

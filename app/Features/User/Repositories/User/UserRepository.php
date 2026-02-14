@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Features\User\Repositories\User;
 
-use App\Features\Auth\Data\StoreUserData;
-use App\Models\User;
+use Domain\Auth\Data\StoreUserData;
+use Domain\Auth\Models\User;
 use Illuminate\Support\Facades\Hash;
 
 readonly class UserRepository implements UserRepositoryInterface

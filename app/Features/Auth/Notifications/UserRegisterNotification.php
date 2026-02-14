@@ -3,7 +3,7 @@
 namespace App\Features\Auth\Notifications;
 
 use App\Features\Notifications\Mails\UserMailNotification;
-use App\Models\User;
+use Domain\Auth\Models\User;
 use Illuminate\Notifications\Messages\MailMessage;
 
 class UserRegisterNotification extends UserMailNotification

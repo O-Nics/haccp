@@ -2,11 +2,11 @@
 
 namespace App\Features\Auth\Repositories\Auth;
 
-use App\Features\Auth\Data\DeviceData;
 use App\Features\Auth\Services\TokenPair;
-use App\Models\Device;
-use App\Models\Session;
-use App\Models\User;
+use Domain\Auth\Data\DeviceData;
+use Domain\Auth\Models\Device;
+use Domain\Auth\Models\Session;
+use Domain\Auth\Models\User;
 
 interface AuthRepositoryInterface
 {

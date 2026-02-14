@@ -4,7 +4,7 @@ namespace App\Features\Notifications\Mails;
 
 use App\Core\Channels\MailChannel;
 use App\Core\Notifications\BaseNotification;
-use App\Models\User;
+use Domain\Auth\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 

@@ -6,7 +6,7 @@ use App\Core\Notifications\BaseNotification;
 use App\Features\Notifications\Enums\NotificationChannel;
 use App\Features\Notifications\Enums\NotificationSentStatus;
 use App\Features\Notifications\Services\NotificationSentService;
-use App\Models\User;
+use Domain\Auth\Models\User;
 use Exception;
 use Illuminate\Notifications\Channels\MailChannel as BaseMailChannel;
 use Illuminate\Notifications\Notification;

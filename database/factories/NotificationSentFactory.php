@@ -7,7 +7,7 @@ namespace Database\Factories;
 use App\Features\Notifications\Enums\NotificationChannel;
 use App\Features\Notifications\Enums\NotificationSentStatus;
 use App\Models\NotificationSent;
-use App\Models\User;
+use Domain\Auth\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**

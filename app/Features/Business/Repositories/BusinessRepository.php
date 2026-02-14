@@ -6,7 +6,7 @@ namespace App\Features\Business\Repositories;
 
 use App\Features\Business\Data\IndexBusinessData;
 use App\Models\Business;
-use App\Models\User;
+use Domain\Auth\Models\User;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 final readonly class BusinessRepository implements BusinessRepositoryInterface

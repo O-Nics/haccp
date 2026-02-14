@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Features\Notifications\Enums\NotificationChannel;
 use App\Features\Notifications\Enums\NotificationSentStatus;
 use App\Models\Core\BaseModel;
+use Domain\Auth\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -22,7 +23,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string|null $error_message
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Models\User $user
+ * @property-read \Domain\Auth\Models\User $user
  *
  * @method static Builder<static>|NotificationSent betweenDates($column, ?string $startAt = null, ?string $endAt = null, $boolean = 'and', $not = false)
  * @method static \Database\Factories\NotificationSentFactory factory($count = null, $state = [])

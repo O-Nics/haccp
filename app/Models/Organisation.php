@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Core\BaseModel;
+use Domain\Auth\Models\User;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -20,7 +21,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string|null $email
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Models\User $owner
+ * @property-read \Domain\Auth\Models\User $owner
  *
  * @method static Builder<static>|Organisation betweenDates($column, ?string $startAt = null, ?string $endAt = null, $boolean = 'and', $not = false)
  * @method static \Database\Factories\OrganisationFactory factory($count = null, $state = [])

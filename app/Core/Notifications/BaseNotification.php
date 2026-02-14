@@ -2,7 +2,7 @@
 
 namespace App\Core\Notifications;
 
-use App\Models\User;
+use Domain\Auth\Models\User;
 use Illuminate\Notifications\Notification;
 
 class BaseNotification extends Notification

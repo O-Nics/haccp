@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Core\BasePivot;
+use Domain\Auth\Models\User;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
@@ -18,9 +19,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Business $business
  * @property-read \App\Models\Role|null $businessRole
- * @property-read \App\Models\User|null $invitedBy
+ * @property-read \Domain\Auth\Models\User|null $invitedBy
  * @property-read \App\Models\Role|null $role
- * @property-read \App\Models\User $user
+ * @property-read \Domain\Auth\Models\User $user
  *
  * @method static Builder<static>|BusinessUser betweenDates($column, ?string $startAt = null, ?string $endAt = null, $boolean = 'and', $not = false)
  * @method static Builder<static>|BusinessUser filtered(?string $filterQuery = null, array $searchableColumns = [])

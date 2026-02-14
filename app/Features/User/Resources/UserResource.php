@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Features\User\Resources;
 
 use App\Core\Resources\BaseJsonResource;
-use App\Models\User;
+use Domain\Auth\Models\User;
 use Illuminate\Http\Request;
 
 /**
