@@ -10,8 +10,8 @@ return [
     | The path and namespace of the domain layer.
     |
     */
-    'domain_path' => 'src/Domains',
-    'domain_namespace' => 'Domains',
+    'domain_path' => 'src/Domain',
+    'domain_namespace' => 'Domain',
 
     /*
     |--------------------------------------------------------------------------
