@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Domain\Auth\Models;
 
 use App\Core\Models\BaseAuthenticable;
+use Domain\Auth\Database\Factories\UserFactory;
 use Domain\Business\Models\Business;
 use Domain\Business\Models\Member;
 use Domain\Business\Models\Organisation;
@@ -61,7 +62,6 @@ use Laravel\Sanctum\PersonalAccessToken;
  * @property-read int|null $tokens_count
  *
  * @method static Builder<static>|User betweenDates($column, ?string $startAt = null, ?string $endAt = null, $boolean = 'and', $not = false)
- * @method static \Database\Factories\UserFactory factory($count = null, $state = [])
  * @method static Builder<static>|User filtered(?string $filterQuery = null, array $searchableColumns = [])
  * @method static Builder<static>|User forPeriod(?string $startAt = null, ?string $endAt = null, ?string $columnStart = 'start_at', ?string $columnEnd = 'end_at')
  * @method static Builder<static>|User newModelQuery()
@@ -93,9 +93,9 @@ class User extends BaseAuthenticable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, HasUuids, Notifiable, SoftDeletes;
 
-    protected static function newFactory(): \Domain\Auth\Database\Factories\UserFactory
+    protected static function newFactory(): UserFactory
     {
-        return \Domain\Auth\Database\Factories\UserFactory::new();
+        return UserFactory::new();
     }
 
     protected $hidden = [

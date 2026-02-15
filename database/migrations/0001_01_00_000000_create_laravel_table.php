@@ -57,16 +57,6 @@ return new class extends Migration
             $table->integer('expiration');
         });
 
-        Schema::create('password_reset_tokens', function (Blueprint $table) {
-            $table->id();
-            $table->string('email')->index();
-            $table->string('token');
-            $table->timestamp('expires_at');
-            $table->timestamp('confirmed_at')->nullable();
-            $table->timestamps();
-
-            $table->index(['email', 'token']);
-        });
     }
 
     /**

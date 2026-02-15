@@ -26,7 +26,7 @@ class IdentifyRequest
 
         /** @var Response $response */
         $response = $next($request);
-        $response->headers->set(static::HeaderName, Str::uuid(), true);
+        $response->headers->set(static::HeaderName, (string) Str::uuid(), true);
 
         return $response;
     }
