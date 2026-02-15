@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Domain\Notification\Services;
 
 use App\Core\Services\BaseService;

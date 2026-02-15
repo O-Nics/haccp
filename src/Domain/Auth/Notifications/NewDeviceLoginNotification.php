@@ -20,8 +20,8 @@ class NewDeviceLoginNotification extends UserMailNotification
         return $message
             ->subject('New Device Login Detected')
             ->line('A new device was used to log into your account.')
-            ->line('**Device:** '.$this->device->device_name)
-            ->line('**Platform:** '.$this->device->platform?->value)
+            ->line('**Device:** '.($this->device->model ?? 'Unknown'))
+            ->line('**Platform:** '.$this->device->platform)
             ->line('**IP Address:** '.$this->device->ip_address)
             ->line('If this was not you, please secure your account immediately.');
     }

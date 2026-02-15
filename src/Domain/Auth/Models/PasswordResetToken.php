@@ -37,6 +37,8 @@ use Illuminate\Support\Str;
  */
 class PasswordResetToken extends BaseModel
 {
+    public const int TOKEN_LENGTH = 64;
+
     protected $hidden = [
         'token',
     ];
@@ -51,7 +53,7 @@ class PasswordResetToken extends BaseModel
 
     public static function generateToken(): string
     {
-        return Str::random(64);
+        return Str::random(self::TOKEN_LENGTH);
     }
 
     public function isExpired(): bool

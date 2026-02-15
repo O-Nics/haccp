@@ -9,6 +9,7 @@ use Domain\Auth\Data\AuthData;
 use Domain\Auth\Data\DeviceData;
 use Domain\Auth\Data\TokenData;
 use Domain\Auth\Enums\TokenAbilityEnum;
+use Domain\Auth\Events\NewDeviceDetectedEvent;
 use Domain\Auth\Interfaces\DeviceRepositoryInterface;
 use Domain\Auth\Interfaces\SessionRepositoryInterface;
 use Domain\Auth\Interfaces\TokenRepositoryInterface;
@@ -30,6 +31,10 @@ final readonly class CreateAuthSession extends BaseAction
         ?string $activeBusinessId = null,
     ): AuthData {
         $device = $this->deviceRepository->createOrUpdateDevice(user: $user, deviceData: $deviceInfo);
+
+        if ($device->wasRecentlyCreated) {
+            event(new NewDeviceDetectedEvent($user, $device));
+        }
 
         $tokens = $this->tokenRepository->issueFor(
             $user,

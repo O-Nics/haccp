@@ -12,10 +12,6 @@ use Domain\Auth\ValueObjects\TokenPair;
 
 final readonly class TokenRepository extends BaseRepository implements TokenRepositoryInterface
 {
-    public function __construct(
-        private User $model
-    ) {}
-
     /**
      * @param  string[]  $accessAbilities
      * @param  string[]  $refreshAbilities
@@ -32,12 +28,23 @@ final readonly class TokenRepository extends BaseRepository implements TokenRepo
             Carbon::now()->addMinutes(config('auth.tokens.access.expiration'))
         );
 
+        $refreshExpiration = $rememberMe
+            ? config('auth.tokens.remember.expiration')
+            : config('auth.tokens.refresh.expiration');
+
         $refresh = $user->createToken(
             'refresh_token',
             $refreshAbilities,
-            Carbon::now()->addMinutes(config('auth.tokens.refresh.expiration'))
+            Carbon::now()->addMinutes($refreshExpiration)
         );
 
-        return new TokenPair($access, $refresh);
+        return new TokenPair(
+            accessToken: $access->plainTextToken,
+            accessTokenId: $access->accessToken->id,
+            accessExpiresAt: $access->accessToken->expires_at->getTimestamp(),
+            refreshToken: $refresh->plainTextToken,
+            refreshTokenId: $refresh->accessToken->id,
+            refreshExpiresAt: $refresh->accessToken->expires_at->getTimestamp(),
+        );
     }
 }

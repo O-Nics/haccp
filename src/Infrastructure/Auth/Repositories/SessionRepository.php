@@ -39,4 +39,13 @@ final readonly class SessionRepository extends BaseRepository implements Session
         $session->refreshToken()->delete();
         $session->delete();
     }
+
+    public function revokeAllForUser(User $user): void
+    {
+        $sessions = $user->sessions()->with(['accessToken', 'refreshToken'])->get();
+
+        foreach ($sessions as $session) {
+            $this->deleteSession($session);
+        }
+    }
 }

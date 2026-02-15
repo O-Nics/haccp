@@ -7,8 +7,8 @@ namespace Domain\Auth\Actions;
 use App\Core\Actions\BaseAction;
 use Domain\Auth\Data\AuthData;
 use Domain\Auth\Data\RegisterData;
+use Domain\Auth\Events\UserRegisteredEvent;
 use Domain\Auth\Interfaces\UserRepositoryInterface;
-use Domain\Auth\Notifications\UserRegisterNotification;
 
 final readonly class RegisterUser extends BaseAction
 {
@@ -21,7 +21,7 @@ final readonly class RegisterUser extends BaseAction
     {
         $user = $this->userRepository->store($data->storeUserData);
 
-        $user->notify(new UserRegisterNotification);
+        event(new UserRegisteredEvent($user));
 
         return $this->createAuthSession->handle($user, $data->deviceInfo);
     }

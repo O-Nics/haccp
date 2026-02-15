@@ -1,7 +1,5 @@
 <?php
 
-// app/Http/Middleware/ThrottleAuth.php
-
 declare(strict_types=1);
 
 namespace App\Core\Middlewares;
@@ -17,7 +15,7 @@ final readonly class ThrottleAuth
         private RateLimiter $limiter
     ) {}
 
-    public function handle(Request $request, Closure $next): Response
+    public function handle(Request $request, Closure $next, string $prefix = 'login', ?int $maxAttempts = null, ?int $decayMinutes = null): Response
     {
         if (app()->environment(['local', 'testing'])) {
             return $next($request);
@@ -27,18 +25,17 @@ final readonly class ThrottleAuth
             return $next($request);
         }
 
-        $key = $this->resolveRequestSignature($request);
-        $maxAttempts = config('auth.security.rate_limit.login_attempts');
-        $decayMinutes = config('auth.security.rate_limit.lockout_minutes');
+        $key = $this->resolveRequestSignature($request, $prefix);
+        $maxAttempts ??= config('auth.security.rate_limit.login_attempts');
+        $decayMinutes ??= config('auth.security.rate_limit.lockout_minutes');
 
         if ($this->limiter->tooManyAttempts($key, $maxAttempts)) {
             $seconds = $this->limiter->availableIn($key);
 
-            // en FR
             return response()->json([
                 'message' => sprintf(
-                    'Trop de tentatives de connexion. Veuillez réessayer dans %d minute(s).',
-                    ceil($seconds / 60)
+                    'Trop de tentatives. Veuillez réessayer dans %d minute(s).',
+                    (int) ceil($seconds / 60)
                 ),
                 'retry_after' => $seconds,
             ], Response::HTTP_TOO_MANY_REQUESTS);
@@ -48,7 +45,6 @@ final readonly class ThrottleAuth
 
         $response = $next($request);
 
-        // Clear rate limit on successful authentication
         if ($response->isSuccessful()) {
             $this->limiter->clear($key);
         }
@@ -56,10 +52,11 @@ final readonly class ThrottleAuth
         return $response;
     }
 
-    private function resolveRequestSignature(Request $request): string
+    private function resolveRequestSignature(Request $request, string $prefix): string
     {
         return sprintf(
-            'auth-login:%s:%s',
+            'auth-%s:%s:%s',
+            $prefix,
             sha1($request->ip()),
             sha1($request->input('email', ''))
         );

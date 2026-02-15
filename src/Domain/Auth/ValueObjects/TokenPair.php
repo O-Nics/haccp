@@ -4,42 +4,44 @@ declare(strict_types=1);
 
 namespace Domain\Auth\ValueObjects;
 
-use Laravel\Sanctum\NewAccessToken;
-
 final readonly class TokenPair
 {
     public function __construct(
-        public NewAccessToken $access,
-        public NewAccessToken $refresh,
+        private string $accessToken,
+        private int $accessTokenId,
+        private int $accessExpiresAt,
+        private string $refreshToken,
+        private int $refreshTokenId,
+        private int $refreshExpiresAt,
     ) {}
 
     public function accessPlain(): string
     {
-        return $this->access->plainTextToken;
-    }
-
-    public function accessExpiresAt(): int
-    {
-        return $this->access->accessToken->expires_at->getTimestamp();
-    }
-
-    public function refreshExpiresAt(): int
-    {
-        return $this->refresh->accessToken->expires_at->getTimestamp();
-    }
-
-    public function refreshPlain(): string
-    {
-        return $this->refresh->plainTextToken;
+        return $this->accessToken;
     }
 
     public function accessId(): int
     {
-        return $this->access->accessToken->id;
+        return $this->accessTokenId;
+    }
+
+    public function accessExpiresAt(): int
+    {
+        return $this->accessExpiresAt;
+    }
+
+    public function refreshPlain(): string
+    {
+        return $this->refreshToken;
     }
 
     public function refreshId(): int
     {
-        return $this->refresh->accessToken->id;
+        return $this->refreshTokenId;
+    }
+
+    public function refreshExpiresAt(): int
+    {
+        return $this->refreshExpiresAt;
     }
 }

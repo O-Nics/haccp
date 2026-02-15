@@ -27,6 +27,12 @@ final readonly class RefreshSession extends BaseAction
             throw new InvalidRefreshTokenException;
         }
 
+        $refreshToken = $session->refreshToken;
+
+        if (! $refreshToken || $refreshToken->expires_at?->isPast()) {
+            throw new InvalidRefreshTokenException;
+        }
+
         $device = $session->device;
 
         $deviceData = new DeviceData(

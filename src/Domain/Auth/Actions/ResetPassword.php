@@ -8,14 +8,16 @@ use App\Core\Actions\BaseAction;
 use Domain\Auth\Data\ResetPasswordData;
 use Domain\Auth\Exceptions\InvalidCredentialsException;
 use Domain\Auth\Interfaces\PasswordResetRepositoryInterface;
+use Domain\Auth\Events\PasswordResetCompletedEvent;
+use Domain\Auth\Interfaces\SessionRepositoryInterface;
 use Domain\Auth\Interfaces\UserRepositoryInterface;
-use Domain\Auth\Notifications\PasswordResetConfirmedNotification;
 
 final readonly class ResetPassword extends BaseAction
 {
     public function __construct(
         private UserRepositoryInterface $userRepository,
         private PasswordResetRepositoryInterface $passwordResetRepository,
+        private SessionRepositoryInterface $sessionRepository,
     ) {}
 
     /**
@@ -45,8 +47,10 @@ final readonly class ResetPassword extends BaseAction
 
         $this->userRepository->updatePassword($user, $data->password);
 
+        $this->sessionRepository->revokeAllForUser($user);
+
         $this->passwordResetRepository->deleteAllByEmail($data->email);
 
-        $user->notify(new PasswordResetConfirmedNotification);
+        event(new PasswordResetCompletedEvent($user));
     }
 }

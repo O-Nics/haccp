@@ -33,7 +33,7 @@ class CheckAuthRequest extends BaseFormRequest
             deviceInfo: new DeviceData(
                 deviceId: $this->input('device_id'),
                 devicePlatform: $this->input('device_platform'),
-                deviceModel: $this->input('device_name'),
+                deviceModel: $this->input('device_model'),
                 rememberMe: null,
                 ip: $this->ip(),
             ),

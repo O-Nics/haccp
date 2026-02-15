@@ -59,8 +59,6 @@ final class AuthController extends BaseController
      *
      * Returns a new authentication response with refreshed tokens using the provided refresh token data.
      *
-     * @unauthenticated
-     *
      * @throws InvalidRefreshTokenException
      */
     public function refresh(RefreshSession $action): AuthResponseResource
@@ -76,8 +74,6 @@ final class AuthController extends BaseController
      * Logout user
      *
      * Logs out the user by invalidating the session associated with the provided device ID.
-     *
-     * @unauthenticated
      */
     public function logout(LogoutUser $action): \Illuminate\Http\Response
     {

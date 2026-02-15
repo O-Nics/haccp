@@ -5,10 +5,14 @@ declare(strict_types=1);
 namespace App\Modules\Auth\Requests;
 
 use App\Core\Requests\BaseFormRequest;
+use App\Core\Requests\NormalizesEmail;
 use Domain\Auth\Data\ConfirmPasswordResetData;
+use Domain\Auth\Models\PasswordResetToken;
 
 class CheckResetPasswordResetRequest extends BaseFormRequest
 {
+    use NormalizesEmail;
+
     public function authorize(): bool
     {
         return true;
@@ -18,15 +22,8 @@ class CheckResetPasswordResetRequest extends BaseFormRequest
     {
         return [
             'email' => ['required', 'email'],
-            'token' => ['required', 'string', 'size:64'],
+            'token' => ['required', 'string', 'size:'.PasswordResetToken::TOKEN_LENGTH],
         ];
-    }
-
-    protected function prepareForValidation(): void
-    {
-        $this->merge([
-            'email' => strtolower(trim($this->input('email', ''))),
-        ]);
     }
 
     public function toDto(): ConfirmPasswordResetData

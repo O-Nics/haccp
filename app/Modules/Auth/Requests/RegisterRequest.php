@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Modules\Auth\Requests;
 
 use App\Core\Requests\BaseFormRequest;
+use App\Core\Requests\NormalizesEmail;
 use Domain\Auth\Data\DeviceData;
 use Domain\Auth\Data\RegisterData;
 use Domain\Auth\Data\StoreUserData;
@@ -12,6 +13,8 @@ use Illuminate\Validation\Rules\Password;
 
 class RegisterRequest extends BaseFormRequest
 {
+    use NormalizesEmail;
+
     public function authorize(): bool
     {
         return true;
@@ -39,19 +42,6 @@ class RegisterRequest extends BaseFormRequest
         ];
     }
 
-    /**
-     * Prepare the data for validation
-     */
-    protected function prepareForValidation(): void
-    {
-        $this->merge([
-            'email' => strtolower(trim($this->input('email', ''))),
-        ]);
-    }
-
-    /**
-     * Convert request to DTO
-     */
     public function toDto(): RegisterData
     {
         return new RegisterData(
@@ -64,7 +54,7 @@ class RegisterRequest extends BaseFormRequest
             deviceInfo: new DeviceData(
                 deviceId: $this->input('device_id'),
                 devicePlatform: $this->input('device_platform'),
-                deviceModel: $this->input('device_name'),
+                deviceModel: $this->input('device_model'),
                 rememberMe: $this->boolean('remember_me'),
                 ip: $this->ip()
             ),

@@ -6,10 +6,10 @@ namespace Domain\Auth\Actions;
 
 use App\Core\Actions\BaseAction;
 use Domain\Auth\Data\ForgotPasswordData;
+use Domain\Auth\Events\PasswordResetRequestedEvent;
 use Domain\Auth\Interfaces\PasswordResetRepositoryInterface;
 use Domain\Auth\Interfaces\UserRepositoryInterface;
 use Domain\Auth\Models\PasswordResetToken;
-use Domain\Auth\Notifications\PasswordResetNotification;
 
 final readonly class SendPasswordResetLink extends BaseAction
 {
@@ -37,6 +37,6 @@ final readonly class SendPasswordResetLink extends BaseAction
             $expirationMinutes
         );
 
-        $user->notify(new PasswordResetNotification($token));
+        event(new PasswordResetRequestedEvent($user, $token));
     }
 }
