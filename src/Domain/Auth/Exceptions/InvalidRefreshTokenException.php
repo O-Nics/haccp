@@ -4,21 +4,13 @@ declare(strict_types=1);
 
 namespace Domain\Auth\Exceptions;
 
-use Exception;
-use Illuminate\Http\JsonResponse;
+use App\Core\Exceptions\BaseException;
 use Symfony\Component\HttpFoundation\Response;
 
-final class InvalidRefreshTokenException extends Exception
+final class InvalidRefreshTokenException extends BaseException
 {
     public function __construct()
     {
         parent::__construct('Invalid or expired refresh token', Response::HTTP_BAD_REQUEST);
-    }
-
-    public function render(): JsonResponse
-    {
-        return response()->json([
-            'message' => $this->getMessage(),
-        ], $this->getCode());
     }
 }

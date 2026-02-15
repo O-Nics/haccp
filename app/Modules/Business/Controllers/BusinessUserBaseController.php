@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Modules\Business\Controllers;
 
-use App\Core\Controllers\Controller;
+use App\Core\Controllers\BaseController;
 use App\Core\Resources\BaseAnonymousCollection;
 use App\Modules\Business\Requests\IndexBusinessUserRequest;
 use App\Modules\Business\Requests\InviteUserRequest;
@@ -18,7 +18,7 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * BusinessUserController handles HTTP requests for business user management.
  */
-final class BusinessUserController extends Controller
+final class BusinessUserBaseController extends BaseController
 {
     public function __construct(
         private readonly BusinessUserService $businessUserService,

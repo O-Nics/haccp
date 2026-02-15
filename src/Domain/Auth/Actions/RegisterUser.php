@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace Domain\Auth\Actions;
 
+use App\Core\Actions\BaseAction;
 use Domain\Auth\Data\AuthData;
 use Domain\Auth\Data\RegisterData;
 use Domain\Auth\Interfaces\UserRepositoryInterface;
 use Domain\Auth\Notifications\UserRegisterNotification;
 
-final readonly class RegisterUser
+final readonly class RegisterUser extends BaseAction
 {
     public function __construct(
         private UserRepositoryInterface $userRepository,

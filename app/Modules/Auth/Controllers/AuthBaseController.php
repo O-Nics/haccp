@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Modules\Auth\Controllers;
 
-use App\Core\Controllers\Controller;
+use App\Core\Controllers\BaseController;
 use App\Modules\Auth\Requests\CheckAuthRequest;
 use App\Modules\Auth\Requests\LoginRequest;
 use App\Modules\Auth\Requests\RegisterRequest;
@@ -18,7 +18,7 @@ use Domain\Auth\Exceptions\InvalidCredentialsException;
 use Domain\Auth\Exceptions\InvalidRefreshTokenException;
 use Symfony\Component\HttpFoundation\Response;
 
-final class AuthController extends Controller
+final class AuthBaseController extends BaseController
 {
     /**
      * Register a new user

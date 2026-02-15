@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Infrastructure\Auth\Repositories;
 
+use App\Core\Repositories\BaseRepository;
 use Domain\Auth\Interfaces\SessionRepositoryInterface;
 use Domain\Auth\Models\Device;
 use Domain\Auth\Models\Session;
@@ -11,8 +12,12 @@ use Domain\Auth\Models\User;
 use Domain\Auth\ValueObjects\TokenPair;
 use Throwable;
 
-final readonly class SessionRepository implements SessionRepositoryInterface
+final readonly class SessionRepository extends BaseRepository implements SessionRepositoryInterface
 {
+    public function __construct(
+        private Session $model
+    ) {}
+
     /**
      * @throws Throwable
      */

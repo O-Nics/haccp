@@ -2,9 +2,9 @@
 
 namespace Domain\Business\Models;
 
+use App\Core\Models\BasePivot;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Shared\Models\BasePivot;
 
 /**
  * @property-read Permission|null $permission

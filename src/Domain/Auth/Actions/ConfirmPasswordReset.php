@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace Domain\Auth\Actions;
 
+use App\Core\Actions\BaseAction;
 use Domain\Auth\Data\ConfirmPasswordResetData;
 use Domain\Auth\Exceptions\InvalidCredentialsException;
 use Domain\Auth\Interfaces\PasswordResetRepositoryInterface;
 
-final readonly class ConfirmPasswordReset
+final readonly class ConfirmPasswordReset extends BaseAction
 {
     public function __construct(
         private PasswordResetRepositoryInterface $passwordResetRepository,

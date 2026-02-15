@@ -4,15 +4,12 @@ declare(strict_types=1);
 
 namespace Domain\Auth\Events;
 
+use App\Core\Events\BaseEvent;
 use Domain\Auth\Models\Device;
 use Domain\Auth\Models\User;
-use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Queue\SerializesModels;
 
-class NewDeviceDetectedEvent
+class NewDeviceDetectedEvent extends BaseEvent
 {
-    use Dispatchable, SerializesModels;
-
     public function __construct(
         public User $user,
         public Device $device,

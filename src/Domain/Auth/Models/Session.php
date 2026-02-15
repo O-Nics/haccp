@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Domain\Auth\Models;
 
+use App\Core\Models\BaseModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Laravel\Sanctum\PersonalAccessToken;
-use Shared\Models\BaseModel;
 
 /**
  * @property int $id

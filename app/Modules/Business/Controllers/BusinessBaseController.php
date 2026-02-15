@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Modules\Business\Controllers;
 
-use App\Core\Controllers\Controller;
+use App\Core\Controllers\BaseController;
 use App\Core\Resources\BaseAnonymousCollection;
 use App\Modules\Business\Requests\IndexBusinessRequest;
 use App\Modules\Business\Resources\BusinessResource;
 
-final class BusinessController extends Controller
+final class BusinessBaseController extends BaseController
 {
     public function __construct() {}
 

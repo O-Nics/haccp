@@ -2,9 +2,9 @@
 
 namespace Domain\Notification\Enums;
 
+use App\Core\Enums\Enumerations;
 use Domain\Notification\Channels\NotificationChannelEmail;
 use Domain\Notification\Channels\NotificationChannelState;
-use Shared\Enums\Enumerations;
 
 enum NotificationChannel: string
 {

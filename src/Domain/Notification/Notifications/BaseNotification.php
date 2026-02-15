@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Domain\Notification\Notifications;
 
+use App\Core\Notifications\BaseNotification as CoreBaseNotification;
 use Domain\Auth\Models\User;
-use Illuminate\Notifications\Notification;
 
-class BaseNotification extends Notification
+class BaseNotification extends CoreBaseNotification
 {
     public function mustSend(User $notifiable): bool
     {

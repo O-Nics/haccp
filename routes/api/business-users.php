@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-use App\Modules\Business\Controllers\BusinessUserController;
+use App\Modules\Business\Controllers\BusinessUserBaseController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('businesses-users')
-    ->controller(BusinessUserController::class)
+    ->controller(BusinessUserBaseController::class)
     ->name('businesses.users.')
     ->group(function () {
         Route::get('{business}', 'index')

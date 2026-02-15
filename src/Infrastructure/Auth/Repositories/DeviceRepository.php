@@ -4,14 +4,19 @@ declare(strict_types=1);
 
 namespace Infrastructure\Auth\Repositories;
 
+use App\Core\Repositories\BaseRepository;
 use Domain\Auth\Data\DeviceData;
 use Domain\Auth\Interfaces\DeviceRepositoryInterface;
 use Domain\Auth\Models\Device;
 use Domain\Auth\Models\User;
 use Throwable;
 
-final readonly class DeviceRepository implements DeviceRepositoryInterface
+final readonly class DeviceRepository extends BaseRepository implements DeviceRepositoryInterface
 {
+    public function __construct(
+        private Device $model
+    ) {}
+
     /**
      * @throws Throwable
      */

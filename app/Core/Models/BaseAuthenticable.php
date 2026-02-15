@@ -1,6 +1,6 @@
 <?php
 
-namespace Shared\Models;
+namespace App\Core\Models;
 
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\MustVerifyEmail;

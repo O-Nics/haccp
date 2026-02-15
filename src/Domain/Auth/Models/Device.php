@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Domain\Auth\Models;
 
+use App\Core\Models\BaseModel;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Carbon;
-use Shared\Models\BaseModel;
 
 /**
  * @property int $id

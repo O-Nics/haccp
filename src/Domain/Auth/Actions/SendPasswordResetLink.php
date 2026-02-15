@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Domain\Auth\Actions;
 
+use App\Core\Actions\BaseAction;
 use Domain\Auth\Data\ForgotPasswordData;
 use Domain\Auth\Interfaces\PasswordResetRepositoryInterface;
 use Domain\Auth\Interfaces\UserRepositoryInterface;
@@ -11,7 +12,7 @@ use Domain\Auth\Mail\PasswordResetMail;
 use Domain\Auth\Models\PasswordResetToken;
 use Illuminate\Support\Facades\Mail;
 
-final readonly class SendPasswordResetLink
+final readonly class SendPasswordResetLink extends BaseAction
 {
     public function __construct(
         private UserRepositoryInterface $userRepository,

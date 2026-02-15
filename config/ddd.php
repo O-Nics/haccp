@@ -43,8 +43,6 @@ return [
     */
     'layers' => [
         'Infrastructure' => 'src/Infrastructure',
-        'Shared' => 'src/Shared',
-        'Support' => 'src/Support',
     ],
 
     /*
@@ -99,7 +97,7 @@ return [
     | which will be created if it doesn't already exist.
     |
     */
-    'base_model' => 'Shared\Models\BaseModel',
+    'base_model' => 'App\Core\Models\BaseModel',
 
     /*
     |--------------------------------------------------------------------------

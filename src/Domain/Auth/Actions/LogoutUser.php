@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace Domain\Auth\Actions;
 
+use App\Core\Actions\BaseAction;
 use Domain\Auth\Interfaces\SessionRepositoryInterface;
 use Domain\Auth\Models\User;
 
-final readonly class LogoutUser
+final readonly class LogoutUser extends BaseAction
 {
     public function __construct(
         private SessionRepositoryInterface $sessionRepository,

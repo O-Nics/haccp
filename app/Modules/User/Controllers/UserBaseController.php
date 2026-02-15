@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Modules\User\Controllers;
 
-use App\Core\Controllers\Controller;
+use App\Core\Controllers\BaseController;
 use App\Modules\User\Resources\UserResource;
 use Illuminate\Http\Request;
 
-class UserController extends Controller
+class UserBaseController extends BaseController
 {
     /**
      * Get authenticated user

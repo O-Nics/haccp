@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Modules\App\Controllers;
 
-use App\Core\Controllers\Controller;
+use App\Core\Controllers\BaseController;
 use App\Modules\App\Resources\LoadInitialDataResource;
 use Domain\Business\Models\Permission;
 
-class LoadInitialDataController extends Controller
+class LoadInitialDataBaseController extends BaseController
 {
     /**
      * Load initial data

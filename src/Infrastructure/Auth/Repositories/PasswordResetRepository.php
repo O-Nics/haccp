@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace Infrastructure\Auth\Repositories;
 
+use App\Core\Repositories\BaseRepository;
 use Domain\Auth\Interfaces\PasswordResetRepositoryInterface;
 use Domain\Auth\Models\PasswordResetToken;
 
-final readonly class PasswordResetRepository implements PasswordResetRepositoryInterface
+final readonly class PasswordResetRepository extends BaseRepository implements PasswordResetRepositoryInterface
 {
     public function __construct(
         private PasswordResetToken $model

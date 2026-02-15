@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Domain\Auth\Actions;
 
+use App\Core\Actions\BaseAction;
 use Domain\Auth\Data\AuthData;
 use Domain\Auth\Data\DeviceData;
 use Domain\Auth\Data\TokenData;
@@ -14,7 +15,7 @@ use Domain\Auth\Interfaces\TokenRepositoryInterface;
 use Domain\Auth\Interfaces\UserRepositoryInterface;
 use Domain\Auth\Models\User;
 
-final readonly class CreateAuthSession
+final readonly class CreateAuthSession extends BaseAction
 {
     public function __construct(
         private DeviceRepositoryInterface $deviceRepository,

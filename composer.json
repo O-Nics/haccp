@@ -37,8 +37,7 @@
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/",
             "Domain\\": "src/Domain",
-            "Infrastructure\\": "src/Infrastructure",
-            "Shared\\": "src/Shared"
+            "Infrastructure\\": "src/Infrastructure"
         },
         "files": [
             "app/Core/Helpers/helpers.php"

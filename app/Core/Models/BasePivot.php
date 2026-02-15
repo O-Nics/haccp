@@ -1,11 +1,11 @@
 <?php
 
-namespace Shared\Models;
+namespace App\Core\Models;
 
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 
-abstract class BaseModel extends Model
+abstract class BasePivot extends Pivot
 {
     public function scopeFiltered(Builder $query, ?string $filterQuery = null, array $searchableColumns = []): void
     {

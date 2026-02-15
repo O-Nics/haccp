@@ -4,17 +4,13 @@ declare(strict_types=1);
 
 namespace Domain\Auth\Mail;
 
+use App\Core\Mail\BaseMail;
 use Domain\Auth\Models\User;
-use Illuminate\Bus\Queueable;
-use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
-use Illuminate\Queue\SerializesModels;
 
-class PasswordResetConfirmedMail extends Mailable
+class PasswordResetConfirmedMail extends BaseMail
 {
-    use Queueable, SerializesModels;
-
     public function __construct(
         public User $user,
     ) {}

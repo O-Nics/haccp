@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Domain\Auth\Models;
 
+use App\Core\Models\BaseAuthenticable;
 use Domain\Business\Models\Business;
 use Domain\Business\Models\BusinessUser;
 use Domain\Business\Models\Organisation;
@@ -24,7 +25,6 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\HasApiTokens;
 use Laravel\Sanctum\PersonalAccessToken;
-use Shared\Models\BaseAuthenticable;
 
 /**
  * @property string $id

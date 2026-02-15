@@ -2,11 +2,11 @@
 
 namespace Domain\Business\Models;
 
+use App\Core\Models\BaseModel;
 use Domain\Auth\Models\User;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Shared\Models\BaseModel;
 
 /**
  * @property string $id

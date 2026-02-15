@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace Infrastructure\Auth\Repositories;
 
+use App\Core\Repositories\BaseRepository;
 use Domain\Auth\Data\StoreUserData;
 use Domain\Auth\Interfaces\UserRepositoryInterface;
 use Domain\Auth\Models\User;
 use Illuminate\Support\Facades\Hash;
 
-final readonly class UserRepository implements UserRepositoryInterface
+final readonly class UserRepository extends BaseRepository implements UserRepositoryInterface
 {
     public function __construct(
         private User $model

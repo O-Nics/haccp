@@ -4,13 +4,18 @@ declare(strict_types=1);
 
 namespace Infrastructure\Auth\Repositories;
 
+use App\Core\Repositories\BaseRepository;
 use Carbon\Carbon;
 use Domain\Auth\Interfaces\TokenRepositoryInterface;
 use Domain\Auth\Models\User;
 use Domain\Auth\ValueObjects\TokenPair;
 
-final readonly class TokenRepository implements TokenRepositoryInterface
+final readonly class TokenRepository extends BaseRepository implements TokenRepositoryInterface
 {
+    public function __construct(
+        private User $model
+    ) {}
+
     /**
      * @param  string[]  $accessAbilities
      * @param  string[]  $refreshAbilities

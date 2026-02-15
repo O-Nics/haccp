@@ -2,6 +2,7 @@
 
 namespace Domain\Notification\Services;
 
+use App\Core\Services\BaseService;
 use Domain\Auth\Models\User;
 use Domain\Notification\Data\IndexNotificationSentRequestData;
 use Domain\Notification\Data\StoreNotificationSentData;
@@ -15,7 +16,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 
-readonly class NotificationSentService
+readonly class NotificationSentService extends BaseService
 {
     public function __construct(
         private NotificationSentRepositoryInterface $notificationSentRepository

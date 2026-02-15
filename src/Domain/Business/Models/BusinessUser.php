@@ -2,9 +2,9 @@
 
 namespace Domain\Business\Models;
 
+use App\Core\Models\BasePivot;
 use Domain\Auth\Models\User;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Shared\Models\BasePivot;
 
 /**
  * @property int $id

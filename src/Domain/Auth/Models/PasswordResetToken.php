@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Domain\Auth\Models;
 
+use App\Core\Models\BaseModel;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
-use Shared\Models\BaseModel;
 
 /**
  * @property int $id
