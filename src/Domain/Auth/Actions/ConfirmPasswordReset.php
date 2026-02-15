@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Domain\Auth\Actions;
 
-use App\Core\Exceptions\InvalidCredentialsException;
 use Domain\Auth\Data\ConfirmPasswordResetData;
+use Domain\Auth\Exceptions\InvalidCredentialsException;
 use Domain\Auth\Interfaces\PasswordResetRepositoryInterface;
 
 final readonly class ConfirmPasswordReset

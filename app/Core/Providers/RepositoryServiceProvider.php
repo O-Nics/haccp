@@ -4,23 +4,25 @@ declare(strict_types=1);
 
 namespace App\Core\Providers;
 
-use App\Features\Business\Repositories\BusinessRepository;
-use App\Features\Business\Repositories\BusinessRepositoryInterface;
-use App\Features\BusinessRole\Repositories\BusinessRoleRepository;
-use App\Features\BusinessRole\Repositories\BusinessRoleRepositoryInterface;
-use App\Features\Notifications\Repositories\NotificationSent\NotificationSentRepository;
-use App\Features\Notifications\Repositories\NotificationSent\NotificationSentRepositoryInterface;
 use Domain\Auth\Interfaces\DeviceRepositoryInterface;
 use Domain\Auth\Interfaces\PasswordResetRepositoryInterface;
 use Domain\Auth\Interfaces\SessionRepositoryInterface;
 use Domain\Auth\Interfaces\TokenRepositoryInterface;
 use Domain\Auth\Interfaces\UserRepositoryInterface;
+use Domain\Business\Interfaces\BusinessRepositoryInterface;
+use Domain\Business\Interfaces\BusinessRoleRepositoryInterface;
+use Domain\Business\Interfaces\BusinessUserRepositoryInterface;
+use Domain\Notification\Interfaces\NotificationSentRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 use Infrastructure\Auth\Repositories\DeviceRepository;
 use Infrastructure\Auth\Repositories\PasswordResetRepository;
 use Infrastructure\Auth\Repositories\SessionRepository;
 use Infrastructure\Auth\Repositories\TokenRepository;
 use Infrastructure\Auth\Repositories\UserRepository;
+use Infrastructure\Business\Repositories\BusinessRepository;
+use Infrastructure\Business\Repositories\BusinessRoleRepository;
+use Infrastructure\Business\Repositories\BusinessUserRepository;
+use Infrastructure\Notification\Repositories\NotificationSentRepository;
 
 class RepositoryServiceProvider extends ServiceProvider
 {
@@ -29,17 +31,20 @@ class RepositoryServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        // Auth domain repositories
+        // Auth domain
         $this->app->singleton(UserRepositoryInterface::class, UserRepository::class);
         $this->app->singleton(DeviceRepositoryInterface::class, DeviceRepository::class);
         $this->app->singleton(SessionRepositoryInterface::class, SessionRepository::class);
         $this->app->singleton(TokenRepositoryInterface::class, TokenRepository::class);
         $this->app->singleton(PasswordResetRepositoryInterface::class, PasswordResetRepository::class);
 
-        // Business domain repositories
+        // Business domain
         $this->app->singleton(BusinessRepositoryInterface::class, BusinessRepository::class);
-        $this->app->singleton(NotificationSentRepositoryInterface::class, NotificationSentRepository::class);
         $this->app->singleton(BusinessRoleRepositoryInterface::class, BusinessRoleRepository::class);
+        $this->app->singleton(BusinessUserRepositoryInterface::class, BusinessUserRepository::class);
+
+        // Notification domain
+        $this->app->singleton(NotificationSentRepositoryInterface::class, NotificationSentRepository::class);
     }
 
     /**

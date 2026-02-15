@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace Domain\Auth\Models;
 
-use App\Models\Business;
-use App\Models\BusinessUser;
-use App\Models\Core\BaseAuthenticable;
-use App\Models\NotificationSent;
-use App\Models\Organisation;
+use Domain\Business\Models\Business;
+use Domain\Business\Models\BusinessUser;
+use Domain\Business\Models\Organisation;
+use Domain\Notification\Models\NotificationSent;
 use Eloquent;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Builder;
@@ -25,6 +24,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\HasApiTokens;
 use Laravel\Sanctum\PersonalAccessToken;
+use Shared\Models\BaseAuthenticable;
 
 /**
  * @property string $id
@@ -42,17 +42,17 @@ use Laravel\Sanctum\PersonalAccessToken;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property Carbon|null $deleted_at
- * @property-read \App\Models\BusinessUser|null $pivot
- * @property-read Collection<int, \App\Models\Business> $businesses
+ * @property-read \Domain\Business\Models\BusinessUser|null $pivot
+ * @property-read Collection<int, \Domain\Business\Models\Business> $businesses
  * @property-read int|null $businesses_count
  * @property-read Collection<int, \Domain\Auth\Models\Device> $devices
  * @property-read int|null $devices_count
  * @property-read string $full_name
- * @property-read Collection<int, \App\Models\NotificationSent> $notificationSents
+ * @property-read Collection<int, \Domain\Notification\Models\NotificationSent> $notificationSents
  * @property-read int|null $notification_sents_count
  * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
- * @property-read Collection<int, \App\Models\Organisation> $organizations
+ * @property-read Collection<int, \Domain\Business\Models\Organisation> $organizations
  * @property-read int|null $organizations_count
  * @property-read Collection<int, \Domain\Auth\Models\Session> $sessions
  * @property-read int|null $sessions_count
@@ -91,6 +91,11 @@ use Laravel\Sanctum\PersonalAccessToken;
 class User extends BaseAuthenticable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, HasUuids, Notifiable, SoftDeletes;
+
+    protected static function newFactory(): \Domain\Auth\Database\Factories\UserFactory
+    {
+        return \Domain\Auth\Database\Factories\UserFactory::new();
+    }
 
     protected $hidden = [
         'password',

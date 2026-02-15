@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace Domain\Auth\Models;
 
-use App\Models\Builder;
-use App\Models\Core\BaseModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Laravel\Sanctum\PersonalAccessToken;
+use Shared\Models\BaseModel;
 
 /**
  * @property int $id
@@ -44,6 +43,11 @@ use Laravel\Sanctum\PersonalAccessToken;
 class Session extends BaseModel
 {
     use HasFactory;
+
+    protected static function newFactory(): \Domain\Auth\Database\Factories\SessionFactory
+    {
+        return \Domain\Auth\Database\Factories\SessionFactory::new();
+    }
 
     public function user(): BelongsTo
     {

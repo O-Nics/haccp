@@ -4,7 +4,7 @@
 
 declare(strict_types=1);
 
-use App\Features\BusinessRole\Controllers\BusinessRoleController;
+use App\Modules\Business\Controllers\BusinessRoleController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('business-roles')

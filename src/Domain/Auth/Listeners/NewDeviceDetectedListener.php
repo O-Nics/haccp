@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Domain\Auth\Listeners;
 
-use App\Features\Auth\Events\NewDeviceDetectedEvent;
+use Domain\Auth\Events\NewDeviceDetectedEvent;
 
 /**
  * Event dispatched when a suspicious login is detected

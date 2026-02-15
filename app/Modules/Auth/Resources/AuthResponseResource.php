@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Modules\Auth\Resources;
 
 use App\Core\Resources\BaseJsonResource;
-use App\Features\Business\Resources\BusinessResource;
-use App\Features\User\Resources\UserResource;
+use App\Modules\Business\Resources\BusinessResource;
+use App\Modules\User\Resources\UserResource;
 use Domain\Auth\Data\AuthData;
 use Illuminate\Http\Request;
 

@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace App\Modules\Auth\Controllers;
 
 use App\Core\Controllers\Controller;
-use App\Core\Exceptions\InvalidCredentialsException;
 use App\Modules\Auth\Requests\CheckResetPasswordResetRequest;
 use App\Modules\Auth\Requests\ForgotPasswordRequest;
 use App\Modules\Auth\Requests\ResetPasswordRequest;
 use Domain\Auth\Actions\ConfirmPasswordReset;
 use Domain\Auth\Actions\ResetPassword;
 use Domain\Auth\Actions\SendPasswordResetLink;
+use Domain\Auth\Exceptions\InvalidCredentialsException;
 use Illuminate\Http\Response;
 
 /**

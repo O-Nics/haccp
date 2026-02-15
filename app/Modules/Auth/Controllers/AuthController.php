@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace App\Modules\Auth\Controllers;
 
 use App\Core\Controllers\Controller;
-use App\Core\Exceptions\InvalidCredentialsException;
-use App\Core\Exceptions\InvalidRefreshTokenException;
 use App\Modules\Auth\Requests\CheckAuthRequest;
 use App\Modules\Auth\Requests\LoginRequest;
 use App\Modules\Auth\Requests\RegisterRequest;
@@ -16,6 +14,8 @@ use Domain\Auth\Actions\LoginUser;
 use Domain\Auth\Actions\LogoutUser;
 use Domain\Auth\Actions\RefreshSession;
 use Domain\Auth\Actions\RegisterUser;
+use Domain\Auth\Exceptions\InvalidCredentialsException;
+use Domain\Auth\Exceptions\InvalidRefreshTokenException;
 use Symfony\Component\HttpFoundation\Response;
 
 final class AuthController extends Controller

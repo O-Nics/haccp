@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Features\App\Controllers\LoadInitialDataController;
+use App\Modules\App\Controllers\LoadInitialDataController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/health', fn () => response()->json([

@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Domain\Auth\Models;
 
-use App\Models\Core\BaseModel;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Carbon;
+use Shared\Models\BaseModel;
 
 /**
  * @property int $id
@@ -48,6 +48,11 @@ use Illuminate\Support\Carbon;
 class Device extends BaseModel
 {
     use HasFactory;
+
+    protected static function newFactory(): \Domain\Auth\Database\Factories\DeviceFactory
+    {
+        return \Domain\Auth\Database\Factories\DeviceFactory::new();
+    }
 
     protected function casts(): array
     {

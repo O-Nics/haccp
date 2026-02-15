@@ -4,12 +4,10 @@ declare(strict_types=1);
 
 namespace App\Core\Providers;
 
-use App\Features\Auth\Events\NewDeviceDetectedEvent;
-use App\Features\BusinessUser\Repositories\BusinessUserRepository;
-use App\Features\BusinessUser\Repositories\BusinessUserRepositoryInterface;
 use Dedoc\Scramble\Scramble;
 use Dedoc\Scramble\Support\Generator\OpenApi;
 use Dedoc\Scramble\Support\Generator\SecurityScheme;
+use Domain\Auth\Events\NewDeviceDetectedEvent;
 use Domain\Auth\Mail\SendNewDeviceLoginEmail;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Event;
@@ -20,13 +18,7 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Register any application services.
      */
-    public function register(): void
-    {
-        $this->app->singleton(
-            BusinessUserRepositoryInterface::class,
-            BusinessUserRepository::class
-        );
-    }
+    public function register(): void {}
 
     /**
      * Bootstrap any application services.

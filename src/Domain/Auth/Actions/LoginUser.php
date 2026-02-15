@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Domain\Auth\Actions;
 
-use App\Core\Exceptions\InvalidCredentialsException;
 use Domain\Auth\Data\AuthData;
 use Domain\Auth\Data\LoginData;
+use Domain\Auth\Exceptions\InvalidCredentialsException;
 use Domain\Auth\Interfaces\UserRepositoryInterface;
 use Illuminate\Support\Facades\Hash;
 

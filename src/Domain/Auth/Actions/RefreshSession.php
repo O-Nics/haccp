@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Domain\Auth\Actions;
 
-use App\Core\Exceptions\InvalidRefreshTokenException;
 use Domain\Auth\Data\AuthData;
 use Domain\Auth\Data\DeviceData;
+use Domain\Auth\Exceptions\InvalidRefreshTokenException;
 use Domain\Auth\Models\User;
 
 final readonly class RefreshSession

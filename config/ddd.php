@@ -99,7 +99,7 @@ return [
     | which will be created if it doesn't already exist.
     |
     */
-    'base_model' => 'Models/Core/BaseModel.php',
+    'base_model' => 'Shared\Models\BaseModel',
 
     /*
     |--------------------------------------------------------------------------

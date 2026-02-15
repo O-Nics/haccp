@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Features\BusinessUser\Controllers\BusinessUserController;
+use App\Modules\Business\Controllers\BusinessUserController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('businesses-users')

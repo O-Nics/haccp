@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Domain\Auth\Data;
 
-use App\Models\Business;
 use Domain\Auth\Models\User;
+use Domain\Business\Models\Business;
 use Spatie\LaravelData\Data;
 
 class AuthData extends Data
