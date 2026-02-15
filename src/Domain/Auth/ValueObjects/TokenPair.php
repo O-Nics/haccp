@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Features\Auth\Services;
+declare(strict_types=1);
+
+namespace Domain\Auth\ValueObjects;
 
 use Laravel\Sanctum\NewAccessToken;
 

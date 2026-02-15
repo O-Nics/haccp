@@ -7,8 +7,6 @@ namespace App\Features\App\Resources;
 use App\Core\Resources\BaseJsonResource;
 use App\Core\Resources\PermissionResource;
 use App\Features\App\Data\LoadInitialDataData;
-use App\Features\User\Resources\UserResource;
-use App\Models\Role;
 use Illuminate\Http\Request;
 
 /**

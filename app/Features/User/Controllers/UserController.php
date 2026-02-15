@@ -3,8 +3,8 @@
 namespace App\Features\User\Controllers;
 
 use App\Core\Controllers\Controller;
-use App\Features\User\Repositories\User\UserRepositoryInterface;
 use App\Features\User\Resources\UserResource;
+use Domain\Auth\Interfaces\UserRepositoryInterface;
 use Illuminate\Http\Request;
 
 class UserController extends Controller

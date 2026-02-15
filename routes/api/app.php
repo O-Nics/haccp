@@ -11,8 +11,7 @@ Route::get('/health', fn () => response()->json([
 ]))->name('health');
 
 Route::prefix('load-initial-data')
-     ->name('load-initial-data.')
-     ->group(function () {
-         Route::post('/', LoadInitialDataController::class)->name('load');
-     });
-
+    ->name('load-initial-data.')
+    ->group(function () {
+        Route::post('/', LoadInitialDataController::class)->name('load');
+    });

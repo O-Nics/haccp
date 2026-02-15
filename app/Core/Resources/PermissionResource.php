@@ -2,7 +2,6 @@
 
 namespace App\Core\Resources;
 
-use App\Core\Resources\BaseJsonResource;
 use App\Models\Permission;
 use Illuminate\Http\Request;
 

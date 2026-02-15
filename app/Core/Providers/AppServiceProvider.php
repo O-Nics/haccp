@@ -5,18 +5,8 @@ declare(strict_types=1);
 namespace App\Core\Providers;
 
 use App\Features\Auth\Events\NewDeviceDetectedEvent;
-use App\Features\Auth\Repositories\PasswordReset\PasswordResetRepository;
-use App\Features\Auth\Repositories\PasswordReset\PasswordResetRepositoryInterface;
-use App\Features\Business\Repositories\BusinessRepository;
-use App\Features\Business\Repositories\BusinessRepositoryInterface;
 use App\Features\BusinessUser\Repositories\BusinessUserRepository;
 use App\Features\BusinessUser\Repositories\BusinessUserRepositoryInterface;
-use App\Features\Session\Repositories\Device\DeviceRepository;
-use App\Features\Session\Repositories\Device\DeviceRepositoryInterface;
-use App\Features\Session\Repositories\Session\SessionRepository;
-use App\Features\Session\Repositories\Session\SessionRepositoryInterface;
-use App\Features\User\Repositories\User\UserRepository;
-use App\Features\User\Repositories\User\UserRepositoryInterface;
 use Dedoc\Scramble\Scramble;
 use Dedoc\Scramble\Support\Generator\OpenApi;
 use Dedoc\Scramble\Support\Generator\SecurityScheme;
@@ -32,35 +22,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        // Repository bindings
-        $this->app->singleton(
-            UserRepositoryInterface::class,
-            UserRepository::class
-        );
-
-        $this->app->singleton(
-            DeviceRepositoryInterface::class,
-            DeviceRepository::class
-        );
-
-        $this->app->singleton(
-            PasswordResetRepositoryInterface::class,
-            PasswordResetRepository::class
-        );
-
-        $this->app->singleton(
-            SessionRepositoryInterface::class,
-            SessionRepository::class
-        );
-
         $this->app->singleton(
             BusinessUserRepositoryInterface::class,
             BusinessUserRepository::class
-        );
-
-        $this->app->singleton(
-            BusinessRepositoryInterface::class,
-            BusinessRepository::class
         );
     }
 
@@ -81,6 +45,5 @@ class AppServiceProvider extends ServiceProvider
 
         // Register event listeners
         Event::listen(NewDeviceDetectedEvent::class, SendNewDeviceLoginEmail::class);
-
     }
 }

@@ -6,7 +6,6 @@ use App\Core\Controllers\Controller;
 use App\Features\App\Data\LoadInitialDataData;
 use App\Features\App\Resources\LoadInitialDataResource;
 use App\Models\Permission;
-use Illuminate\Http\JsonResponse;
 
 class LoadInitialDataController extends Controller
 {

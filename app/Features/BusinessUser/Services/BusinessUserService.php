@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Features\BusinessUser\Services;
 
 use App\Features\BusinessUser\Data\InviteUserData;
-use App\Features\User\Repositories\User\UserRepositoryInterface;
 use App\Models\Business;
 use Domain\Auth\Data\StoreUserData;
+use Domain\Auth\Interfaces\UserRepositoryInterface;
 use Domain\Auth\Models\User;
 use Illuminate\Support\Str;
 

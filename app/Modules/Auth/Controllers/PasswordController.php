@@ -6,10 +6,12 @@ namespace App\Modules\Auth\Controllers;
 
 use App\Core\Controllers\Controller;
 use App\Core\Exceptions\InvalidCredentialsException;
-use App\Features\Auth\Services\PasswordService;
 use App\Modules\Auth\Requests\CheckResetPasswordResetRequest;
 use App\Modules\Auth\Requests\ForgotPasswordRequest;
 use App\Modules\Auth\Requests\ResetPasswordRequest;
+use Domain\Auth\Actions\ConfirmPasswordReset;
+use Domain\Auth\Actions\ResetPassword;
+use Domain\Auth\Actions\SendPasswordResetLink;
 use Illuminate\Http\Response;
 
 /**
@@ -17,18 +19,12 @@ use Illuminate\Http\Response;
  */
 final class PasswordController extends Controller
 {
-    public function __construct(
-        private readonly PasswordService $passwordService
-    ) {}
-
     /**
      * Send password reset link
      */
-    public function forgot(ForgotPasswordRequest $request): Response
+    public function forgot(ForgotPasswordRequest $request, SendPasswordResetLink $action): Response
     {
-        $data = $request->toDto();
-
-        $this->passwordService->sendResetLink($data);
+        $action->handle($request->toDto());
 
         return response()->noContent();
     }
@@ -38,11 +34,9 @@ final class PasswordController extends Controller
      *
      * @throws InvalidCredentialsException
      */
-    public function checkReset(CheckResetPasswordResetRequest $request): Response
+    public function checkReset(CheckResetPasswordResetRequest $request, ConfirmPasswordReset $action): Response
     {
-        $data = $request->toDto();
-
-        $this->passwordService->confirmResetToken($data);
+        $action->handle($request->toDto());
 
         return response()->noContent();
     }
@@ -52,11 +46,9 @@ final class PasswordController extends Controller
      *
      * @throws InvalidCredentialsException
      */
-    public function reset(ResetPasswordRequest $request): Response
+    public function reset(ResetPasswordRequest $request, ResetPassword $action): Response
     {
-        $data = $request->toDto();
-
-        $this->passwordService->resetPassword($data);
+        $action->handle($request->toDto());
 
         return response()->noContent();
     }

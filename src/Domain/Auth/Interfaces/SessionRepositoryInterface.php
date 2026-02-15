@@ -1,17 +1,16 @@
 <?php
 
-namespace App\Features\Auth\Repositories\Auth;
+declare(strict_types=1);
 
-use App\Features\Auth\Services\TokenPair;
-use Domain\Auth\Data\DeviceData;
+namespace Domain\Auth\Interfaces;
+
 use Domain\Auth\Models\Device;
 use Domain\Auth\Models\Session;
 use Domain\Auth\Models\User;
+use Domain\Auth\ValueObjects\TokenPair;
 
-interface AuthRepositoryInterface
+interface SessionRepositoryInterface
 {
-    public function createOrUpdateDevice(User $user, DeviceData $deviceData): Device;
-
     public function createSession(User $user, Device $device, TokenPair $tokenPair): Session;
 
     public function deleteSession(Session $session): void;

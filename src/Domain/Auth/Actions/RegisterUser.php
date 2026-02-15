@@ -1,0 +1,27 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Domain\Auth\Actions;
+
+use Domain\Auth\Data\AuthData;
+use Domain\Auth\Data\RegisterData;
+use Domain\Auth\Interfaces\UserRepositoryInterface;
+use Domain\Auth\Notifications\UserRegisterNotification;
+
+final readonly class RegisterUser
+{
+    public function __construct(
+        private UserRepositoryInterface $userRepository,
+        private CreateAuthSession $createAuthSession,
+    ) {}
+
+    public function handle(RegisterData $data): AuthData
+    {
+        $user = $this->userRepository->store($data->storeUserData);
+
+        $user->notify(new UserRegisterNotification);
+
+        return $this->createAuthSession->handle($user, $data->deviceInfo);
+    }
+}

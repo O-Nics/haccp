@@ -1,15 +1,16 @@
 <?php
 
-namespace App\Features\Auth\Repositories\Auth;
+declare(strict_types=1);
 
-use App\Features\Auth\Services\TokenPair;
+namespace Infrastructure\Auth\Repositories;
+
 use Domain\Auth\Data\DeviceData;
+use Domain\Auth\Interfaces\DeviceRepositoryInterface;
 use Domain\Auth\Models\Device;
-use Domain\Auth\Models\Session;
 use Domain\Auth\Models\User;
 use Throwable;
 
-class AuthRepository implements AuthRepositoryInterface
+final readonly class DeviceRepository implements DeviceRepositoryInterface
 {
     /**
      * @throws Throwable
@@ -30,7 +31,6 @@ class AuthRepository implements AuthRepositoryInterface
             $device->ip_address = $deviceData->ip;
             $device->remember_me = $deviceData->rememberMe;
             $device->user()->associate($user);
-
         } else {
             $device->ip_address = $deviceData->ip;
             if ($deviceData->rememberMe !== null) {
@@ -41,28 +41,5 @@ class AuthRepository implements AuthRepositoryInterface
         $device->saveOrFail();
 
         return $device;
-    }
-
-    /**
-     * @throws Throwable
-     */
-    public function createSession(User $user, Device $device, TokenPair $tokenPair): Session
-    {
-
-        $session = new Session;
-        $session->device()->associate($device);
-        $session->user()->associate($user);
-        $session->access_token_id = $tokenPair->accessId();
-        $session->refresh_token_id = $tokenPair->refreshId();
-        $session->saveOrFail();
-
-        return $session;
-    }
-
-    public function deleteSession(Session $session): void
-    {
-        $session->accessToken()->delete();
-        $session->refreshToken()->delete();
-        $session->delete();
     }
 }

@@ -2,13 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Features\User\Repositories\User;
+namespace Infrastructure\Auth\Repositories;
 
 use Domain\Auth\Data\StoreUserData;
+use Domain\Auth\Interfaces\UserRepositoryInterface;
 use Domain\Auth\Models\User;
 use Illuminate\Support\Facades\Hash;
 
-readonly class UserRepository implements UserRepositoryInterface
+final readonly class UserRepository implements UserRepositoryInterface
 {
     public function __construct(
         private User $model
@@ -41,10 +42,5 @@ readonly class UserRepository implements UserRepositoryInterface
     {
         $user->password = Hash::make($password);
         $user->save();
-    }
-
-    public function deleteTokensByDeviceId(User $user, string $deviceId): void
-    {
-        $user->tokens()->where('name', $deviceId)->delete();
     }
 }

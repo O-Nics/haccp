@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Features\Auth\Repositories\PasswordReset;
+namespace Domain\Auth\Interfaces;
 
 use Domain\Auth\Models\PasswordResetToken;
 

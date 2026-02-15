@@ -1,7 +1,5 @@
 <?php
 
-// app/Http/Controllers/Api/AuthController.php
-
 declare(strict_types=1);
 
 namespace App\Modules\Auth\Controllers;
@@ -9,19 +7,19 @@ namespace App\Modules\Auth\Controllers;
 use App\Core\Controllers\Controller;
 use App\Core\Exceptions\InvalidCredentialsException;
 use App\Core\Exceptions\InvalidRefreshTokenException;
-use App\Features\Auth\Services\AuthService;
 use App\Modules\Auth\Requests\CheckAuthRequest;
 use App\Modules\Auth\Requests\LoginRequest;
 use App\Modules\Auth\Requests\RegisterRequest;
 use App\Modules\Auth\Resources\AuthResponseResource;
+use Domain\Auth\Actions\CheckAuth;
+use Domain\Auth\Actions\LoginUser;
+use Domain\Auth\Actions\LogoutUser;
+use Domain\Auth\Actions\RefreshSession;
+use Domain\Auth\Actions\RegisterUser;
 use Symfony\Component\HttpFoundation\Response;
 
 final class AuthController extends Controller
 {
-    public function __construct(
-        private readonly AuthService $authService
-    ) {}
-
     /**
      * Register a new user
      *
@@ -29,9 +27,9 @@ final class AuthController extends Controller
      *
      * @unauthenticated
      */
-    public function register(RegisterRequest $request): AuthResponseResource
+    public function register(RegisterRequest $request, RegisterUser $action): AuthResponseResource
     {
-        $authData = $this->authService->register(
+        $authData = $action->handle(
             data: $request->toDto(),
         );
 
@@ -47,9 +45,9 @@ final class AuthController extends Controller
      *
      * @throws InvalidCredentialsException
      */
-    public function login(LoginRequest $request): AuthResponseResource
+    public function login(LoginRequest $request, LoginUser $action): AuthResponseResource
     {
-        $authData = $this->authService->login(
+        $authData = $action->handle(
             data: $request->toDto(),
         );
 
@@ -65,9 +63,9 @@ final class AuthController extends Controller
      *
      * @throws InvalidRefreshTokenException
      */
-    public function refresh(): AuthResponseResource
+    public function refresh(RefreshSession $action): AuthResponseResource
     {
-        $authData = $this->authService->refresh(
+        $authData = $action->handle(
             user: auth()->user(),
         );
 
@@ -81,9 +79,9 @@ final class AuthController extends Controller
      *
      * @unauthenticated
      */
-    public function logout(): \Illuminate\Http\Response
+    public function logout(LogoutUser $action): \Illuminate\Http\Response
     {
-        $this->authService->logout(
+        $action->handle(
             user: auth()->user(),
         );
 
@@ -95,10 +93,10 @@ final class AuthController extends Controller
      *
      * Returns the authentication status and user information for the currently authenticated user.
      */
-    public function checkAuth(CheckAuthRequest $request): AuthResponseResource
+    public function checkAuth(CheckAuthRequest $request, CheckAuth $action): AuthResponseResource
     {
         $user = auth()->user();
-        $authData = $this->authService->checkAuth(
+        $authData = $action->handle(
             data: $request->toDto(),
             user: $user,
         );
