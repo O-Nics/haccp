@@ -17,7 +17,7 @@ use Illuminate\Http\Response;
 /**
  * PasswordController handles password reset operations
  */
-final class PasswordBaseController extends BaseController
+final class PasswordController extends BaseController
 {
     /**
      * Send password reset link

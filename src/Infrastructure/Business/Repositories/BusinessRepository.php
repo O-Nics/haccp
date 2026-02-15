@@ -28,4 +28,11 @@ final readonly class BusinessRepository implements BusinessRepositoryInterface
                 page: $indexBusinessData->page,
             );
     }
+
+    public function findById(int $id, ?array $relations = []): ?Business
+    {
+        return $this->model->query()
+            ->with($relations)
+            ->find($id);
+    }
 }

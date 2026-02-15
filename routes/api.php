@@ -12,7 +12,5 @@ require __DIR__.'/api/auth.php';
 
 Route::middleware(['auth:sanctum', 'ability:'.TokenAbilityEnum::ACCESS->value])->group(function () {
     require __DIR__.'/api/user.php';
-    require __DIR__.'/api/business.php';
-    require __DIR__.'/api/business-users.php';
-    require __DIR__.'/api/business-roles.php';
+    require __DIR__ . '/api/businesses.php';
 });

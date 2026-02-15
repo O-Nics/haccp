@@ -5,13 +5,15 @@ declare(strict_types=1);
 namespace App\Modules\Business\Requests;
 
 use App\Core\Requests\BaseFormRequest;
-use Domain\Business\Data\IndexBusinessRoleData;
+use Domain\Business\Data\IndexRoleData;
+use Domain\Business\Models\Business;
 
-class IndexBusinessRoleRequest extends BaseFormRequest
+class IndexRoleRequest extends BaseFormRequest
 {
     public function rules(): array
     {
         return [
+            'business_id' => ['required', 'integer', 'exists:businesses,id'],
             'filter.query' => ['sometimes', 'string', 'max:255'],
             'sort' => ['sometimes', 'string', 'in:created_at,display_name,description'],
             'order' => ['sometimes', 'string', 'in:asc,desc'],
@@ -20,9 +22,10 @@ class IndexBusinessRoleRequest extends BaseFormRequest
         ];
     }
 
-    public function toDto(): IndexBusinessRoleData
+    public function toDto(): IndexRoleData
     {
-        return new IndexBusinessRoleData(
+        return new IndexRoleData(
+            businessId: $this->input('business_id'),
             filterQuery: $this->input('filter_query'),
             sort: $this->input('sort') ?? 'created_at',
             order: $this->input('order'),

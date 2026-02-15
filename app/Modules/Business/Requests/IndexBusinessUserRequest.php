@@ -6,18 +6,25 @@ namespace App\Modules\Business\Requests;
 
 use App\Core\Requests\BaseFormRequest;
 use Domain\Business\Data\IndexBusinessUserData;
+use Domain\Business\Models\Business;
 
 class IndexBusinessUserRequest extends BaseFormRequest
 {
     public function rules(): array
     {
         return [
+            'business_id' => ['required', 'integer', 'exists:businesses,id'],
             'filter_query' => ['sometimes', 'nullable', 'string'],
             'sort' => ['sometimes', 'nullable', 'string'],
             'order' => ['sometimes', 'nullable', 'string', 'in:asc,desc'],
             'per_page' => ['sometimes', 'nullable', 'integer', 'min:1'],
             'page' => ['sometimes', 'nullable', 'integer', 'min:1'],
         ];
+    }
+
+    public function business(): Business
+    {
+        return Business::findOrFail($this->input('business_id'));
     }
 
     public function toDto(): IndexBusinessUserData

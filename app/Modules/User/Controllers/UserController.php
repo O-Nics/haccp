@@ -8,14 +8,14 @@ use App\Core\Controllers\BaseController;
 use App\Modules\User\Resources\UserResource;
 use Illuminate\Http\Request;
 
-class UserBaseController extends BaseController
+class UserController extends BaseController
 {
     /**
      * Get authenticated user
      *
      * Returns the currently authenticated user's information.
      */
-    public function user(Request $request): UserResource
+    public function show(Request $request): UserResource
     {
         $user = auth()->user();
 

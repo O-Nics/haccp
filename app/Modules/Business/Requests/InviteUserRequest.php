@@ -6,16 +6,23 @@ namespace App\Modules\Business\Requests;
 
 use App\Core\Requests\BaseFormRequest;
 use Domain\Business\Data\InviteUserData;
+use Domain\Business\Models\Business;
 
 class InviteUserRequest extends BaseFormRequest
 {
     public function rules(): array
     {
         return [
+            'business_id' => ['required', 'integer', 'exists:businesses,id'],
             'email' => ['required', 'email', 'max:255'],
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
         ];
+    }
+
+    public function business(): Business
+    {
+        return Business::findOrFail($this->input('business_id'));
     }
 
     public function toDto(): InviteUserData

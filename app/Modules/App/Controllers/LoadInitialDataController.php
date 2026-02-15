@@ -8,7 +8,7 @@ use App\Core\Controllers\BaseController;
 use App\Modules\App\Resources\LoadInitialDataResource;
 use Domain\Business\Models\Permission;
 
-class LoadInitialDataBaseController extends BaseController
+class LoadInitialDataController extends BaseController
 {
     /**
      * Load initial data

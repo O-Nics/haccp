@@ -9,7 +9,7 @@ use App\Core\Resources\BaseAnonymousCollection;
 use App\Modules\Business\Requests\IndexBusinessRequest;
 use App\Modules\Business\Resources\BusinessResource;
 
-final class BusinessBaseController extends BaseController
+final class BusinessController extends BaseController
 {
     public function __construct() {}
 

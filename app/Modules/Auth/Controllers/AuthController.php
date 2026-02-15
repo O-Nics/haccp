@@ -18,7 +18,7 @@ use Domain\Auth\Exceptions\InvalidCredentialsException;
 use Domain\Auth\Exceptions\InvalidRefreshTokenException;
 use Symfony\Component\HttpFoundation\Response;
 
-final class AuthBaseController extends BaseController
+final class AuthController extends BaseController
 {
     /**
      * Register a new user

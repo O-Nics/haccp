@@ -11,14 +11,13 @@ use App\Modules\Business\Requests\InviteUserRequest;
 use App\Modules\Business\Resources\BusinessUserResource;
 use Domain\Business\Data\IndexBusinessUserData;
 use Domain\Business\Interfaces\BusinessUserRepositoryInterface;
-use Domain\Business\Models\Business;
 use Domain\Business\Services\BusinessUserService;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
  * BusinessUserController handles HTTP requests for business user management.
  */
-final class BusinessUserBaseController extends BaseController
+final class BusinessUserController extends BaseController
 {
     public function __construct(
         private readonly BusinessUserService $businessUserService,
@@ -29,15 +28,11 @@ final class BusinessUserBaseController extends BaseController
      * Get users of a business
      *
      * Returns a list of users associated with the specified business.
-     *
-     * @param  Business  $business  The business for which to retrieve users.
-     * @param  IndexBusinessUserRequest  $request  The request containing pagination and filtering.
-     * @return BaseAnonymousCollection A JSON response containing a collection of business users.
      */
-    public function index(Business $business, IndexBusinessUserRequest $request): BaseAnonymousCollection
+    public function index(IndexBusinessUserRequest $request): BaseAnonymousCollection
     {
         $businessUsers = $this->businessUserRepository->getPaginated(
-            $business,
+            $request->business(),
             $request->toDto(),
         );
 
@@ -48,13 +43,11 @@ final class BusinessUserBaseController extends BaseController
      * Invite a user to a business
      *
      * Sends an invitation to a user to join the specified business.
-     *
-     * @param  Business  $business  The business to which the user is being invited.
-     * @param  InviteUserRequest  $request  The request containing user invitation details.
-     * @return BaseAnonymousCollection A JSON response containing the updated list of business users.
      */
-    public function create(Business $business, InviteUserRequest $request): BaseAnonymousCollection
+    public function store(InviteUserRequest $request): BaseAnonymousCollection
     {
+        $business = $request->business();
+
         $this->businessUserService->inviteUserToBusiness($business, $request->toDto());
 
         $indexBusinessUserDto = new IndexBusinessUserData(
