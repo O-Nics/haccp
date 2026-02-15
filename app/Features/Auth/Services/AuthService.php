@@ -6,7 +6,6 @@ namespace App\Features\Auth\Services;
 
 use App\Core\Exceptions\InvalidCredentialsException;
 use App\Core\Exceptions\InvalidRefreshTokenException;
-use App\Features\Auth\Notifications\UserRegisterNotification;
 use App\Features\Auth\Repositories\Auth\AuthRepositoryInterface;
 use App\Features\User\Repositories\User\UserRepositoryInterface;
 use Domain\Auth\Data\AuthData;
@@ -17,6 +16,7 @@ use Domain\Auth\Data\RegisterData;
 use Domain\Auth\Data\TokenData;
 use Domain\Auth\Enums\TokenAbilityEnum;
 use Domain\Auth\Models\User;
+use Domain\Auth\Notifications\UserRegisterNotification;
 use Illuminate\Support\Facades\Hash;
 
 final readonly class AuthService

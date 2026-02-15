@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Features\Auth\Mails;
+namespace Domain\Auth\Mail;
 
 use Domain\Auth\Models\User;
 use Illuminate\Bus\Queueable;
@@ -11,27 +11,33 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class PasswordResetConfirmedMail extends Mailable
+class PasswordResetMail extends Mailable
 {
     use Queueable, SerializesModels;
 
     public function __construct(
         public User $user,
+        public string $token,
     ) {}
 
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Password Reset Successful',
+            subject: 'Password Reset Request',
         );
     }
 
     public function content(): Content
     {
+        $resetUrl = config('app.frontend_url').'/reset-password?token='.$this->token.'&email='.urlencode($this->user->email);
+
         return new Content(
-            markdown: 'emails.password.confirmed',
+            markdown: 'emails.password.reset',
             with: [
                 'user' => $this->user,
+                'resetUrl' => $resetUrl,
+                'token' => $this->token,
+                'expirationMinutes' => config('auth.password_reset.expiration', 60),
             ],
         );
     }

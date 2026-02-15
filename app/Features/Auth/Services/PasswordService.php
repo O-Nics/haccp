@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace App\Features\Auth\Services;
 
 use App\Core\Exceptions\InvalidCredentialsException;
-use App\Features\Auth\Mails\PasswordResetConfirmedMail;
-use App\Features\Auth\Mails\PasswordResetMail;
 use App\Features\Auth\Repositories\PasswordReset\PasswordResetRepositoryInterface;
 use App\Features\User\Repositories\User\UserRepositoryInterface;
 use Domain\Auth\Data\ConfirmPasswordResetData;
 use Domain\Auth\Data\ForgotPasswordData;
 use Domain\Auth\Data\ResetPasswordData;
+use Domain\Auth\Mail\PasswordResetConfirmedMail;
+use Domain\Auth\Mail\PasswordResetMail;
 use Domain\Auth\Models\PasswordResetToken;
 use Illuminate\Support\Facades\Mail;
 

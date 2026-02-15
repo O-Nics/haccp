@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Features\Auth\Mails;
+namespace Domain\Auth\Mail;
 
 use App\Features\Auth\Events\NewDeviceDetectedEvent;
 use Illuminate\Contracts\Queue\ShouldQueue;

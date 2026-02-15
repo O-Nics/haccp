@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Features\Auth\Notifications;
+namespace Domain\Auth\Notifications;
 
 use App\Features\Notifications\Mails\UserMailNotification;
 use Domain\Auth\Models\User;
@@ -18,4 +18,5 @@ class UserRegisterNotification extends UserMailNotification
             ->greeting("Bienvenue {$user->first_name},")
             ->line("Toute l'équipe Haccp vous souhaite la bienvenue. Nous sommes ravis de vous accueillir.");
     }
+
 }

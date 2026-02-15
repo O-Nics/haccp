@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Core\Providers;
 
 use App\Features\Auth\Events\NewDeviceDetectedEvent;
-use App\Features\Auth\Mails\SendNewDeviceLoginEmail;
 use App\Features\Auth\Repositories\PasswordReset\PasswordResetRepository;
 use App\Features\Auth\Repositories\PasswordReset\PasswordResetRepositoryInterface;
 use App\Features\Business\Repositories\BusinessRepository;
@@ -21,6 +20,7 @@ use App\Features\User\Repositories\User\UserRepositoryInterface;
 use Dedoc\Scramble\Scramble;
 use Dedoc\Scramble\Support\Generator\OpenApi;
 use Dedoc\Scramble\Support\Generator\SecurityScheme;
+use Domain\Auth\Mail\SendNewDeviceLoginEmail;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
