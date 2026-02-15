@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Modules\Business\Resources;
 
 use App\Core\Resources\BaseJsonResource;
-use App\Modules\User\Resources\UserResource;
+use App\Modules\Business\Resources\MemberResource;
 use Domain\Business\Models\Role;
 use Illuminate\Http\Request;
 
@@ -23,8 +23,8 @@ class BusinessRoleResource extends BaseJsonResource
             'description' => $this->description,
 
             // Relation
-            'users' => $this->whenLoaded('users', function () {
-                return UserResource::collection($this->users);
+            'members' => $this->whenLoaded('members', function () {
+                return MemberResource::collection($this->members);
             }),
             'permissions' => $this->whenLoaded('permissions', function () {
                 return PermissionResource::collection($this->permissions);

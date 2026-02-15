@@ -3,7 +3,6 @@
 namespace Domain\Business\Models;
 
 use App\Core\Models\BaseModel;
-use Domain\Auth\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -22,13 +21,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read Business $business
- * @property-read \Illuminate\Database\Eloquent\Collection<int, BusinessUser> $businessUsers
- * @property-read int|null $business_users_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, Member> $members
+ * @property-read int|null $members_count
  * @property-read RolePermission|null $pivot
  * @property-read \Illuminate\Database\Eloquent\Collection<int, Permission> $permissions
  * @property-read int|null $permissions_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, User> $users
- * @property-read int|null $users_count
  *
  * @mixin \Eloquent
  */
@@ -52,14 +49,8 @@ class Role extends BaseModel
         return $this->belongsTo(Business::class);
     }
 
-    public function businessUsers(): HasMany
+    public function members(): HasMany
     {
-        return $this->hasMany(BusinessUser::class);
-    }
-
-    // les users ayant ce role via businessUsers
-    public function users(): BelongsToMany
-    {
-        return $this->belongsToMany(User::class, 'business_users', 'role_id', 'user_id');
+        return $this->hasMany(Member::class);
     }
 }

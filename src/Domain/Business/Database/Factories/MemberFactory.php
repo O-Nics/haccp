@@ -6,16 +6,16 @@ namespace Domain\Business\Database\Factories;
 
 use Domain\Auth\Models\User;
 use Domain\Business\Models\Business;
-use Domain\Business\Models\BusinessUser;
+use Domain\Business\Models\Member;
 use Domain\Business\Models\Role;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends Factory<BusinessUser>
+ * @extends Factory<Member>
  */
-class BusinessUserFactory extends Factory
+class MemberFactory extends Factory
 {
-    protected $model = BusinessUser::class;
+    protected $model = Member::class;
 
     public function definition(): array
     {

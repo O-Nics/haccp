@@ -1,17 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Domain\Notification\Mails;
 
+use App\Core\Notifications\BaseNotification;
 use Domain\Auth\Models\User;
 use Domain\Notification\Channels\MailChannel;
-use Domain\Notification\Notifications\BaseNotification;
-use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 
 abstract class UserMailNotification extends BaseNotification
 {
-    use Queueable;
-
     public function via(User $notifiable): array
     {
         return [MailChannel::class];

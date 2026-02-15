@@ -6,7 +6,7 @@ namespace Domain\Auth\Models;
 
 use App\Core\Models\BaseAuthenticable;
 use Domain\Business\Models\Business;
-use Domain\Business\Models\BusinessUser;
+use Domain\Business\Models\Member;
 use Domain\Business\Models\Organisation;
 use Domain\Notification\Models\NotificationSent;
 use Eloquent;
@@ -42,7 +42,8 @@ use Laravel\Sanctum\PersonalAccessToken;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property Carbon|null $deleted_at
- * @property-read \Domain\Business\Models\BusinessUser|null $pivot
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, Member> $memberships
+ * @property-read int|null $memberships_count
  * @property-read Collection<int, \Domain\Business\Models\Business> $businesses
  * @property-read int|null $businesses_count
  * @property-read Collection<int, \Domain\Auth\Models\Device> $devices
@@ -129,20 +130,14 @@ class User extends BaseAuthenticable implements MustVerifyEmail
         return trim("{$this->first_name} {$this->last_name}");
     }
 
+    public function memberships(): HasMany
+    {
+        return $this->hasMany(Member::class);
+    }
+
     public function businesses(): BelongsToMany
     {
-        return $this->belongsToMany(Business::class, 'business_users', 'user_id', 'business_id')
-            ->using(BusinessUser::class)
-            ->withPivot([
-                'id',
-                'invited_by',
-                'role_id',
-                'invited_at',
-                'joined_at',
-                'status',
-                'created_at',
-                'updated_at',
-            ]);
+        return $this->belongsToMany(Business::class, 'members', 'user_id', 'business_id');
     }
 
     public function checkPassword(string $password): bool

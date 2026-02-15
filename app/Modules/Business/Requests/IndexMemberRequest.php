@@ -5,10 +5,9 @@ declare(strict_types=1);
 namespace App\Modules\Business\Requests;
 
 use App\Core\Requests\BaseFormRequest;
-use Domain\Business\Data\IndexBusinessUserData;
-use Domain\Business\Models\Business;
+use Domain\Business\Data\IndexMemberData;
 
-class IndexBusinessUserRequest extends BaseFormRequest
+class IndexMemberRequest extends BaseFormRequest
 {
     public function rules(): array
     {
@@ -22,15 +21,15 @@ class IndexBusinessUserRequest extends BaseFormRequest
         ];
     }
 
-    public function toDto(): IndexBusinessUserData
+    public function toDto(): IndexMemberData
     {
-        return new IndexBusinessUserData(
+        return new IndexMemberData(
             businessId: $this->input('business_id'),
-            filterQuery: $this->filter_query,
-            sort: $this->sort ?? 'first_name',
-            order: $this->order ?? 'asc',
-            perPage: (int) ($this->per_page ?? 15),
-            page: (int) ($this->page ?? 1),
+            filterQuery: $this->input('filter_query'),
+            sort: $this->input('sort') ?? 'created_at',
+            order: $this->input('order') ?? 'asc',
+            perPage: (int) ($this->input('per_page') ?? 15),
+            page: (int) ($this->input('page') ?? 1),
         );
     }
 }

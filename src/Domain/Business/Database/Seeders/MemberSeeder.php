@@ -6,10 +6,10 @@ namespace Domain\Business\Database\Seeders;
 
 use Domain\Auth\Models\User;
 use Domain\Business\Models\Business;
-use Domain\Business\Models\BusinessUser;
+use Domain\Business\Models\Member;
 use Illuminate\Database\Seeder;
 
-class BusinessUserSeeder extends Seeder
+class MemberSeeder extends Seeder
 {
     public function run(): void
     {
@@ -37,7 +37,7 @@ class BusinessUserSeeder extends Seeder
         $ownerTraiteur = $traiteur->businessRoles()->where('name', 'owner')->first();
         $employeeTraiteur = $traiteur->businessRoles()->where('name', 'employee')->first();
 
-        $businessUsers = [
+        $members = [
             // Le Gourmet Parisien
             [
                 'business_id' => $gourmet->id,
@@ -101,14 +101,14 @@ class BusinessUserSeeder extends Seeder
             ],
         ];
 
-        foreach ($businessUsers as $bu) {
-            if ($bu['user_id'] && $bu['role_id']) {
-                BusinessUser::query()->updateOrCreate(
+        foreach ($members as $m) {
+            if ($m['user_id'] && $m['role_id']) {
+                Member::query()->updateOrCreate(
                     [
-                        'business_id' => $bu['business_id'],
-                        'user_id' => $bu['user_id'],
+                        'business_id' => $m['business_id'],
+                        'user_id' => $m['user_id'],
                     ],
-                    $bu
+                    $m
                 );
             }
         }

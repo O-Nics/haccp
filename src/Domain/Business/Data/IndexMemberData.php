@@ -6,7 +6,7 @@ namespace Domain\Business\Data;
 
 use Spatie\LaravelData\Data;
 
-class IndexBusinessUserData extends Data
+class IndexMemberData extends Data
 {
     public function __construct(
         public string $businessId,

@@ -10,8 +10,8 @@ use Domain\Auth\Interfaces\SessionRepositoryInterface;
 use Domain\Auth\Interfaces\TokenRepositoryInterface;
 use Domain\Auth\Interfaces\UserRepositoryInterface;
 use Domain\Business\Interfaces\BusinessRepositoryInterface;
-use Domain\Business\Interfaces\BusinessRoleRepositoryInterface;
-use Domain\Business\Interfaces\BusinessUserRepositoryInterface;
+use Domain\Business\Interfaces\RoleRepositoryInterface;
+use Domain\Business\Interfaces\MemberRepositoryInterface;
 use Domain\Notification\Interfaces\NotificationSentRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 use Infrastructure\Auth\Repositories\DeviceRepository;
@@ -20,8 +20,8 @@ use Infrastructure\Auth\Repositories\SessionRepository;
 use Infrastructure\Auth\Repositories\TokenRepository;
 use Infrastructure\Auth\Repositories\UserRepository;
 use Infrastructure\Business\Repositories\BusinessRepository;
-use Infrastructure\Business\Repositories\BusinessRoleRepository;
-use Infrastructure\Business\Repositories\BusinessUserRepository;
+use Infrastructure\Business\Repositories\RoleRepository;
+use Infrastructure\Business\Repositories\MemberRepository;
 use Infrastructure\Notification\Repositories\NotificationSentRepository;
 
 class RepositoryServiceProvider extends ServiceProvider
@@ -40,8 +40,8 @@ class RepositoryServiceProvider extends ServiceProvider
 
         // Business domain
         $this->app->singleton(BusinessRepositoryInterface::class, BusinessRepository::class);
-        $this->app->singleton(BusinessRoleRepositoryInterface::class, BusinessRoleRepository::class);
-        $this->app->singleton(BusinessUserRepositoryInterface::class, BusinessUserRepository::class);
+        $this->app->singleton(RoleRepositoryInterface::class, RoleRepository::class);
+        $this->app->singleton(MemberRepositoryInterface::class, MemberRepository::class);
 
         // Notification domain
         $this->app->singleton(NotificationSentRepositoryInterface::class, NotificationSentRepository::class);

@@ -8,7 +8,7 @@ use Dedoc\Scramble\Scramble;
 use Dedoc\Scramble\Support\Generator\OpenApi;
 use Dedoc\Scramble\Support\Generator\SecurityScheme;
 use Domain\Auth\Events\NewDeviceDetectedEvent;
-use Domain\Auth\Mail\SendNewDeviceLoginEmail;
+use Domain\Auth\Listeners\NewDeviceDetectedListener;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
@@ -36,6 +36,6 @@ class AppServiceProvider extends ServiceProvider
             });
 
         // Register event listeners
-        Event::listen(NewDeviceDetectedEvent::class, SendNewDeviceLoginEmail::class);
+        Event::listen(NewDeviceDetectedEvent::class, NewDeviceDetectedListener::class);
     }
 }

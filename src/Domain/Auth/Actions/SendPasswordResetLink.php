@@ -8,9 +8,8 @@ use App\Core\Actions\BaseAction;
 use Domain\Auth\Data\ForgotPasswordData;
 use Domain\Auth\Interfaces\PasswordResetRepositoryInterface;
 use Domain\Auth\Interfaces\UserRepositoryInterface;
-use Domain\Auth\Mail\PasswordResetMail;
 use Domain\Auth\Models\PasswordResetToken;
-use Illuminate\Support\Facades\Mail;
+use Domain\Auth\Notifications\PasswordResetNotification;
 
 final readonly class SendPasswordResetLink extends BaseAction
 {
@@ -38,6 +37,6 @@ final readonly class SendPasswordResetLink extends BaseAction
             $expirationMinutes
         );
 
-        Mail::to($user->email)->queue(new PasswordResetMail($user, $token));
+        $user->notify(new PasswordResetNotification($token));
     }
 }

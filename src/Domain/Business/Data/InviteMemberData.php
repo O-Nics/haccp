@@ -6,11 +6,12 @@ namespace Domain\Business\Data;
 
 use Spatie\LaravelData\Data;
 
-class InviteUserData extends Data
+class InviteMemberData extends Data
 {
     public function __construct(
+        public string $businessId,
         public string $email,
-        public string $first_name,
-        public string $last_name,
+        public string $firstName,
+        public string $lastName,
     ) {}
 }

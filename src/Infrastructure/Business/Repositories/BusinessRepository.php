@@ -29,7 +29,7 @@ final readonly class BusinessRepository implements BusinessRepositoryInterface
             );
     }
 
-    public function findById(int $id, ?array $relations = []): ?Business
+    public function findById(string|int $id, ?array $relations = []): ?Business
     {
         return $this->model->query()
             ->with($relations)

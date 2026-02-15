@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Domain\Business\Models;
 
-use App\Core\Models\BasePivot;
+use App\Core\Models\BaseModel;
 use Domain\Auth\Models\User;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
@@ -18,30 +21,24 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read Business $business
- * @property-read Role|null $businessRole
- * @property-read User|null $invitedBy
  * @property-read Role|null $role
  * @property-read User $user
+ * @property-read User|null $invitedBy
  *
  * @mixin \Eloquent
  */
-class BusinessUser extends BasePivot
+class Member extends BaseModel
 {
-    use \Illuminate\Database\Eloquent\Factories\HasFactory;
+    use HasFactory;
 
-    protected $table = 'business_users';
+    protected $table = 'members';
 
-    public $incrementing = true;
-
-    protected static function newFactory(): \Domain\Business\Database\Factories\BusinessUserFactory
+    protected static function newFactory(): \Domain\Business\Database\Factories\MemberFactory
     {
-        return \Domain\Business\Database\Factories\BusinessUserFactory::new();
+        return \Domain\Business\Database\Factories\MemberFactory::new();
     }
 
-    /**
-     * Relations to eager load on every query.
-     */
-    protected $with = ['businessRole', 'role', 'invitedBy'];
+    protected $with = ['role', 'invitedBy'];
 
     protected function casts(): array
     {
@@ -64,11 +61,6 @@ class BusinessUser extends BasePivot
     public function invitedBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'invited_by');
-    }
-
-    public function businessRole(): BelongsTo
-    {
-        return $this->belongsTo(Role::class);
     }
 
     public function role(): BelongsTo

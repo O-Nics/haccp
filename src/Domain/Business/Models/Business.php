@@ -3,11 +3,9 @@
 namespace Domain\Business\Models;
 
 use App\Core\Models\BaseModel;
-use Domain\Auth\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -29,12 +27,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property-read \Illuminate\Database\Eloquent\Collection<int, Role> $businessRoles
  * @property-read int|null $business_roles_count
  * @property-read BusinessType $businessType
- * @property-read \Illuminate\Database\Eloquent\Collection<int, BusinessUser> $businessUsers
- * @property-read int|null $business_users_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, Member> $members
+ * @property-read int|null $members_count
  * @property-read Organisation $organisation
- * @property-read BusinessUser|null $pivot
- * @property-read \Illuminate\Database\Eloquent\Collection<int, User> $users
- * @property-read int|null $users_count
  *
  * @method static Builder<static>|Business betweenDates($column, ?string $startAt = null, ?string $endAt = null, $boolean = 'and', $not = false)
  * @method static \Database\Factories\BusinessFactory factory($count = null, $state = [])
@@ -62,9 +57,9 @@ class Business extends BaseModel
         return $this->belongsTo(BusinessType::class);
     }
 
-    public function businessUsers(): HasMany
+    public function members(): HasMany
     {
-        return $this->hasMany(BusinessUser::class);
+        return $this->hasMany(Member::class);
     }
 
     public function businessRoles(): HasMany
@@ -75,13 +70,5 @@ class Business extends BaseModel
     public function organisation(): BelongsTo
     {
         return $this->belongsTo(Organisation::class, 'organisation_id');
-    }
-
-    public function users(): BelongsToMany
-    {
-        return $this->belongsToMany(User::class, 'business_users')
-            ->using(BusinessUser::class)
-            ->withPivot(['id', 'role_id', 'status', 'invited_at', 'joined_at', 'invited_by'])
-            ->withTimestamps();
     }
 }

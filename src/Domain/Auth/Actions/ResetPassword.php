@@ -9,8 +9,7 @@ use Domain\Auth\Data\ResetPasswordData;
 use Domain\Auth\Exceptions\InvalidCredentialsException;
 use Domain\Auth\Interfaces\PasswordResetRepositoryInterface;
 use Domain\Auth\Interfaces\UserRepositoryInterface;
-use Domain\Auth\Mail\PasswordResetConfirmedMail;
-use Illuminate\Support\Facades\Mail;
+use Domain\Auth\Notifications\PasswordResetConfirmedNotification;
 
 final readonly class ResetPassword extends BaseAction
 {
@@ -48,7 +47,6 @@ final readonly class ResetPassword extends BaseAction
 
         $this->passwordResetRepository->deleteAllByEmail($data->email);
 
-        Mail::to($user->email)->queue(new PasswordResetConfirmedMail($user));
-        Mail::to($data->email)->queue(new PasswordResetConfirmedMail($user));
+        $user->notify(new PasswordResetConfirmedNotification);
     }
 }

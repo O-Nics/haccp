@@ -5,12 +5,11 @@ declare(strict_types=1);
 namespace Infrastructure\Business\Repositories;
 
 use Domain\Business\Data\IndexRoleData;
-use Domain\Business\Interfaces\BusinessRoleRepositoryInterface;
-use Domain\Business\Models\Business;
+use Domain\Business\Interfaces\RoleRepositoryInterface;
 use Domain\Business\Models\Role;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-final readonly class BusinessRoleRepository implements BusinessRoleRepositoryInterface
+final readonly class RoleRepository implements RoleRepositoryInterface
 {
     public function index(IndexRoleData $indexRoleData, ?array $relation = []): LengthAwarePaginator
     {

@@ -7,7 +7,7 @@ namespace Domain\Notification\Channels;
 use Domain\Auth\Models\User;
 use Domain\Notification\Enums\NotificationChannel;
 use Domain\Notification\Enums\NotificationSentStatus;
-use Domain\Notification\Notifications\BaseNotification;
+use App\Core\Notifications\BaseNotification;
 use Domain\Notification\Services\NotificationSentService;
 use Exception;
 use Illuminate\Notifications\Channels\MailChannel as BaseMailChannel;

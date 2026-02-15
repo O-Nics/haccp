@@ -5,10 +5,9 @@ declare(strict_types=1);
 namespace App\Modules\Business\Requests;
 
 use App\Core\Requests\BaseFormRequest;
-use Domain\Business\Data\InviteUserData;
-use Domain\Business\Models\Business;
+use Domain\Business\Data\InviteMemberData;
 
-class InviteUserRequest extends BaseFormRequest
+class InviteMemberRequest extends BaseFormRequest
 {
     public function rules(): array
     {
@@ -20,17 +19,13 @@ class InviteUserRequest extends BaseFormRequest
         ];
     }
 
-    public function business(): Business
+    public function toDto(): InviteMemberData
     {
-        return Business::findOrFail($this->input('business_id'));
-    }
-
-    public function toDto(): InviteUserData
-    {
-        return new InviteUserData(
+        return new InviteMemberData(
+            businessId: $this->input('business_id'),
             email: $this->input('email'),
-            first_name: $this->input('first_name'),
-            last_name: $this->input('last_name'),
+            firstName: $this->input('first_name'),
+            lastName: $this->input('last_name'),
         );
     }
 }
