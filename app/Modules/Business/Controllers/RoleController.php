@@ -13,7 +13,7 @@ use Domain\Business\Interfaces\BusinessRoleRepositoryInterface;
 
 final class RoleController extends BaseController
 {
-    public function __construct(private readonly BusinessRoleRepositoryInterface $roleRepository, private readonly BusinessRepositoryInterface $businessRepository) {}
+    public function __construct(private readonly BusinessRoleRepositoryInterface $roleRepository) {}
 
     /**
      * List all roles for a specific business
@@ -22,9 +22,7 @@ final class RoleController extends BaseController
      */
     public function index(IndexRoleRequest $request): BaseAnonymousCollection
     {
-        $data = $request->toDto();
-        $business = $this->businessRepository->findById($data->businessId);
-        $roles = $this->roleRepository->index($business, $data, ['permissions', 'users']);
+        $roles = $this->roleRepository->index($request->toDto(), ['permissions', 'users']);
 
         return BusinessRoleResource::collection($roles);
     }

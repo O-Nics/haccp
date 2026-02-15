@@ -22,14 +22,10 @@ class IndexBusinessUserRequest extends BaseFormRequest
         ];
     }
 
-    public function business(): Business
-    {
-        return Business::findOrFail($this->input('business_id'));
-    }
-
     public function toDto(): IndexBusinessUserData
     {
         return new IndexBusinessUserData(
+            businessId: $this->input('business_id'),
             filterQuery: $this->filter_query,
             sort: $this->sort ?? 'first_name',
             order: $this->order ?? 'asc',

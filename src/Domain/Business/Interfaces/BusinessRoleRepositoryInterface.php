@@ -10,5 +10,5 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 interface BusinessRoleRepositoryInterface
 {
-    public function index(Business $business, IndexRoleData $indexRoleData, ?array $relation = []): LengthAwarePaginator;
+    public function index(IndexRoleData $indexRoleData, ?array $relation = []): LengthAwarePaginator;
 }
