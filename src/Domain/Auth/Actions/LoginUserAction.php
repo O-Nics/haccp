@@ -21,14 +21,14 @@ final readonly class LoginUserAction extends BaseAction
     /**
      * @throws InvalidCredentialsException
      */
-    public function handle(LoginData $data): AuthData
+    public function handle(LoginData $loginData): AuthData
     {
-        $user = $this->userRepository->findByEmail($data->email);
+        $user = $this->userRepository->findByEmail($loginData->email);
 
-        if (! $user || ! Hash::check($data->password, $user->password)) {
+        if (! $user || ! Hash::check($loginData->password, $user->password)) {
             throw new InvalidCredentialsException;
         }
 
-        return $this->createAuthSession->handle($user, $data->deviceData, $data->activeBusiness);
+        return $this->createAuthSession->handle($user, $loginData->deviceData, $loginData->activeBusiness);
     }
 }

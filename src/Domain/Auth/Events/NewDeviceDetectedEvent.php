@@ -11,7 +11,6 @@ use Domain\Auth\Models\User;
 class NewDeviceDetectedEvent extends BaseEvent
 {
     public function __construct(
-        public User $user,
         public Device $device,
     ) {}
 }

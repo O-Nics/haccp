@@ -12,7 +12,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 class NewDeviceLoginNotification extends UserMailNotification
 {
     public function __construct(
-        private readonly Device $device,
+        public readonly Device $device,
     ) {}
 
     protected function mailMessage(User $user, MailMessage $message): MailMessage

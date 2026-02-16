@@ -17,12 +17,12 @@ final readonly class RegisterUserAction extends BaseAction
         private CreateAuthSessionAction $createAuthSession,
     ) {}
 
-    public function handle(RegisterData $data): AuthData
+    public function handle(RegisterData $registerData): AuthData
     {
-        $user = $this->userRepository->store($data->storeUserData);
+        $user = $this->userRepository->store($registerData->storeUserData);
 
         event(new UserRegisteredEvent($user));
 
-        return $this->createAuthSession->handle($user, $data->deviceInfo);
+        return $this->createAuthSession->handle($user, $registerData->deviceInfo);
     }
 }

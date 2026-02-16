@@ -12,6 +12,6 @@ class NewDeviceDetectedListener extends BaseListener
 {
     public function handle(NewDeviceDetectedEvent $event): void
     {
-        $event->user->notify(new NewDeviceLoginNotification($event->device));
+        $event->device->user->notify(new NewDeviceLoginNotification($event->device));
     }
 }

@@ -27,10 +27,10 @@ final class AuthController extends BaseController
      *
      * @unauthenticated
      */
-    public function register(RegisterRequest $request, RegisterUserAction $action): AuthResponseResource
+    public function register(RegisterRequest $registerRequest, RegisterUserAction $registerUserAction): AuthResponseResource
     {
-        $authData = $action->handle(
-            data: $request->toDto(),
+        $authData = $registerUserAction->handle(
+            registerData: $registerRequest->toDto(),
         );
 
         return new AuthResponseResource($authData)->status(Response::HTTP_CREATED);
@@ -45,10 +45,10 @@ final class AuthController extends BaseController
      *
      * @throws InvalidCredentialsException
      */
-    public function login(LoginRequest $request, LoginUserAction $action): AuthResponseResource
+    public function login(LoginRequest $loginRequest, LoginUserAction $loginUserAction): AuthResponseResource
     {
-        $authData = $action->handle(
-            data: $request->toDto(),
+        $authData = $loginUserAction->handle(
+            loginData: $loginRequest->toDto(),
         );
 
         return new AuthResponseResource($authData);
@@ -61,9 +61,9 @@ final class AuthController extends BaseController
      *
      * @throws InvalidRefreshTokenException
      */
-    public function refresh(RefreshSessionAction $action): AuthResponseResource
+    public function refresh(RefreshSessionAction $refreshSessionAction): AuthResponseResource
     {
-        $authData = $action->handle(
+        $authData = $refreshSessionAction->handle(
             user: auth()->user(),
         );
 
@@ -75,9 +75,9 @@ final class AuthController extends BaseController
      *
      * Logs out the user by invalidating the session associated with the provided device ID.
      */
-    public function logout(LogoutUserAction $action): \Illuminate\Http\Response
+    public function logout(LogoutUserAction $logoutUserAction): \Illuminate\Http\Response
     {
-        $action->handle(
+        $logoutUserAction->handle(
             user: auth()->user(),
         );
 
@@ -89,11 +89,11 @@ final class AuthController extends BaseController
      *
      * Returns the authentication status and user information for the currently authenticated user.
      */
-    public function checkAuth(CheckAuthRequest $request, CheckAuthAction $action): AuthResponseResource
+    public function checkAuth(CheckAuthRequest $checkAuthRequest, CheckAuthAction $checkAuthAction): AuthResponseResource
     {
         $user = auth()->user();
-        $authData = $action->handle(
-            data: $request->toDto(),
+        $authData = $checkAuthAction->handle(
+            data: $checkAuthRequest->toDto(),
             user: $user,
         );
 
