@@ -26,7 +26,7 @@ use Illuminate\Support\Carbon;
  * @property-read \Domain\Auth\Models\User $user
  *
  * @method static Builder<static>|Device betweenDates($column, ?string $startAt = null, ?string $endAt = null, $boolean = 'and', $not = false)
- * @method static \Database\Factories\DeviceFactory factory($count = null, $state = [])
+ * @method static \Domain\Auth\Database\Factories\DeviceFactory factory($count = null, $state = [])
  * @method static Builder<static>|Device filtered(?string $filterQuery = null, array $searchableColumns = [])
  * @method static Builder<static>|Device forPeriod(?string $startAt = null, ?string $endAt = null, ?string $columnStart = 'start_at', ?string $columnEnd = 'end_at')
  * @method static Builder<static>|Device newModelQuery()

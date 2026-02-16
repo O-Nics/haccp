@@ -20,10 +20,29 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string $status
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read Business $business
- * @property-read Role|null $role
- * @property-read User $user
+ * @property-read \Domain\Business\Models\Business $business
  * @property-read User|null $invitedBy
+ * @property-read \Domain\Business\Models\Role|null $role
+ * @property-read User $user
+ *
+ * @method static Builder<static>|Member betweenDates($column, ?string $startAt = null, ?string $endAt = null, $boolean = 'and', $not = false)
+ * @method static \Domain\Business\Database\Factories\MemberFactory factory($count = null, $state = [])
+ * @method static Builder<static>|Member filtered(?string $filterQuery = null, array $searchableColumns = [])
+ * @method static Builder<static>|Member forPeriod(?string $startAt = null, ?string $endAt = null, ?string $columnStart = 'start_at', ?string $columnEnd = 'end_at')
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Member newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Member newQuery()
+ * @method static Builder<static>|Member order(?string $sort, ?string $order)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Member query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Member whereBusinessId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Member whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Member whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Member whereInvitedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Member whereInvitedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Member whereJoinedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Member whereRoleId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Member whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Member whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Member whereUserId($value)
  *
  * @mixin \Eloquent
  */

@@ -4,6 +4,7 @@ namespace Domain\Business\Models;
 
 use App\Core\Models\BaseModel;
 use Domain\Business\Database\Factories\RoleFactory;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -21,12 +22,34 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read Business $business
- * @property-read \Illuminate\Database\Eloquent\Collection<int, Member> $members
+ * @property-read \Domain\Business\Models\Business $business
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Domain\Business\Models\Member> $members
  * @property-read int|null $members_count
- * @property-read RolePermission|null $pivot
- * @property-read \Illuminate\Database\Eloquent\Collection<int, Permission> $permissions
+ * @property-read \Domain\Business\Models\RolePermission|null $pivot
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Domain\Business\Models\Permission> $permissions
  * @property-read int|null $permissions_count
+ *
+ * @method static Builder<static>|Role betweenDates($column, ?string $startAt = null, ?string $endAt = null, $boolean = 'and', $not = false)
+ * @method static \Domain\Business\Database\Factories\RoleFactory factory($count = null, $state = [])
+ * @method static Builder<static>|Role filtered(?string $filterQuery = null, array $searchableColumns = [])
+ * @method static Builder<static>|Role forPeriod(?string $startAt = null, ?string $endAt = null, ?string $columnStart = 'start_at', ?string $columnEnd = 'end_at')
+ * @method static Builder<static>|Role newModelQuery()
+ * @method static Builder<static>|Role newQuery()
+ * @method static Builder<static>|Role onlyTrashed()
+ * @method static Builder<static>|Role order(?string $sort, ?string $order)
+ * @method static Builder<static>|Role query()
+ * @method static Builder<static>|Role whereBusinessId($value)
+ * @method static Builder<static>|Role whereColor($value)
+ * @method static Builder<static>|Role whereCreatedAt($value)
+ * @method static Builder<static>|Role whereDeletedAt($value)
+ * @method static Builder<static>|Role whereDescription($value)
+ * @method static Builder<static>|Role whereDisplayName($value)
+ * @method static Builder<static>|Role whereId($value)
+ * @method static Builder<static>|Role whereIsSystem($value)
+ * @method static Builder<static>|Role whereName($value)
+ * @method static Builder<static>|Role whereUpdatedAt($value)@
+ * @method static Builder<static>|Role withTrashed(bool $withTrashed = true)
+ * @method static Builder<static>|Role withoutTrashed()
  *
  * @mixin \Eloquent
  */
