@@ -11,7 +11,7 @@ use Domain\Auth\Interfaces\PasswordResetRepositoryInterface;
 use Domain\Auth\Interfaces\UserRepositoryInterface;
 use Domain\Auth\Models\PasswordResetToken;
 
-final readonly class SendPasswordResetLink extends BaseAction
+final readonly class SendPasswordResetLinkAction extends BaseAction
 {
     public function __construct(
         private UserRepositoryInterface $userRepository,

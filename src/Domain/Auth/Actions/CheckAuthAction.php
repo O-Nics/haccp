@@ -9,10 +9,10 @@ use Domain\Auth\Data\AuthData;
 use Domain\Auth\Data\CheckAuthData;
 use Domain\Auth\Models\User;
 
-final readonly class CheckAuth extends BaseAction
+final readonly class CheckAuthAction extends BaseAction
 {
     public function __construct(
-        private CreateAuthSession $createAuthSession,
+        private CreateAuthSessionAction $createAuthSession,
     ) {}
 
     public function handle(CheckAuthData $data, User $user): AuthData

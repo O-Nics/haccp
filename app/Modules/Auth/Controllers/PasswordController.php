@@ -8,9 +8,9 @@ use App\Core\Controllers\BaseController;
 use App\Modules\Auth\Requests\CheckResetPasswordResetRequest;
 use App\Modules\Auth\Requests\ForgotPasswordRequest;
 use App\Modules\Auth\Requests\ResetPasswordRequest;
-use Domain\Auth\Actions\ConfirmPasswordReset;
-use Domain\Auth\Actions\ResetPassword;
-use Domain\Auth\Actions\SendPasswordResetLink;
+use Domain\Auth\Actions\ConfirmPasswordResetAction;
+use Domain\Auth\Actions\ResetPasswordAction;
+use Domain\Auth\Actions\SendPasswordResetLinkAction;
 use Domain\Auth\Exceptions\InvalidCredentialsException;
 use Illuminate\Http\Response;
 
@@ -22,7 +22,7 @@ final class PasswordController extends BaseController
     /**
      * Send password reset link
      */
-    public function forgot(ForgotPasswordRequest $request, SendPasswordResetLink $action): Response
+    public function forgot(ForgotPasswordRequest $request, SendPasswordResetLinkAction $action): Response
     {
         $action->handle($request->toDto());
 
@@ -34,7 +34,7 @@ final class PasswordController extends BaseController
      *
      * @throws InvalidCredentialsException
      */
-    public function checkReset(CheckResetPasswordResetRequest $request, ConfirmPasswordReset $action): Response
+    public function checkReset(CheckResetPasswordResetRequest $request, ConfirmPasswordResetAction $action): Response
     {
         $action->handle($request->toDto());
 
@@ -46,7 +46,7 @@ final class PasswordController extends BaseController
      *
      * @throws InvalidCredentialsException
      */
-    public function reset(ResetPasswordRequest $request, ResetPassword $action): Response
+    public function reset(ResetPasswordRequest $request, ResetPasswordAction $action): Response
     {
         $action->handle($request->toDto());
 

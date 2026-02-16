@@ -16,7 +16,7 @@ use Domain\Auth\Interfaces\TokenRepositoryInterface;
 use Domain\Auth\Interfaces\UserRepositoryInterface;
 use Domain\Auth\Models\User;
 
-final readonly class CreateAuthSession extends BaseAction
+final readonly class CreateAuthSessionAction extends BaseAction
 {
     public function __construct(
         private DeviceRepositoryInterface $deviceRepository,
@@ -30,7 +30,13 @@ final readonly class CreateAuthSession extends BaseAction
         DeviceData $deviceInfo,
         ?string $activeBusinessId = null,
     ): AuthData {
-        $device = $this->deviceRepository->createOrUpdateDevice(user: $user, deviceData: $deviceInfo);
+        $device = $this->deviceRepository->findByDeviceData(user: $user, deviceData: $deviceInfo);
+
+        if($device) {
+            $device = $this->deviceRepository->update(device: $device, deviceData: $deviceInfo);
+        } else {
+            $device = $this->deviceRepository->create(user: $user, deviceData: $deviceInfo);
+        }
 
         if ($device->wasRecentlyCreated) {
             event(new NewDeviceDetectedEvent($user, $device));

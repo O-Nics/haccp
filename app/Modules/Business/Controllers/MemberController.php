@@ -9,7 +9,7 @@ use App\Core\Resources\BaseAnonymousCollection;
 use App\Modules\Business\Requests\IndexMemberRequest;
 use App\Modules\Business\Requests\InviteMemberRequest;
 use App\Modules\Business\Resources\MemberResource;
-use Domain\Business\Actions\InviteMember;
+use Domain\Business\Actions\InviteMemberAction;
 use Domain\Business\Interfaces\MemberRepositoryInterface;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -29,7 +29,7 @@ final class MemberController extends BaseController
     /**
      * Invite a user as a member of a business
      */
-    public function store(InviteMemberRequest $request, InviteMember $action): MemberResource
+    public function store(InviteMemberRequest $request, InviteMemberAction $action): MemberResource
     {
         return (new MemberResource($action->handle($request->toDto())))->status(Response::HTTP_CREATED);
     }

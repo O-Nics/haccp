@@ -10,10 +10,10 @@ use Domain\Auth\Data\DeviceData;
 use Domain\Auth\Exceptions\InvalidRefreshTokenException;
 use Domain\Auth\Models\User;
 
-final readonly class RefreshSession extends BaseAction
+final readonly class RefreshSessionAction extends BaseAction
 {
     public function __construct(
-        private CreateAuthSession $createAuthSession,
+        private CreateAuthSessionAction $createAuthSession,
     ) {}
 
     /**

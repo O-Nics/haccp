@@ -8,7 +8,7 @@ use App\Core\Actions\BaseAction;
 use Domain\Auth\Interfaces\SessionRepositoryInterface;
 use Domain\Auth\Models\User;
 
-final readonly class LogoutUser extends BaseAction
+final readonly class LogoutUserAction extends BaseAction
 {
     public function __construct(
         private SessionRepositoryInterface $sessionRepository,

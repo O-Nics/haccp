@@ -9,11 +9,11 @@ use App\Modules\Auth\Requests\CheckAuthRequest;
 use App\Modules\Auth\Requests\LoginRequest;
 use App\Modules\Auth\Requests\RegisterRequest;
 use App\Modules\Auth\Resources\AuthResponseResource;
-use Domain\Auth\Actions\CheckAuth;
-use Domain\Auth\Actions\LoginUser;
-use Domain\Auth\Actions\LogoutUser;
-use Domain\Auth\Actions\RefreshSession;
-use Domain\Auth\Actions\RegisterUser;
+use Domain\Auth\Actions\CheckAuthAction;
+use Domain\Auth\Actions\LoginUserAction;
+use Domain\Auth\Actions\LogoutUserAction;
+use Domain\Auth\Actions\RefreshSessionAction;
+use Domain\Auth\Actions\RegisterUserAction;
 use Domain\Auth\Exceptions\InvalidCredentialsException;
 use Domain\Auth\Exceptions\InvalidRefreshTokenException;
 use Symfony\Component\HttpFoundation\Response;
@@ -27,7 +27,7 @@ final class AuthController extends BaseController
      *
      * @unauthenticated
      */
-    public function register(RegisterRequest $request, RegisterUser $action): AuthResponseResource
+    public function register(RegisterRequest $request, RegisterUserAction $action): AuthResponseResource
     {
         $authData = $action->handle(
             data: $request->toDto(),
@@ -45,7 +45,7 @@ final class AuthController extends BaseController
      *
      * @throws InvalidCredentialsException
      */
-    public function login(LoginRequest $request, LoginUser $action): AuthResponseResource
+    public function login(LoginRequest $request, LoginUserAction $action): AuthResponseResource
     {
         $authData = $action->handle(
             data: $request->toDto(),
@@ -61,7 +61,7 @@ final class AuthController extends BaseController
      *
      * @throws InvalidRefreshTokenException
      */
-    public function refresh(RefreshSession $action): AuthResponseResource
+    public function refresh(RefreshSessionAction $action): AuthResponseResource
     {
         $authData = $action->handle(
             user: auth()->user(),
@@ -75,7 +75,7 @@ final class AuthController extends BaseController
      *
      * Logs out the user by invalidating the session associated with the provided device ID.
      */
-    public function logout(LogoutUser $action): \Illuminate\Http\Response
+    public function logout(LogoutUserAction $action): \Illuminate\Http\Response
     {
         $action->handle(
             user: auth()->user(),
@@ -89,7 +89,7 @@ final class AuthController extends BaseController
      *
      * Returns the authentication status and user information for the currently authenticated user.
      */
-    public function checkAuth(CheckAuthRequest $request, CheckAuth $action): AuthResponseResource
+    public function checkAuth(CheckAuthRequest $request, CheckAuthAction $action): AuthResponseResource
     {
         $user = auth()->user();
         $authData = $action->handle(

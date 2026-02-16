@@ -11,7 +11,7 @@ use Domain\Business\Data\InviteMemberData;
 use Domain\Business\Models\Member;
 use Illuminate\Support\Str;
 
-final readonly class InviteMember extends BaseAction
+final readonly class InviteMemberAction extends BaseAction
 {
     public function __construct(
         private UserRepositoryInterface $userRepository,

@@ -12,7 +12,7 @@ use Domain\Auth\Events\PasswordResetCompletedEvent;
 use Domain\Auth\Interfaces\SessionRepositoryInterface;
 use Domain\Auth\Interfaces\UserRepositoryInterface;
 
-final readonly class ResetPassword extends BaseAction
+final readonly class ResetPasswordAction extends BaseAction
 {
     public function __construct(
         private UserRepositoryInterface $userRepository,

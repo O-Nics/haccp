@@ -20,28 +20,43 @@ final readonly class DeviceRepository extends BaseRepository implements DeviceRe
     /**
      * @throws Throwable
      */
-    public function createOrUpdateDevice(User $user, DeviceData $deviceData): Device
+
+    public function findByDeviceData(User $user, DeviceData $deviceData): ?Device
     {
-        $device = Device::query()
+        return $this->model->query()
             ->where('device_id', $deviceData->deviceId)
             ->where('platform', $deviceData->devicePlatform)
             ->where('user_id', $user->id)
             ->first();
+    }
 
-        if (! $device) {
-            $device = new Device;
-            $device->device_id = $deviceData->deviceId;
-            $device->platform = $deviceData->devicePlatform;
-            $device->model = $deviceData->deviceModel;
-            $device->ip_address = $deviceData->ip;
+    /**
+     * @throws Throwable
+     */
+    public function update(Device $device, DeviceData $deviceData): Device
+    {
+        $device->ip_address = $deviceData->ip;
+        if ($deviceData->rememberMe !== null) {
             $device->remember_me = $deviceData->rememberMe;
-            $device->user()->associate($user);
-        } else {
-            $device->ip_address = $deviceData->ip;
-            if ($deviceData->rememberMe !== null) {
-                $device->remember_me = $deviceData->rememberMe;
-            }
         }
+
+        $device->saveOrFail();
+
+        return $device;
+    }
+
+    /**
+     * @throws Throwable
+     */
+    public function create(User $user, DeviceData $deviceData): Device
+    {
+        $device = new Device;
+        $device->device_id = $deviceData->deviceId;
+        $device->platform = $deviceData->devicePlatform;
+        $device->model = $deviceData->deviceModel;
+        $device->ip_address = $deviceData->ip;
+        $device->remember_me = $deviceData->rememberMe;
+        $device->user()->associate($user);
 
         $device->saveOrFail();
 

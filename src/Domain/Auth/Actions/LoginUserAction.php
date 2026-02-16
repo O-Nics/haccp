@@ -11,11 +11,11 @@ use Domain\Auth\Exceptions\InvalidCredentialsException;
 use Domain\Auth\Interfaces\UserRepositoryInterface;
 use Illuminate\Support\Facades\Hash;
 
-final readonly class LoginUser extends BaseAction
+final readonly class LoginUserAction extends BaseAction
 {
     public function __construct(
         private UserRepositoryInterface $userRepository,
-        private CreateAuthSession $createAuthSession,
+        private CreateAuthSessionAction $createAuthSession,
     ) {}
 
     /**
