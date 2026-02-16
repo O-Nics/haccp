@@ -20,7 +20,6 @@ return new class extends Migration
             $table->tinyText('description')->nullable();
             $table->string('color', 6)->default('232323');
 
-            $table->softDeletes();
             $table->timestamps();
 
             $table->unique(['business_id', 'name']);

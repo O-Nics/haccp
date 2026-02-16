@@ -164,6 +164,7 @@ class User extends BaseAuthenticable implements MustVerifyEmail
             return null;
         }
 
+        //
         return $this->sessions()
             ->where(fn ($q) => $q
                 ->where('access_token_id', $token->id)

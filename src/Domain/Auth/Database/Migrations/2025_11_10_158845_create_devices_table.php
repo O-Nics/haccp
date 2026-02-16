@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('ip_address');
             $table->string('model')->nullable();
             $table->boolean('remember_me')->default(false);
+            $table->softDeletes();
             $table->timestamps();
         });
 
@@ -27,6 +28,7 @@ return new class extends Migration
             $table->foreignUuid('user_id')->constrained()->cascadeOnDelete();
             $table->foreignId('access_token_id')->constrained('personal_access_tokens')->cascadeOnDelete();
             $table->foreignId('refresh_token_id')->constrained('personal_access_tokens')->cascadeOnDelete();
+            $table->softDeletes();
             $table->timestamps();
         });
     }
