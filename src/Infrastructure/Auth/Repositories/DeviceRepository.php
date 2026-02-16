@@ -20,7 +20,6 @@ final readonly class DeviceRepository extends BaseRepository implements DeviceRe
     /**
      * @throws Throwable
      */
-
     public function findByDeviceData(User $user, DeviceData $deviceData): ?Device
     {
         return $this->model->query()
@@ -50,7 +49,7 @@ final readonly class DeviceRepository extends BaseRepository implements DeviceRe
      */
     public function create(User $user, DeviceData $deviceData): Device
     {
-        $device = new Device;
+        $device = $this->model->newInstance();
         $device->device_id = $deviceData->deviceId;
         $device->platform = $deviceData->devicePlatform;
         $device->model = $deviceData->deviceModel;

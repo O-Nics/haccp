@@ -6,6 +6,7 @@ use Domain\Auth\Models\Device;
 use Domain\Auth\Models\Session;
 use Domain\Auth\Models\User;
 use Tests\TestHelpers\DeviceHelper;
+
 use function Pest\Laravel\postJson;
 
 pest()->group('auth');
@@ -40,7 +41,7 @@ it('can login with valid credentials', function () {
         ]);
 
     expect($user)->toBeInstanceOf(User::class)
-    ->and($user->tokens)->toHaveCount(2);
+        ->and($user->tokens)->toHaveCount(2);
 });
 
 it('cannot login with invalid credentials', function () {
@@ -65,7 +66,7 @@ it('cannot login with missing fields', function () {
         'device_model' => $this->getRandomDevice()->deviceModel,
         'remember_me' => $this->getRandomDevice()->rememberMe,
     ])->assertStatus(422)
-    ->assertJsonValidationErrors(['email', 'password']);
+        ->assertJsonValidationErrors(['email', 'password']);
 });
 
 it('cannot login with invalid email format', function () {
@@ -77,7 +78,7 @@ it('cannot login with invalid email format', function () {
         'device_model' => $this->getRandomDevice()->deviceModel,
         'remember_me' => $this->getRandomDevice()->rememberMe,
     ])->assertStatus(422)
-    ->assertJsonValidationErrors(['email']);
+        ->assertJsonValidationErrors(['email']);
 });
 
 it('cannot login without device information', function () {
@@ -85,7 +86,7 @@ it('cannot login without device information', function () {
         'email' => 't@t.fr',
         'password' => 'password',
     ])->assertStatus(422)
-    ->assertJsonValidationErrors(['device_id', 'device_platform']);
+        ->assertJsonValidationErrors(['device_id', 'device_platform']);
 });
 it('can login and have device & session un storage', function () {
     $user = User::factory()->create([

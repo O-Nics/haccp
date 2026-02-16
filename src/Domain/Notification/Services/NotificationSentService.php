@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Domain\Notification\Services;
 
+use App\Core\Notifications\BaseNotification;
 use App\Core\Services\BaseService;
 use Domain\Auth\Models\User;
 use Domain\Notification\Data\IndexNotificationSentRequestData;
@@ -12,7 +13,6 @@ use Domain\Notification\Enums\NotificationChannel;
 use Domain\Notification\Enums\NotificationSentStatus;
 use Domain\Notification\Interfaces\NotificationSentRepositoryInterface;
 use Domain\Notification\Models\NotificationSent;
-use App\Core\Notifications\BaseNotification;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Pagination\LengthAwarePaginator;

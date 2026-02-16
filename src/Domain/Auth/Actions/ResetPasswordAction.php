@@ -6,9 +6,9 @@ namespace Domain\Auth\Actions;
 
 use App\Core\Actions\BaseAction;
 use Domain\Auth\Data\ResetPasswordData;
+use Domain\Auth\Events\PasswordResetCompletedEvent;
 use Domain\Auth\Exceptions\InvalidCredentialsException;
 use Domain\Auth\Interfaces\PasswordResetRepositoryInterface;
-use Domain\Auth\Events\PasswordResetCompletedEvent;
 use Domain\Auth\Interfaces\SessionRepositoryInterface;
 use Domain\Auth\Interfaces\UserRepositoryInterface;
 

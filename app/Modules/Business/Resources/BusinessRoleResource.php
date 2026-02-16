@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Modules\Business\Resources;
 
 use App\Core\Resources\BaseJsonResource;
-use App\Modules\Business\Resources\MemberResource;
 use Domain\Business\Models\Role;
 use Illuminate\Http\Request;
 

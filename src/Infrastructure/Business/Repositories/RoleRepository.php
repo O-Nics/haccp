@@ -11,9 +11,11 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 final readonly class RoleRepository implements RoleRepositoryInterface
 {
+    public function __construct(private Role $model) {}
+
     public function index(IndexRoleData $indexRoleData, ?array $relation = []): LengthAwarePaginator
     {
-        return Role::query()
+        return $this->model::query()
             ->with($relation)
             ->where('business_id', $indexRoleData->businessId)
             ->filtered($indexRoleData->filterQuery, ['display_name', 'description'])

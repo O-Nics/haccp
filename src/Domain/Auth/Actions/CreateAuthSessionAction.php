@@ -32,7 +32,7 @@ final readonly class CreateAuthSessionAction extends BaseAction
     ): AuthData {
         $device = $this->deviceRepository->findByDeviceData(user: $user, deviceData: $deviceInfo);
 
-        if($device) {
+        if ($device) {
             $device = $this->deviceRepository->update(device: $device, deviceData: $deviceInfo);
         } else {
             $device = $this->deviceRepository->create(user: $user, deviceData: $deviceInfo);

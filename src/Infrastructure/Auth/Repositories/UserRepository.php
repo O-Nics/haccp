@@ -23,7 +23,7 @@ final readonly class UserRepository extends BaseRepository implements UserReposi
 
     public function store(StoreUserData $registerData): User
     {
-        $user = new User;
+        $user = $this->model->newInstance();
         $user->first_name = $registerData->firstName;
         $user->last_name = $registerData->lastName;
         $user->email = $registerData->email;

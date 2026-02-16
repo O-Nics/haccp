@@ -3,6 +3,7 @@
 namespace Domain\Business\Models;
 
 use App\Core\Models\BaseModel;
+use Domain\Business\Database\Factories\RoleFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -33,9 +34,9 @@ class Role extends BaseModel
 {
     use HasFactory, SoftDeletes;
 
-    protected static function newFactory(): \Domain\Business\Database\Factories\RoleFactory
+    protected static function newFactory(): RoleFactory
     {
-        return \Domain\Business\Database\Factories\RoleFactory::new();
+        return RoleFactory::new();
     }
 
     public function permissions(): BelongsToMany

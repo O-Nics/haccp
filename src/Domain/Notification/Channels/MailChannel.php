@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Domain\Notification\Channels;
 
+use App\Core\Notifications\BaseNotification;
 use Domain\Auth\Models\User;
 use Domain\Notification\Enums\NotificationChannel;
 use Domain\Notification\Enums\NotificationSentStatus;
-use App\Core\Notifications\BaseNotification;
 use Domain\Notification\Services\NotificationSentService;
 use Exception;
 use Illuminate\Notifications\Channels\MailChannel as BaseMailChannel;

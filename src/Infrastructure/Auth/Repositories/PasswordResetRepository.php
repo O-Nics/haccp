@@ -32,7 +32,7 @@ final readonly class PasswordResetRepository extends BaseRepository implements P
 
     public function store(string $email, string $token, int $expirationMinutes): PasswordResetToken
     {
-        $resetToken = new PasswordResetToken;
+        $resetToken = $this->model->newInstance();
         $resetToken->email = $email;
         $resetToken->token = $token;
         $resetToken->expires_at = now()->addMinutes($expirationMinutes);

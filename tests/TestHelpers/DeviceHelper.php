@@ -2,7 +2,6 @@
 
 namespace Tests\TestHelpers;
 
-
 use Domain\Auth\Data\DeviceData;
 
 trait DeviceHelper
@@ -17,5 +16,4 @@ trait DeviceHelper
             ip: fake()->ipv4(),
         );
     }
-
 }

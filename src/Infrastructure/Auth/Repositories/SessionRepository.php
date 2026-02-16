@@ -23,7 +23,7 @@ final readonly class SessionRepository extends BaseRepository implements Session
      */
     public function createSession(User $user, Device $device, TokenPair $tokenPair): Session
     {
-        $session = new Session;
+        $session = $this->model->newInstance();
         $session->device()->associate($device);
         $session->user()->associate($user);
         $session->access_token_id = $tokenPair->accessId();
