@@ -6,6 +6,7 @@ namespace Domain\Auth\Models;
 
 use App\Core\Models\BaseModel;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 
@@ -37,6 +38,8 @@ use Illuminate\Support\Str;
  */
 class PasswordResetToken extends BaseModel
 {
+    use HasUuids;
+
     public const int TOKEN_LENGTH = 64;
 
     protected $hidden = [

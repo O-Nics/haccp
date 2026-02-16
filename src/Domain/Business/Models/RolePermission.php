@@ -3,6 +3,7 @@
 namespace Domain\Business\Models;
 
 use App\Core\Models\BasePivot;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -23,7 +24,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class RolePermission extends BasePivot
 {
-    use HasFactory;
+    use HasFactory, HasUuids;
 
     protected static function newFactory(): \Domain\Business\Database\Factories\RolePermissionFactory
     {

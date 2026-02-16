@@ -11,7 +11,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('devices', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->foreignUuid('user_id')->constrained()->cascadeOnDelete();
             $table->string('device_id');
             $table->string('platform');
@@ -23,8 +23,8 @@ return new class extends Migration
         });
 
         Schema::create('sessions', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('device_id')->constrained()->cascadeOnDelete();
+            $table->uuid('id')->primary();
+            $table->foreignUuid('device_id')->constrained()->cascadeOnDelete();
             $table->foreignUuid('user_id')->constrained()->cascadeOnDelete();
             $table->foreignId('access_token_id')->constrained('personal_access_tokens')->cascadeOnDelete();
             $table->foreignId('refresh_token_id')->constrained('personal_access_tokens')->cascadeOnDelete();

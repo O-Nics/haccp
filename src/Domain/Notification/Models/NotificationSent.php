@@ -8,6 +8,7 @@ use App\Core\Models\BaseModel;
 use Domain\Auth\Models\User;
 use Domain\Notification\Enums\NotificationChannel;
 use Domain\Notification\Enums\NotificationSentStatus;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -53,7 +54,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class NotificationSent extends BaseModel
 {
-    use HasFactory;
+    use HasFactory, HasUuids;
 
     protected static function newFactory(): \Domain\Notification\Database\Factories\NotificationSentFactory
     {

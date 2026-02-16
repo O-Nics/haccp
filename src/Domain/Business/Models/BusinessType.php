@@ -3,6 +3,7 @@
 namespace Domain\Business\Models;
 
 use App\Core\Models\BaseModel;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -33,7 +34,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  */
 class BusinessType extends BaseModel
 {
-    use HasFactory;
+    use HasFactory, HasUuids;
 
     protected static function newFactory(): \Domain\Business\Database\Factories\BusinessTypeFactory
     {

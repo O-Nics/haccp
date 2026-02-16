@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Domain\Auth\Models;
 
 use App\Core\Models\BaseModel;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -43,7 +44,7 @@ use Laravel\Sanctum\PersonalAccessToken;
  */
 class Session extends BaseModel
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, HasUuids, SoftDeletes;
 
     protected static function newFactory(): \Domain\Auth\Database\Factories\SessionFactory
     {

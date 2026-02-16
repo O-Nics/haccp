@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('roles', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('business_id')->constrained('businesses')->cascadeOnDelete();
+            $table->uuid('id')->primary();
+            $table->foreignUuid('business_id')->constrained('businesses')->cascadeOnDelete();
             $table->boolean('is_system')->default(false);
             $table->string('name');
             $table->string('display_name');

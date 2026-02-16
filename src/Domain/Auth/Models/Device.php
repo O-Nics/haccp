@@ -7,6 +7,7 @@ namespace Domain\Auth\Models;
 use App\Core\Models\BaseModel;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -48,7 +49,7 @@ use Illuminate\Support\Carbon;
  */
 class Device extends BaseModel
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, HasUuids, SoftDeletes;
 
     protected static function newFactory(): \Domain\Auth\Database\Factories\DeviceFactory
     {
