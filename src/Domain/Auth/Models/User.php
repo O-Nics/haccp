@@ -164,12 +164,14 @@ class User extends BaseAuthenticable implements MustVerifyEmail
             return null;
         }
 
-        //
+        /** @var Session|null */
         return $this->sessions()
-            ->where(fn ($q) => $q
-                ->where('access_token_id', $token->id)
-                ->orWhere('refresh_token_id', $token->id)
-            )
+            ->where('expires_at', '>', now())
+            ->where(function ($query) use ($token) {
+                $query->where('access_token_id', $token->id)
+                    ->orWhere('refresh_token_id', $token->id);
+            })
             ->first();
+
     }
 }

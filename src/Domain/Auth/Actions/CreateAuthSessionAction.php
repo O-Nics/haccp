@@ -39,7 +39,6 @@ final readonly class CreateAuthSessionAction extends BaseAction
         }
 
         if ($device->wasRecentlyCreated) {
-            // TODO verifier peut etre aussi ladresse ip ?
             event(new NewDeviceDetectedEvent($device));
         }
 

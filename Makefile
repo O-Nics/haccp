@@ -11,6 +11,7 @@ ide:
 	@php artisan ide-helper:generate
 	@php artisan ide-helper:meta
 	@php artisan ide-helper:models -W -R -E
+	@php bin/fix-ide-imports.php
 	./vendor/bin/pint
 
 
