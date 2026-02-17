@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Carbon;
+use Eloquent;
+use Domain\Business\Database\Factories\PermissionFactory;
 
 /**
  * @property int $id
@@ -18,14 +20,14 @@ use Illuminate\Support\Carbon;
  * @property string $display_name
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * @property-read \Domain\Business\Models\RolePermission|null $pivot
- * @property-read Collection<int, \Domain\Business\Models\Role> $businessRoles
+ * @property-read RolePermission|null $pivot
+ * @property-read Collection<int, Role> $businessRoles
  * @property-read int|null $business_roles_count
- * @property-read Collection<int, \Domain\Business\Models\Role> $roles
+ * @property-read Collection<int, Role> $roles
  * @property-read int|null $roles_count
  *
  * @method static Builder<static>|Permission betweenDates($column, ?string $startAt = null, ?string $endAt = null, $boolean = 'and', $not = false)
- * @method static \Domain\Business\Database\Factories\PermissionFactory factory($count = null, $state = [])
+ * @method static PermissionFactory factory($count = null, $state = [])
  * @method static Builder<static>|Permission filtered(?string $filterQuery = null, array $searchableColumns = [])
  * @method static Builder<static>|Permission forPeriod(?string $startAt = null, ?string $endAt = null, ?string $columnStart = 'start_at', ?string $columnEnd = 'end_at')
  * @method static Builder<static>|Permission newModelQuery()
@@ -40,15 +42,15 @@ use Illuminate\Support\Carbon;
  * @method static Builder<static>|Permission whereId($value)
  * @method static Builder<static>|Permission whereUpdatedAt($value)
  *
- * @mixin \Eloquent
+ * @mixin Eloquent
  */
 class Permission extends BaseModel
 {
     use HasFactory, HasUuids;
 
-    protected static function newFactory(): \Domain\Business\Database\Factories\PermissionFactory
+    protected static function newFactory(): PermissionFactory
     {
-        return \Domain\Business\Database\Factories\PermissionFactory::new();
+        return PermissionFactory::new();
     }
 
     public function roles(): BelongsToMany

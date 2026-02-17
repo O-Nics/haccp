@@ -45,7 +45,7 @@ use Laravel\Sanctum\PersonalAccessToken;
  * @property Carbon|null $deleted_at
  * @property-read Collection<int, Business> $businesses
  * @property-read int|null $businesses_count
- * @property-read Collection<int, \Domain\Auth\Models\Device> $devices
+ * @property-read Collection<int, Device> $devices
  * @property-read int|null $devices_count
  * @property-read string $full_name
  * @property-read Collection<int, Member> $memberships
@@ -56,13 +56,13 @@ use Laravel\Sanctum\PersonalAccessToken;
  * @property-read int|null $notifications_count
  * @property-read Collection<int, Organisation> $organizations
  * @property-read int|null $organizations_count
- * @property-read Collection<int, \Domain\Auth\Models\Session> $sessions
+ * @property-read Collection<int, Session> $sessions
  * @property-read int|null $sessions_count
  * @property-read Collection<int, PersonalAccessToken> $tokens
  * @property-read int|null $tokens_count
  *
  * @method static Builder<static>|User betweenDates($column, ?string $startAt = null, ?string $endAt = null, $boolean = 'and', $not = false)
- * @method static \Domain\Auth\Database\Factories\UserFactory factory($count = null, $state = [])
+ * @method static UserFactory factory($count = null, $state = [])
  * @method static Builder<static>|User filtered(?string $filterQuery = null, array $searchableColumns = [])
  * @method static Builder<static>|User forPeriod(?string $startAt = null, ?string $endAt = null, ?string $columnStart = 'start_at', ?string $columnEnd = 'end_at')
  * @method static Builder<static>|User newModelQuery()

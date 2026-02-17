@@ -2,7 +2,6 @@
 
 namespace Tests\TestHelpers;
 
-use Domain\Auth\Data\DeviceData;
 use Domain\Auth\Models\Device;
 
 trait DeviceHelper

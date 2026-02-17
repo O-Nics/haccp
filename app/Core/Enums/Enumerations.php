@@ -14,6 +14,7 @@ use UnitEnum;
 use function array_column;
 use function array_rand;
 use function is_subclass_of;
+use IntBackedEnum;
 
 /**
  * @template T of BackedEnum|UnitEnum
@@ -37,7 +38,7 @@ trait Enumerations
     }
 
     /**
-     * @return (static is \IntBackedEnum ? int[] : string[])
+     * @return (static is IntBackedEnum ? int[] : string[])
      */
     public static function values(): array
     {

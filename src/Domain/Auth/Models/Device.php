@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
+use Domain\Auth\Database\Factories\DeviceFactory;
 
 /**
  * @property int $id
@@ -24,11 +25,11 @@ use Illuminate\Support\Carbon;
  * @property bool $remember_me
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * @property-read \Domain\Auth\Models\Session|null $session
- * @property-read \Domain\Auth\Models\User $user
+ * @property-read Session|null $session
+ * @property-read User $user
  *
  * @method static Builder<static>|Device betweenDates($column, ?string $startAt = null, ?string $endAt = null, $boolean = 'and', $not = false)
- * @method static \Domain\Auth\Database\Factories\DeviceFactory factory($count = null, $state = [])
+ * @method static DeviceFactory factory($count = null, $state = [])
  * @method static Builder<static>|Device filtered(?string $filterQuery = null, array $searchableColumns = [])
  * @method static Builder<static>|Device forPeriod(?string $startAt = null, ?string $endAt = null, ?string $columnStart = 'start_at', ?string $columnEnd = 'end_at')
  * @method static Builder<static>|Device newModelQuery()
@@ -51,9 +52,9 @@ class Device extends BaseModel
 {
     use HasFactory, HasUuids, SoftDeletes;
 
-    protected static function newFactory(): \Domain\Auth\Database\Factories\DeviceFactory
+    protected static function newFactory(): DeviceFactory
     {
-        return \Domain\Auth\Database\Factories\DeviceFactory::new();
+        return DeviceFactory::new();
     }
 
     protected function casts(): array

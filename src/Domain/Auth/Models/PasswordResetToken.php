@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
+use Eloquent;
 
 /**
  * @property int $id
@@ -34,7 +35,7 @@ use Illuminate\Support\Str;
  * @method static Builder<static>|PasswordResetToken whereToken($value)
  * @method static Builder<static>|PasswordResetToken whereUpdatedAt($value)
  *
- * @mixin \Eloquent
+ * @mixin Eloquent
  */
 class PasswordResetToken extends BaseModel
 {

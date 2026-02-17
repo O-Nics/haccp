@@ -166,7 +166,7 @@ it('can login and have event not dispatched if same device', function () {
         'email' => 'test@email.com',
     ]);
 
-   $device = Device::factory()->withUser($user)->create();
+    $device = Device::factory()->withUser($user)->create();
 
     postJson(route('auth.login'), [
         'email' => $user->email,
@@ -179,7 +179,6 @@ it('can login and have event not dispatched if same device', function () {
 
     Event::assertNotDispatched(NewDeviceDetectedEvent::class);
 });
-
 
 it('can login and have multiple device & session un storage', function () {
     $user = User::factory()->create([

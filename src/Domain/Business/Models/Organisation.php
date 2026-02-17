@@ -8,6 +8,10 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Carbon;
+use Eloquent;
+use Domain\Business\Database\Factories\OrganisationFactory;
 
 /**
  * @property string $id
@@ -20,40 +24,40 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string|null $country
  * @property string|null $phone
  * @property string|null $email
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  * @property-read User $owner
  *
  * @method static Builder<static>|Organisation betweenDates($column, ?string $startAt = null, ?string $endAt = null, $boolean = 'and', $not = false)
- * @method static \Domain\Business\Database\Factories\OrganisationFactory factory($count = null, $state = [])
+ * @method static OrganisationFactory factory($count = null, $state = [])
  * @method static Builder<static>|Organisation filtered(?string $filterQuery = null, array $searchableColumns = [])
  * @method static Builder<static>|Organisation forPeriod(?string $startAt = null, ?string $endAt = null, ?string $columnStart = 'start_at', ?string $columnEnd = 'end_at')
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Organisation newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Organisation newQuery()
+ * @method static Builder<static>|Organisation newModelQuery()
+ * @method static Builder<static>|Organisation newQuery()
  * @method static Builder<static>|Organisation order(?string $sort, ?string $order)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Organisation query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Organisation whereAddress($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Organisation whereCity($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Organisation whereCountry($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Organisation whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Organisation whereEmail($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Organisation whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Organisation whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Organisation whereOwnerId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Organisation wherePhone($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Organisation wherePostalCode($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Organisation whereSiret($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Organisation whereUpdatedAt($value)
+ * @method static Builder<static>|Organisation query()
+ * @method static Builder<static>|Organisation whereAddress($value)
+ * @method static Builder<static>|Organisation whereCity($value)
+ * @method static Builder<static>|Organisation whereCountry($value)
+ * @method static Builder<static>|Organisation whereCreatedAt($value)
+ * @method static Builder<static>|Organisation whereEmail($value)
+ * @method static Builder<static>|Organisation whereId($value)
+ * @method static Builder<static>|Organisation whereName($value)
+ * @method static Builder<static>|Organisation whereOwnerId($value)
+ * @method static Builder<static>|Organisation wherePhone($value)
+ * @method static Builder<static>|Organisation wherePostalCode($value)
+ * @method static Builder<static>|Organisation whereSiret($value)
+ * @method static Builder<static>|Organisation whereUpdatedAt($value)
  *
- * @mixin \Eloquent
+ * @mixin Eloquent
  */
 class Organisation extends BaseModel
 {
     use HasFactory, HasUuids, SoftDeletes;
 
-    protected static function newFactory(): \Domain\Business\Database\Factories\OrganisationFactory
+    protected static function newFactory(): OrganisationFactory
     {
-        return \Domain\Business\Database\Factories\OrganisationFactory::new();
+        return OrganisationFactory::new();
     }
 
     public function owner(): BelongsTo

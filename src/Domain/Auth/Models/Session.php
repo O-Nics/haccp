@@ -10,6 +10,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Sanctum\PersonalAccessToken;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Carbon;
+use Eloquent;
+use Domain\Auth\Database\Factories\SessionFactory;
 
 /**
  * @property int $id
@@ -17,38 +21,38 @@ use Laravel\Sanctum\PersonalAccessToken;
  * @property string $user_id
  * @property int $access_token_id
  * @property int $refresh_token_id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  * @property-read PersonalAccessToken $accessToken
- * @property-read \Domain\Auth\Models\Device $device
+ * @property-read Device $device
  * @property-read PersonalAccessToken $refreshToken
- * @property-read \Domain\Auth\Models\User $user
+ * @property-read User $user
  *
  * @method static Builder<static>|Session betweenDates($column, ?string $startAt = null, ?string $endAt = null, $boolean = 'and', $not = false)
- * @method static \Domain\Auth\Database\Factories\SessionFactory factory($count = null, $state = [])
+ * @method static SessionFactory factory($count = null, $state = [])
  * @method static Builder<static>|Session filtered(?string $filterQuery = null, array $searchableColumns = [])
  * @method static Builder<static>|Session forPeriod(?string $startAt = null, ?string $endAt = null, ?string $columnStart = 'start_at', ?string $columnEnd = 'end_at')
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Session newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Session newQuery()
+ * @method static Builder<static>|Session newModelQuery()
+ * @method static Builder<static>|Session newQuery()
  * @method static Builder<static>|Session order(?string $sort, ?string $order)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Session query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Session whereAccessTokenId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Session whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Session whereDeviceId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Session whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Session whereRefreshTokenId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Session whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Session whereUserId($value)
+ * @method static Builder<static>|Session query()
+ * @method static Builder<static>|Session whereAccessTokenId($value)
+ * @method static Builder<static>|Session whereCreatedAt($value)
+ * @method static Builder<static>|Session whereDeviceId($value)
+ * @method static Builder<static>|Session whereId($value)
+ * @method static Builder<static>|Session whereRefreshTokenId($value)
+ * @method static Builder<static>|Session whereUpdatedAt($value)
+ * @method static Builder<static>|Session whereUserId($value)
  *
- * @mixin \Eloquent
+ * @mixin Eloquent
  */
 class Session extends BaseModel
 {
     use HasFactory, HasUuids, SoftDeletes;
 
-    protected static function newFactory(): \Domain\Auth\Database\Factories\SessionFactory
+    protected static function newFactory(): SessionFactory
     {
-        return \Domain\Auth\Database\Factories\SessionFactory::new();
+        return SessionFactory::new();
     }
 
     public function user(): BelongsTo

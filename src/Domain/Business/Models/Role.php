@@ -11,6 +11,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Carbon;
+use Illuminate\Database\Eloquent\Collection;
+use Eloquent;
 
 /**
  * @property int $id
@@ -20,18 +23,18 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string $display_name
  * @property string|null $description
  * @property string $color
- * @property \Illuminate\Support\Carbon|null $deleted_at
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Domain\Business\Models\Business $business
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \Domain\Business\Models\Member> $members
+ * @property Carbon|null $deleted_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read Business $business
+ * @property-read Collection<int, Member> $members
  * @property-read int|null $members_count
- * @property-read \Domain\Business\Models\RolePermission|null $pivot
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \Domain\Business\Models\Permission> $permissions
+ * @property-read RolePermission|null $pivot
+ * @property-read Collection<int, Permission> $permissions
  * @property-read int|null $permissions_count
  *
  * @method static Builder<static>|Role betweenDates($column, ?string $startAt = null, ?string $endAt = null, $boolean = 'and', $not = false)
- * @method static \Domain\Business\Database\Factories\RoleFactory factory($count = null, $state = [])
+ * @method static RoleFactory factory($count = null, $state = [])
  * @method static Builder<static>|Role filtered(?string $filterQuery = null, array $searchableColumns = [])
  * @method static Builder<static>|Role forPeriod(?string $startAt = null, ?string $endAt = null, ?string $columnStart = 'start_at', ?string $columnEnd = 'end_at')
  * @method static Builder<static>|Role newModelQuery()
@@ -52,7 +55,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static Builder<static>|Role withTrashed(bool $withTrashed = true)
  * @method static Builder<static>|Role withoutTrashed()
  *
- * @mixin \Eloquent
+ * @mixin Eloquent
  */
 class Role extends BaseModel
 {

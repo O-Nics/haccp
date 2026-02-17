@@ -4,19 +4,20 @@
 declare(strict_types=1);
 
 /**
- * Fix IDE Helper imports: converts FQCN in PHPDoc @method/@property annotations
- * to short class names and adds missing `use` statements.
+ * Fix IDE Helper imports & remove unnecessary qualifiers:
+ * 1. Converts FQCN in PHPDoc to short names + adds missing `use` statements
+ * 2. Replaces unnecessary \FQCN everywhere when a `use` import already exists
+ * 3. Replaces \FQCN for classes in the same namespace (no import needed)
  *
  * Usage: php bin/fix-ide-imports.php [directories...]
  * Default directories: app, src/Domain
  */
-
-$directories = array_slice($argv, 1) ?: ['app', 'src/Domain'];
+$directories = array_slice($argv, 1) ?: ['app', 'src/Domain','tests'];
 $basePath = dirname(__DIR__);
 $fixed = 0;
 
 foreach ($directories as $directory) {
-    $path = $basePath . '/' . $directory;
+    $path = $basePath.'/'.$directory;
     if (! is_dir($path)) {
         continue;
     }
@@ -45,35 +46,62 @@ function fixFile(string $filePath): bool
         return false;
     }
 
-    // Only process files with PHPDoc blocks containing FQCN
-    if (! preg_match('/\* @(?:method|property).*\\\\/', $content)) {
+    // Skip files without any FQCN (leading backslash before a namespace)
+    if (! str_contains($content, '\\')) {
         return false;
     }
 
-    // Extract existing use statements
-    preg_match_all('/^use\s+([\w\\\\]+?)(?:\s+as\s+\w+)?;$/m', $content, $matches);
-    $existingImports = $matches[1] ?? [];
-    $importMap = [];
-    foreach ($existingImports as $import) {
-        $shortName = basename(str_replace('\\', '/', $import));
-        $importMap[$shortName] = $import;
+    // Extract file namespace
+    $fileNamespace = '';
+    if (preg_match('/^namespace\s+([\w\\\\]+);/m', $content, $nsMatch)) {
+        $fileNamespace = $nsMatch[1];
     }
 
-    // Find all FQCN in @method and @property annotations
-    $fqcnPattern = '/(?<=[\s|<(,])\\\\((?:[A-Z][a-zA-Z0-9]*\\\\)+[A-Z][a-zA-Z0-9]*)(?=[|<>\s(,])/';
+    // Extract existing use statements (including aliases)
+    preg_match_all('/^use\s+([\w\\\\]+?)(?:\s+as\s+(\w+))?;$/m', $content, $matches, PREG_SET_ORDER);
+    $importMap = []; // shortName => FQCN
+    foreach ($matches as $match) {
+        $fqcn = $match[1];
+        $alias = $match[2] ?? basename(str_replace('\\', '/', $fqcn));
+        $importMap[$alias] = $fqcn;
+    }
+
+    // Find ALL FQCN in the file: namespaced (\Some\Ns\Class) and root-level (\Eloquent)
+    // Must be preceded by a non-word char to avoid matching partial namespaces
+    $fqcnPattern = '/(?<=[^a-zA-Z0-9_\\\\])\\\\((?:[A-Z][a-zA-Z0-9_]*\\\\)+[A-Z][a-zA-Z0-9_]*)/';
     preg_match_all($fqcnPattern, $content, $fqcnMatches);
+
+    // Also match root-level classes like \Eloquent (no namespace separator)
+    $rootPattern = '/(?<=[^a-zA-Z0-9_\\\\])\\\\([A-Z][a-zA-Z0-9_]*)(?![a-zA-Z0-9_\\\\])/';
+    preg_match_all($rootPattern, $content, $rootMatches);
+
+    $allFqcnMatches = array_unique(array_merge($fqcnMatches[1], $rootMatches[1]));
 
     $newImports = [];
 
-    foreach (array_unique($fqcnMatches[1]) as $fqcn) {
+    foreach ($allFqcnMatches as $fqcn) {
         $shortName = basename(str_replace('\\', '/', $fqcn));
+        $fqcnNamespace = implode('\\', array_slice(explode('\\', $fqcn), 0, -1));
 
-        // Skip if already imported (same class)
+        // Already imported with same class — will be replaced, no new import needed
         if (isset($importMap[$shortName]) && $importMap[$shortName] === $fqcn) {
             continue;
         }
 
-        // Skip if short name conflicts with a different existing import
+        // Same namespace — will be replaced, no import needed
+        if ($fqcnNamespace !== '' && $fqcnNamespace === $fileNamespace) {
+            $importMap[$shortName] = $fqcn;
+            continue;
+        }
+
+        // Root-level class (no namespace) — needs a use import
+        if ($fqcnNamespace === '') {
+            $newImports[$shortName] = $fqcn;
+            $importMap[$shortName] = $fqcn;
+            continue;
+        }
+
+        // Conflict with a different existing import — skip (keep FQCN)
         if (isset($importMap[$shortName]) && $importMap[$shortName] !== $fqcn) {
             continue;
         }
@@ -82,24 +110,33 @@ function fixFile(string $filePath): bool
         $importMap[$shortName] = $fqcn;
     }
 
-    // Replace FQCN with short names in PHPDoc blocks (only for classes we can import)
+    // Replace \FQCN with short names everywhere in the file
     $modified = $content;
+
+    // Build replacement map: only replace classes we have (or will have) imports for, or same namespace
     foreach ($importMap as $shortName => $fqcn) {
         $escaped = preg_quote($fqcn, '/');
-        // Replace \FQCN with short name in PHPDoc
-        $modified = preg_replace(
-            '/(?<=[\s|<(,])\\\\' . $escaped . '(?=[|<>\s(,])/',
-            $shortName,
+
+        // Replace \FQCN — preceded by non-word char, NOT inside `use` or `namespace` lines
+        $modified = preg_replace_callback(
+            '/^(.*?)(?<=[^a-zA-Z0-9_\\\\])\\\\' . $escaped . '(?![a-zA-Z0-9_\\\\])/m',
+            function (array $match) use ($shortName) {
+                $prefix = $match[1];
+
+                // Don't replace inside use statements or namespace declarations
+                if (preg_match('/^\s*(use|namespace)\s/', $prefix)) {
+                    return $match[0];
+                }
+
+                return $prefix . $shortName;
+            },
             $modified
         );
     }
 
     // Add new use statements
     if (! empty($newImports)) {
-        // Find the last use statement to insert after
-        if (preg_match('/^use\s+[^;]+;$/m', $modified, $lastUseMatch, PREG_OFFSET_CAPTURE)) {
-            // Find the position after the last use statement
-            preg_match_all('/^use\s+[^;]+;$/m', $modified, $allUses, PREG_OFFSET_CAPTURE);
+        if (preg_match_all('/^use\s+[^;]+;$/m', $modified, $allUses, PREG_OFFSET_CAPTURE)) {
             $lastUse = end($allUses[0]);
             $insertPos = $lastUse[1] + strlen($lastUse[0]);
 
