@@ -9,20 +9,18 @@ use Domain\Auth\Models\User;
 use Domain\Auth\Notifications\NewDeviceLoginNotification;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Notification;
-use Tests\TestHelpers\DeviceHelper;
 
 use function Pest\Laravel\postJson;
 
 pest()->group('auth');
 
-uses(DeviceHelper::class);
 
 it('can login with valid credentials', function () {
     $user = User::factory()->create([
         'email' => 'test@email.com',
     ]);
 
-    $device = $this->getRandomDevice();
+    $device = Device::factory()->make();
 
     postJson(route('auth.login'), [
         'email' => $user->email,
@@ -65,11 +63,11 @@ it('cannot login with invalid credentials', function () {
 
 it('cannot login with missing fields', function () {
     postJson(route('auth.login'), [
-        'device_id' => $this->getRandomDevice()->deviceId,
-        'device_platform' => $this->getRandomDevice()->devicePlatform,
-        'device_model' => $this->getRandomDevice()->deviceModel,
-        'remember_me' => $this->getRandomDevice()->rememberMe,
-    ])->assertStatus(422)
+        'device_id' => Device::factory()->make()->deviceId,
+        'device_platform' => Device::factory()->make()->devicePlatform,
+        'device_model' => Device::factory()->make()->deviceModel,
+        'remember_me' => Device::factory()->make()->rememberMe,
+    ])->assertUnprocessable()
         ->assertJsonValidationErrors(['email', 'password']);
 });
 
@@ -81,7 +79,7 @@ it('cannot login with invalid email format', function () {
         'device_platform' => 'device-platform',
         'device_model' => 'device-model',
         'remember_me' => false,
-    ])->assertStatus(422)
+    ])->assertUnprocessable()
         ->assertJsonValidationErrors(['email']);
 });
 
@@ -89,16 +87,16 @@ it('cannot login without device information', function () {
     postJson(route('auth.login'), [
         'email' => 't@t.fr',
         'password' => 'password',
-    ])->assertStatus(422)
+    ])->assertUnprocessable()
         ->assertJsonValidationErrors(['device_id', 'device_platform']);
 });
 
-it('can login and have device & session un storage', function () {
+it('can login and have device & session in storage', function () {
     $user = User::factory()->create([
         'email' => 'test@email.com',
     ]);
 
-    $device = $this->getRandomDevice();
+    $device = Device::factory()->make();
 
     postJson(route('auth.login'), [
         'email' => $user->email,
@@ -120,7 +118,7 @@ it('can login and have event dispatched if new device', function () {
         'email' => 'test@email.com',
     ]);
 
-    $device = $this->getRandomDevice();
+    $device = Device::factory()->make();
 
     postJson(route('auth.login'), [
         'email' => $user->email,
@@ -140,7 +138,7 @@ it('can login and have notfication sent if new device', function () {
         'email' => 'test@email.com',
     ]);
 
-    $device = $this->getRandomDevice();
+    $device = Device::factory()->make();
 
     postJson(route('auth.login'), [
         'email' => $user->email,
@@ -185,8 +183,8 @@ it('can login and have multiple device & session un storage', function () {
         'email' => 'test@email.com',
     ]);
 
-    $device = $this->getRandomDevice();
-    $device2 = $this->getRandomDevice();
+    $device = Device::factory()->make();
+    $device2 = Device::factory()->make();
 
     postJson(route('auth.login'), [
         'email' => $user->email,
@@ -210,3 +208,27 @@ it('can login and have multiple device & session un storage', function () {
     $devices = Device::query()->where('user_id', $user->id)->get();
     expect($sessions)->toHaveCount(2)->and($devices)->toHaveCount(2);
 });
+
+it('can login with refresh token expiration extended if remember me', function () {
+    $user = User::factory()->create();
+
+    $device = Device::factory()->make();
+
+    $response = postJson(route('auth.login'), [
+        'email' => $user->email,
+        'password' => 'password',
+        'device_id' => $device->device_id,
+        'device_platform' => $device->platform,
+        'device_model' => $device->model,
+        'remember_me' => true,
+    ])->assertOk();
+
+    $tokensExpiresAt = $response->json('data.tokens.refresh.expires_at');
+
+    $expectedExpiration = now()->addMinutes(config('auth.tokens.remember.expiration'))->getTimestamp();
+
+    expect($tokensExpiresAt)->toBeGreaterThanOrEqual($expectedExpiration - 5) // Allow a small margin of error
+        ->and($tokensExpiresAt)->toBeLessThanOrEqual($expectedExpiration + 5);
+});
+
+
