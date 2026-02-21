@@ -8,7 +8,7 @@ All feature tests use Pest. Location: `tests/Feature/{Domain}/{Name}Test.php`.
 pest()->extend(TestCase::class)
     ->use(RefreshDatabase::class)   // Fresh DB per test
     ->in('Feature')
-    ->beforeEach(fn() => Mail::fake()); // Mails always faked
+    ->beforeEach(function (): void { Mail::fake(); }); // Mails always faked
 ```
 
 `TestCase::setUp()` disables Sanctum stateful auth: `config(['sanctum.stateful' => []])`.
@@ -180,7 +180,9 @@ it('sends NewDeviceLoginNotification to user', function () {
     postJson(route('auth.login'), validPayload())->assertOk();
 
     Notification::assertSentTo($user, NewDeviceLoginNotification::class,
-        fn($n) => $n->device->model === $device->model
+        function (NewDeviceLoginNotification $notification) use ($device): bool {
+            return $notification->device->model === $device->model;
+        }
     );
 });
 ```
@@ -362,7 +364,9 @@ it('sends NewDeviceLoginNotification to user', function () {
     ])->assertOk();
 
     Notification::assertSentTo($this->user, NewDeviceLoginNotification::class,
-        fn($n) => $n->device->model === $this->device->model
+        function (NewDeviceLoginNotification $notification): bool {
+            return $notification->device->model === $this->device->model;
+        }
     );
 });
 ```
@@ -402,12 +406,16 @@ Device::factory()->rememberMe()->create()          // remember_me = true
 
 // Events
 Event::assertDispatched(MyEvent::class)
-Event::assertDispatched(MyEvent::class, fn($e) => $e->user->id === $user->id)
+Event::assertDispatched(MyEvent::class, function (MyEvent $event) use ($user): bool {
+    return $event->user->id === $user->id;
+})
 Event::assertNotDispatched(MyEvent::class)
 
 // Notifications
 Notification::assertSentTo($user, MyNotification::class)
-Notification::assertSentTo($user, MyNotification::class, fn($n) => $n->device->id === $id)
+Notification::assertSentTo($user, MyNotification::class, function (MyNotification $notification) use ($id): bool {
+    return $notification->device->id === $id;
+})
 Notification::assertNothingSent()
 
 // Expectations

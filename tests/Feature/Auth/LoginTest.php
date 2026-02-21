@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Feature\Auth;
 
 use Domain\Auth\Events\NewDeviceDetectedEvent;
@@ -7,6 +9,7 @@ use Domain\Auth\Models\Device;
 use Domain\Auth\Models\Session;
 use Domain\Auth\Models\User;
 use Domain\Auth\Notifications\NewDeviceLoginNotification;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Notification;
 
@@ -14,189 +17,131 @@ use function Pest\Laravel\postJson;
 
 pest()->group('auth');
 
-
-it('can login with valid credentials', function () {
-    $user = User::factory()->create([
-        'email' => 'test@email.com',
-    ]);
-
-    $device = Device::factory()->make();
-
-    postJson(route('auth.login'), [
-        'email' => $user->email,
-        'password' => 'password',
-        'device_id' => $device->device_id,
-        'device_platform' => $device->platform,
-        'device_model' => $device->model,
-        'remember_me' => $device->remember_me,
-    ])->assertStatus(200)
-        ->assertJsonStructure([
-            'data' => [
-                'user' => [
-                    'id',
-                    'email',
-                    'first_name',
-                    'last_name',
-                ],
-                'tokens',
-            ],
-        ]);
-
-    expect($user)->toBeInstanceOf(User::class)
-        ->and($user->tokens)->toHaveCount(2);
+beforeEach(function () {
+    Cache::flush();
+    $this->user = User::factory()->create();
+    $this->device = Device::factory()->make();
 });
 
-it('cannot login with invalid credentials', function () {
-    $user = User::factory()->create([
-        'email' => 'test@good.fr',
-    ]);
+// --- THROTTLE ---
+
+it('throttles after max login attempts', function () {
+    $max = config('auth.security.rate_limit.login_attempts');
+
+    for ($i = 0; $i < $max; $i++) {
+        postJson(route('auth.login'), [
+            'email' => $this->user->email,
+            'password' => 'wrongpassword',
+            'device_id' => $this->device->device_id,
+            'device_platform' => $this->device->platform,
+            'device_model' => $this->device->model,
+            'remember_me' => false,
+        ])->assertUnauthorized();
+    }
 
     postJson(route('auth.login'), [
-        'email' => $user->email,
+        'email' => $this->user->email,
         'password' => 'wrongpassword',
-        'device_id' => 'device-id',
-        'device_platform' => 'device-platform',
-        'device_model' => 'device-model',
+        'device_id' => $this->device->device_id,
+        'device_platform' => $this->device->platform,
+        'device_model' => $this->device->model,
         'remember_me' => false,
-    ])->assertUnauthorized();
+    ])->assertTooManyRequests()
+        ->assertJsonStructure(['message', 'retry_after']);
 });
 
-it('cannot login with missing fields', function () {
+// --- VALIDATION ---
+
+it('requires email and password', function () {
     postJson(route('auth.login'), [
-        'device_id' => Device::factory()->make()->deviceId,
-        'device_platform' => Device::factory()->make()->devicePlatform,
-        'device_model' => Device::factory()->make()->deviceModel,
-        'remember_me' => Device::factory()->make()->rememberMe,
+        'device_id' => $this->device->device_id,
+        'device_platform' => $this->device->platform,
+        'device_model' => $this->device->model,
+        'remember_me' => false,
     ])->assertUnprocessable()
         ->assertJsonValidationErrors(['email', 'password']);
 });
 
-it('cannot login with invalid email format', function () {
+it('rejects invalid email format', function () {
     postJson(route('auth.login'), [
         'email' => 'invalid-email',
         'password' => 'password',
-        'device_id' => 'device-id',
-        'device_platform' => 'device-platform',
-        'device_model' => 'device-model',
+        'device_id' => $this->device->device_id,
+        'device_platform' => $this->device->platform,
+        'device_model' => $this->device->model,
         'remember_me' => false,
     ])->assertUnprocessable()
         ->assertJsonValidationErrors(['email']);
 });
 
-it('cannot login without device information', function () {
+it('requires device_id and device_platform', function () {
     postJson(route('auth.login'), [
-        'email' => 't@t.fr',
+        'email' => $this->user->email,
         'password' => 'password',
     ])->assertUnprocessable()
         ->assertJsonValidationErrors(['device_id', 'device_platform']);
 });
 
-it('can login and have device & session in storage', function () {
-    $user = User::factory()->create([
-        'email' => 'test@email.com',
-    ]);
+// --- BEHAVIOR ---
 
-    $device = Device::factory()->make();
-
+it('returns 401 on wrong credentials', function () {
     postJson(route('auth.login'), [
-        'email' => $user->email,
-        'password' => 'password',
-        'device_id' => $device->device_id,
-        'device_platform' => $device->platform,
-        'device_model' => $device->model,
-        'remember_me' => $device->remember_me,
-    ])->assertOk();
-
-    $sessions = Session::query()->where('user_id', $user->id)->get();
-    $devices = Device::query()->where('user_id', $user->id)->get();
-    expect($sessions)->toHaveCount(1)->and($devices)->toHaveCount(1);
+        'email' => $this->user->email,
+        'password' => 'wrongpassword',
+        'device_id' => $this->device->device_id,
+        'device_platform' => $this->device->platform,
+        'device_model' => $this->device->model,
+        'remember_me' => false,
+    ])->assertUnauthorized();
 });
 
-it('can login and have event dispatched if new device', function () {
-    Event::fake();
-    $user = User::factory()->create([
-        'email' => 'test@email.com',
-    ]);
-
-    $device = Device::factory()->make();
-
+it('returns correct structure on valid login', function () {
     postJson(route('auth.login'), [
-        'email' => $user->email,
+        'email' => $this->user->email,
         'password' => 'password',
-        'device_id' => $device->device_id,
-        'device_platform' => $device->platform,
-        'device_model' => $device->model,
-        'remember_me' => $device->remember_me,
-    ])->assertOk();
+        'device_id' => $this->device->device_id,
+        'device_platform' => $this->device->platform,
+        'device_model' => $this->device->model,
+        'remember_me' => $this->device->remember_me,
+    ])->assertOk()
+        ->assertJsonStructure([
+            'data' => [
+                'user' => ['id', 'email', 'first_name', 'last_name'],
+                'tokens' => ['access', 'refresh'],
+            ],
+        ]);
 
-    Event::assertDispatched(NewDeviceDetectedEvent::class);
+    expect($this->user->tokens)->toHaveCount(2);
 });
 
-it('can login and have notfication sent if new device', function () {
-    Notification::fake();
-    $user = User::factory()->create([
-        'email' => 'test@email.com',
-    ]);
-
-    $device = Device::factory()->make();
-
+it('creates one device and one session on login', function () {
     postJson(route('auth.login'), [
-        'email' => $user->email,
+        'email' => $this->user->email,
         'password' => 'password',
-        'device_id' => $device->device_id,
-        'device_platform' => $device->platform,
-        'device_model' => $device->model,
-        'remember_me' => $device->remember_me,
+        'device_id' => $this->device->device_id,
+        'device_platform' => $this->device->platform,
+        'device_model' => $this->device->model,
+        'remember_me' => $this->device->remember_me,
     ])->assertOk();
 
-    Notification::assertSentTo(
-        $user,
-        NewDeviceLoginNotification::class,
-        function ($notification, $channels) use ($device) {
-            return $notification->device->model === $device->model;
-        }
-    );
+    expect(Device::query()->where('user_id', $this->user->id)->count())->toBe(1)
+        ->and(Session::query()->where('user_id', $this->user->id)->count())->toBe(1);
 });
 
-it('can login and have event not dispatched if same device', function () {
-    Event::fake();
-    $user = User::factory()->create([
-        'email' => 'test@email.com',
-    ]);
-
-    $device = Device::factory()->withUser($user)->create();
-
-    postJson(route('auth.login'), [
-        'email' => $user->email,
-        'password' => 'password',
-        'device_id' => $device->device_id,
-        'device_platform' => $device->platform,
-        'device_model' => $device->model,
-        'remember_me' => $device->remember_me,
-    ])->assertOk();
-
-    Event::assertNotDispatched(NewDeviceDetectedEvent::class);
-});
-
-it('can login and have multiple device & session un storage', function () {
-    $user = User::factory()->create([
-        'email' => 'test@email.com',
-    ]);
-
-    $device = Device::factory()->make();
+it('creates separate devices and sessions for multiple devices', function () {
     $device2 = Device::factory()->make();
 
     postJson(route('auth.login'), [
-        'email' => $user->email,
+        'email' => $this->user->email,
         'password' => 'password',
-        'device_id' => $device->device_id,
-        'device_platform' => $device->platform,
-        'device_model' => $device->model,
-        'remember_me' => $device->remember_me,
+        'device_id' => $this->device->device_id,
+        'device_platform' => $this->device->platform,
+        'device_model' => $this->device->model,
+        'remember_me' => $this->device->remember_me,
     ])->assertOk();
 
     postJson(route('auth.login'), [
-        'email' => $user->email,
+        'email' => $this->user->email,
         'password' => 'password',
         'device_id' => $device2->device_id,
         'device_platform' => $device2->platform,
@@ -204,61 +149,81 @@ it('can login and have multiple device & session un storage', function () {
         'remember_me' => $device2->remember_me,
     ])->assertOk();
 
-    $sessions = Session::query()->where('user_id', $user->id)->get();
-    $devices = Device::query()->where('user_id', $user->id)->get();
-    expect($sessions)->toHaveCount(2)->and($devices)->toHaveCount(2);
+    expect(Device::query()->where('user_id', $this->user->id)->count())->toBe(2)
+        ->and(Session::query()->where('user_id', $this->user->id)->count())->toBe(2);
 });
 
-it('can login with refresh token expiration extended if remember me', function () {
-    $user = User::factory()->create();
-
-    $device = Device::factory()->make();
-
+it('extends refresh token expiry when remember_me is true', function () {
     $response = postJson(route('auth.login'), [
-        'email' => $user->email,
+        'email' => $this->user->email,
         'password' => 'password',
-        'device_id' => $device->device_id,
-        'device_platform' => $device->platform,
-        'device_model' => $device->model,
+        'device_id' => $this->device->device_id,
+        'device_platform' => $this->device->platform,
+        'device_model' => $this->device->model,
         'remember_me' => true,
     ])->assertOk();
 
-    $tokensExpiresAt = $response->json('data.tokens.refresh.expires_at');
+    $expiresAt = $response->json('data.tokens.refresh.expires_at');
+    $expected = now()->addMinutes(config('auth.tokens.remember.expiration'))->getTimestamp();
 
-    $expectedExpiration = now()->addMinutes(config('auth.tokens.remember.expiration'))->getTimestamp();
-
-    expect($tokensExpiresAt)->toBeGreaterThanOrEqual($expectedExpiration - 5) // Allow a small margin of error
-        ->and($tokensExpiresAt)->toBeLessThanOrEqual($expectedExpiration + 5);
+    expect($expiresAt)
+        ->toBeGreaterThanOrEqual($expected - 5)
+        ->toBeLessThanOrEqual($expected + 5);
 });
 
+// --- EVENTS & NOTIFICATIONS ---
 
-it('test throttle', function () {
-    $user = User::factory()->create();
-
-    $device = Device::factory()->make();
-
-    for ($i = 0; $i < 5; $i++) {
-        postJson(route('auth.login'), [
-            'email' => $user->email,
-            'password' => 'wrongpassword',
-            'device_id' => $device->device_id,
-            'device_platform' => $device->platform,
-            'device_model' => $device->model,
-            'remember_me' => $device->remember_me,
-        ])->assertUnauthorized();
-    }
+it('dispatches NewDeviceDetectedEvent when device is new', function () {
+    Event::fake();
 
     postJson(route('auth.login'), [
-        'email' => $user->email,
-        'password' => 'wrongpassword',
-        'device_id' => $device->device_id,
-        'device_platform' => $device->platform,
-        'device_model' => $device->model,
-        'remember_me' => $device->remember_me,
-    ])->assertTooManyRequests()
-        ->assertJsonStructure(['message', 'retry_after']);
+        'email' => $this->user->email,
+        'password' => 'password',
+        'device_id' => $this->device->device_id,
+        'device_platform' => $this->device->platform,
+        'device_model' => $this->device->model,
+        'remember_me' => $this->device->remember_me,
+    ])->assertOk();
+
+    Event::assertDispatched(NewDeviceDetectedEvent::class);
 });
 
+it('does not dispatch NewDeviceDetectedEvent when device is already known', function () {
+    Event::fake();
+    Device::factory()->withUser($this->user)->create([
+        'device_id' => $this->device->device_id,
+        'platform' => $this->device->platform,
+    ]);
 
+    postJson(route('auth.login'), [
+        'email' => $this->user->email,
+        'password' => 'password',
+        'device_id' => $this->device->device_id,
+        'device_platform' => $this->device->platform,
+        'device_model' => $this->device->model,
+        'remember_me' => $this->device->remember_me,
+    ])->assertOk();
 
+    Event::assertNotDispatched(NewDeviceDetectedEvent::class);
+});
 
+it('sends NewDeviceLoginNotification when device is new', function () {
+    Notification::fake();
+
+    postJson(route('auth.login'), [
+        'email' => $this->user->email,
+        'password' => 'password',
+        'device_id' => $this->device->device_id,
+        'device_platform' => $this->device->platform,
+        'device_model' => $this->device->model,
+        'remember_me' => $this->device->remember_me,
+    ])->assertOk();
+
+    Notification::assertSentTo(
+        $this->user,
+        NewDeviceLoginNotification::class,
+        function (NewDeviceLoginNotification $notification): bool {
+            return $notification->device->model === $this->device->model;
+        }
+    );
+});

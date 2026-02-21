@@ -152,19 +152,58 @@ Each endpoint file tests these layers **in order**:
 5. **Action behavior** — happy path + DB state + business logic
 6. **Events & Notifications** — dispatched with correct data
 
+## Code Style (STRICT)
+
+**Typing — always explicit:**
+```php
+// ✅
+public function handle(LoginData $data): AuthData { ... }
+function loginViaApi(User $user, ?Device $device = null): array { ... }
+
+// ❌
+public function handle($data) { ... }
+function loginViaApi($user, $device = null) { ... }
+```
+
+**No arrow functions — always full closures:**
+```php
+// ✅
+Event::assertDispatched(UserRegisteredEvent::class, function (UserRegisteredEvent $event) use ($user): bool {
+    return $event->user->id === $user->id;
+});
+
+// ❌
+Event::assertDispatched(UserRegisteredEvent::class, fn($e) => $e->user->id === $user->id);
+```
+
+**Descriptive variable names — never abbreviations:**
+```php
+// ✅
+->where(function (Builder $query) use ($token): void {
+    $query->where('access_token_id', $token->id);
+})
+
+// ❌
+->where(fn($q) => $q->where('access_token_id', $token->id))
+->where(function ($q) use ($t) { $q->where('access_token_id', $t->id); })
+```
+
 ## Critical Gotchas
 
 1. **NEVER** extend `FormRequest` → always `BaseFormRequest`
 2. **NEVER** extend `JsonResource` → always `BaseJsonResource`
 3. **NEVER** forget `declare(strict_types=1);` in every file
-4. **ALWAYS** `final readonly class` for Actions and Repositories
-5. **ALWAYS** UUID v7 for new primary keys
-6. **ALWAYS** extend `BaseModel` or `BaseAuthenticable` for models
-7. **ALWAYS** bind repos in `RepositoryServiceProvider` (not `AppServiceProvider`)
-8. **ALWAYS** register Events in `AppServiceProvider::boot()`
-9. Actions ARE the service layer — there is no separate `Services/` directory
-10. Table is `auth_sessions` (not `sessions`) — avoids Laravel session conflict
-11. `Cache::flush()` in `beforeEach()` when testing throttle (cache persists between tests)
+4. **NEVER** use arrow functions (`fn()`) — always full closures with typed params
+5. **NEVER** abbreviate variable names (`$q`, `$u`, `$n`, `$e`, `$t`, `$r`, `$i`)
+6. **ALWAYS** `final readonly class` for Actions and Repositories
+7. **ALWAYS** UUID v7 for new primary keys
+8. **ALWAYS** extend `BaseModel` or `BaseAuthenticable` for models
+9. **ALWAYS** bind repos in `RepositoryServiceProvider` (not `AppServiceProvider`)
+10. **ALWAYS** register Events in `AppServiceProvider::boot()`
+11. **ALWAYS** type every parameter and return type
+12. Actions ARE the service layer — there is no separate `Services/` directory
+13. Table is `auth_sessions` (not `sessions`) — avoids Laravel session conflict
+14. `Cache::flush()` in `beforeEach()` when testing throttle (cache persists between tests)
 
 ## Adding a New Feature (Checklist)
 

@@ -21,7 +21,7 @@ Route::prefix('auth')
             ->name('login');
 
         Route::middleware(['auth:sanctum', 'ability:'.TokenAbilityEnum::REFRESH->value])->group(function () {
-            Route::post('refresh', [AuthController::class, 'refresh']);
+            Route::post('refresh', 'refresh')->name('refresh');
         });
 
         Route::middleware(['auth:sanctum', 'ability:'.TokenAbilityEnum::ACCESS->value])->group(function () {
