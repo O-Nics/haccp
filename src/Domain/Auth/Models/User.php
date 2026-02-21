@@ -141,6 +141,18 @@ class User extends BaseAuthenticable implements MustVerifyEmail
         return $this->belongsToMany(Business::class, 'members', 'user_id', 'business_id');
     }
 
+    public function memberOf(Business $business): ?Member
+    {
+        /** @var Member|null $member */
+        $member = $this->memberships()
+            ->where('business_id', $business->id)
+            ->first();
+
+        $member?->load('role.permissions');
+
+        return $member;
+    }
+
     public function checkPassword(string $password): bool
     {
         return Hash::check($password, $this->password);

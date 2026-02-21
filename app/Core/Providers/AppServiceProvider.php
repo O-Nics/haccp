@@ -15,8 +15,11 @@ use Domain\Auth\Listeners\NewDeviceDetectedListener;
 use Domain\Auth\Listeners\SendPasswordResetConfirmedNotificationListener;
 use Domain\Auth\Listeners\SendPasswordResetNotificationListener;
 use Domain\Auth\Listeners\SendUserRegisteredNotificationListener;
+use App\Modules\Business\Policies\MemberPolicy;
+use Domain\Business\Models\Member;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -40,6 +43,9 @@ class AppServiceProvider extends ServiceProvider
                     SecurityScheme::http('bearer')
                 );
             });
+
+        // Register policies
+        Gate::policy(Member::class, MemberPolicy::class);
 
         // Register event listeners
         Event::listen(NewDeviceDetectedEvent::class, NewDeviceDetectedListener::class);

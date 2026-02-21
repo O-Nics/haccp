@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Domain\Business\Database\Seeders;
 
+use Domain\Business\Enums\PermissionEnum;
 use Domain\Business\Models\Permission;
 use Illuminate\Database\Seeder;
 
@@ -12,32 +13,17 @@ class PermissionSeeder extends Seeder
     public function run(): void
     {
         $permissions = [
-            // Utilisateurs
-            ['category' => 'users', 'category_label' => 'Utilisateurs', 'can' => 'users.view',   'display_name' => 'Voir les utilisateurs'],
-            ['category' => 'users', 'category_label' => 'Utilisateurs', 'can' => 'users.create', 'display_name' => 'Créer des utilisateurs'],
-            ['category' => 'users', 'category_label' => 'Utilisateurs', 'can' => 'users.edit',   'display_name' => 'Modifier les utilisateurs'],
-            ['category' => 'users', 'category_label' => 'Utilisateurs', 'can' => 'users.delete', 'display_name' => 'Supprimer les utilisateurs'],
+            // Members
+            ['category' => 'members', 'category_label' => 'Membres', 'can' => PermissionEnum::MEMBERS_VIEW->value,   'display_name' => 'Voir les membres'],
+            ['category' => 'members', 'category_label' => 'Membres', 'can' => PermissionEnum::MEMBERS_INVITE->value, 'display_name' => 'Inviter un membre'],
+            ['category' => 'members', 'category_label' => 'Membres', 'can' => PermissionEnum::MEMBERS_REMOVE->value, 'display_name' => 'Retirer un membre'],
+            ['category' => 'members', 'category_label' => 'Membres', 'can' => PermissionEnum::MEMBERS_EDIT->value,   'display_name' => 'Modifier un membre'],
 
-            // Rôles
-            ['category' => 'roles', 'category_label' => 'Rôles', 'can' => 'roles.view',   'display_name' => 'Voir les rôles'],
-            ['category' => 'roles', 'category_label' => 'Rôles', 'can' => 'roles.create', 'display_name' => 'Créer des rôles'],
-            ['category' => 'roles', 'category_label' => 'Rôles', 'can' => 'roles.edit',   'display_name' => 'Modifier les rôles'],
-            ['category' => 'roles', 'category_label' => 'Rôles', 'can' => 'roles.delete', 'display_name' => 'Supprimer les rôles'],
-
-            // Business
-            ['category' => 'business', 'category_label' => 'Business', 'can' => 'business.view', 'display_name' => 'Voir le business'],
-            ['category' => 'business', 'category_label' => 'Business', 'can' => 'business.edit', 'display_name' => 'Modifier le business'],
-
-            // HACCP
-            ['category' => 'haccp', 'category_label' => 'HACCP', 'can' => 'haccp.view',     'display_name' => 'Voir les contrôles HACCP'],
-            ['category' => 'haccp', 'category_label' => 'HACCP', 'can' => 'haccp.create',   'display_name' => 'Créer des contrôles HACCP'],
-            ['category' => 'haccp', 'category_label' => 'HACCP', 'can' => 'haccp.edit',     'display_name' => 'Modifier les contrôles HACCP'],
-            ['category' => 'haccp', 'category_label' => 'HACCP', 'can' => 'haccp.delete',   'display_name' => 'Supprimer les contrôles HACCP'],
-            ['category' => 'haccp', 'category_label' => 'HACCP', 'can' => 'haccp.validate', 'display_name' => 'Valider les contrôles HACCP'],
-
-            // Rapports
-            ['category' => 'reports', 'category_label' => 'Rapports', 'can' => 'reports.view',   'display_name' => 'Voir les rapports'],
-            ['category' => 'reports', 'category_label' => 'Rapports', 'can' => 'reports.export', 'display_name' => 'Exporter les rapports'],
+            // Roles
+            ['category' => 'roles', 'category_label' => 'Rôles', 'can' => PermissionEnum::ROLES_VIEW->value,   'display_name' => 'Voir les rôles'],
+            ['category' => 'roles', 'category_label' => 'Rôles', 'can' => PermissionEnum::ROLES_CREATE->value, 'display_name' => 'Créer un rôle'],
+            ['category' => 'roles', 'category_label' => 'Rôles', 'can' => PermissionEnum::ROLES_EDIT->value,   'display_name' => 'Modifier un rôle'],
+            ['category' => 'roles', 'category_label' => 'Rôles', 'can' => PermissionEnum::ROLES_DELETE->value, 'display_name' => 'Supprimer un rôle'],
         ];
 
         foreach ($permissions as $permission) {
