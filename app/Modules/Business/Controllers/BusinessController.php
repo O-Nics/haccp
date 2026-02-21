@@ -8,10 +8,11 @@ use App\Core\Controllers\BaseController;
 use App\Core\Resources\BaseAnonymousCollection;
 use App\Modules\Business\Requests\IndexBusinessRequest;
 use App\Modules\Business\Resources\BusinessResource;
+use Domain\Business\Interfaces\BusinessRepositoryInterface;
 
 final class BusinessController extends BaseController
 {
-    public function __construct() {}
+    public function __construct(private BusinessRepositoryInterface $businessRepository) {}
 
     /**
      * List all businesses for the authenticated user
@@ -22,8 +23,8 @@ final class BusinessController extends BaseController
     {
         $user = auth()->user();
 
-        $user->load('businesses');
+        $paginatedBusinesses = $this->businessRepository->indexBusinessPaginated($user, $indexBusinessRequest->toDto());
 
-        return BusinessResource::collection($user->businesses);
+        return BusinessResource::collection($paginatedBusinesses);
     }
 }

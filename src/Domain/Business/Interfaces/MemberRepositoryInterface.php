@@ -9,5 +9,5 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 interface MemberRepositoryInterface
 {
-    public function getPaginated(IndexMemberData $data, ?array $relations = []): LengthAwarePaginator;
+    public function indexPaginated(IndexMemberData $data, ?array $relations = []): LengthAwarePaginator;
 }

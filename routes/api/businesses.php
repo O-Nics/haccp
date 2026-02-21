@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Modules\Business\Controllers\BusinessController;
 use App\Modules\Business\Controllers\MemberController;
 use App\Modules\Business\Controllers\RoleController;
+use Domain\Business\Models\Business;
 use Illuminate\Support\Facades\Route;
 
 // Businesses

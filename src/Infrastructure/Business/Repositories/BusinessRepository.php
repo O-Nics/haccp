@@ -14,13 +14,13 @@ final readonly class BusinessRepository implements BusinessRepositoryInterface
 {
     public function __construct(private Business $model) {}
 
-    public function getUserBusinessPaginated(User $user, IndexBusinessData $indexBusinessData, ?array $relations = []): LengthAwarePaginator
+    public function indexBusinessPaginated(User $user, IndexBusinessData $indexBusinessData, ?array $relations = []): LengthAwarePaginator
     {
         return $this->model->query()
+            ->with($relations)
             ->whereHas('users', function ($query) use ($user) {
                 $query->where('users.id', $user->id);
             })
-            ->with($relations)
             ->filtered($indexBusinessData->filterQuery, ['name'])
             ->order($indexBusinessData->sort, $indexBusinessData->order)
             ->paginate(

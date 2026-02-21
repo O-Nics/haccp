@@ -14,7 +14,7 @@ final readonly class MemberRepository extends BaseRepository implements MemberRe
 {
     public function __construct(private Member $model) {}
 
-    public function getPaginated(IndexMemberData $data, ?array $relations = []): LengthAwarePaginator
+    public function indexPaginated(IndexMemberData $data, ?array $relations = []): LengthAwarePaginator
     {
         return $this->model->query()
             ->where('business_id', $data->businessId)

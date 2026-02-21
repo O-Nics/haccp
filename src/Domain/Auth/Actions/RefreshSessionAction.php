@@ -7,13 +7,19 @@ namespace Domain\Auth\Actions;
 use App\Core\Actions\BaseAction;
 use Domain\Auth\Data\AuthData;
 use Domain\Auth\Data\DeviceData;
+use Domain\Auth\Data\TokenData;
+use Domain\Auth\Enums\TokenAbilityEnum;
 use Domain\Auth\Exceptions\InvalidRefreshTokenException;
+use Domain\Auth\Interfaces\SessionRepositoryInterface;
+use Domain\Auth\Interfaces\TokenRepositoryInterface;
 use Domain\Auth\Models\User;
 
 final readonly class RefreshSessionAction extends BaseAction
 {
     public function __construct(
         private CreateAuthSessionAction $createAuthSession,
+        private TokenRepositoryInterface $tokenRepository,
+        private SessionRepositoryInterface $sessionRepository,
     ) {}
 
     /**
@@ -33,16 +39,39 @@ final readonly class RefreshSessionAction extends BaseAction
             throw new InvalidRefreshTokenException;
         }
 
-        $device = $session->device;
+        $rotationEnabled = (bool) config('auth.tokens.refresh.rotation', true);
 
-        $deviceData = new DeviceData(
-            deviceId: $device->device_id,
-            devicePlatform: $device->platform,
-            deviceModel: $device->model,
-            rememberMe: $device->remember_me,
-            ip: $device->ip_address,
+        if ($rotationEnabled) {
+            $device = $session->device;
+
+            $deviceData = new DeviceData(
+                deviceId: $device->device_id,
+                devicePlatform: $device->platform,
+                deviceModel: $device->model,
+                rememberMe: $device->remember_me,
+                ip: $device->ip_address,
+            );
+
+            return $this->createAuthSession->handle($user, $deviceData);
+        }
+
+        $newAccessToken = $this->tokenRepository->issueAccessTokenFor(
+            $user,
+            [TokenAbilityEnum::ACCESS->value],
         );
 
-        return $this->createAuthSession->handle($user, $deviceData);
+        $this->sessionRepository->rotateAccessToken($session, $newAccessToken->tokenId());
+
+        return new AuthData(
+            user: $user,
+            accessToken: new TokenData(
+                token: $newAccessToken->plainToken(),
+                expiresAt: $newAccessToken->expiresAt(),
+            ),
+            refreshToken: new TokenData(
+                token: null,
+                expiresAt: $refreshToken->expires_at->getTimestamp(),
+            ),
+        );
     }
 }

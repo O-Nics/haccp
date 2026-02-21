@@ -22,9 +22,9 @@ final class PasswordController extends BaseController
     /**
      * Send password reset link
      */
-    public function forgot(ForgotPasswordRequest $request, SendPasswordResetLinkAction $action): Response
+    public function forgot(ForgotPasswordRequest $request, SendPasswordResetLinkAction $sendPasswordResetLinkAction): Response
     {
-        $action->handle($request->toDto());
+        $sendPasswordResetLinkAction->handle($request->toDto());
 
         return response()->noContent();
     }
@@ -34,9 +34,9 @@ final class PasswordController extends BaseController
      *
      * @throws InvalidCredentialsException
      */
-    public function checkReset(CheckResetPasswordResetRequest $request, ConfirmPasswordResetAction $action): Response
+    public function checkReset(CheckResetPasswordResetRequest $request, ConfirmPasswordResetAction $confirmPasswordResetAction): Response
     {
-        $action->handle($request->toDto());
+        $confirmPasswordResetAction->handle($request->toDto());
 
         return response()->noContent();
     }
@@ -46,9 +46,9 @@ final class PasswordController extends BaseController
      *
      * @throws InvalidCredentialsException
      */
-    public function reset(ResetPasswordRequest $request, ResetPasswordAction $action): Response
+    public function reset(ResetPasswordRequest $request, ResetPasswordAction $resetPasswordAction): Response
     {
-        $action->handle($request->toDto());
+        $resetPasswordAction->handle($request->toDto());
 
         return response()->noContent();
     }

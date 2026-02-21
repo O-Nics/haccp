@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Domain\Auth\Interfaces;
 
 use Domain\Auth\Models\User;
+use Domain\Auth\ValueObjects\AccessToken;
 use Domain\Auth\ValueObjects\TokenPair;
 
 interface TokenRepositoryInterface
@@ -19,4 +20,12 @@ interface TokenRepositoryInterface
         array $refreshAbilities,
         bool $rememberMe = false,
     ): TokenPair;
+
+    /**
+     * @param  string[]  $abilities
+     */
+    public function issueAccessTokenFor(
+        User $user,
+        array $abilities,
+    ): AccessToken;
 }

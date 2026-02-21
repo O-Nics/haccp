@@ -16,4 +16,6 @@ interface SessionRepositoryInterface
     public function deleteSession(Session $session): void;
 
     public function revokeAllForUser(User $user): void;
+
+    public function rotateAccessToken(Session $session, int $newAccessTokenId): void;
 }

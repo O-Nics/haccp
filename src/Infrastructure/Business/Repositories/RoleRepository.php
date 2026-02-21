@@ -13,7 +13,7 @@ final readonly class RoleRepository implements RoleRepositoryInterface
 {
     public function __construct(private Role $model) {}
 
-    public function index(IndexRoleData $indexRoleData, ?array $relation = []): LengthAwarePaginator
+    public function indexPaginated(IndexRoleData $indexRoleData, ?array $relation = []): LengthAwarePaginator
     {
         return $this->model::query()
             ->with($relation)

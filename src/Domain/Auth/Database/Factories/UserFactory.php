@@ -29,7 +29,6 @@ class UserFactory extends Factory
             'notify_email' => fake()->boolean(),
             'notify_sms' => fake()->boolean(),
             'local' => fake()->randomElement(['fr_FR', 'en_US', 'en_GB']),
-            'timezone' => fake()->timezone(),
             'last_login_at' => fake()->optional()->dateTime(),
         ];
     }

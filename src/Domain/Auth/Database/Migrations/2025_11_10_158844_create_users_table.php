@@ -20,7 +20,6 @@ return new class extends Migration
             $table->string('password');
             $table->string('pin_code', 6)->nullable();
             $table->string('local')->default('fr_FR');
-            $table->string('timezone')->default('Europe/Paris');
 
             $table->boolean('notify_email')->default(true);
             $table->boolean('notify_sms')->default(false);

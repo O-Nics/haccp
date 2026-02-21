@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Domain\Auth\Enums\TokenAbilityEnum;
 use Domain\Auth\Models\Device;
+use Domain\Auth\Models\PasswordResetToken;
 use Domain\Auth\Models\User;
 use Illuminate\Testing\TestResponse;
 
@@ -33,6 +34,33 @@ function accessToken(User $user): string
 function refreshToken(User $user): string
 {
     return $user->createToken('refresh_token', [TokenAbilityEnum::REFRESH->value])->plainTextToken;
+}
+
+/**
+ * Create a password reset token for a user directly in the DB.
+ * Returns the plain text token string (64 chars).
+ *
+ * Usage:
+ *   $token = createResetToken($user);
+ *   $token = createResetToken($user, expired: true);
+ *   $token = createResetToken($user, confirmed: true);
+ */
+function createResetToken(User $user, bool $confirmed = false, bool $expired = false): string
+{
+    $plainToken = PasswordResetToken::generateToken();
+
+    $resetToken = new PasswordResetToken;
+    $resetToken->email = $user->email;
+    $resetToken->token = $plainToken;
+    $resetToken->expires_at = $expired ? now()->subMinute() : now()->addHour();
+
+    if ($confirmed) {
+        $resetToken->confirmed_at = now();
+    }
+
+    $resetToken->save();
+
+    return $plainToken;
 }
 
 /**

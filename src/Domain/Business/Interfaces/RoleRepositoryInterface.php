@@ -9,5 +9,5 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 interface RoleRepositoryInterface
 {
-    public function index(IndexRoleData $indexRoleData, ?array $relation = []): LengthAwarePaginator;
+    public function indexPaginated(IndexRoleData $indexRoleData, ?array $relation = []): LengthAwarePaginator;
 }

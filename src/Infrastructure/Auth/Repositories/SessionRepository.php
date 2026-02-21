@@ -48,4 +48,12 @@ final readonly class SessionRepository extends BaseRepository implements Session
             $this->deleteSession($session);
         }
     }
+
+    public function rotateAccessToken(Session $session, int $newAccessTokenId): void
+    {
+        $oldAccessToken = $session->accessToken;
+        $session->access_token_id = $newAccessTokenId;
+        $session->save();
+        $oldAccessToken?->delete();
+    }
 }

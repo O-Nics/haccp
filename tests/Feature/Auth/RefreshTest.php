@@ -27,7 +27,7 @@ it('rejects access token on refresh route', function () {
     ])->assertForbidden();
 });
 
-// --- BEHAVIOR ---
+// --- BEHAVIOR (rotation enabled) ---
 
 it('returns new token pair on valid refresh', function () {
     $tokens = loginViaApi($this->user);
@@ -43,7 +43,9 @@ it('returns new token pair on valid refresh', function () {
         ]);
 });
 
-it('issues new tokens different from the original ones', function () {
+it('issues new tokens different from the original ones when rotation is enabled', function () {
+    config(['auth.tokens.refresh.rotation' => true]);
+
     $tokens = loginViaApi($this->user);
 
     $response = postJson(route('auth.refresh'), [], [
@@ -54,7 +56,9 @@ it('issues new tokens different from the original ones', function () {
         ->and($response->json('data.tokens.refresh.token'))->not->toBe($tokens['refresh']);
 });
 
-it('revokes old session and creates a new one after refresh', function () {
+it('revokes old session and creates a new one after refresh when rotation is enabled', function () {
+    config(['auth.tokens.refresh.rotation' => true]);
+
     $tokens = loginViaApi($this->user);
 
     $sessionsBefore = Session::query()->where('user_id', $this->user->id)->count();
@@ -66,6 +70,51 @@ it('revokes old session and creates a new one after refresh', function () {
     $sessionsAfter = Session::query()->where('user_id', $this->user->id)->count();
 
     expect($sessionsAfter)->toBe($sessionsBefore);
+});
+
+// --- BEHAVIOR (rotation disabled) ---
+
+it('issues a new access token but no new refresh token when rotation is disabled', function () {
+    config(['auth.tokens.refresh.rotation' => false]);
+
+    $tokens = loginViaApi($this->user);
+
+    $response = postJson(route('auth.refresh'), [], [
+        'Authorization' => 'Bearer ' . $tokens['refresh'],
+    ])->assertOk();
+
+    expect($response->json('data.tokens.access.token'))->not->toBe($tokens['access'])
+        ->and($response->json('data.tokens.refresh.token'))->toBeNull();
+});
+
+it('keeps the same session after refresh when rotation is disabled', function () {
+    config(['auth.tokens.refresh.rotation' => false]);
+
+    $tokens = loginViaApi($this->user);
+
+    $sessionBefore = Session::query()->where('user_id', $this->user->id)->first();
+
+    postJson(route('auth.refresh'), [], [
+        'Authorization' => 'Bearer ' . $tokens['refresh'],
+    ])->assertOk();
+
+    $sessionAfter = Session::query()->where('user_id', $this->user->id)->first();
+
+    expect($sessionAfter->id)->toBe($sessionBefore->id)
+        ->and($sessionAfter->refresh_token_id)->toBe($sessionBefore->refresh_token_id)
+        ->and($sessionAfter->access_token_id)->not->toBe($sessionBefore->access_token_id);
+});
+
+it('still returns the refresh token expiry when rotation is disabled', function () {
+    config(['auth.tokens.refresh.rotation' => false]);
+
+    $tokens = loginViaApi($this->user);
+
+    $response = postJson(route('auth.refresh'), [], [
+        'Authorization' => 'Bearer ' . $tokens['refresh'],
+    ])->assertOk();
+
+    expect($response->json('data.tokens.refresh.expires_at'))->toBeInt()->toBeGreaterThan(0);
 });
 
 // --- ERROR CASES ---

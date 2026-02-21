@@ -23,14 +23,16 @@ final class MemberController extends BaseController
      */
     public function index(IndexMemberRequest $request, MemberRepositoryInterface $memberRepository): BaseAnonymousCollection
     {
-        return MemberResource::collection($memberRepository->getPaginated($request->toDto()));
+        $memberPaginated = $memberRepository->indexPaginated($request->toDto());
+        return MemberResource::collection($memberPaginated);
     }
 
     /**
      * Invite a user as a member of a business
      */
-    public function store(InviteMemberRequest $request, InviteMemberAction $action): MemberResource
+    public function store(InviteMemberRequest $request, InviteMemberAction $inviteMemberAction): MemberResource
     {
-        return (new MemberResource($action->handle($request->toDto())))->status(Response::HTTP_CREATED);
+        $memberInvited = $inviteMemberAction->handle($request->toDto());
+        return new MemberResource($memberInvited)->status(Response::HTTP_CREATED);
     }
 }
