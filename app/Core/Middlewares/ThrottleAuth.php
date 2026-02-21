@@ -17,10 +17,9 @@ final readonly class ThrottleAuth
 
     public function handle(Request $request, Closure $next, string $prefix = 'login', ?int $maxAttempts = null, ?int $decayMinutes = null): Response
     {
-        if (app()->environment(['local', 'testing'])) {
+        if (! app()->environment('testing')) {
             return $next($request);
         }
-
         if (! config('auth.security.rate_limit.enabled')) {
             return $next($request);
         }

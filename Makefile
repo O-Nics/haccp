@@ -14,6 +14,8 @@ ide:
 	@php bin/fix-ide-imports.php
 	./vendor/bin/pint
 
+import:
+	@php bin/fix-ide-imports.php
 
 exec_web:
 	@docker exec -ti liberlo-phoenix-php-apache-1 bash

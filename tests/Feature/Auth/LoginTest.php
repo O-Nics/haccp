@@ -232,3 +232,33 @@ it('can login with refresh token expiration extended if remember me', function (
 });
 
 
+it('test throttle', function () {
+    $user = User::factory()->create();
+
+    $device = Device::factory()->make();
+
+    for ($i = 0; $i < 5; $i++) {
+        postJson(route('auth.login'), [
+            'email' => $user->email,
+            'password' => 'wrongpassword',
+            'device_id' => $device->device_id,
+            'device_platform' => $device->platform,
+            'device_model' => $device->model,
+            'remember_me' => $device->remember_me,
+        ])->assertUnauthorized();
+    }
+
+    postJson(route('auth.login'), [
+        'email' => $user->email,
+        'password' => 'wrongpassword',
+        'device_id' => $device->device_id,
+        'device_platform' => $device->platform,
+        'device_model' => $device->model,
+        'remember_me' => $device->remember_me,
+    ])->assertTooManyRequests()
+        ->assertJsonStructure(['message', 'retry_after']);
+});
+
+
+
+
