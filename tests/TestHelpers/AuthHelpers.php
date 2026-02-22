@@ -6,6 +6,11 @@ use Domain\Auth\Enums\TokenAbilityEnum;
 use Domain\Auth\Models\Device;
 use Domain\Auth\Models\PasswordResetToken;
 use Domain\Auth\Models\User;
+use Domain\Business\Enums\PermissionEnum;
+use Domain\Business\Models\Business;
+use Domain\Business\Models\Member;
+use Domain\Business\Models\Permission;
+use Domain\Business\Models\Role;
 use Illuminate\Testing\TestResponse;
 
 use function Pest\Laravel\postJson;
@@ -61,6 +66,25 @@ function createResetToken(User $user, bool $confirmed = false, bool $expired = f
     $resetToken->save();
 
     return $plainToken;
+}
+
+/**
+ * Authorize a user for a business by creating a role with the given permission.
+ * Creates an active Member for the user with that role.
+ *
+ * Usage:
+ *   authorizeUser($user, $business, PermissionEnum::MEMBERS_INVITE);
+ */
+function authorizeUser(User $user, Business $business, PermissionEnum $permission): void
+{
+    $permissionModel = Permission::factory()->create([
+        'can' => $permission->value,
+    ]);
+
+    $role = Role::factory()->withBusiness($business)->create();
+    $role->permissions()->attach($permissionModel);
+
+    Member::factory()->withUser($user)->withBusiness($business)->withRole($role)->active()->create();
 }
 
 /**

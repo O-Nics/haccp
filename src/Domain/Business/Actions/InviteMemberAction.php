@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace Domain\Business\Actions;
 
 use App\Core\Actions\BaseAction;
-use Domain\Auth\Data\MemberInvitedData;
+use App\Core\Exceptions\BusinessException;
+use Domain\Business\Data\MemberInvitedData;
 use Domain\Auth\Data\StoreUserData;
 use Domain\Auth\Interfaces\UserRepositoryInterface;
 use Domain\Business\Data\InviteMemberData;
+use Domain\Business\Ensures\MemberEnsure;
 use Domain\Business\Enums\MemberStatusEnum;
-use Domain\Business\Events\InvitedMemberEvent;
+use Domain\Business\Events\MemberInvitedEvent;
 use Domain\Business\Models\Business;
 use Domain\Business\Models\Member;
 use Illuminate\Support\Str;
@@ -19,12 +21,15 @@ final readonly class InviteMemberAction extends BaseAction
 {
     public function __construct(
         private UserRepositoryInterface $userRepository,
+        private MemberEnsure $memberEnsure,
     ) {}
 
+    /**
+     * @throws BusinessException
+     */
     public function handle(InviteMemberData $data, Business $business): Member
     {
         $user = $this->userRepository->findByEmail($data->email);
-
         $temporaryPassword = null;
 
         if (! $user) {
@@ -39,14 +44,7 @@ final readonly class InviteMemberAction extends BaseAction
             ));
         }
 
-        $existing = Member::query()
-            ->where('business_id', $business->id)
-            ->where('user_id', $user->id)
-            ->first();
-
-        if ($existing) {
-            return $existing;
-        }
+        $this->memberEnsure->hasNotAlreadyBeenAddedToBusiness($user, $business);
 
         $member = new Member;
         $member->business_id = $business->id;
@@ -56,7 +54,7 @@ final readonly class InviteMemberAction extends BaseAction
         $member->status = MemberStatusEnum::INVITED;
         $member->save();
 
-        event(new InvitedMemberEvent(
+        event(new MemberInvitedEvent(
             new MemberInvitedData(
                 member: $member,
                 temporaryPassword: $temporaryPassword,

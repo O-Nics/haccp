@@ -15,6 +15,8 @@ use Domain\Auth\Listeners\NewDeviceDetectedListener;
 use Domain\Auth\Listeners\SendPasswordResetConfirmedNotificationListener;
 use Domain\Auth\Listeners\SendPasswordResetNotificationListener;
 use Domain\Auth\Listeners\SendUserRegisteredNotificationListener;
+use Domain\Business\Events\MemberInvitedEvent;
+use Domain\Business\Listeners\SendMemberInvitationListener;
 use Domain\Business\Models\Business;
 use Domain\Business\Models\Member;
 use Domain\Business\Policies\BusinessPolicy;
@@ -51,6 +53,7 @@ class AppServiceProvider extends ServiceProvider
         Gate::policy(Business::class, BusinessPolicy::class);
 
         // Register event listeners
+        Event::listen(MemberInvitedEvent::class, SendMemberInvitationListener::class);
         Event::listen(NewDeviceDetectedEvent::class, NewDeviceDetectedListener::class);
         Event::listen(UserRegisteredEvent::class, SendUserRegisteredNotificationListener::class);
         Event::listen(PasswordResetRequestedEvent::class, SendPasswordResetNotificationListener::class);

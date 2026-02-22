@@ -5,10 +5,9 @@ declare(strict_types=1);
 namespace Domain\Business\Events;
 
 use App\Core\Events\BaseEvent;
-use Domain\Auth\Data\MemberInvitedData;
-use Domain\Auth\Models\User;
+use Domain\Business\Data\MemberInvitedData;
 
-class InvitedMemberEvent extends BaseEvent
+class MemberInvitedEvent extends BaseEvent
 {
     public function __construct(
         public readonly MemberInvitedData $data,

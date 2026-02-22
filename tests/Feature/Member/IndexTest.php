@@ -8,7 +8,6 @@ use Domain\Auth\Models\User;
 use Domain\Business\Enums\PermissionEnum;
 use Domain\Business\Models\Business;
 use Domain\Business\Models\Member;
-use Domain\Business\Models\Permission;
 use Domain\Business\Models\Role;
 
 use function Pest\Laravel\getJson;
@@ -22,11 +21,11 @@ beforeEach(function () {
 // --- AUTH MIDDLEWARE ---
 
 it('rejects unauthenticated request', function () {
-    getJson(route('businesses.index'))->assertUnauthorized();
+    getJson(route('businesses.members.index',$this->business))->assertUnauthorized();
 });
 
 it('rejects refresh token on businesses index route', function () {
-    getJson(route('businesses.index'), [
+    getJson(route('businesses.members.index',$this->business), [
         'Authorization' => 'Bearer '.refreshToken($this->user),
     ])->assertForbidden();
 });
@@ -48,17 +47,7 @@ it('forbids members index when member has no members.view permission', function 
 });
 
 it('allows members index when member has members.view permission', function () {
-    $permission = Permission::factory()->create([
-        'can' => PermissionEnum::MEMBERS_VIEW->value,
-        'category' => 'members',
-        'category_label' => 'Membres',
-        'display_name' => 'Voir les membres',
-    ]);
-
-    $role = Role::factory()->withBusiness($this->business)->create();
-    $role->permissions()->attach($permission);
-
-    Member::factory()->withUser($this->user)->withBusiness($this->business)->withRole($role)->active()->create();
+    authorizeUser($this->user, $this->business, PermissionEnum::MEMBERS_VIEW);
 
     getJson(route('businesses.members.index', $this->business), [
         'Authorization' => 'Bearer '.accessToken($this->user),
@@ -68,12 +57,7 @@ it('allows members index when member has members.view permission', function () {
 // --- VALIDATION ---
 
 it('rejects invalid order value on members index', function () {
-    $permission = Permission::factory()->create([
-        'can' => PermissionEnum::MEMBERS_VIEW->value,
-    ]);
-    $role = Role::factory()->withBusiness($this->business)->create();
-    $role->permissions()->attach($permission);
-    Member::factory()->withUser($this->user)->withBusiness($this->business)->withRole($role)->active()->create();
+    authorizeUser($this->user, $this->business, PermissionEnum::MEMBERS_VIEW);
 
     getJson(route('businesses.members.index', $this->business).'?order=invalid', [
         'Authorization' => 'Bearer '.accessToken($this->user),
@@ -82,12 +66,7 @@ it('rejects invalid order value on members index', function () {
 });
 
 it('rejects non-integer per_page on members index', function () {
-    $permission = Permission::factory()->create([
-        'can' => PermissionEnum::MEMBERS_VIEW->value,
-    ]);
-    $role = Role::factory()->withBusiness($this->business)->create();
-    $role->permissions()->attach($permission);
-    Member::factory()->withUser($this->user)->withBusiness($this->business)->withRole($role)->active()->create();
+    authorizeUser($this->user, $this->business, PermissionEnum::MEMBERS_VIEW);
 
     getJson(route('businesses.members.index', $this->business).'?per_page=abc', [
         'Authorization' => 'Bearer '.accessToken($this->user),
@@ -96,12 +75,7 @@ it('rejects non-integer per_page on members index', function () {
 });
 
 it('rejects per_page less than 1 on members index', function () {
-    $permission = Permission::factory()->create([
-        'can' => PermissionEnum::MEMBERS_VIEW->value,
-    ]);
-    $role = Role::factory()->withBusiness($this->business)->create();
-    $role->permissions()->attach($permission);
-    Member::factory()->withUser($this->user)->withBusiness($this->business)->withRole($role)->active()->create();
+    authorizeUser($this->user, $this->business, PermissionEnum::MEMBERS_VIEW);
 
     getJson(route('businesses.members.index', $this->business).'?per_page=0', [
         'Authorization' => 'Bearer '.accessToken($this->user),
@@ -110,12 +84,7 @@ it('rejects per_page less than 1 on members index', function () {
 });
 
 it('rejects page less than 1 on members index', function () {
-    $permission = Permission::factory()->create([
-        'can' => PermissionEnum::MEMBERS_VIEW->value,
-    ]);
-    $role = Role::factory()->withBusiness($this->business)->create();
-    $role->permissions()->attach($permission);
-    Member::factory()->withUser($this->user)->withBusiness($this->business)->withRole($role)->active()->create();
+    authorizeUser($this->user, $this->business, PermissionEnum::MEMBERS_VIEW);
 
     getJson(route('businesses.members.index', $this->business).'?page=0', [
         'Authorization' => 'Bearer '.accessToken($this->user),
@@ -126,12 +95,7 @@ it('rejects page less than 1 on members index', function () {
 // --- BEHAVIOR ---
 
 it('returns 200 with paginated structure on members index', function () {
-    $permission = Permission::factory()->create([
-        'can' => PermissionEnum::MEMBERS_VIEW->value,
-    ]);
-    $role = Role::factory()->withBusiness($this->business)->create();
-    $role->permissions()->attach($permission);
-    Member::factory()->withUser($this->user)->withBusiness($this->business)->withRole($role)->active()->create();
+    authorizeUser($this->user, $this->business, PermissionEnum::MEMBERS_VIEW);
 
     getJson(route('businesses.members.index', $this->business), [
         'Authorization' => 'Bearer '.accessToken($this->user),
@@ -144,12 +108,7 @@ it('returns 200 with paginated structure on members index', function () {
 });
 
 it('returns only members of the requested business', function () {
-    $permission = Permission::factory()->create([
-        'can' => PermissionEnum::MEMBERS_VIEW->value,
-    ]);
-    $role = Role::factory()->withBusiness($this->business)->create();
-    $role->permissions()->attach($permission);
-    $authorizedMember = Member::factory()->withUser($this->user)->withBusiness($this->business)->withRole($role)->active()->create();
+    authorizeUser($this->user, $this->business, PermissionEnum::MEMBERS_VIEW);
 
     $otherBusiness = Business::factory()->withOrganisation()->withBusinessType()->create();
     $otherMember = Member::factory()
@@ -163,18 +122,14 @@ it('returns only members of the requested business', function () {
     ])->assertOk();
 
     $ids = collect($response->json('data'))->pluck('id');
+    $authorizedMember = Member::where('user_id', $this->user->id)->where('business_id', $this->business->id)->first();
 
     expect($ids)->toContain($authorizedMember->id)
         ->and($ids)->not->toContain($otherMember->id);
 });
 
 it('respects per_page pagination on members index', function () {
-    $permission = Permission::factory()->create([
-        'can' => PermissionEnum::MEMBERS_VIEW->value,
-    ]);
-    $role = Role::factory()->withBusiness($this->business)->create();
-    $role->permissions()->attach($permission);
-    Member::factory()->withUser($this->user)->withBusiness($this->business)->withRole($role)->active()->create();
+    authorizeUser($this->user, $this->business, PermissionEnum::MEMBERS_VIEW);
 
     for ($i = 0; $i < 4; $i++) {
         Member::factory()->withBusiness($this->business)->withUser(User::factory()->create())->active()->create();
@@ -190,12 +145,7 @@ it('respects per_page pagination on members index', function () {
 });
 
 it('filters members by name with filter_query', function () {
-    $permission = Permission::factory()->create([
-        'can' => PermissionEnum::MEMBERS_VIEW->value,
-    ]);
-    $role = Role::factory()->withBusiness($this->business)->create();
-    $role->permissions()->attach($permission);
-    Member::factory()->withUser($this->user)->withBusiness($this->business)->withRole($role)->active()->create();
+    authorizeUser($this->user, $this->business, PermissionEnum::MEMBERS_VIEW);
 
     $matchingUser = User::factory()->create(['first_name' => 'Alice', 'last_name' => 'Dupont']);
     $otherUser = User::factory()->create(['first_name' => 'Bob', 'last_name' => 'Martin']);

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Modules\Business\Controllers;
 
 use App\Core\Controllers\BaseController;
+use App\Core\Exceptions\BusinessException;
 use App\Core\Resources\BaseAnonymousCollection;
 use App\Modules\Business\Requests\IndexMemberRequest;
 use App\Modules\Business\Requests\InviteMemberRequest;
@@ -23,6 +24,9 @@ final class MemberController extends BaseController
         return MemberResource::collection($memberPaginated);
     }
 
+    /**
+     * @throws BusinessException
+     */
     public function store(InviteMemberRequest $request, Business $business, InviteMemberAction $inviteMemberAction): MemberResource
     {
         $memberInvited = $inviteMemberAction->handle($request->toDto(), $business);

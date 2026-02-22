@@ -6,13 +6,28 @@ namespace App\Core\Exceptions;
 
 use Exception;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
-abstract class BaseException extends Exception
+class BaseException extends Exception
 {
-    public function render(): JsonResponse
+    public function __construct(
+        string $message,
+    ) {
+        parent::__construct($message);
+    }
+
+    public function render(?Request $request): ?JsonResponse
     {
-        return response()->json([
-            'message' => $this->getMessage(),
-        ], $this->getCode());
+        if ($request) {
+            return $this->renderHttp($request);
+        }
+
+        // Jobs, Cron, Command
+        return null;
+    }
+
+    public function renderHttp(Request $request): ?JsonResponse
+    {
+        return null;
     }
 }
