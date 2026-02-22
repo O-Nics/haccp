@@ -176,9 +176,12 @@ class User extends BaseAuthenticable implements MustVerifyEmail
             return null;
         }
 
+        if( $token->expires_at && $token->expires_at->isPast()) {
+            return null;
+        }
+
         /** @var Session|null */
         return $this->sessions()
-            ->where('expires_at', '>', now())
             ->where(function ($query) use ($token) {
                 $query->where('access_token_id', $token->id)
                     ->orWhere('refresh_token_id', $token->id);

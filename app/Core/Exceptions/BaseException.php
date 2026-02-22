@@ -12,8 +12,9 @@ class BaseException extends Exception
 {
     public function __construct(
         string $message,
+        int $code = 500,
     ) {
-        parent::__construct($message);
+        parent::__construct($message, $code);
     }
 
     public function render(?Request $request): ?JsonResponse
@@ -26,8 +27,10 @@ class BaseException extends Exception
         return null;
     }
 
-    public function renderHttp(Request $request): ?JsonResponse
+    public function renderHttp(Request $request): JsonResponse
     {
-        return null;
+        return response()->json([
+            'message' => $this->getMessage(),
+        ])->setStatusCode($this->getCode() ?: 500);
     }
 }
