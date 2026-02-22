@@ -6,13 +6,13 @@ namespace App\Modules\Business\Requests;
 
 use App\Core\Requests\BaseFormRequest;
 use Domain\Business\Data\IndexMemberData;
+use Domain\Business\Models\Business;
 
 class IndexMemberRequest extends BaseFormRequest
 {
     public function rules(): array
     {
         return [
-            'business_id' => ['required', 'integer', 'exists:businesses,id'],
             'filter_query' => ['sometimes', 'nullable', 'string'],
             'sort' => ['sometimes', 'nullable', 'string'],
             'order' => ['sometimes', 'nullable', 'string', 'in:asc,desc'],
@@ -24,7 +24,6 @@ class IndexMemberRequest extends BaseFormRequest
     public function toDto(): IndexMemberData
     {
         return new IndexMemberData(
-            businessId: $this->input('business_id'),
             filterQuery: $this->input('filter_query'),
             sort: $this->input('sort') ?? 'created_at',
             order: $this->input('order') ?? 'asc',

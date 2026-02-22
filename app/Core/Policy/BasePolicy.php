@@ -13,7 +13,7 @@ class BasePolicy
 {
     protected function hasPermission(User $user, Business $business, PermissionEnum $permission): Response
     {
-        $user->memberOf($business)?->hasPermission($permission)
+        return $user->memberOf($business)?->hasPermission($permission)
             ? $this->allow()
             : $this->deny("Vous n'avez pas la permission de faire cette action.");
     }

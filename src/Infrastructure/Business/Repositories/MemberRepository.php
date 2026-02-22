@@ -7,6 +7,7 @@ namespace Infrastructure\Business\Repositories;
 use App\Core\Repositories\BaseRepository;
 use Domain\Business\Data\IndexMemberData;
 use Domain\Business\Interfaces\MemberRepositoryInterface;
+use Domain\Business\Models\Business;
 use Domain\Business\Models\Member;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
@@ -14,10 +15,10 @@ final readonly class MemberRepository extends BaseRepository implements MemberRe
 {
     public function __construct(private Member $model) {}
 
-    public function indexPaginated(IndexMemberData $data, ?array $relations = []): LengthAwarePaginator
+    public function indexPaginated(IndexMemberData $data, Business $business, ?array $relations = []): LengthAwarePaginator
     {
         return $this->model->query()
-            ->where('business_id', $data->businessId)
+            ->where('business_id', $business->id)
             ->with($relations)
             ->whereHas('user', function ($query) use ($data) {
                 if ($data->filterQuery) {

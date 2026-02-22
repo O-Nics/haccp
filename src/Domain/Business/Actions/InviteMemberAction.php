@@ -8,6 +8,7 @@ use App\Core\Actions\BaseAction;
 use Domain\Auth\Data\StoreUserData;
 use Domain\Auth\Interfaces\UserRepositoryInterface;
 use Domain\Business\Data\InviteMemberData;
+use Domain\Business\Models\Business;
 use Domain\Business\Models\Member;
 use Illuminate\Support\Str;
 
@@ -17,7 +18,7 @@ final readonly class InviteMemberAction extends BaseAction
         private UserRepositoryInterface $userRepository,
     ) {}
 
-    public function handle(InviteMemberData $data): Member
+    public function handle(InviteMemberData $data, Business $business): Member
     {
         $user = $this->userRepository->findByEmail($data->email);
 
@@ -31,7 +32,7 @@ final readonly class InviteMemberAction extends BaseAction
         }
 
         $existing = Member::query()
-            ->where('business_id', $data->businessId)
+            ->where('business_id', $business->id)
             ->where('user_id', $user->id)
             ->first();
 

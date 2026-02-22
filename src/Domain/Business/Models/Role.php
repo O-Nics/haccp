@@ -61,7 +61,7 @@ use Eloquent;
  */
 class Role extends BaseModel
 {
-    use HasFactory, HasUuids, SoftDeletes;
+    use HasFactory, HasUuids;
 
     protected static function newFactory(): RoleFactory
     {

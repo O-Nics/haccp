@@ -15,15 +15,18 @@ class PermissionFactory extends Factory
 {
     protected $model = Permission::class;
 
+
     public function definition(): array
     {
-        $displayName = fake()->unique()->words(2, true);
-        $name = Str::snake($displayName);
+        $category = $this->faker->word();
+        $action = $this->faker->randomElement(['view', 'create', 'update', 'delete']);
+        $can = "{$action}-{$category}";
 
         return [
-            'name' => $name,
-            'display_name' => ucwords($displayName),
-            'description' => fake()->optional()->sentence(),
+            'can' => $can,
+            'category' => $category,
+            'category_label' => Str::title($category),
+            'display_name' => Str::title(str_replace('-', ' ', $can)),
         ];
     }
 }

@@ -12,7 +12,6 @@ class IndexRoleRequest extends BaseFormRequest
     public function rules(): array
     {
         return [
-            'business_id' => ['required', 'integer', 'exists:businesses,id'],
             'filter.query' => ['sometimes', 'string', 'max:255'],
             'sort' => ['sometimes', 'string', 'in:created_at,display_name,description'],
             'order' => ['sometimes', 'string', 'in:asc,desc'],
@@ -24,7 +23,6 @@ class IndexRoleRequest extends BaseFormRequest
     public function toDto(): IndexRoleData
     {
         return new IndexRoleData(
-            businessId: $this->input('business_id'),
             filterQuery: $this->input('filter_query'),
             sort: $this->input('sort') ?? 'created_at',
             order: $this->input('order'),

@@ -6,6 +6,7 @@ namespace Infrastructure\Business\Repositories;
 
 use Domain\Business\Data\IndexRoleData;
 use Domain\Business\Interfaces\RoleRepositoryInterface;
+use Domain\Business\Models\Business;
 use Domain\Business\Models\Role;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -13,11 +14,11 @@ final readonly class RoleRepository implements RoleRepositoryInterface
 {
     public function __construct(private Role $model) {}
 
-    public function indexPaginated(IndexRoleData $indexRoleData, ?array $relation = []): LengthAwarePaginator
+    public function indexPaginated(IndexRoleData $indexRoleData, Business $business, ?array $relation = []): LengthAwarePaginator
     {
         return $this->model::query()
             ->with($relation)
-            ->where('business_id', $indexRoleData->businessId)
+            ->where('business_id', $business->id)
             ->filtered($indexRoleData->filterQuery, ['display_name', 'description'])
             ->order($indexRoleData->sort, $indexRoleData->order)
             ->paginate(

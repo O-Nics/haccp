@@ -9,7 +9,6 @@ use Spatie\LaravelData\Data;
 class IndexMemberData extends Data
 {
     public function __construct(
-        public string $businessId,
         public ?string $filterQuery,
         public ?string $sort,
         public ?string $order,

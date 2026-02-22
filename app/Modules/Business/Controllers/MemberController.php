@@ -11,28 +11,22 @@ use App\Modules\Business\Requests\InviteMemberRequest;
 use App\Modules\Business\Resources\MemberResource;
 use Domain\Business\Actions\InviteMemberAction;
 use Domain\Business\Interfaces\MemberRepositoryInterface;
+use Domain\Business\Models\Business;
 use Symfony\Component\HttpFoundation\Response;
 
-/**
- * MemberController handles HTTP requests for business membership management.
- */
 final class MemberController extends BaseController
 {
-    /**
-     * List members of a business
-     */
-    public function index(IndexMemberRequest $request, MemberRepositoryInterface $memberRepository): BaseAnonymousCollection
+    public function index(IndexMemberRequest $request, Business $business, MemberRepositoryInterface $memberRepository): BaseAnonymousCollection
     {
-        $memberPaginated = $memberRepository->indexPaginated($request->toDto(),);
+        $memberPaginated = $memberRepository->indexPaginated($request->toDto(), $business);
+
         return MemberResource::collection($memberPaginated);
     }
 
-    /**
-     * Invite a user as a member of a business
-     */
-    public function store(InviteMemberRequest $request, InviteMemberAction $inviteMemberAction): MemberResource
+    public function store(InviteMemberRequest $request, Business $business, InviteMemberAction $inviteMemberAction): MemberResource
     {
-        $memberInvited = $inviteMemberAction->handle($request->toDto());
+        $memberInvited = $inviteMemberAction->handle($request->toDto(), $business);
+
         return new MemberResource($memberInvited)->status(Response::HTTP_CREATED);
     }
 }

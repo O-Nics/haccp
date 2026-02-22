@@ -9,7 +9,6 @@ use Spatie\LaravelData\Data;
 class InviteMemberData extends Data
 {
     public function __construct(
-        public string $businessId,
         public string $email,
         public string $firstName,
         public string $lastName,
