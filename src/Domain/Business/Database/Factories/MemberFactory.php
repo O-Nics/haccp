@@ -67,26 +67,30 @@ class MemberFactory extends Factory
 
     public function invited(): static
     {
-        return $this->state(fn (array $attributes) => [
-            'status' => 'invited',
-            'invited_at' => now(),
-            'joined_at' => null,
-        ]);
+        return $this->state(function (array $attributes): array {
+            return [
+                'status' => 'invited',
+                'invited_at' => now(),
+                'joined_at' => null,
+            ];
+        });
     }
 
     public function active(): static
     {
-        return $this->state(fn (array $attributes) => [
-            'status' => 'active',
-            'invited_at' => now()->subDays(7),
-            'joined_at' => now(),
-        ]);
+        return $this->state(function (array $attributes): array {
+            return [
+                'status' => 'active',
+                'invited_at' => now()->subDays(7),
+                'joined_at' => now(),
+            ];
+        });
     }
 
     public function inactive(): static
     {
-        return $this->state(fn (array $attributes) => [
-            'status' => 'inactive',
-        ]);
+        return $this->state(function (array $attributes): array {
+            return ['status' => 'inactive'];
+        });
     }
 }

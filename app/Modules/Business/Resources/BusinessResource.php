@@ -19,8 +19,9 @@ class BusinessResource extends BaseJsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'status' => $this->pivot->status,
-            'role' => $this->pivot != null ? new BusinessRoleResource($this->pivot->role) : null,
+
+            // Relationships
+            'members' => $this->whenLoaded('members', MemberResource::collection($this->members)),
         ];
     }
 }

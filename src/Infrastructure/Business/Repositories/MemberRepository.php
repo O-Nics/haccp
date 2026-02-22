@@ -18,7 +18,7 @@ final readonly class MemberRepository extends BaseRepository implements MemberRe
     {
         return $this->model->query()
             ->where('business_id', $data->businessId)
-            ->with(array_merge(['user'], $relations))
+            ->with($relations)
             ->whereHas('user', function ($query) use ($data) {
                 if ($data->filterQuery) {
                     $query->where(function ($q) use ($data) {

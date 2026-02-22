@@ -9,6 +9,8 @@ use Domain\Business\Data\IndexBusinessData;
 use Domain\Business\Interfaces\BusinessRepositoryInterface;
 use Domain\Business\Models\Business;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Query\JoinClause;
 
 final readonly class BusinessRepository implements BusinessRepositoryInterface
 {
@@ -18,8 +20,8 @@ final readonly class BusinessRepository implements BusinessRepositoryInterface
     {
         return $this->model->query()
             ->with($relations)
-            ->whereHas('users', function ($query) use ($user) {
-                $query->where('users.id', $user->id);
+            ->whereHas('members', function (Builder $query) use ($user) {
+                $query->where('members.user_id', $user->id);
             })
             ->filtered($indexBusinessData->filterQuery, ['name'])
             ->order($indexBusinessData->sort, $indexBusinessData->order)

@@ -38,8 +38,8 @@ class DeviceFactory extends Factory
 
     public function rememberMe(): static
     {
-        return $this->state(fn (array $attributes) => [
-            'remember_me' => true,
-        ]);
+        return $this->state(function (array $attributes): array {
+            return ['remember_me' => true];
+        });
     }
 }

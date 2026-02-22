@@ -43,48 +43,58 @@ class NotificationSentFactory extends Factory
 
     public function sent(): static
     {
-        return $this->state(fn (array $attributes) => [
-            'status' => NotificationSentStatus::Sent,
-            'error_message' => null,
-        ]);
+        return $this->state(function (array $attributes): array {
+            return [
+                'status' => NotificationSentStatus::Sent,
+                'error_message' => null,
+            ];
+        });
     }
 
     public function error(): static
     {
-        return $this->state(fn (array $attributes) => [
-            'status' => NotificationSentStatus::Error,
-            'error_message' => fake()->sentence(),
-        ]);
+        return $this->state(function (array $attributes): array {
+            return [
+                'status' => NotificationSentStatus::Error,
+                'error_message' => fake()->sentence(),
+            ];
+        });
     }
 
     public function blocked(): static
     {
-        return $this->state(fn (array $attributes) => [
-            'status' => NotificationSentStatus::Blocked,
-            'error_message' => null,
-        ]);
+        return $this->state(function (array $attributes): array {
+            return [
+                'status' => NotificationSentStatus::Blocked,
+                'error_message' => null,
+            ];
+        });
     }
 
     public function email(): static
     {
-        return $this->state(fn (array $attributes) => [
-            'type' => NotificationChannel::Email,
-            'recipient' => fake()->email(),
-        ]);
+        return $this->state(function (array $attributes): array {
+            return [
+                'type' => NotificationChannel::Email,
+                'recipient' => fake()->email(),
+            ];
+        });
     }
 
     public function sms(): static
     {
-        return $this->state(fn (array $attributes) => [
-            'type' => NotificationChannel::Sms,
-            'recipient' => fake()->phoneNumber(),
-        ]);
+        return $this->state(function (array $attributes): array {
+            return [
+                'type' => NotificationChannel::Sms,
+                'recipient' => fake()->phoneNumber(),
+            ];
+        });
     }
 
     public function resent(): static
     {
-        return $this->state(fn (array $attributes) => [
-            'resent_at' => now(),
-        ]);
+        return $this->state(function (array $attributes): array {
+            return ['resent_at' => now()];
+        });
     }
 }

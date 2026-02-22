@@ -23,7 +23,7 @@ final class MemberController extends BaseController
      */
     public function index(IndexMemberRequest $request, MemberRepositoryInterface $memberRepository): BaseAnonymousCollection
     {
-        $memberPaginated = $memberRepository->indexPaginated($request->toDto());
+        $memberPaginated = $memberRepository->indexPaginated($request->toDto(),);
         return MemberResource::collection($memberPaginated);
     }
 

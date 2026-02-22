@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Domain\Business\Policies;
 
 use Domain\Auth\Models\User;
