@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('display_name');
             $table->tinyText('description')->nullable();
-            $table->string('color', 6)->default('232323');
+            $table->string('color', 7)->default('#000000');
 
             $table->timestamps();
 

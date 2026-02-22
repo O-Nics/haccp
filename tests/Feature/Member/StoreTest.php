@@ -113,7 +113,7 @@ it('rejects last_name exceeding max length on members store', function () {
 // --- BEHAVIOR ---
 
 it('creates a new user and member when email does not exist', function () {
-//    Notification::fake();
+    Notification::fake();
     authorizeUser($this->user, $this->business, PermissionEnum::MEMBERS_INVITE);
 
     postJson(route('businesses.members.store', $this->business), ['email' => 'newuser@test.com', 'first_name' => 'Alice', 'last_name' => 'Dupont'], [
