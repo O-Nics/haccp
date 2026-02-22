@@ -7,7 +7,8 @@ namespace Domain\Business\Enums;
 enum PermissionEnum: string
 {
     // Members
-    case MEMBERS_VIEW   = 'members.view';
+    case MEMBERS_VIEW_ANY   = 'members.view-any';
+    case MEMBERS_VIEW       = 'members.view';
     case MEMBERS_INVITE = 'members.invite';
     case MEMBERS_REMOVE = 'members.remove';
     case MEMBERS_EDIT   = 'members.edit';

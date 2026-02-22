@@ -6,6 +6,7 @@ use App\Modules\Business\Controllers\BusinessController;
 use App\Modules\Business\Controllers\MemberController;
 use App\Modules\Business\Controllers\RoleController;
 use Domain\Business\Models\Business;
+use Domain\Business\Models\Member;
 use Illuminate\Support\Facades\Route;
 
 // Businesses
@@ -21,8 +22,10 @@ Route::prefix('members')
     ->controller(MemberController::class)
     ->name('members.')
     ->group(function () {
-        Route::get('/', 'index')->name('index');
-        Route::post('/', 'store')->name('store');
+        Route::get('/', 'index')->name('index')
+        ->can('view-any', Member::class);
+        Route::post('/', 'store')->name('store')
+            ->can('create', Member::class);
     });
 
 // Roles

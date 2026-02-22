@@ -15,8 +15,10 @@ use Domain\Auth\Listeners\NewDeviceDetectedListener;
 use Domain\Auth\Listeners\SendPasswordResetConfirmedNotificationListener;
 use Domain\Auth\Listeners\SendPasswordResetNotificationListener;
 use Domain\Auth\Listeners\SendUserRegisteredNotificationListener;
-use App\Modules\Business\Policies\MemberPolicy;
+use Domain\Business\Models\Business;
 use Domain\Business\Models\Member;
+use Domain\Business\Policies\BusinessPolicy;
+use Domain\Business\Policies\MemberPolicy;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
@@ -46,6 +48,7 @@ class AppServiceProvider extends ServiceProvider
 
         // Register policies
         Gate::policy(Member::class, MemberPolicy::class);
+        Gate::policy(Business::class, BusinessPolicy::class);
 
         // Register event listeners
         Event::listen(NewDeviceDetectedEvent::class, NewDeviceDetectedListener::class);

@@ -3,64 +3,65 @@
 namespace {{ namespace }};
 
 use Illuminate\Auth\Access\Response;
+use App\Core\Policy\BasePolicy;
 use {{ namespacedModel }};
 use {{ namespacedUserModel }};
-
-class {{ class }}
+class {{ class }} extends BasePolicy
 {
     /**
      * Determine whether the user can view any models.
      */
-    public function viewAny({{ user }} $user): bool
+    public function viewAny({{ user }} $user): Response
     {
-        return false;
+        return Response::deny('You do not have permission to view any {{ model }}.');
     }
+
 
     /**
      * Determine whether the user can view the model.
      */
-    public function view({{ user }} $user, {{ model }} ${{ modelVariable }}): bool
+    public function view({{ user }} $user, {{ model }} ${{ modelVariable }}): Response
     {
-        return false;
+        return Response::deny('You do not have permission to view this {{ model }}.');
     }
 
     /**
      * Determine whether the user can create models.
      */
-    public function create({{ user }} $user): bool
+    public function create({{ user }} $user): Response
     {
-        return false;
+        return Response::deny('You do not have permission to create a {{ model }}.');
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update({{ user }} $user, {{ model }} ${{ modelVariable }}): bool
+    public function update({{ user }} $user, {{ model }} ${{ modelVariable }}): Response
     {
-        return false;
+        return Response::deny('You do not have permission to update this {{ model }}.');
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete({{ user }} $user, {{ model }} ${{ modelVariable }}): bool
+    public function delete({{ user }} $user, {{ model }} ${{ modelVariable }}): Response
     {
-        return false;
+        return Response::deny('You do not have permission to delete this {{ model }}.');
     }
 
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore({{ user }} $user, {{ model }} ${{ modelVariable }}): bool
+    public function restore({{ user }} $user, {{ model }} ${{ modelVariable }}): Response
     {
-        return false;
+        return Response::deny('You do not have permission to restore this {{ model }}.');
     }
 
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete({{ user }} $user, {{ model }} ${{ modelVariable }}): bool
+    public function forceDelete({{ user }} $user, {{ model }} ${{ modelVariable }}): Response
     {
-        return false;
+        return Response::deny('You do not have permission to permanently delete this {{ model }}.');
     }
 }
