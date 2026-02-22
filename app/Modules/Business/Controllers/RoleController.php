@@ -19,6 +19,7 @@ final class RoleController extends BaseController
     public function index(IndexRoleRequest $request, Business $business, RoleRepositoryInterface $roleRepository): BaseAnonymousCollection
     {
         $rolePaginated = $roleRepository->indexPaginated($request->toDto(), $business);
+
         return BusinessRoleResource::collection($rolePaginated);
     }
 }

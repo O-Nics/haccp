@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Domain\Business\Models;
 
 use App\Core\Models\BasePivot;
+use Domain\Business\Database\Factories\RolePermissionFactory;
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Builder;
-use Eloquent;
-use Domain\Business\Database\Factories\RolePermissionFactory;
 
 /**
  * @property-read Permission|null $permission

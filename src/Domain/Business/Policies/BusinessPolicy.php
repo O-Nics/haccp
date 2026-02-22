@@ -6,7 +6,6 @@ namespace Domain\Business\Policies;
 
 use Domain\Auth\Models\User;
 use Domain\Business\Models\Business;
-use Illuminate\Auth\Access\Response;
 
 class BusinessPolicy
 {

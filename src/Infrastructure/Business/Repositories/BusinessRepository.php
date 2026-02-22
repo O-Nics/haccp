@@ -10,7 +10,6 @@ use Domain\Business\Interfaces\BusinessRepositoryInterface;
 use Domain\Business\Models\Business;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Query\JoinClause;
 
 final readonly class BusinessRepository implements BusinessRepositoryInterface
 {

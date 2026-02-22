@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Domain\Auth\Models;
 
 use App\Core\Models\BaseModel;
+use Domain\Auth\Database\Factories\DeviceFactory;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
@@ -13,16 +14,16 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
-use Domain\Auth\Database\Factories\DeviceFactory;
 
 /**
- * @property int $id
+ * @property string $id
  * @property string $user_id
  * @property string $device_id
  * @property string $platform
  * @property string $ip_address
  * @property string|null $model
  * @property bool $remember_me
+ * @property Carbon|null $deleted_at
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property-read Session|null $session
@@ -34,9 +35,11 @@ use Domain\Auth\Database\Factories\DeviceFactory;
  * @method static Builder<static>|Device forPeriod(?string $startAt = null, ?string $endAt = null, ?string $columnStart = 'start_at', ?string $columnEnd = 'end_at')
  * @method static Builder<static>|Device newModelQuery()
  * @method static Builder<static>|Device newQuery()
+ * @method static Builder<static>|Device onlyTrashed()
  * @method static Builder<static>|Device order(?string $sort, ?string $order)
  * @method static Builder<static>|Device query()
  * @method static Builder<static>|Device whereCreatedAt($value)
+ * @method static Builder<static>|Device whereDeletedAt($value)
  * @method static Builder<static>|Device whereDeviceId($value)
  * @method static Builder<static>|Device whereId($value)
  * @method static Builder<static>|Device whereIpAddress($value)
@@ -45,6 +48,8 @@ use Domain\Auth\Database\Factories\DeviceFactory;
  * @method static Builder<static>|Device whereRememberMe($value)
  * @method static Builder<static>|Device whereUpdatedAt($value)
  * @method static Builder<static>|Device whereUserId($value)
+ * @method static Builder<static>|Device withTrashed(bool $withTrashed = true)
+ * @method static Builder<static>|Device withoutTrashed()
  *
  * @mixin Eloquent
  */

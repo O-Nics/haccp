@@ -2569,7 +2569,9 @@ namespace PHPSTORM_META {
     override(\tap(0), type(0));
     override(\optional(0), type(0));
 
-            registerArgumentsSet('auth', );
+            registerArgumentsSet('auth', 
+'viewAny','view','create','update','delete',
+'hasPermission','check','restore','forceDelete',);
         registerArgumentsSet('configs', 
 'hashing.driver','hashing.bcrypt.rounds','hashing.bcrypt.verify','hashing.bcrypt.limit','hashing.argon.memory',
 'hashing.argon.threads','hashing.argon.time','hashing.argon.verify','hashing.rehash_on_login','concurrency.default',
@@ -2688,9 +2690,9 @@ namespace PHPSTORM_META {
 'signed','throttle','verified','abilities','ability',);
         registerArgumentsSet('routes', 
 'sanctum.csrf-cookie','health','app.init','auth.register','auth.login',
-'auth.','auth.logout','auth.check-auth','auth.password.forgot','auth.password.confirm',
-'auth.password.reset','user.show','businesses.index','members.index','members.store',
-'roles.index','storage.local','scramble.docs.ui','scramble.docs.document',);
+'auth.refresh','auth.logout','auth.check-auth','auth.password.forgot','auth.password.confirm',
+'auth.password.reset','user.show','businesses.index','businesses.members.index','businesses.members.store',
+'businesses.roles.index','storage.local','scramble.docs.ui','scramble.docs.document',);
         registerArgumentsSet('views', 
 'emails.password.confirmed','emails.password.reset','emails.passwordReset','layouts.mails','notifications::email',
 'scramble::docs','vendor.mail.html.button','vendor.mail.html.footer','vendor.mail.html.header','vendor.mail.html.layout',

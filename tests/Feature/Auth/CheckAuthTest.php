@@ -28,7 +28,7 @@ it('rejects refresh token on check-auth route', function (): void {
         'device_id' => $this->device->device_id,
         'device_platform' => $this->device->platform,
     ], [
-        'Authorization' => 'Bearer ' . refreshToken($this->user),
+        'Authorization' => 'Bearer '.refreshToken($this->user),
     ])->assertForbidden();
 });
 
@@ -36,7 +36,7 @@ it('rejects refresh token on check-auth route', function (): void {
 
 it('requires device_id and device_platform', function (): void {
     postJson(route('auth.check-auth'), [], [
-        'Authorization' => 'Bearer ' . accessToken($this->user),
+        'Authorization' => 'Bearer '.accessToken($this->user),
     ])->assertUnprocessable()
         ->assertJsonValidationErrors(['device_id', 'device_platform']);
 });
@@ -51,7 +51,7 @@ it('returns correct structure on valid check-auth', function (): void {
         'device_platform' => $this->device->platform,
         'device_model' => $this->device->model,
     ], [
-        'Authorization' => 'Bearer ' . $tokens['access'],
+        'Authorization' => 'Bearer '.$tokens['access'],
     ])->assertOk()
         ->assertJsonStructure([
             'data' => [
@@ -69,7 +69,7 @@ it('issues new tokens different from the original ones', function (): void {
         'device_platform' => $this->device->platform,
         'device_model' => $this->device->model,
     ], [
-        'Authorization' => 'Bearer ' . $tokens['access'],
+        'Authorization' => 'Bearer '.$tokens['access'],
     ])->assertOk();
 
     expect($response->json('data.tokens.access.token'))->not->toBe($tokens['access'])
@@ -86,7 +86,7 @@ it('maintains single session per device after check-auth', function (): void {
         'device_platform' => $this->device->platform,
         'device_model' => $this->device->model,
     ], [
-        'Authorization' => 'Bearer ' . $tokens['access'],
+        'Authorization' => 'Bearer '.$tokens['access'],
     ])->assertOk();
 
     expect(Session::query()->where('user_id', $this->user->id)->count())->toBe($sessionsBefore);

@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace Domain\Auth\Models;
 
 use App\Core\Models\BaseModel;
+use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
-use Eloquent;
 
 /**
- * @property int $id
+ * @property string $id
  * @property string $email
  * @property string $token
  * @property Carbon $expires_at

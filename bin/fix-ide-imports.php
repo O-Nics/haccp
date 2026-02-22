@@ -12,7 +12,7 @@ declare(strict_types=1);
  * Usage: php bin/fix-ide-imports.php [directories...]
  * Default directories: app, src/Domain
  */
-$directories = array_slice($argv, 1) ?: ['app', 'src/Domain','tests'];
+$directories = array_slice($argv, 1) ?: ['app', 'src/Domain', 'tests'];
 $basePath = dirname(__DIR__);
 $fixed = 0;
 
@@ -91,6 +91,7 @@ function fixFile(string $filePath): bool
         // Same namespace — will be replaced, no import needed
         if ($fqcnNamespace !== '' && $fqcnNamespace === $fileNamespace) {
             $importMap[$shortName] = $fqcn;
+
             continue;
         }
 
@@ -98,6 +99,7 @@ function fixFile(string $filePath): bool
         if ($fqcnNamespace === '') {
             $newImports[$shortName] = $fqcn;
             $importMap[$shortName] = $fqcn;
+
             continue;
         }
 
@@ -119,7 +121,7 @@ function fixFile(string $filePath): bool
 
         // Replace \FQCN — preceded by non-word char, NOT inside `use` or `namespace` lines
         $modified = preg_replace_callback(
-            '/^(.*?)(?<=[^a-zA-Z0-9_\\\\])\\\\' . $escaped . '(?![a-zA-Z0-9_\\\\])/m',
+            '/^(.*?)(?<=[^a-zA-Z0-9_\\\\])\\\\'.$escaped.'(?![a-zA-Z0-9_\\\\])/m',
             function (array $match) use ($shortName) {
                 $prefix = $match[1];
 
@@ -128,7 +130,7 @@ function fixFile(string $filePath): bool
                     return $match[0];
                 }
 
-                return $prefix . $shortName;
+                return $prefix.$shortName;
             },
             $modified
         );
@@ -146,7 +148,7 @@ function fixFile(string $filePath): bool
                 $importLines .= "\nuse {$fqcn};";
             }
 
-            $modified = substr($modified, 0, $insertPos) . $importLines . substr($modified, $insertPos);
+            $modified = substr($modified, 0, $insertPos).$importLines.substr($modified, $insertPos);
         }
     }
 
@@ -156,7 +158,7 @@ function fixFile(string $filePath): bool
 
     file_put_contents($filePath, $modified);
 
-    $relative = str_replace(dirname(__DIR__) . '/', '', $filePath);
+    $relative = str_replace(dirname(__DIR__).'/', '', $filePath);
     echo "  Fixed: {$relative}\n";
 
     return true;

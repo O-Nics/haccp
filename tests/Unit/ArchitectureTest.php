@@ -230,7 +230,7 @@ it('no arrow functions are used in app or src code', function () {
 
     foreach ($finder as $file) {
         $content = $file->getContents();
-        $lines   = explode("\n", $content);
+        $lines = explode("\n", $content);
 
         foreach ($lines as $lineNumber => $line) {
             // skip commented lines

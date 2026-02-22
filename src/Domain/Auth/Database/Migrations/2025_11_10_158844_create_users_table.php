@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('last_name');
             $table->string('email')->unique();
             $table->string('password');
+            $table->boolean('temporary_password')->default(false);
             $table->string('pin_code', 6)->nullable();
             $table->string('local')->default('fr_FR');
 

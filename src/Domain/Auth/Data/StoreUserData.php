@@ -13,5 +13,6 @@ class StoreUserData extends Data
         public string $lastName,
         public string $email,
         public string $password,
+        public bool $temporaryPassword = false,
     ) {}
 }

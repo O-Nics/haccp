@@ -6,19 +6,19 @@ namespace Domain\Business\Models;
 
 use App\Core\Models\BaseModel;
 use Domain\Business\Database\Factories\BusinessFactory;
+use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
-use Illuminate\Database\Eloquent\Collection;
-use Eloquent;
 
 /**
- * @property int $id
- * @property int $business_type_id
+ * @property string $id
+ * @property string $business_type_id
  * @property string $name
  * @property string $organisation_id
  * @property string $address

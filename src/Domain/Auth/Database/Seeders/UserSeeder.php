@@ -6,7 +6,6 @@ namespace Domain\Auth\Database\Seeders;
 
 use Domain\Auth\Models\User;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
 {

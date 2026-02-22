@@ -13,6 +13,5 @@ interface BusinessRepositoryInterface
 {
     public function findById(int|string $id, ?array $relations = []): ?Business;
 
-
     public function indexBusinessPaginated(User $user, IndexBusinessData $indexBusinessData, ?array $relations = []): LengthAwarePaginator;
 }

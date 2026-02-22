@@ -24,36 +24,36 @@ it('rejects unauthenticated request', function () {
 
 it('rejects refresh token on businesses index route', function () {
     getJson(route('businesses.index'), [
-        'Authorization' => 'Bearer ' . refreshToken($this->user),
+        'Authorization' => 'Bearer '.refreshToken($this->user),
     ])->assertForbidden();
 });
 
 // --- VALIDATION ---
 
 it('rejects invalid order value', function () {
-    getJson(route('businesses.index') . '?order=invalid', [
-        'Authorization' => 'Bearer ' . accessToken($this->user),
+    getJson(route('businesses.index').'?order=invalid', [
+        'Authorization' => 'Bearer '.accessToken($this->user),
     ])->assertUnprocessable()
         ->assertJsonValidationErrors(['order']);
 });
 
 it('rejects non-integer per_page', function () {
-    getJson(route('businesses.index') . '?per_page=abc', [
-        'Authorization' => 'Bearer ' . accessToken($this->user),
+    getJson(route('businesses.index').'?per_page=abc', [
+        'Authorization' => 'Bearer '.accessToken($this->user),
     ])->assertUnprocessable()
         ->assertJsonValidationErrors(['per_page']);
 });
 
 it('rejects per_page less than 1', function () {
-    getJson(route('businesses.index') . '?per_page=0', [
-        'Authorization' => 'Bearer ' . accessToken($this->user),
+    getJson(route('businesses.index').'?per_page=0', [
+        'Authorization' => 'Bearer '.accessToken($this->user),
     ])->assertUnprocessable()
         ->assertJsonValidationErrors(['per_page']);
 });
 
 it('rejects page less than 1', function () {
-    getJson(route('businesses.index') . '?page=0', [
-        'Authorization' => 'Bearer ' . accessToken($this->user),
+    getJson(route('businesses.index').'?page=0', [
+        'Authorization' => 'Bearer '.accessToken($this->user),
     ])->assertUnprocessable()
         ->assertJsonValidationErrors(['page']);
 });
@@ -62,12 +62,12 @@ it('rejects page less than 1', function () {
 
 it('returns 200 with paginated structure', function () {
     getJson(route('businesses.index'), [
-        'Authorization' => 'Bearer ' . accessToken($this->user),
+        'Authorization' => 'Bearer '.accessToken($this->user),
     ])->assertOk()
         ->assertJsonStructure([
             'data',
             'links' => ['first', 'last', 'prev', 'next'],
-            'meta'  => ['current_page', 'per_page', 'total'],
+            'meta' => ['current_page', 'per_page', 'total'],
         ]);
 });
 
@@ -78,7 +78,7 @@ it('returns only businesses the user is a member of', function () {
     $otherBusiness = Business::factory()->withBusinessType()->withOrganisation()->create();
 
     $response = getJson(route('businesses.index'), [
-        'Authorization' => 'Bearer ' . accessToken($this->user),
+        'Authorization' => 'Bearer '.accessToken($this->user),
     ])->assertOk();
 
     $ids = collect($response->json('data'))->pluck('id');
@@ -92,11 +92,11 @@ it('returns correct structure for each business', function () {
     Member::factory()->withUser($this->user)->withBusiness($business)->active()->create();
 
     getJson(route('businesses.index'), [
-        'Authorization' => 'Bearer ' . accessToken($this->user),
+        'Authorization' => 'Bearer '.accessToken($this->user),
     ])->assertOk()
         ->assertJsonStructure([
             'data' => [
-                '*' => ['id', 'name','members'],
+                '*' => ['id', 'name', 'members'],
             ],
         ]);
 });
@@ -107,7 +107,7 @@ it('returns only user member', function () {
     Member::factory()->withUser(User::factory()->create())->withBusiness($business)->active()->create();
 
     getJson(route('businesses.index'), [
-        'Authorization' => 'Bearer ' . accessToken($this->user),
+        'Authorization' => 'Bearer '.accessToken($this->user),
     ])->assertOk()
         ->assertJsonCount(1, 'data.0.members')
         ->assertJsonPath('data.0.members.0.user.id', $this->user->id);
@@ -117,7 +117,7 @@ it('returns empty list when user has no memberships', function () {
     Business::factory()->withBusinessType()->withOrganisation()->create();
 
     $response = getJson(route('businesses.index'), [
-        'Authorization' => 'Bearer ' . accessToken($this->user),
+        'Authorization' => 'Bearer '.accessToken($this->user),
     ])->assertOk();
 
     expect($response->json('data'))->toBeEmpty();
@@ -125,13 +125,13 @@ it('returns empty list when user has no memberships', function () {
 
 it('filters businesses by name with filter_query', function () {
     $matching = Business::factory()->withBusinessType()->withOrganisation()->create(['name' => 'Pizza Palace']);
-    $other    = Business::factory()->withBusinessType()->withOrganisation()->create(['name' => 'Burger Barn']);
+    $other = Business::factory()->withBusinessType()->withOrganisation()->create(['name' => 'Burger Barn']);
 
     Member::factory()->withUser($this->user)->withBusiness($matching)->active()->create();
     Member::factory()->withUser($this->user)->withBusiness($other)->active()->create();
 
-    $response = getJson(route('businesses.index') . '?filter_query=Pizza', [
-        'Authorization' => 'Bearer ' . accessToken($this->user),
+    $response = getJson(route('businesses.index').'?filter_query=Pizza', [
+        'Authorization' => 'Bearer '.accessToken($this->user),
     ])->assertOk();
 
     $ids = collect($response->json('data'))->pluck('id');
@@ -147,8 +147,8 @@ it('respects per_page pagination', function () {
         Member::factory()->withUser($this->user)->withBusiness($business)->active()->create();
     }
 
-    $response = getJson(route('businesses.index') . '?per_page=2', [
-        'Authorization' => 'Bearer ' . accessToken($this->user),
+    $response = getJson(route('businesses.index').'?per_page=2', [
+        'Authorization' => 'Bearer '.accessToken($this->user),
     ])->assertOk();
 
     expect($response->json('data'))->toHaveCount(2)

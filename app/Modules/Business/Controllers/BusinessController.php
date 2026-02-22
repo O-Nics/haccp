@@ -23,8 +23,7 @@ final class BusinessController extends BaseController
     {
         $user = auth()->user();
 
-
-        $paginatedBusinesses = $this->businessRepository->indexBusinessPaginated($user, $indexBusinessRequest->toDto(),[
+        $paginatedBusinesses = $this->businessRepository->indexBusinessPaginated($user, $indexBusinessRequest->toDto(), [
             'members' => function ($query) use ($user) {
                 return $query->where('user_id', $user->id);
             },

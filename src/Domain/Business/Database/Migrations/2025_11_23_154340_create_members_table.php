@@ -20,7 +20,7 @@ return new class extends Migration
 
             $table->timestamp('invited_at')->nullable();
             $table->timestamp('joined_at')->nullable();
-            $table->string('status')->default('invited');
+            $table->string('status');
 
             $table->timestamps();
 

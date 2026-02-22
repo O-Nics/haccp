@@ -15,7 +15,6 @@ class PermissionFactory extends Factory
 {
     protected $model = Permission::class;
 
-
     public function definition(): array
     {
         $category = $this->faker->word();

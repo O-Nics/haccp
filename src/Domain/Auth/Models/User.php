@@ -33,9 +33,9 @@ use Laravel\Sanctum\PersonalAccessToken;
  * @property string $last_name
  * @property string $email
  * @property string $password
+ * @property int $temporary_password
  * @property string|null $pin_code
  * @property string $local
- * @property string $timezone
  * @property int $notify_email
  * @property int $notify_sms
  * @property Carbon|null $email_verified_at
@@ -83,7 +83,7 @@ use Laravel\Sanctum\PersonalAccessToken;
  * @method static Builder<static>|User whereNotifySms($value)
  * @method static Builder<static>|User wherePassword($value)
  * @method static Builder<static>|User wherePinCode($value)
- * @method static Builder<static>|User whereTimezone($value)
+ * @method static Builder<static>|User whereTemporaryPassword($value)
  * @method static Builder<static>|User whereUpdatedAt($value)
  * @method static Builder<static>|User withTrashed(bool $withTrashed = true)
  * @method static Builder<static>|User withoutTrashed()

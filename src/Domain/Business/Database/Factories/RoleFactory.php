@@ -18,6 +18,7 @@ class RoleFactory extends Factory
     public function definition(): array
     {
         $name = $this->faker->unique()->word();
+
         return [
             'is_system' => false,
             'name' => $name,

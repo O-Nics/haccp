@@ -5,22 +5,23 @@ declare(strict_types=1);
 namespace Domain\Auth\Models;
 
 use App\Core\Models\BaseModel;
+use Domain\Auth\Database\Factories\SessionFactory;
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Laravel\Sanctum\PersonalAccessToken;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
-use Eloquent;
-use Domain\Auth\Database\Factories\SessionFactory;
+use Laravel\Sanctum\PersonalAccessToken;
 
 /**
- * @property int $id
- * @property int $device_id
+ * @property string $id
+ * @property string $device_id
  * @property string $user_id
  * @property int $access_token_id
  * @property int $refresh_token_id
+ * @property Carbon|null $deleted_at
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property-read PersonalAccessToken $accessToken
@@ -34,15 +35,19 @@ use Domain\Auth\Database\Factories\SessionFactory;
  * @method static Builder<static>|Session forPeriod(?string $startAt = null, ?string $endAt = null, ?string $columnStart = 'start_at', ?string $columnEnd = 'end_at')
  * @method static Builder<static>|Session newModelQuery()
  * @method static Builder<static>|Session newQuery()
+ * @method static Builder<static>|Session onlyTrashed()
  * @method static Builder<static>|Session order(?string $sort, ?string $order)
  * @method static Builder<static>|Session query()
  * @method static Builder<static>|Session whereAccessTokenId($value)
  * @method static Builder<static>|Session whereCreatedAt($value)
+ * @method static Builder<static>|Session whereDeletedAt($value)
  * @method static Builder<static>|Session whereDeviceId($value)
  * @method static Builder<static>|Session whereId($value)
  * @method static Builder<static>|Session whereRefreshTokenId($value)
  * @method static Builder<static>|Session whereUpdatedAt($value)
  * @method static Builder<static>|Session whereUserId($value)
+ * @method static Builder<static>|Session withTrashed(bool $withTrashed = true)
+ * @method static Builder<static>|Session withoutTrashed()
  *
  * @mixin Eloquent
  */

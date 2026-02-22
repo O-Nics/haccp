@@ -17,6 +17,7 @@ class BasePolicy
             ? $this->allow()
             : $this->deny("Vous n'avez pas la permission de faire cette action.");
     }
+
     protected function check(bool $condition, string $message): Response
     {
         if ($condition) {

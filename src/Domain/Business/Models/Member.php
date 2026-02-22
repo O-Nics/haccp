@@ -6,21 +6,22 @@ namespace Domain\Business\Models;
 
 use App\Core\Models\BaseModel;
 use Domain\Auth\Models\User;
+use Domain\Business\Database\Factories\MemberFactory;
+use Domain\Business\Enums\MemberStatusEnum;
 use Domain\Business\Enums\PermissionEnum;
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
-use Eloquent;
-use Domain\Business\Database\Factories\MemberFactory;
 
 /**
- * @property int $id
- * @property int $business_id
+ * @property string $id
+ * @property string $business_id
  * @property string $user_id
  * @property string|null $invited_by
- * @property int|null $role_id
+ * @property string|null $role_id
  * @property Carbon|null $invited_at
  * @property Carbon|null $joined_at
  * @property string $status
@@ -70,6 +71,7 @@ class Member extends BaseModel
         return [
             'invited_at' => 'datetime',
             'joined_at' => 'datetime',
+            'status' => MemberStatusEnum::class,
         ];
     }
 

@@ -6,18 +6,18 @@ namespace Domain\Notification\Models;
 
 use App\Core\Models\BaseModel;
 use Domain\Auth\Models\User;
+use Domain\Notification\Database\Factories\NotificationSentFactory;
 use Domain\Notification\Enums\NotificationChannel;
 use Domain\Notification\Enums\NotificationSentStatus;
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
-use Eloquent;
-use Domain\Notification\Database\Factories\NotificationSentFactory;
 
 /**
- * @property int $id
+ * @property string $id
  * @property string $user_id
  * @property string $recipient
  * @property string $name

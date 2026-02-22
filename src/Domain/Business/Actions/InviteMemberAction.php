@@ -5,9 +5,12 @@ declare(strict_types=1);
 namespace Domain\Business\Actions;
 
 use App\Core\Actions\BaseAction;
+use Domain\Auth\Data\MemberInvitedData;
 use Domain\Auth\Data\StoreUserData;
 use Domain\Auth\Interfaces\UserRepositoryInterface;
 use Domain\Business\Data\InviteMemberData;
+use Domain\Business\Enums\MemberStatusEnum;
+use Domain\Business\Events\InvitedMemberEvent;
 use Domain\Business\Models\Business;
 use Domain\Business\Models\Member;
 use Illuminate\Support\Str;
@@ -22,12 +25,17 @@ final readonly class InviteMemberAction extends BaseAction
     {
         $user = $this->userRepository->findByEmail($data->email);
 
+        $temporaryPassword = null;
+
         if (! $user) {
+            $temporaryPassword = Str::random(12);
+
             $user = $this->userRepository->store(new StoreUserData(
                 firstName: $data->firstName,
                 lastName: $data->lastName,
                 email: $data->email,
-                password: Str::random(12),
+                password: $temporaryPassword,
+                temporaryPassword: true
             ));
         }
 
@@ -41,12 +49,19 @@ final readonly class InviteMemberAction extends BaseAction
         }
 
         $member = new Member;
-        $member->business_id = $data->businessId;
+        $member->business_id = $business->id;
         $member->user_id = $user->id;
         $member->invited_by = auth()->id();
         $member->invited_at = now();
-        $member->status = 'invited';
+        $member->status = MemberStatusEnum::INVITED;
         $member->save();
+
+        event(new InvitedMemberEvent(
+            new MemberInvitedData(
+                member: $member,
+                temporaryPassword: $temporaryPassword,
+            )
+        ));
 
         return $member;
     }

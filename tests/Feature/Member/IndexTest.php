@@ -16,7 +16,7 @@ use function Pest\Laravel\getJson;
 pest()->group('business');
 
 beforeEach(function () {
-    $this->user     = User::factory()->create();
+    $this->user = User::factory()->create();
     $this->business = Business::factory()->withOrganisation()->withBusinessType()->create();
 });
 // --- AUTH MIDDLEWARE ---
@@ -27,14 +27,14 @@ it('rejects unauthenticated request', function () {
 
 it('rejects refresh token on businesses index route', function () {
     getJson(route('businesses.index'), [
-        'Authorization' => 'Bearer ' . refreshToken($this->user),
+        'Authorization' => 'Bearer '.refreshToken($this->user),
     ])->assertForbidden();
 });
 // --- POLICY ---
 
 it('forbids members index when user is not a member of the business', function () {
     getJson(route('businesses.members.index', $this->business), [
-        'Authorization' => 'Bearer ' . accessToken($this->user),
+        'Authorization' => 'Bearer '.accessToken($this->user),
     ])->assertForbidden();
 });
 
@@ -43,16 +43,16 @@ it('forbids members index when member has no members.view permission', function 
     Member::factory()->withUser($this->user)->withBusiness($this->business)->withRole($roleWithoutPermission)->active()->create();
 
     getJson(route('businesses.members.index', $this->business), [
-        'Authorization' => 'Bearer ' . accessToken($this->user),
+        'Authorization' => 'Bearer '.accessToken($this->user),
     ])->assertForbidden();
 });
 
 it('allows members index when member has members.view permission', function () {
     $permission = Permission::factory()->create([
-        'can'            => PermissionEnum::MEMBERS_VIEW->value,
-        'category'       => 'members',
+        'can' => PermissionEnum::MEMBERS_VIEW->value,
+        'category' => 'members',
         'category_label' => 'Membres',
-        'display_name'   => 'Voir les membres',
+        'display_name' => 'Voir les membres',
     ]);
 
     $role = Role::factory()->withBusiness($this->business)->create();
@@ -61,7 +61,7 @@ it('allows members index when member has members.view permission', function () {
     Member::factory()->withUser($this->user)->withBusiness($this->business)->withRole($role)->active()->create();
 
     getJson(route('businesses.members.index', $this->business), [
-        'Authorization' => 'Bearer ' . accessToken($this->user),
+        'Authorization' => 'Bearer '.accessToken($this->user),
     ])->assertOk();
 });
 
@@ -75,8 +75,8 @@ it('rejects invalid order value on members index', function () {
     $role->permissions()->attach($permission);
     Member::factory()->withUser($this->user)->withBusiness($this->business)->withRole($role)->active()->create();
 
-    getJson(route('businesses.members.index', $this->business) . '?order=invalid', [
-        'Authorization' => 'Bearer ' . accessToken($this->user),
+    getJson(route('businesses.members.index', $this->business).'?order=invalid', [
+        'Authorization' => 'Bearer '.accessToken($this->user),
     ])->assertUnprocessable()
         ->assertJsonValidationErrors(['order']);
 });
@@ -89,8 +89,8 @@ it('rejects non-integer per_page on members index', function () {
     $role->permissions()->attach($permission);
     Member::factory()->withUser($this->user)->withBusiness($this->business)->withRole($role)->active()->create();
 
-    getJson(route('businesses.members.index', $this->business) . '?per_page=abc', [
-        'Authorization' => 'Bearer ' . accessToken($this->user),
+    getJson(route('businesses.members.index', $this->business).'?per_page=abc', [
+        'Authorization' => 'Bearer '.accessToken($this->user),
     ])->assertUnprocessable()
         ->assertJsonValidationErrors(['per_page']);
 });
@@ -103,8 +103,8 @@ it('rejects per_page less than 1 on members index', function () {
     $role->permissions()->attach($permission);
     Member::factory()->withUser($this->user)->withBusiness($this->business)->withRole($role)->active()->create();
 
-    getJson(route('businesses.members.index', $this->business) . '?per_page=0', [
-        'Authorization' => 'Bearer ' . accessToken($this->user),
+    getJson(route('businesses.members.index', $this->business).'?per_page=0', [
+        'Authorization' => 'Bearer '.accessToken($this->user),
     ])->assertUnprocessable()
         ->assertJsonValidationErrors(['per_page']);
 });
@@ -117,8 +117,8 @@ it('rejects page less than 1 on members index', function () {
     $role->permissions()->attach($permission);
     Member::factory()->withUser($this->user)->withBusiness($this->business)->withRole($role)->active()->create();
 
-    getJson(route('businesses.members.index', $this->business) . '?page=0', [
-        'Authorization' => 'Bearer ' . accessToken($this->user),
+    getJson(route('businesses.members.index', $this->business).'?page=0', [
+        'Authorization' => 'Bearer '.accessToken($this->user),
     ])->assertUnprocessable()
         ->assertJsonValidationErrors(['page']);
 });
@@ -134,12 +134,12 @@ it('returns 200 with paginated structure on members index', function () {
     Member::factory()->withUser($this->user)->withBusiness($this->business)->withRole($role)->active()->create();
 
     getJson(route('businesses.members.index', $this->business), [
-        'Authorization' => 'Bearer ' . accessToken($this->user),
+        'Authorization' => 'Bearer '.accessToken($this->user),
     ])->assertOk()
         ->assertJsonStructure([
             'data',
             'links' => ['first', 'last', 'prev', 'next'],
-            'meta'  => ['current_page', 'per_page', 'total'],
+            'meta' => ['current_page', 'per_page', 'total'],
         ]);
 });
 
@@ -152,14 +152,14 @@ it('returns only members of the requested business', function () {
     $authorizedMember = Member::factory()->withUser($this->user)->withBusiness($this->business)->withRole($role)->active()->create();
 
     $otherBusiness = Business::factory()->withOrganisation()->withBusinessType()->create();
-    $otherMember   = Member::factory()
+    $otherMember = Member::factory()
         ->withUser(User::factory()->create())
         ->withBusiness($otherBusiness)
         ->active()
         ->create();
 
     $response = getJson(route('businesses.members.index', $this->business), [
-        'Authorization' => 'Bearer ' . accessToken($this->user),
+        'Authorization' => 'Bearer '.accessToken($this->user),
     ])->assertOk();
 
     $ids = collect($response->json('data'))->pluck('id');
@@ -180,8 +180,8 @@ it('respects per_page pagination on members index', function () {
         Member::factory()->withBusiness($this->business)->withUser(User::factory()->create())->active()->create();
     }
 
-    $response = getJson(route('businesses.members.index', $this->business) . '?per_page=2', [
-        'Authorization' => 'Bearer ' . accessToken($this->user),
+    $response = getJson(route('businesses.members.index', $this->business).'?per_page=2', [
+        'Authorization' => 'Bearer '.accessToken($this->user),
     ])->assertOk();
 
     expect($response->json('data'))->toHaveCount(2)
@@ -198,13 +198,13 @@ it('filters members by name with filter_query', function () {
     Member::factory()->withUser($this->user)->withBusiness($this->business)->withRole($role)->active()->create();
 
     $matchingUser = User::factory()->create(['first_name' => 'Alice', 'last_name' => 'Dupont']);
-    $otherUser    = User::factory()->create(['first_name' => 'Bob', 'last_name' => 'Martin']);
+    $otherUser = User::factory()->create(['first_name' => 'Bob', 'last_name' => 'Martin']);
 
     Member::factory()->withUser($matchingUser)->withBusiness($this->business)->active()->create();
     Member::factory()->withUser($otherUser)->withBusiness($this->business)->active()->create();
 
-    $response = getJson(route('businesses.members.index', $this->business) . '?filter_query=Alice', [
-        'Authorization' => 'Bearer ' . accessToken($this->user),
+    $response = getJson(route('businesses.members.index', $this->business).'?filter_query=Alice', [
+        'Authorization' => 'Bearer '.accessToken($this->user),
     ])->assertOk();
 
     $ids = collect($response->json('data'))->pluck('id');

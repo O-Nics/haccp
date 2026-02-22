@@ -6,8 +6,8 @@ namespace App\Core\Middlewares;
 
 use Closure;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Str;
+use Symfony\Component\HttpFoundation\Response;
 
 class EnforceExpectsJson
 {

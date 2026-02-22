@@ -6,7 +6,6 @@ namespace App\Modules\Business\Requests;
 
 use App\Core\Requests\BaseFormRequest;
 use Domain\Business\Data\InviteMemberData;
-use Domain\Business\Models\Business;
 
 class InviteMemberRequest extends BaseFormRequest
 {

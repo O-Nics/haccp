@@ -23,7 +23,7 @@ it('rejects unauthenticated request', function (): void {
 
 it('rejects refresh token on logout route', function (): void {
     postJson(route('auth.logout'), [], [
-        'Authorization' => 'Bearer ' . refreshToken($this->user),
+        'Authorization' => 'Bearer '.refreshToken($this->user),
     ])->assertForbidden();
 });
 
@@ -33,7 +33,7 @@ it('returns 204 on successful logout', function (): void {
     $tokens = loginViaApi($this->user);
 
     postJson(route('auth.logout'), [], [
-        'Authorization' => 'Bearer ' . $tokens['access'],
+        'Authorization' => 'Bearer '.$tokens['access'],
     ])->assertNoContent();
 });
 
@@ -41,7 +41,7 @@ it('deletes session and tokens from db on logout', function (): void {
     $tokens = loginViaApi($this->user);
 
     postJson(route('auth.logout'), [], [
-        'Authorization' => 'Bearer ' . $tokens['access'],
+        'Authorization' => 'Bearer '.$tokens['access'],
     ])->assertNoContent();
 
     expect(Session::query()->where('user_id', $this->user->id)->count())->toBe(0)

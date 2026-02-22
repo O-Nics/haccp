@@ -1,0 +1,16 @@
+<?php
+
+namespace Domain\Auth\Data;
+
+use Domain\Business\Models\Member;
+use Spatie\LaravelData\Data;
+
+class MemberInvitedData extends Data
+{
+    public function __construct(
+        public readonly Member $member,
+        public readonly string $temporaryPassword,
+    ) {
+    }
+
+}

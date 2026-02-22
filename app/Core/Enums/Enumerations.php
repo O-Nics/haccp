@@ -8,13 +8,13 @@ use BackedEnum;
 use Illuminate\Support\Collection;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\In;
+use IntBackedEnum;
 use ReflectionEnum;
 use UnitEnum;
 
 use function array_column;
 use function array_rand;
 use function is_subclass_of;
-use IntBackedEnum;
 
 /**
  * @template T of BackedEnum|UnitEnum

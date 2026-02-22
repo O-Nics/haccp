@@ -6,14 +6,14 @@ namespace Domain\Business\Models;
 
 use App\Core\Models\BaseModel;
 use Domain\Auth\Models\User;
+use Domain\Business\Database\Factories\OrganisationFactory;
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
-use Eloquent;
-use Domain\Business\Database\Factories\OrganisationFactory;
 
 /**
  * @property string $id
@@ -26,6 +26,7 @@ use Domain\Business\Database\Factories\OrganisationFactory;
  * @property string|null $country
  * @property string|null $phone
  * @property string|null $email
+ * @property Carbon|null $deleted_at
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property-read User $owner
@@ -36,12 +37,14 @@ use Domain\Business\Database\Factories\OrganisationFactory;
  * @method static Builder<static>|Organisation forPeriod(?string $startAt = null, ?string $endAt = null, ?string $columnStart = 'start_at', ?string $columnEnd = 'end_at')
  * @method static Builder<static>|Organisation newModelQuery()
  * @method static Builder<static>|Organisation newQuery()
+ * @method static Builder<static>|Organisation onlyTrashed()
  * @method static Builder<static>|Organisation order(?string $sort, ?string $order)
  * @method static Builder<static>|Organisation query()
  * @method static Builder<static>|Organisation whereAddress($value)
  * @method static Builder<static>|Organisation whereCity($value)
  * @method static Builder<static>|Organisation whereCountry($value)
  * @method static Builder<static>|Organisation whereCreatedAt($value)
+ * @method static Builder<static>|Organisation whereDeletedAt($value)
  * @method static Builder<static>|Organisation whereEmail($value)
  * @method static Builder<static>|Organisation whereId($value)
  * @method static Builder<static>|Organisation whereName($value)
@@ -50,6 +53,8 @@ use Domain\Business\Database\Factories\OrganisationFactory;
  * @method static Builder<static>|Organisation wherePostalCode($value)
  * @method static Builder<static>|Organisation whereSiret($value)
  * @method static Builder<static>|Organisation whereUpdatedAt($value)
+ * @method static Builder<static>|Organisation withTrashed(bool $withTrashed = true)
+ * @method static Builder<static>|Organisation withoutTrashed()
  *
  * @mixin Eloquent
  */

@@ -6,7 +6,6 @@ namespace App\Modules\Business\Requests;
 
 use App\Core\Requests\BaseFormRequest;
 use Domain\Business\Data\IndexMemberData;
-use Domain\Business\Models\Business;
 
 class IndexMemberRequest extends BaseFormRequest
 {

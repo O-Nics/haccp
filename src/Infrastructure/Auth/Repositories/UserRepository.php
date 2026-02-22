@@ -28,6 +28,7 @@ final readonly class UserRepository extends BaseRepository implements UserReposi
         $user->last_name = $registerData->lastName;
         $user->email = $registerData->email;
         $user->password = Hash::make($registerData->password);
+        $user->temporary_password = $registerData->temporaryPassword;
         $user->save();
 
         return $user;
