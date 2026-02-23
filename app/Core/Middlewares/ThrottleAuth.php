@@ -15,7 +15,7 @@ final readonly class ThrottleAuth
         private RateLimiter $limiter
     ) {}
 
-    public function handle(Request $request, Closure $next, string $prefix = 'login', ?int $maxAttempts = null, ?int $decayMinutes = null): Response
+    public function handle(Request $request, Closure $next, string $prefix = 'login', ?int $maxAttempts = 5, ?int $decayMinutes = 1): Response
     {
         if (! app()->environment('testing')) {
             return $next($request);
@@ -25,8 +25,6 @@ final readonly class ThrottleAuth
         }
 
         $key = $this->resolveRequestSignature($request, $prefix);
-        $maxAttempts ??= config('auth.security.rate_limit.login_attempts');
-        $decayMinutes ??= config('auth.security.rate_limit.lockout_minutes');
 
         if ($this->limiter->tooManyAttempts($key, $maxAttempts)) {
             $seconds = $this->limiter->availableIn($key);

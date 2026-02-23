@@ -13,11 +13,11 @@ Route::prefix('auth')
     ->controller(AuthController::class)
     ->group(function () {
         Route::post('register', 'register')
-            ->middleware(ThrottleAuth::class.':register,5,15')
+            ->middleware(ThrottleAuth::class.':register,5,1')
             ->name('register');
 
         Route::post('login', 'login')
-            ->middleware(ThrottleAuth::class.':login')
+            ->middleware(ThrottleAuth::class.':login,5,1')
             ->name('login');
 
         Route::middleware(['auth:sanctum', 'ability:'.TokenAbilityEnum::REFRESH->value])->group(function () {
