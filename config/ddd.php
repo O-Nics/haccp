@@ -97,7 +97,7 @@ return [
     | which will be created if it doesn't already exist.
     |
     */
-    'base_model' => null,
+    'base_model' => 'App\Core\Models\BaseModel',
 
     /*
     |--------------------------------------------------------------------------

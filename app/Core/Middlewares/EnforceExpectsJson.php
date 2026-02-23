@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Core\Middlewares;
 
 use Closure;
 use Illuminate\Http\Request;
+use Str;
 use Symfony\Component\HttpFoundation\Response;
 
 class EnforceExpectsJson
@@ -11,11 +14,11 @@ class EnforceExpectsJson
     /**
      * Handle an incoming request.
      *
-     * @param  \Closure(Request): (Response)  $next
+     * @param  Closure(Request): (Response)  $next
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (! \Str::contains($request->header('Accept'), 'application/json')) {
+        if (! Str::contains($request->header('Accept'), 'application/json')) {
             $request->headers->set('Accept', 'application/json, '.$request->header('Accept'));
         }
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Core\Middlewares;
 
 use Closure;
@@ -24,7 +26,7 @@ class IdentifyRequest
 
         /** @var Response $response */
         $response = $next($request);
-        $response->headers->set(static::HeaderName, Str::uuid(), true);
+        $response->headers->set(static::HeaderName, (string) Str::uuid(), true);
 
         return $response;
     }

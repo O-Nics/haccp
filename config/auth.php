@@ -62,7 +62,7 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => env('AUTH_MODEL', App\Models\User::class),
+            'model' => env('AUTH_MODEL', \Domain\Auth\Models\User::class),
         ],
 
         // 'users' => [
@@ -137,16 +137,6 @@ return [
     */
     'password_reset' => [
         'expiration' => 60, // minutes
-    ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Device Management
-    |--------------------------------------------------------------------------
-    */
-    'devices' => [
-        'max_per_user' => (int) env('MAX_DEVICES_PER_USER', null),
-        'force_logout_oldest' => true,
     ],
 
     /*

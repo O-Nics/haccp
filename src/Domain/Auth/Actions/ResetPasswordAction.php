@@ -1,0 +1,56 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Domain\Auth\Actions;
+
+use App\Core\Actions\BaseAction;
+use Domain\Auth\Data\ResetPasswordData;
+use Domain\Auth\Events\PasswordResetCompletedEvent;
+use Domain\Auth\Exceptions\InvalidCredentialsException;
+use Domain\Auth\Interfaces\PasswordResetRepositoryInterface;
+use Domain\Auth\Interfaces\SessionRepositoryInterface;
+use Domain\Auth\Interfaces\UserRepositoryInterface;
+
+final readonly class ResetPasswordAction extends BaseAction
+{
+    public function __construct(
+        private UserRepositoryInterface $userRepository,
+        private PasswordResetRepositoryInterface $passwordResetRepository,
+        private SessionRepositoryInterface $sessionRepository,
+    ) {}
+
+    /**
+     * @throws InvalidCredentialsException
+     */
+    public function handle(ResetPasswordData $data): void
+    {
+        $resetToken = $this->passwordResetRepository->findByEmailAndToken($data->email, $data->token);
+
+        if (! $resetToken) {
+            throw new InvalidCredentialsException('Invalid reset token', 400);
+        }
+
+        if ($resetToken->isExpired()) {
+            throw new InvalidCredentialsException('Reset token has expired', 400);
+        }
+
+        if (! $resetToken->isConfirmed()) {
+            throw new InvalidCredentialsException('Reset token must be confirmed first', 400);
+        }
+
+        $user = $this->userRepository->findByEmail($data->email);
+
+        if (! $user) {
+            throw new InvalidCredentialsException('User not found', 400);
+        }
+
+        $this->userRepository->updatePassword($user, $data->password);
+
+        $this->sessionRepository->revokeAllForUser($user);
+
+        $this->passwordResetRepository->deleteAllByEmail($data->email);
+
+        event(new PasswordResetCompletedEvent($user));
+    }
+}

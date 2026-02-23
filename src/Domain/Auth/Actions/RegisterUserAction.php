@@ -1,0 +1,28 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Domain\Auth\Actions;
+
+use App\Core\Actions\BaseAction;
+use Domain\Auth\Data\AuthData;
+use Domain\Auth\Data\RegisterData;
+use Domain\Auth\Events\UserRegisteredEvent;
+use Domain\Auth\Interfaces\UserRepositoryInterface;
+
+final readonly class RegisterUserAction extends BaseAction
+{
+    public function __construct(
+        private UserRepositoryInterface $userRepository,
+        private CreateAuthSessionAction $createAuthSession,
+    ) {}
+
+    public function handle(RegisterData $registerData): AuthData
+    {
+        $user = $this->userRepository->store($registerData->storeUserData);
+
+        event(new UserRegisteredEvent($user));
+
+        return $this->createAuthSession->handle($user, $registerData->deviceInfo);
+    }
+}

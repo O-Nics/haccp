@@ -4,25 +4,26 @@ declare(strict_types=1);
 
 namespace App\Core\Providers;
 
-use App\Features\Auth\Events\NewDeviceDetectedEvent;
-use App\Features\Auth\Mails\SendNewDeviceLoginEmail;
-use App\Features\Auth\Repositories\PasswordReset\PasswordResetRepository;
-use App\Features\Auth\Repositories\PasswordReset\PasswordResetRepositoryInterface;
-use App\Features\Business\Repositories\BusinessRepository;
-use App\Features\Business\Repositories\BusinessRepositoryInterface;
-use App\Features\BusinessUser\Repositories\BusinessUserRepository;
-use App\Features\BusinessUser\Repositories\BusinessUserRepositoryInterface;
-use App\Features\Session\Repositories\Device\DeviceRepository;
-use App\Features\Session\Repositories\Device\DeviceRepositoryInterface;
-use App\Features\Session\Repositories\Session\SessionRepository;
-use App\Features\Session\Repositories\Session\SessionRepositoryInterface;
-use App\Features\User\Repositories\User\UserRepository;
-use App\Features\User\Repositories\User\UserRepositoryInterface;
 use Dedoc\Scramble\Scramble;
 use Dedoc\Scramble\Support\Generator\OpenApi;
 use Dedoc\Scramble\Support\Generator\SecurityScheme;
+use Domain\Auth\Events\NewDeviceDetectedEvent;
+use Domain\Auth\Events\PasswordResetCompletedEvent;
+use Domain\Auth\Events\PasswordResetRequestedEvent;
+use Domain\Auth\Events\UserRegisteredEvent;
+use Domain\Auth\Listeners\NewDeviceDetectedListener;
+use Domain\Auth\Listeners\SendPasswordResetConfirmedNotificationListener;
+use Domain\Auth\Listeners\SendPasswordResetNotificationListener;
+use Domain\Auth\Listeners\SendUserRegisteredNotificationListener;
+use Domain\Business\Events\MemberInvitedEvent;
+use Domain\Business\Listeners\SendMemberInvitationListener;
+use Domain\Business\Models\Business;
+use Domain\Business\Models\Member;
+use Domain\Business\Policies\BusinessPolicy;
+use Domain\Business\Policies\MemberPolicy;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -30,39 +31,7 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Register any application services.
      */
-    public function register(): void
-    {
-        // Repository bindings
-        $this->app->singleton(
-            UserRepositoryInterface::class,
-            UserRepository::class
-        );
-
-        $this->app->singleton(
-            DeviceRepositoryInterface::class,
-            DeviceRepository::class
-        );
-
-        $this->app->singleton(
-            PasswordResetRepositoryInterface::class,
-            PasswordResetRepository::class
-        );
-
-        $this->app->singleton(
-            SessionRepositoryInterface::class,
-            SessionRepository::class
-        );
-
-        $this->app->singleton(
-            BusinessUserRepositoryInterface::class,
-            BusinessUserRepository::class
-        );
-
-        $this->app->singleton(
-            BusinessRepositoryInterface::class,
-            BusinessRepository::class
-        );
-    }
+    public function register(): void {}
 
     /**
      * Bootstrap any application services.
@@ -79,8 +48,15 @@ class AppServiceProvider extends ServiceProvider
                 );
             });
 
-        // Register event listeners
-        Event::listen(NewDeviceDetectedEvent::class, SendNewDeviceLoginEmail::class);
+        // Register policies
+        Gate::policy(Member::class, MemberPolicy::class);
+        Gate::policy(Business::class, BusinessPolicy::class);
 
+        // Register event listeners
+        Event::listen(MemberInvitedEvent::class, SendMemberInvitationListener::class);
+        Event::listen(NewDeviceDetectedEvent::class, NewDeviceDetectedListener::class);
+        Event::listen(UserRegisteredEvent::class, SendUserRegisteredNotificationListener::class);
+        Event::listen(PasswordResetRequestedEvent::class, SendPasswordResetNotificationListener::class);
+        Event::listen(PasswordResetCompletedEvent::class, SendPasswordResetConfirmedNotificationListener::class);
     }
 }

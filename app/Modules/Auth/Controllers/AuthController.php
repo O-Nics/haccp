@@ -1,0 +1,106 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Modules\Auth\Controllers;
+
+use App\Core\Controllers\BaseController;
+use App\Modules\Auth\Requests\CheckAuthRequest;
+use App\Modules\Auth\Requests\LoginRequest;
+use App\Modules\Auth\Requests\RegisterRequest;
+use App\Modules\Auth\Resources\AuthResponseResource;
+use Domain\Auth\Actions\CheckAuthAction;
+use Domain\Auth\Actions\LoginUserAction;
+use Domain\Auth\Actions\LogoutUserAction;
+use Domain\Auth\Actions\RefreshSessionAction;
+use Domain\Auth\Actions\RegisterUserAction;
+use Domain\Auth\Exceptions\InvalidCredentialsException;
+use Domain\Auth\Exceptions\InvalidRefreshTokenException;
+use Symfony\Component\HttpFoundation\Response;
+
+final class AuthController extends BaseController
+{
+    /**
+     * Register a new user
+     *
+     * Returns an authentication response after registering a new user with the provided registration data and device information.
+     *
+     * @unauthenticated
+     */
+    public function register(RegisterRequest $registerRequest, RegisterUserAction $registerUserAction): AuthResponseResource
+    {
+        $authData = $registerUserAction->handle(
+            registerData: $registerRequest->toDto(),
+        );
+
+        return new AuthResponseResource($authData)->status(Response::HTTP_CREATED);
+    }
+
+    /**
+     * Login user
+     *
+     * Returns an authentication response after logging in a user with the provided credentials and device information.
+     *
+     * @unauthenticated
+     *
+     * @throws InvalidCredentialsException
+     */
+    public function login(LoginRequest $loginRequest, LoginUserAction $loginUserAction): AuthResponseResource
+    {
+        $authData = $loginUserAction->handle(
+            loginData: $loginRequest->toDto(),
+        );
+
+        return new AuthResponseResource($authData);
+    }
+
+    /**
+     * Refresh tokens
+     *
+     * Returns a new authentication response with refreshed tokens using the provided refresh token data.
+     *
+     * @throws InvalidRefreshTokenException
+     */
+    public function refresh(RefreshSessionAction $refreshSessionAction): AuthResponseResource
+    {
+        $authData = $refreshSessionAction->handle(
+            user: auth()->user(),
+        );
+
+        return new AuthResponseResource($authData)->status(Response::HTTP_OK);
+    }
+
+    /**
+     * Logout user
+     *
+     * Logs out the user by invalidating the session associated with the provided device ID.
+     */
+    public function logout(LogoutUserAction $logoutUserAction): \Illuminate\Http\Response
+    {
+        $logoutUserAction->handle(
+            user: auth()->user(),
+        );
+
+        return response()->noContent();
+    }
+
+    /**
+     * Check authentication status
+     *
+     * Returns the authentication status and user information for the currently authenticated user.
+     */
+    public function checkAuth(CheckAuthRequest $checkAuthRequest, CheckAuthAction $checkAuthAction): AuthResponseResource
+    {
+        $user = auth()->user();
+        $authData = $checkAuthAction->handle(
+            data: $checkAuthRequest->toDto(),
+            user: $user,
+        );
+
+        $authData->user->load([
+            'businesses',
+        ]);
+
+        return new AuthResponseResource($authData);
+    }
+}

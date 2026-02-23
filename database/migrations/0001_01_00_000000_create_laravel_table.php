@@ -12,17 +12,6 @@ return new class extends Migration
     public function up(): void
     {
 
-        Schema::create('password_reset_tokens', function (Blueprint $table) {
-            $table->id();
-            $table->string('email')->index();
-            $table->string('token');
-            $table->timestamp('expires_at');
-            $table->timestamp('confirmed_at')->nullable();
-            $table->timestamps();
-
-            $table->index(['email', 'token']);
-        });
-
         Schema::create('jobs', function (Blueprint $table) {
             $table->id();
             $table->string('queue')->index();
@@ -68,18 +57,6 @@ return new class extends Migration
             $table->integer('expiration');
         });
 
-        // Standard Sanctum personal_access_tokens table
-        Schema::create('personal_access_tokens', function (Blueprint $table) {
-            $table->id();
-            $table->uuidMorphs('tokenable');
-            $table->string('name');
-            $table->string('token', 64)->unique();
-            $table->text('abilities')->nullable();
-            $table->timestamp('last_used_at')->nullable();
-            $table->timestamp('expires_at')->nullable()->index();
-            $table->timestamps();
-        });
-
     }
 
     /**
@@ -87,8 +64,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('personal_access_tokens');
-        Schema::dropIfExists('password_reset_tokens');
         Schema::dropIfExists('jobs');
         Schema::dropIfExists('job_batches');
         Schema::dropIfExists('failed_jobs');
