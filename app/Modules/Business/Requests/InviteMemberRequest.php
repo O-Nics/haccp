@@ -15,6 +15,7 @@ class InviteMemberRequest extends BaseFormRequest
             'email' => ['required', 'email', 'max:255'],
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
+            'role_id' => ['required', 'string', 'exists:roles,id'],
         ];
     }
 
@@ -24,6 +25,7 @@ class InviteMemberRequest extends BaseFormRequest
             email: $this->input('email'),
             firstName: $this->input('first_name'),
             lastName: $this->input('last_name'),
+            roleId: $this->input('role_id'),
         );
     }
 }

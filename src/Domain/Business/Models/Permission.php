@@ -60,10 +60,4 @@ class Permission extends BaseModel
         return $this->belongsToMany(Role::class, 'role_permissions', 'permission_id', 'role_id')
             ->using(RolePermission::class);
     }
-
-    public function businessRoles(): BelongsToMany
-    {
-        return $this->belongsToMany(Role::class, 'business_role_permissions', 'permission_id', 'business_role_id')
-            ->using(RolePermission::class);
-    }
 }

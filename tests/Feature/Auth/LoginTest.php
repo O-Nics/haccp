@@ -46,7 +46,7 @@ it('throttles after max login attempts', function () {
         'device_platform' => $this->device->platform,
         'device_model' => $this->device->model,
         'remember_me' => false,
-    ])->dump()->assertTooManyRequests()
+    ])->assertTooManyRequests()
         ->assertJsonStructure(['message', 'retry_after']);
 });
 

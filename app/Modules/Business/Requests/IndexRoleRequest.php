@@ -26,8 +26,8 @@ class IndexRoleRequest extends BaseFormRequest
             filterQuery: $this->input('filter_query'),
             sort: $this->input('sort') ?? 'created_at',
             order: $this->input('order'),
-            perPage: $this->input('per_page', 15),
-            page: $this->input('page', 1),
+            perPage: (int) $this->input('per_page', 15),
+            page: (int) $this->input('page', 1),
         );
     }
 }

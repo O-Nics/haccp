@@ -27,15 +27,15 @@ class MemberSeeder extends Seeder
             return;
         }
 
-        $ownerGourmet = $gourmet->businessRoles()->where('name', 'owner')->first();
-        $managerGourmet = $gourmet->businessRoles()->where('name', 'manager')->first();
-        $employeeGourmet = $gourmet->businessRoles()->where('name', 'employee')->first();
+        $ownerGourmet = $gourmet->roles()->where('name', 'owner')->first();
+        $managerGourmet = $gourmet->roles()->where('name', 'manager')->first();
+        $employeeGourmet = $gourmet->roles()->where('name', 'employee')->first();
 
-        $ownerMiedoree = $miedoree->businessRoles()->where('name', 'owner')->first();
-        $employeeMiedoree = $miedoree->businessRoles()->where('name', 'employee')->first();
+        $ownerMiedoree = $miedoree->roles()->where('name', 'owner')->first();
+        $employeeMiedoree = $miedoree->roles()->where('name', 'employee')->first();
 
-        $ownerTraiteur = $traiteur->businessRoles()->where('name', 'owner')->first();
-        $employeeTraiteur = $traiteur->businessRoles()->where('name', 'employee')->first();
+        $ownerTraiteur = $traiteur->roles()->where('name', 'owner')->first();
+        $employeeTraiteur = $traiteur->roles()->where('name', 'employee')->first();
 
         $members = [
             // Le Gourmet Parisien

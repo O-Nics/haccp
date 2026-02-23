@@ -47,7 +47,8 @@ it('forbids members index when member has no members.view permission', function 
 });
 
 it('allows members index when member has members.view permission', function () {
-    authorizeUser($this->user, $this->business, PermissionEnum::MEMBERS_VIEW);
+    authorizeUser($this->user, $this->business, PermissionEnum::MEMBERS_VIEW_ANY
+    );
 
     getJson(route('businesses.members.index', $this->business), [
         'Authorization' => 'Bearer '.accessToken($this->user),
@@ -57,7 +58,7 @@ it('allows members index when member has members.view permission', function () {
 // --- VALIDATION ---
 
 it('rejects invalid order value on members index', function () {
-    authorizeUser($this->user, $this->business, PermissionEnum::MEMBERS_VIEW);
+    authorizeUser($this->user, $this->business, PermissionEnum::MEMBERS_VIEW_ANY);
 
     getJson(route('businesses.members.index', $this->business).'?order=invalid', [
         'Authorization' => 'Bearer '.accessToken($this->user),
@@ -66,7 +67,7 @@ it('rejects invalid order value on members index', function () {
 });
 
 it('rejects non-integer per_page on members index', function () {
-    authorizeUser($this->user, $this->business, PermissionEnum::MEMBERS_VIEW);
+    authorizeUser($this->user, $this->business, PermissionEnum::MEMBERS_VIEW_ANY);
 
     getJson(route('businesses.members.index', $this->business).'?per_page=abc', [
         'Authorization' => 'Bearer '.accessToken($this->user),
@@ -75,7 +76,7 @@ it('rejects non-integer per_page on members index', function () {
 });
 
 it('rejects per_page less than 1 on members index', function () {
-    authorizeUser($this->user, $this->business, PermissionEnum::MEMBERS_VIEW);
+    authorizeUser($this->user, $this->business, PermissionEnum::MEMBERS_VIEW_ANY);
 
     getJson(route('businesses.members.index', $this->business).'?per_page=0', [
         'Authorization' => 'Bearer '.accessToken($this->user),
@@ -84,7 +85,7 @@ it('rejects per_page less than 1 on members index', function () {
 });
 
 it('rejects page less than 1 on members index', function () {
-    authorizeUser($this->user, $this->business, PermissionEnum::MEMBERS_VIEW);
+    authorizeUser($this->user, $this->business, PermissionEnum::MEMBERS_VIEW_ANY);
 
     getJson(route('businesses.members.index', $this->business).'?page=0', [
         'Authorization' => 'Bearer '.accessToken($this->user),
@@ -95,7 +96,7 @@ it('rejects page less than 1 on members index', function () {
 // --- BEHAVIOR ---
 
 it('returns 200 with paginated structure on members index', function () {
-    authorizeUser($this->user, $this->business, PermissionEnum::MEMBERS_VIEW);
+    authorizeUser($this->user, $this->business, PermissionEnum::MEMBERS_VIEW_ANY);
 
     getJson(route('businesses.members.index', $this->business), [
         'Authorization' => 'Bearer '.accessToken($this->user),
@@ -108,7 +109,7 @@ it('returns 200 with paginated structure on members index', function () {
 });
 
 it('returns only members of the requested business', function () {
-    authorizeUser($this->user, $this->business, PermissionEnum::MEMBERS_VIEW);
+    authorizeUser($this->user, $this->business, PermissionEnum::MEMBERS_VIEW_ANY);
 
     $otherBusiness = Business::factory()->withOrganisation()->withBusinessType()->create();
     $otherMember = Member::factory()
@@ -129,7 +130,7 @@ it('returns only members of the requested business', function () {
 });
 
 it('respects per_page pagination on members index', function () {
-    authorizeUser($this->user, $this->business, PermissionEnum::MEMBERS_VIEW);
+    authorizeUser($this->user, $this->business, PermissionEnum::MEMBERS_VIEW_ANY);
 
     for ($i = 0; $i < 4; $i++) {
         Member::factory()->withBusiness($this->business)->withUser(User::factory()->create())->active()->create();
@@ -145,7 +146,7 @@ it('respects per_page pagination on members index', function () {
 });
 
 it('filters members by name with filter_query', function () {
-    authorizeUser($this->user, $this->business, PermissionEnum::MEMBERS_VIEW);
+    authorizeUser($this->user, $this->business, PermissionEnum::MEMBERS_VIEW_ANY);
 
     $matchingUser = User::factory()->create(['first_name' => 'Alice', 'last_name' => 'Dupont']);
     $otherUser = User::factory()->create(['first_name' => 'Bob', 'last_name' => 'Martin']);

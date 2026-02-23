@@ -14,7 +14,7 @@ final class MemberPolicy extends BasePolicy
 {
     public function viewAny(User $user, Business $business): Response
     {
-        return $this->hasPermission($user, $business, PermissionEnum::MEMBERS_VIEW);
+        return $this->hasPermission($user, $business, PermissionEnum::MEMBERS_VIEW_ANY);
     }
 
     /**

@@ -85,7 +85,7 @@ class Business extends BaseModel
         return $this->hasMany(Member::class);
     }
 
-    public function businessRoles(): HasMany
+    public function roles(): HasMany
     {
         return $this->hasMany(Role::class);
     }

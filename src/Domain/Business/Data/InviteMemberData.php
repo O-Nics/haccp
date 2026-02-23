@@ -12,5 +12,6 @@ class InviteMemberData extends Data
         public string $email,
         public string $firstName,
         public string $lastName,
+        public string $roleId,
     ) {}
 }

@@ -65,13 +65,13 @@ it('passes policy when member has members.invite permission', function () {
 
 // --- VALIDATION ---
 
-it('requires email first_name and last_name', function () {
+it('requires email first_name and last_name and role_id', function () {
     authorizeUser($this->user, $this->business, PermissionEnum::MEMBERS_INVITE);
 
     postJson(route('businesses.members.store', $this->business), [], [
         'Authorization' => 'Bearer '.accessToken($this->user),
     ])->assertUnprocessable()
-        ->assertJsonValidationErrors(['email', 'first_name', 'last_name']);
+        ->assertJsonValidationErrors(['email', 'first_name', 'last_name', 'role_id']);
 });
 
 it('rejects invalid email format on members store', function () {
@@ -81,6 +81,15 @@ it('rejects invalid email format on members store', function () {
         'Authorization' => 'Bearer '.accessToken($this->user),
     ])->assertUnprocessable()
         ->assertJsonValidationErrors(['email']);
+});
+
+it('rejects invalid role on members store', function () {
+    authorizeUser($this->user, $this->business, PermissionEnum::MEMBERS_INVITE);
+
+    postJson(route('businesses.members.store', $this->business), ['email' => 'not-an-email', 'first_name' => 'Alice', 'last_name' => 'Dupont', 'role_id' => 999], [
+        'Authorization' => 'Bearer '.accessToken($this->user),
+    ])->assertUnprocessable()
+        ->assertJsonValidationErrors(['role_id']);
 });
 
 it('rejects email exceeding max length on members store', function () {
@@ -101,6 +110,7 @@ it('rejects first_name exceeding max length on members store', function () {
         ->assertJsonValidationErrors(['first_name']);
 });
 
+
 it('rejects last_name exceeding max length on members store', function () {
     authorizeUser($this->user, $this->business, PermissionEnum::MEMBERS_INVITE);
 
@@ -116,7 +126,9 @@ it('creates a new user and member when email does not exist', function () {
     Notification::fake();
     authorizeUser($this->user, $this->business, PermissionEnum::MEMBERS_INVITE);
 
-    postJson(route('businesses.members.store', $this->business), ['email' => 'newuser@test.com', 'first_name' => 'Alice', 'last_name' => 'Dupont'], [
+    $roleWithPermission = Role::factory()->withBusiness($this->business)->create();
+
+    postJson(route('businesses.members.store', $this->business), ['email' => 'newuser@test.com', 'first_name' => 'Alice', 'last_name' => 'Dupont', 'role_id' => $roleWithPermission->id], [
         'Authorization' => 'Bearer '.accessToken($this->user),
     ])->assertCreated();
 
@@ -130,10 +142,12 @@ it('creates a member for an existing user without creating a new user', function
     Notification::fake();
     authorizeUser($this->user, $this->business, PermissionEnum::MEMBERS_INVITE);
 
+    $roleWithPermission = Role::factory()->withBusiness($this->business)->create();
+
     $existingUser    = AuthUser::factory()->create(['email' => 'existing@test.com']);
     $userCountBefore = AuthUser::count();
 
-    postJson(route('businesses.members.store', $this->business), ['email' => 'existing@test.com', 'first_name' => 'Bob', 'last_name' => 'Martin'], [
+    postJson(route('businesses.members.store', $this->business), ['email' => 'existing@test.com', 'first_name' => 'Bob', 'last_name' => 'Martin', 'role_id' => $roleWithPermission->id], [
         'Authorization' => 'Bearer '.accessToken($this->user),
     ])->assertCreated();
 
@@ -144,10 +158,12 @@ it('creates a member for an existing user without creating a new user', function
 it('returns 409 when user is already a member of the business', function () {
     authorizeUser($this->user, $this->business, PermissionEnum::MEMBERS_INVITE);
 
+    $roleWithPermission = Role::factory()->withBusiness($this->business)->create();
+
     $existingUser = AuthUser::factory()->create(['email' => 'existing@test.com']);
     Member::factory()->withUser($existingUser)->withBusiness($this->business)->invited()->create();
 
-    postJson(route('businesses.members.store', $this->business), ['email' => 'existing@test.com', 'first_name' => 'Bob', 'last_name' => 'Martin'], [
+    postJson(route('businesses.members.store', $this->business), ['email' => 'existing@test.com', 'first_name' => 'Bob', 'last_name' => 'Martin', 'role_id' => $roleWithPermission->id], [
         'Authorization' => 'Bearer '.accessToken($this->user),
     ])->assertConflict();
 });
@@ -156,7 +172,9 @@ it('returns 201 with member structure on successful invite', function () {
     Notification::fake();
     authorizeUser($this->user, $this->business, PermissionEnum::MEMBERS_INVITE);
 
-    postJson(route('businesses.members.store', $this->business), ['email' => 'newuser@test.com', 'first_name' => 'Alice', 'last_name' => 'Dupont'], [
+    $roleWithPermission = Role::factory()->withBusiness($this->business)->create();
+
+    postJson(route('businesses.members.store', $this->business), ['email' => 'newuser@test.com', 'first_name' => 'Alice', 'last_name' => 'Dupont', 'role_id' => $roleWithPermission->id], [
         'Authorization' => 'Bearer '.accessToken($this->user),
     ])->assertCreated()
         ->assertJsonStructure([
@@ -168,7 +186,9 @@ it('dispatches MemberInvitedEvent with temporary password when new user is creat
     Event::fake();
     authorizeUser($this->user, $this->business, PermissionEnum::MEMBERS_INVITE);
 
-    postJson(route('businesses.members.store', $this->business), ['email' => 'newuser@test.com', 'first_name' => 'Alice', 'last_name' => 'Dupont'], [
+    $roleWithPermission = Role::factory()->withBusiness($this->business)->create();
+
+    postJson(route('businesses.members.store', $this->business), ['email' => 'newuser@test.com', 'first_name' => 'Alice', 'last_name' => 'Dupont', 'role_id' => $roleWithPermission->id], [
         'Authorization' => 'Bearer '.accessToken($this->user),
     ])->assertCreated();
 
@@ -181,9 +201,11 @@ it('dispatches MemberInvitedEvent without temporary password when user already e
     Event::fake();
     authorizeUser($this->user, $this->business, PermissionEnum::MEMBERS_INVITE);
 
+    $roleWithPermission = Role::factory()->withBusiness($this->business)->create();
+
     AuthUser::factory()->create(['email' => 'existing@test.com']);
 
-    postJson(route('businesses.members.store', $this->business), ['email' => 'existing@test.com', 'first_name' => 'Bob', 'last_name' => 'Martin'], [
+    postJson(route('businesses.members.store', $this->business), ['email' => 'existing@test.com', 'first_name' => 'Bob', 'last_name' => 'Martin', 'role_id' => $roleWithPermission->id], [
         'Authorization' => 'Bearer '.accessToken($this->user),
     ])->assertCreated();
 
@@ -196,10 +218,12 @@ it('does not dispatch MemberInvitedEvent when user is already a member', functio
     Event::fake();
     authorizeUser($this->user, $this->business, PermissionEnum::MEMBERS_INVITE);
 
+    $roleWithPermission = Role::factory()->withBusiness($this->business)->create();
+
     $existingUser = AuthUser::factory()->create(['email' => 'existing@test.com']);
     Member::factory()->withUser($existingUser)->withBusiness($this->business)->invited()->create();
 
-    postJson(route('businesses.members.store', $this->business), ['email' => 'existing@test.com', 'first_name' => 'Bob', 'last_name' => 'Martin'], [
+    postJson(route('businesses.members.store', $this->business), ['email' => 'existing@test.com', 'first_name' => 'Bob', 'last_name' => 'Martin', 'role_id' => $roleWithPermission->id], [
         'Authorization' => 'Bearer '.accessToken($this->user),
     ])->assertConflict();
 
@@ -210,7 +234,9 @@ it('sends MemberInvitedWithPasswordNotification when new user is created', funct
     Notification::fake();
     authorizeUser($this->user, $this->business, PermissionEnum::MEMBERS_INVITE);
 
-    postJson(route('businesses.members.store', $this->business), ['email' => 'newuser@test.com', 'first_name' => 'Alice', 'last_name' => 'Dupont'], [
+    $roleWithPermission = Role::factory()->withBusiness($this->business)->create();
+
+    postJson(route('businesses.members.store', $this->business), ['email' => 'newuser@test.com', 'first_name' => 'Alice', 'last_name' => 'Dupont', 'role_id' => $roleWithPermission->id], [
         'Authorization' => 'Bearer '.accessToken($this->user),
     ])->assertCreated();
 
@@ -223,9 +249,11 @@ it('sends MemberInvitedNotification when existing user is invited', function () 
     Notification::fake();
     authorizeUser($this->user, $this->business, PermissionEnum::MEMBERS_INVITE);
 
+    $roleWithPermission = Role::factory()->withBusiness($this->business)->create();
+
     $existingUser = AuthUser::factory()->create(['email' => 'existing@test.com']);
 
-    postJson(route('businesses.members.store', $this->business), ['email' => 'existing@test.com', 'first_name' => 'Bob', 'last_name' => 'Martin'], [
+    postJson(route('businesses.members.store', $this->business), ['email' => 'existing@test.com', 'first_name' => 'Bob', 'last_name' => 'Martin', 'role_id' => $roleWithPermission->id], [
         'Authorization' => 'Bearer '.accessToken($this->user),
     ])->assertCreated();
 

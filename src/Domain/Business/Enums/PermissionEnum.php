@@ -14,6 +14,7 @@ enum PermissionEnum: string
     case MEMBERS_EDIT = 'members.edit';
 
     // Roles
+    case ROLES_VIEW_ANY = 'roles.view-any';
     case ROLES_VIEW = 'roles.view';
     case ROLES_CREATE = 'roles.create';
     case ROLES_EDIT = 'roles.edit';
