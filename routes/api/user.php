@@ -11,6 +11,6 @@ Route::prefix('user')
     ->controller(UserController::class)
     ->name('user.')
     ->group(function () {
-        Route::get('/', 'show')
+        Route::get('', 'show')
             ->name('show');
     });

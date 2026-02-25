@@ -15,7 +15,7 @@ Route::prefix('businesses')
         // Businesses
         Route::controller(BusinessController::class)
             ->group(function () {
-                Route::get('/', 'index')->name('index');
+                Route::get('', 'index')->name('index');
             });
 
         Route::prefix('{business}')
@@ -25,9 +25,9 @@ Route::prefix('businesses')
                     ->controller(MemberController::class)
                     ->name('members.')
                     ->group(function () {
-                        Route::get('/', 'index')->name('index')
+                        Route::get('', 'index')->name('index')
                             ->can('view-any', [Member::class, 'business']);
-                        Route::post('/', 'store')->name('store')
+                        Route::post('', 'store')->name('store')
                             ->can('create', [Member::class, 'business']);
                     });
 
@@ -36,7 +36,9 @@ Route::prefix('businesses')
                     ->controller(RoleController::class)
                     ->name('roles.')
                     ->group(function () {
-                        Route::get('/', 'index')->name('index')
+                        Route::get('', 'index')->name('index')
+                            ->can('view-any', [Role::class, 'business']);
+                        Route::get('', 'store')->name('store')
                             ->can('view-any', [Role::class, 'business']);
                     });
             });
