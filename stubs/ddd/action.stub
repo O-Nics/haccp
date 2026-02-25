@@ -2,11 +2,9 @@
 
 namespace {{ namespace }};
 
-use Lorisleiva\Actions\Concerns\AsAction;
-
-class {{ class }}{{ extends }}
+final readonly class {{ class }}{{ extends }}
 {
-    use AsAction;
+    public function __construct(){}
 
     public function handle()
     {

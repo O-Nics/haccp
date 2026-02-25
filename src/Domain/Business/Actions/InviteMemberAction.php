@@ -6,10 +6,10 @@ namespace Domain\Business\Actions;
 
 use App\Core\Actions\BaseAction;
 use App\Core\Exceptions\BusinessException;
-use Domain\Business\Data\MemberInvitedData;
 use Domain\Auth\Data\StoreUserData;
 use Domain\Auth\Interfaces\UserRepositoryInterface;
 use Domain\Business\Data\InviteMemberData;
+use Domain\Business\Data\MemberInvitedData;
 use Domain\Business\Ensures\MemberEnsure;
 use Domain\Business\Enums\MemberStatusEnum;
 use Domain\Business\Events\MemberInvitedEvent;

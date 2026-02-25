@@ -31,12 +31,12 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $deleted_at
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * @property-read Collection<int, Role> $businessRoles
- * @property-read int|null $business_roles_count
  * @property-read BusinessType $businessType
  * @property-read Collection<int, Member> $members
  * @property-read int|null $members_count
  * @property-read Organisation $organisation
+ * @property-read Collection<int, Role> $roles
+ * @property-read int|null $roles_count
  *
  * @method static Builder<static>|Business betweenDates($column, ?string $startAt = null, ?string $endAt = null, $boolean = 'and', $not = false)
  * @method static BusinessFactory factory($count = null, $state = [])

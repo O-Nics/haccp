@@ -21,6 +21,4 @@ class MemberEnsure extends BaseEnsure
             $this->fail('Cet utilisateur est déjà membre de cette entreprise.');
         }
     }
-
-
 }

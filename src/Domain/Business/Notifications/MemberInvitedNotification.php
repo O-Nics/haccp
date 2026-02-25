@@ -20,8 +20,8 @@ class MemberInvitedNotification extends UserMailNotification
         $acceptInvitationUrl = "http://localhost:3000/businesses/members/accept-invitation?member={$this->data->member->id}";
 
         return $message
-            ->subject('Vous avez été invité à rejoindre ' . $this->data->member->business->name)
-            ->line('Vous avez été invité à rejoindre l\'entreprise ' . $this->data->member->business->name . '.')
+            ->subject('Vous avez été invité à rejoindre '.$this->data->member->business->name)
+            ->line('Vous avez été invité à rejoindre l\'entreprise '.$this->data->member->business->name.'.')
             ->line('Cliquez sur le bouton ci-dessous pour accepter l\'invitation.')
             ->action('Accepter l\'invitation', $acceptInvitationUrl)
             ->line('Si vous n\'avez pas demandé à rejoindre cette entreprise, veuillez ignorer ce message.');

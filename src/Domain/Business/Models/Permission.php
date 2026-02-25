@@ -23,8 +23,6 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property-read RolePermission|null $pivot
- * @property-read Collection<int, Role> $businessRoles
- * @property-read int|null $business_roles_count
  * @property-read Collection<int, Role> $roles
  * @property-read int|null $roles_count
  *

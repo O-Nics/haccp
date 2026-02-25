@@ -176,7 +176,7 @@ class User extends BaseAuthenticable implements MustVerifyEmail
             return null;
         }
 
-        if( $token->expires_at && $token->expires_at->isPast()) {
+        if ($token->expires_at && $token->expires_at->isPast()) {
             return null;
         }
 

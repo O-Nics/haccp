@@ -34,7 +34,7 @@ it('all domain models extend BaseModel, BaseAuthenticable, or BasePivot', functi
         }
     }
 
-    if( count($violations) > 0) {
+    if (count($violations) > 0) {
         $this->fail("Ces modèles n'étendent pas une classe de base autorisée:\n".implode("\n", $violations));
     }
 
@@ -62,7 +62,7 @@ it('all domain models use HasUuids trait', function () {
         }
     }
 
-    if( count($violations) > 0) {
+    if (count($violations) > 0) {
         $this->fail("Ces modèles n'utilisent pas HasUuids:\n".implode("\n", $violations));
     }
 
@@ -90,7 +90,7 @@ it('all actions are declared as final readonly class', function () {
         }
     }
 
-    if( count($violations) > 0) {
+    if (count($violations) > 0) {
         $this->fail("Fichiers d'action qui ne sont pas final readonly class:\n".implode("\n", $violations));
     }
 
@@ -114,7 +114,7 @@ it('all actions extend BaseAction', function () {
         }
     }
 
-    if( count($violations) > 0) {
+    if (count($violations) > 0) {
         $this->fail("Fichiers d'action qui n'étendent pas BaseAction:\n".implode("\n", $violations));
     }
 
@@ -142,7 +142,7 @@ it('all repositories are declared as final readonly class', function () {
         }
     }
 
-    if( count($violations) > 0) {
+    if (count($violations) > 0) {
         $this->fail("Fichiers de repository qui ne sont pas final readonly class:\n".implode("\n", $violations));
     }
 
@@ -166,7 +166,7 @@ it('all repositories implement a RepositoryInterface', function () {
         }
     }
 
-    if( count($violations) > 0) {
+    if (count($violations) > 0) {
         $this->fail("Fichiers de repository qui n'implémentent pas RepositoryInterface:\n".implode("\n", $violations));
     }
     expect($violations)->toBeEmpty();
@@ -193,7 +193,7 @@ it('all form requests extend BaseFormRequest', function () {
         }
     }
 
-    if( count($violations) > 0) {
+    if (count($violations) > 0) {
         $this->fail("Fichiers de form request qui n'étendent pas BaseFormRequest:\n".implode("\n", $violations));
     }
     expect($violations)->toBeEmpty();
@@ -222,7 +222,7 @@ it('all PHP files in app and src declare strict_types', function () {
             $violations[] = $file->getRealPath();
         }
     }
-    if( count($violations) > 0) {
+    if (count($violations) > 0) {
         $this->fail("Fichiers sans declare(strict_types=1):\n".implode("\n", $violations));
     }
 
@@ -261,7 +261,7 @@ it('no arrow functions are used in app or src code', function () {
         }
     }
 
-    if( count($violations) > 0) {
+    if (count($violations) > 0) {
         $this->fail("Arrow functions (fn()) trouvées:\n".implode("\n", $violations));
     }
     expect($violations)->toBeEmpty();

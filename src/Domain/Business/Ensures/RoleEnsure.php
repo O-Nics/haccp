@@ -6,9 +6,7 @@ namespace Domain\Business\Ensures;
 
 use App\Core\Ensures\BaseEnsure;
 use App\Core\Exceptions\BusinessException;
-use Domain\Auth\Models\User;
 use Domain\Business\Models\Business;
-use Domain\Business\Models\Member;
 
 class RoleEnsure extends BaseEnsure
 {
@@ -21,6 +19,4 @@ class RoleEnsure extends BaseEnsure
             $this->fail('Ce rôle existe déjà dans cette entreprise.');
         }
     }
-
-
 }

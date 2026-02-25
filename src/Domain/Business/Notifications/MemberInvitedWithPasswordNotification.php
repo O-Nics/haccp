@@ -18,9 +18,10 @@ class MemberInvitedWithPasswordNotification extends UserMailNotification
     protected function mailMessage(User $user, MailMessage $message): MailMessage
     {
         $acceptInvitationUrl = "http://localhost:3000/businesses/members/accept-invitation?member={$this->data->member->id}";
+
         return $message
-            ->subject('Vous avez été invité à rejoindre ' . $this->data->member->business->name)
-            ->line('Vous avez été invité à rejoindre l\'entreprise ' . $this->data->member->business->name . '.')
+            ->subject('Vous avez été invité à rejoindre '.$this->data->member->business->name)
+            ->line('Vous avez été invité à rejoindre l\'entreprise '.$this->data->member->business->name.'.')
             ->line('Un compte a été créé pour vous. Votre mot de passe temporaire est :')
             ->line($this->data->temporaryPassword)
             ->line('Cliquez sur le bouton ci-dessous pour accepter l\'invitation et vous connecter.')

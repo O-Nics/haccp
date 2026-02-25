@@ -134,7 +134,7 @@ return [
     | and do not extend anything.
     |
     */
-    'base_action' => null,
+    'base_action' => 'app/Core/Actions/BaseAction.php',
 
     /*
     |--------------------------------------------------------------------------

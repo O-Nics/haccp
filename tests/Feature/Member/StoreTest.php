@@ -6,16 +6,15 @@ namespace Tests\Feature\Member;
 
 use Domain\Auth\Models\User;
 use Domain\Business\Enums\PermissionEnum;
+use Domain\Business\Events\MemberInvitedEvent;
 use Domain\Business\Models\Business;
 use Domain\Business\Models\Member;
 use Domain\Business\Models\Role;
-
-use Domain\Auth\Models\User as AuthUser;
-use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Notification;
-use Domain\Business\Events\MemberInvitedEvent;
 use Domain\Business\Notifications\MemberInvitedNotification;
 use Domain\Business\Notifications\MemberInvitedWithPasswordNotification;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Notification;
 
 use function Pest\Laravel\postJson;
 
@@ -28,7 +27,7 @@ beforeEach(function () {
 // --- AUTH MIDDLEWARE ---
 
 it('rejects unauthenticated request', function () {
-    postJson(route('businesses.members.store',$this->business))->assertUnauthorized();
+    postJson(route('businesses.members.store', $this->business))->assertUnauthorized();
 });
 
 it('rejects refresh token on members store route', function () {
@@ -110,7 +109,6 @@ it('rejects first_name exceeding max length on members store', function () {
         ->assertJsonValidationErrors(['first_name']);
 });
 
-
 it('rejects last_name exceeding max length on members store', function () {
     authorizeUser($this->user, $this->business, PermissionEnum::MEMBERS_INVITE);
 
@@ -132,8 +130,8 @@ it('creates a new user and member when email does not exist', function () {
         'Authorization' => 'Bearer '.accessToken($this->user),
     ])->assertCreated();
 
-    expect(AuthUser::where('email', 'newuser@test.com')->exists())->toBeTrue()
-        ->and(Member::where('business_id', $this->business->id)->whereHas('user', function (\Illuminate\Database\Eloquent\Builder $query): void {
+    expect(User::where('email', 'newuser@test.com')->exists())->toBeTrue()
+        ->and(Member::where('business_id', $this->business->id)->whereHas('user', function (Builder $query): void {
             $query->where('email', 'newuser@test.com');
         })->exists())->toBeTrue();
 });
@@ -144,14 +142,14 @@ it('creates a member for an existing user without creating a new user', function
 
     $roleWithPermission = Role::factory()->withBusiness($this->business)->create();
 
-    $existingUser    = AuthUser::factory()->create(['email' => 'existing@test.com']);
-    $userCountBefore = AuthUser::count();
+    $existingUser = User::factory()->create(['email' => 'existing@test.com']);
+    $userCountBefore = User::count();
 
     postJson(route('businesses.members.store', $this->business), ['email' => 'existing@test.com', 'first_name' => 'Bob', 'last_name' => 'Martin', 'role_id' => $roleWithPermission->id], [
         'Authorization' => 'Bearer '.accessToken($this->user),
     ])->assertCreated();
 
-    expect(AuthUser::count())->toBe($userCountBefore)
+    expect(User::count())->toBe($userCountBefore)
         ->and(Member::where('business_id', $this->business->id)->where('user_id', $existingUser->id)->exists())->toBeTrue();
 });
 
@@ -160,7 +158,7 @@ it('returns 409 when user is already a member of the business', function () {
 
     $roleWithPermission = Role::factory()->withBusiness($this->business)->create();
 
-    $existingUser = AuthUser::factory()->create(['email' => 'existing@test.com']);
+    $existingUser = User::factory()->create(['email' => 'existing@test.com']);
     Member::factory()->withUser($existingUser)->withBusiness($this->business)->invited()->create();
 
     postJson(route('businesses.members.store', $this->business), ['email' => 'existing@test.com', 'first_name' => 'Bob', 'last_name' => 'Martin', 'role_id' => $roleWithPermission->id], [
@@ -203,7 +201,7 @@ it('dispatches MemberInvitedEvent without temporary password when user already e
 
     $roleWithPermission = Role::factory()->withBusiness($this->business)->create();
 
-    AuthUser::factory()->create(['email' => 'existing@test.com']);
+    User::factory()->create(['email' => 'existing@test.com']);
 
     postJson(route('businesses.members.store', $this->business), ['email' => 'existing@test.com', 'first_name' => 'Bob', 'last_name' => 'Martin', 'role_id' => $roleWithPermission->id], [
         'Authorization' => 'Bearer '.accessToken($this->user),
@@ -220,7 +218,7 @@ it('does not dispatch MemberInvitedEvent when user is already a member', functio
 
     $roleWithPermission = Role::factory()->withBusiness($this->business)->create();
 
-    $existingUser = AuthUser::factory()->create(['email' => 'existing@test.com']);
+    $existingUser = User::factory()->create(['email' => 'existing@test.com']);
     Member::factory()->withUser($existingUser)->withBusiness($this->business)->invited()->create();
 
     postJson(route('businesses.members.store', $this->business), ['email' => 'existing@test.com', 'first_name' => 'Bob', 'last_name' => 'Martin', 'role_id' => $roleWithPermission->id], [
@@ -240,7 +238,7 @@ it('sends MemberInvitedWithPasswordNotification when new user is created', funct
         'Authorization' => 'Bearer '.accessToken($this->user),
     ])->assertCreated();
 
-    $invitedUser = AuthUser::where('email', 'newuser@test.com')->first();
+    $invitedUser = User::where('email', 'newuser@test.com')->first();
 
     Notification::assertSentTo($invitedUser, MemberInvitedWithPasswordNotification::class);
 });
@@ -251,7 +249,7 @@ it('sends MemberInvitedNotification when existing user is invited', function () 
 
     $roleWithPermission = Role::factory()->withBusiness($this->business)->create();
 
-    $existingUser = AuthUser::factory()->create(['email' => 'existing@test.com']);
+    $existingUser = User::factory()->create(['email' => 'existing@test.com']);
 
     postJson(route('businesses.members.store', $this->business), ['email' => 'existing@test.com', 'first_name' => 'Bob', 'last_name' => 'Martin', 'role_id' => $roleWithPermission->id], [
         'Authorization' => 'Bearer '.accessToken($this->user),

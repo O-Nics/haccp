@@ -21,11 +21,11 @@ beforeEach(function () {
 // --- AUTH MIDDLEWARE ---
 
 it('rejects unauthenticated request', function () {
-    getJson(route('businesses.roles.index',$this->business))->assertUnauthorized();
+    getJson(route('businesses.roles.index', $this->business))->assertUnauthorized();
 });
 
 it('rejects refresh token on businesses index route', function () {
-    getJson(route('businesses.roles.index',$this->business), [
+    getJson(route('businesses.roles.index', $this->business), [
         'Authorization' => 'Bearer '.refreshToken($this->user),
     ])->assertForbidden();
 });
@@ -138,7 +138,7 @@ it('respects per_page pagination on roles index', function () {
 it('filters roles by display_name with filter_query', function () {
     authorizeUser($this->user, $this->business, PermissionEnum::ROLES_VIEW_ANY);
 
-        Role::factory()->withBusiness($this->business)->create(['display_name' => 'UniqueRoleName']);
+    Role::factory()->withBusiness($this->business)->create(['display_name' => 'UniqueRoleName']);
 
     $response = getJson(route('businesses.roles.index', $this->business).'?filter_query=UniqueRoleName', [
         'Authorization' => 'Bearer '.accessToken($this->user),

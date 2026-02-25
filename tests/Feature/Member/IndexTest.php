@@ -21,11 +21,11 @@ beforeEach(function () {
 // --- AUTH MIDDLEWARE ---
 
 it('rejects unauthenticated request', function () {
-    getJson(route('businesses.members.index',$this->business))->assertUnauthorized();
+    getJson(route('businesses.members.index', $this->business))->assertUnauthorized();
 });
 
 it('rejects refresh token on businesses index route', function () {
-    getJson(route('businesses.members.index',$this->business), [
+    getJson(route('businesses.members.index', $this->business), [
         'Authorization' => 'Bearer '.refreshToken($this->user),
     ])->assertForbidden();
 });

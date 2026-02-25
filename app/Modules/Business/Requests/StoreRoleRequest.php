@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Modules\Business\Requests;
 
 use App\Core\Requests\BaseFormRequest;
-use Domain\Business\Data\IndexRoleData;
 use Domain\Business\Data\StoreRoleData;
 
 class StoreRoleRequest extends BaseFormRequest

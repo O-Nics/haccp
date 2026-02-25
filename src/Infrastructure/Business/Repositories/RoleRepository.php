@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Infrastructure\Business\Repositories;
 
 use Domain\Business\Data\IndexRoleData;
+use Domain\Business\Data\StoreRoleData;
 use Domain\Business\Interfaces\RoleRepositoryInterface;
 use Domain\Business\Models\Business;
 use Domain\Business\Models\Role;
@@ -25,5 +26,10 @@ final readonly class RoleRepository implements RoleRepositoryInterface
                 perPage: $indexRoleData->perPage,
                 page: $indexRoleData->page,
             );
+    }
+
+    public function store(StoreRoleData $storeRoleData, Business $business): Role
+    {
+        // TODO: Implement store() method.
     }
 }

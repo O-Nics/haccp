@@ -24,7 +24,7 @@ use Illuminate\Support\Carbon;
  * @property string|null $role_id
  * @property Carbon|null $invited_at
  * @property Carbon|null $joined_at
- * @property string $status
+ * @property MemberStatusEnum $status
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property-read Business $business
