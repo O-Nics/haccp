@@ -6,6 +6,7 @@ namespace App\Modules\Business\Requests;
 
 use App\Core\Requests\BaseFormRequest;
 use Domain\Business\Data\IndexRoleData;
+use Domain\Business\Data\StoreRoleData;
 
 class StoreRoleRequest extends BaseFormRequest
 {
@@ -19,14 +20,14 @@ class StoreRoleRequest extends BaseFormRequest
         ];
     }
 
-    public function toDto(): IndexRoleData
+    public function toDto(): StoreRoleData
     {
-        return new IndexRoleData(
-            filterQuery: $this->input('filter_query'),
-            sort: $this->input('sort') ?? 'created_at',
-            order: $this->input('order'),
-            perPage: (int) $this->input('per_page', 15),
-            page: (int) $this->input('page', 1),
+        return new StoreRoleData(
+            displayName: $this->input('display_name'),
+            description: $this->input('description'),
+            permissionIds: array_map(function ($permission) {
+                return $permission['id'];
+            }, $this->input('permissions')),
         );
     }
 }

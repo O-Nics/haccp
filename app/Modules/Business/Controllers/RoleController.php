@@ -28,10 +28,11 @@ final class RoleController extends BaseController
         return BusinessRoleResource::collection($rolePaginated);
     }
 
-    public function store(StoreRoleRequest $request, Business $business): BaseAnonymousCollection
+    public function store(StoreRoleRequest $request, Business $business): BusinessRoleResource
     {
-        $rolePaginated = $this->roleRepository->indexPaginated($request->toDto(), $business);
+        // faire une action pour créer un role et lui assigner des permissions
+        $role = $this->roleRepository->store($request->toDto(), $business);
 
-        return BusinessRoleResource::collection($rolePaginated);
+        return new BusinessRoleResource($role)->status(201);
     }
 }
