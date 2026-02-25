@@ -38,7 +38,7 @@ Route::prefix('businesses')
                     ->group(function () {
                         Route::get('', 'index')->name('index')
                             ->can('view-any', [Role::class, 'business']);
-                        Route::get('', 'store')->name('store')
+                        Route::post('', 'store')->name('store')
                             ->can('view-any', [Role::class, 'business']);
                     });
             });
