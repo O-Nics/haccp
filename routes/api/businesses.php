@@ -39,7 +39,7 @@ Route::prefix('businesses')
                         Route::get('', 'index')->name('index')
                             ->can('view-any', [Role::class, 'business']);
                         Route::post('', 'store')->name('store')
-                            ->can('view-any', [Role::class, 'business']);
+                            ->can('create', [Role::class, 'business']);
                     });
             });
     });

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Modules\Business\Controllers;
 
 use App\Core\Controllers\BaseController;
+use App\Core\Exceptions\BusinessException;
 use App\Core\Resources\BaseAnonymousCollection;
 use App\Modules\Business\Requests\IndexRoleRequest;
 use App\Modules\Business\Requests\StoreRoleRequest;
@@ -27,6 +28,9 @@ final class RoleController extends BaseController
         return BusinessRoleResource::collection($rolePaginated);
     }
 
+    /**
+     * @throws BusinessException
+     */
     public function store(StoreRoleRequest $request, Business $business, StoreRoleAction $storeRoleAction): BusinessRoleResource
     {
         $role = $storeRoleAction->handle($request->toDto(), $business);

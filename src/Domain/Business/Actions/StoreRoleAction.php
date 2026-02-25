@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Domain\Business\Actions;
 
 use App\Core\Actions\BaseAction;
+use App\Core\Exceptions\BusinessException;
 use Domain\Business\Data\StoreRoleData;
 use Domain\Business\Ensures\RoleEnsure;
 use Domain\Business\Interfaces\RoleRepositoryInterface;
@@ -18,10 +19,13 @@ final readonly class StoreRoleAction extends BaseAction
         private RoleEnsure $roleEnsure,
     ) {}
 
+    /**
+     * @throws BusinessException
+     */
     public function handle(StoreRoleData $storeRoleData, Business $business): Role
     {
-        // TODO: Implement displayName to Name ( slug )
-        // check if the role name already exists in the business
-        // create new role
+        $this->roleEnsure->itDoesNotExist($storeRoleData->name, $business);
+
+        return $this->roleRepository->store($storeRoleData, $business);
     }
 }

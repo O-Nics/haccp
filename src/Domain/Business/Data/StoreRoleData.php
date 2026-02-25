@@ -9,6 +9,7 @@ use Spatie\LaravelData\Data;
 class StoreRoleData extends Data
 {
     public function __construct(
+        public ?string $name = null,
         public string $displayName,
         public ?string $description,
         public array $permissionIds

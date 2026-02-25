@@ -22,6 +22,7 @@ class StoreRoleRequest extends BaseFormRequest
     public function toDto(): StoreRoleData
     {
         return new StoreRoleData(
+            name: to_slug($this->input('display_name')),
             displayName: $this->input('display_name'),
             description: $this->input('description'),
             permissionIds: array_map(function ($permission) {

@@ -13,7 +13,7 @@ class RoleEnsure extends BaseEnsure
     /**
      * @throws BusinessException
      */
-    public function isRoleDoesNotExist(string $roleName, Business $business): void
+    public function itDoesNotExist(string $roleName, Business $business): void
     {
         if ($business->roles()->where('name', $roleName)->exists()) {
             $this->fail('Ce rôle existe déjà dans cette entreprise.');

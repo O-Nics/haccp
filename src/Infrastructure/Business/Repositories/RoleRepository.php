@@ -30,6 +30,13 @@ final readonly class RoleRepository implements RoleRepositoryInterface
 
     public function store(StoreRoleData $storeRoleData, Business $business): Role
     {
-        // TODO: Implement store() method.
+        $role = $this->model->newInstance();
+        $role->business_id = $business->id;
+        $role->name = $storeRoleData->name;
+        $role->display_name = $storeRoleData->displayName;
+        $role->description = $storeRoleData->description;
+        $role->save();
+
+        return $role;
     }
 }

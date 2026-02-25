@@ -19,13 +19,13 @@ class PermissionFactory extends Factory
     {
         $category = $this->faker->word();
         $action = $this->faker->randomElement(['view', 'create', 'update', 'delete']);
-        $can = "{$action}-{$category}";
+        $can = "{$category}.{$action}";
 
         return [
             'can' => $can,
             'category' => $category,
             'category_label' => Str::title($category),
-            'display_name' => Str::title(str_replace('-', ' ', $can)),
+            'display_name' => Str::title(str_replace('.', ' ', $can)),
         ];
     }
 }
