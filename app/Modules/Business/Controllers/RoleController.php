@@ -9,10 +9,13 @@ use App\Core\Exceptions\BusinessException;
 use App\Core\Resources\BaseAnonymousCollection;
 use App\Modules\Business\Requests\IndexRoleRequest;
 use App\Modules\Business\Requests\StoreRoleRequest;
+use App\Modules\Business\Requests\UpdateRoleRequest;
 use App\Modules\Business\Resources\BusinessRoleResource;
 use Domain\Business\Actions\StoreRoleAction;
+use Domain\Business\Actions\UpdateRoleAction;
 use Domain\Business\Interfaces\RoleRepositoryInterface;
 use Domain\Business\Models\Business;
+use Domain\Business\Models\Role;
 
 final class RoleController extends BaseController
 {
@@ -21,9 +24,9 @@ final class RoleController extends BaseController
      */
     public function __construct(private RoleRepositoryInterface $roleRepository) {}
 
-    public function index(IndexRoleRequest $request, Business $business): BaseAnonymousCollection
+    public function index(IndexRoleRequest $indexRoleRequest, Business $business): BaseAnonymousCollection
     {
-        $rolePaginated = $this->roleRepository->indexPaginated($request->toDto(), $business);
+        $rolePaginated = $this->roleRepository->indexPaginated($indexRoleRequest->toDto(), $business);
 
         return BusinessRoleResource::collection($rolePaginated);
     }
@@ -31,10 +34,17 @@ final class RoleController extends BaseController
     /**
      * @throws BusinessException
      */
-    public function store(StoreRoleRequest $request, Business $business, StoreRoleAction $storeRoleAction): BusinessRoleResource
+    public function store(StoreRoleRequest $storeRoleRequest, Business $business,  StoreRoleAction $storeRoleAction): BusinessRoleResource
     {
-        $role = $storeRoleAction->handle($request->toDto(), $business);
+        $role = $storeRoleAction->handle($storeRoleRequest->toDto(), $business);
 
         return new BusinessRoleResource($role)->status(201);
+    }
+
+    public function update(UpdateRoleRequest $updateRoleRequest, Business $business, Role $role,  UpdateRoleAction $updateRoleAction): BusinessRoleResource
+    {
+        $role = $updateRoleAction->handle($role, $updateRoleRequest->toDto(), $business);
+
+        return new BusinessRoleResource($role);
     }
 }

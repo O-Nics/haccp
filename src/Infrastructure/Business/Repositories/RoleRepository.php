@@ -6,10 +6,12 @@ namespace Infrastructure\Business\Repositories;
 
 use Domain\Business\Data\IndexRoleData;
 use Domain\Business\Data\StoreRoleData;
+use Domain\Business\Data\UpdateRoleData;
 use Domain\Business\Interfaces\RoleRepositoryInterface;
 use Domain\Business\Models\Business;
 use Domain\Business\Models\Role;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Optional;
 
 final readonly class RoleRepository implements RoleRepositoryInterface
 {
@@ -35,6 +37,30 @@ final readonly class RoleRepository implements RoleRepositoryInterface
         $role->name = $storeRoleData->name;
         $role->display_name = $storeRoleData->displayName;
         $role->description = $storeRoleData->description;
+        $role->save();
+
+        return $role;
+    }
+
+
+    public function update(Role $role, UpdateRoleData $updateRoleData, Business $business): Role
+    {
+        if (! ($updateRoleData->name instanceof Optional)) {
+            $role->name = $updateRoleData->name;
+        }
+
+        if (! ($updateRoleData->displayName instanceof Optional)) {
+            $role->display_name = $updateRoleData->displayName;
+        }
+
+        if (! ($updateRoleData->description instanceof Optional)) {
+            $role->description = $updateRoleData->description;
+        }
+
+        if(! ($updateRoleData->permissionIds instanceof Optional)) {
+            $role->permissions()->sync($updateRoleData->permissionIds);
+        }
+
         $role->save();
 
         return $role;

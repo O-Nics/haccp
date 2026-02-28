@@ -40,6 +40,8 @@ Route::prefix('businesses')
                             ->can('view-any', [Role::class, 'business']);
                         Route::post('', 'store')->name('store')
                             ->can('create', [Role::class, 'business']);
+                        Route::patch('{role}', 'update')->name('update')
+                            ->can('update', [Role::class, 'business']);
                     });
             });
     });

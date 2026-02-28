@@ -9,10 +9,9 @@ use Illuminate\Http\Request;
 
 class BusinessException extends BaseException
 {
-    public function __construct(
-        string $message,
-    ) {
-        parent::__construct($message);
+    public function __construct(string $message)
+    {
+        parent::__construct($message, 409);
     }
 
     public function renderHttp(Request $request): JsonResponse
