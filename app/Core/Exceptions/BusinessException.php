@@ -7,6 +7,16 @@ namespace App\Core\Exceptions;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
+/**
+ * HTTP 409 Conflict
+ *
+ * Thrown when a business rule is violated due to a conflicting state.
+ *
+ * Use cases:
+ * - Creating a resource that already exists (duplicate name, slug, etc.)
+ * - Deleting a resource that is still referenced by related data
+ * - Inviting a user who is already a member of the business
+ */
 class BusinessException extends BaseException
 {
     public function __construct(string $message)
