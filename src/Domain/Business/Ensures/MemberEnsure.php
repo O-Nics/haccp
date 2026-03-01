@@ -16,6 +16,8 @@ class MemberEnsure extends BaseEnsure
     /**
      * Ensures the user is not already a member of the given business.
      *
+     * @param  User     $user     The user to check.
+     * @param  Business $business The business to check membership against.
      * @throws BusinessException 409 if the user is already a member
      */
     public function hasNotAlreadyBeenAddedToBusiness(User $user, Business $business): void
@@ -26,8 +28,11 @@ class MemberEnsure extends BaseEnsure
     }
 
     /**
-     * Ensures the member being deleted is not the owner of the business.
-     * @throws BusinessException
+     * Ensures the member being deleted is not the owner of the business organisation.
+     *
+     * @param  Member   $member   The member to check.
+     * @param  Business $business The business the member belongs to.
+     * @throws BusinessException 409 if the member is the organisation owner
      */
     public function isNotTheOwner(Member $member, Business $business): void
     {
@@ -37,8 +42,12 @@ class MemberEnsure extends BaseEnsure
     }
 
     /**
-     * Ensures the user is a member of the given business.
-     * @throws NotFoundException
+     * Ensures the member belongs to the given business.
+     * Returns 404 instead of 403 to avoid leaking resource existence across tenants.
+     *
+     * @param  Member   $member   The member to verify.
+     * @param  Business $business The business to check membership against.
+     * @throws NotFoundException 404 if the member does not belong to the business
      */
     public function isMemberOfBusiness(Member $member, Business $business): void
     {

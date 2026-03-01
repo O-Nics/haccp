@@ -15,6 +15,15 @@ final readonly class MemberRepository extends BaseRepository implements MemberRe
 {
     public function __construct(private Member $model) {}
 
+    /**
+     * Returns a paginated list of members for the given business,
+     * with optional eager-loaded relations and full-name/email filtering.
+     *
+     * @param  IndexMemberData $data      Pagination, filtering, and sorting parameters.
+     * @param  Business        $business  The business to list members for.
+     * @param  array|null      $relations Optional relations to eager load.
+     * @return LengthAwarePaginator<Member>
+     */
     public function indexPaginated(IndexMemberData $data, Business $business, ?array $relations = []): LengthAwarePaginator
     {
         return $this->model->query()
@@ -36,6 +45,11 @@ final readonly class MemberRepository extends BaseRepository implements MemberRe
             );
     }
 
+    /**
+     * Soft-deletes the given member record.
+     *
+     * @param  Member $member The member to delete.
+     */
     public function delete(Member $member): void
     {
         $member->delete();

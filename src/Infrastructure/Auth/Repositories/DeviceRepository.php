@@ -18,6 +18,11 @@ final readonly class DeviceRepository extends BaseRepository implements DeviceRe
     ) {}
 
     /**
+     * Finds an existing device for the user matching the device ID and platform. Returns null if not found.
+     *
+     * @param  User       $user       The owner of the device.
+     * @param  DeviceData $deviceData The device identifiers to match against.
+     * @return Device|null
      * @throws Throwable
      */
     public function findByDeviceData(User $user, DeviceData $deviceData): ?Device
@@ -30,6 +35,11 @@ final readonly class DeviceRepository extends BaseRepository implements DeviceRe
     }
 
     /**
+     * Updates the IP address and remember_me flag of an existing device.
+     *
+     * @param  Device     $device     The device record to update.
+     * @param  DeviceData $deviceData The updated device data.
+     * @return Device
      * @throws Throwable
      */
     public function update(Device $device, DeviceData $deviceData): Device
@@ -45,6 +55,11 @@ final readonly class DeviceRepository extends BaseRepository implements DeviceRe
     }
 
     /**
+     * Persists a new device for the given user from the provided data.
+     *
+     * @param  User       $user       The owner of the device.
+     * @param  DeviceData $deviceData The data to populate the new device record.
+     * @return Device
      * @throws Throwable
      */
     public function create(User $user, DeviceData $deviceData): Device

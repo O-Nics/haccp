@@ -14,27 +14,48 @@ use Illuminate\Pagination\LengthAwarePaginator;
 interface RoleRepositoryInterface
 {
     /**
-     * @return LengthAwarePaginator<Role>
+     * Returns a paginated list of roles for the given business with optional eager-loaded relations,
+     * filtering, and sorting.
      *
-     * This method retrieves a paginated list of roles for a specific business, with optional eager loading of related models.
+     * @param  IndexRoleData $indexRoleData Pagination, filtering, and sorting parameters.
+     * @param  Business      $business      The business to list roles for.
+     * @param  array|null    $relation      Optional relations to eager load.
+     * @return LengthAwarePaginator<Role>
      */
     public function indexPaginated(IndexRoleData $indexRoleData, Business $business, ?array $relation = []): LengthAwarePaginator;
 
     /**
-     * @return Role
+     * Persists a new role for the given business and returns the created instance.
      *
-     * This method creates a new role for a specific business using the provided data.
+     * @param  StoreRoleData $storeRoleData The data used to create the role.
+     * @param  Business      $business      The business the role belongs to.
+     * @return Role
      */
     public function store(StoreRoleData $storeRoleData, Business $business): Role;
 
     /**
-     * @return Role
+     * Partially updates a role. Only non-Optional fields are applied (PATCH semantics).
+     * Permissions are synced via pivot table when provided.
      *
-     * This method updates an existing role for a specific business using the provided data.
+     * @param  Role           $role           The role to update.
+     * @param  UpdateRoleData $updateRoleData The partial update data.
+     * @param  Business       $business       The owning business.
+     * @return Role
      */
     public function update(Role $role, UpdateRoleData $updateRoleData, Business $business): Role;
 
+    /**
+     * Finds a role by its primary key. Returns null if not found.
+     *
+     * @param  int|string $roleId The primary key of the role.
+     * @return Role|null
+     */
     public function findById(int|string $roleId): ?Role;
 
+    /**
+     * Hard-deletes the given role from the database.
+     *
+     * @param  Role $role The role to delete.
+     */
     public function delete(Role $role): void;
 }
