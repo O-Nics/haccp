@@ -89,7 +89,7 @@ final readonly class RoleRepository implements RoleRepositoryInterface
     /**
      * Hard-deletes the given role from the database.
      */
-    public function delete(Role $role, Business $business): void
+    public function delete(Role $role): void
     {
         $role->delete();
     }

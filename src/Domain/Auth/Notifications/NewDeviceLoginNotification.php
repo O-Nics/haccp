@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Domain\Auth\Notifications;
 
+use App\Core\Notifications\Message\ExtendedMailMessage;
 use Domain\Auth\Models\Device;
 use Domain\Auth\Models\User;
 use Domain\Notification\Mails\UserMailNotification;
-use Illuminate\Notifications\Messages\MailMessage;
 
 class NewDeviceLoginNotification extends UserMailNotification
 {
@@ -15,7 +15,7 @@ class NewDeviceLoginNotification extends UserMailNotification
         public readonly Device $device,
     ) {}
 
-    protected function mailMessage(User $user, MailMessage $message): MailMessage
+    protected function mailMessage(User $user, ExtendedMailMessage $message): ExtendedMailMessage
     {
         return $message
             ->subject('New Device Login Detected')

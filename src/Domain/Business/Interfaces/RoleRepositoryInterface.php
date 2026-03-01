@@ -36,5 +36,5 @@ interface RoleRepositoryInterface
 
     public function findById(int|string $roleId): ?Role;
 
-    public function delete(Role $role, Business $business): void;
+    public function delete(Role $role): void;
 }

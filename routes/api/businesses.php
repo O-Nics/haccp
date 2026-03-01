@@ -29,6 +29,8 @@ Route::prefix('businesses')
                             ->can('view-any', [Member::class, 'business']);
                         Route::post('', 'store')->name('store')
                             ->can('create', [Member::class, 'business']);
+                        Route::post('{member}', 'delete')->name('delete')
+                            ->can('delete', ['member', 'business']);
                     });
 
                 // Roles

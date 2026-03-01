@@ -37,7 +37,7 @@ final readonly class DeleteRoleAction extends BaseAction
         }
 
         foreach ($roles as $role) {
-            $this->roleRepository->delete($role, $business);
+            $this->roleRepository->delete($role);
         }
     }
 }

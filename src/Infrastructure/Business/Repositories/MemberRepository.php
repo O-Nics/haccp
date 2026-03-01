@@ -35,4 +35,9 @@ final readonly class MemberRepository extends BaseRepository implements MemberRe
                 page: $data->page,
             );
     }
+
+    public function delete(Member $member): void
+    {
+        $member->delete();
+    }
 }

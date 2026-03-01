@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Domain\Business\Notifications;
 
+use App\Core\Notifications\Message\ExtendedMailMessage;
 use Domain\Auth\Models\User;
 use Domain\Business\Data\MemberInvitedData;
 use Domain\Notification\Mails\UserMailNotification;
-use Illuminate\Notifications\Messages\MailMessage;
 
 class MemberInvitedNotification extends UserMailNotification
 {
@@ -15,7 +15,7 @@ class MemberInvitedNotification extends UserMailNotification
         public readonly MemberInvitedData $data,
     ) {}
 
-    protected function mailMessage(User $user, MailMessage $message): MailMessage
+    protected function mailMessage(User $user, ExtendedMailMessage $message): ExtendedMailMessage
     {
         $acceptInvitationUrl = "http://localhost:3000/businesses/members/accept-invitation?member={$this->data->member->id}";
 
