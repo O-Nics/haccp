@@ -10,6 +10,10 @@ use Spatie\LaravelData\Optional;
 
 class UpdateRoleRequest extends BaseFormRequest
 {
+    /**
+     * Validation rules for partially updating a role (PATCH semantics).
+     * All fields are optional — only provided fields are validated and applied.
+     */
     public function rules(): array
     {
         return [
@@ -20,6 +24,12 @@ class UpdateRoleRequest extends BaseFormRequest
         ];
     }
 
+    /**
+     * Maps validated input to an UpdateRoleData DTO.
+     * Fields absent from the request are set to Optional, signalling the repository
+     * to leave those attributes unchanged (PATCH semantics).
+     * The slug name is recomputed from display_name only when it is provided.
+     */
     public function toDto(): UpdateRoleData
     {
         $displayName = $this->value('display_name');

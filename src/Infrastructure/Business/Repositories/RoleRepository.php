@@ -17,6 +17,10 @@ final readonly class RoleRepository implements RoleRepositoryInterface
 {
     public function __construct(private Role $model) {}
 
+    /**
+     * Returns a paginated list of roles for the given business,
+     * with optional eager-loaded relations, filtering and sorting.
+     */
     public function indexPaginated(IndexRoleData $indexRoleData, Business $business, ?array $relation = []): LengthAwarePaginator
     {
         return $this->model::query()
@@ -30,6 +34,9 @@ final readonly class RoleRepository implements RoleRepositoryInterface
             );
     }
 
+    /**
+     * Persists a new role for the given business and returns the created instance.
+     */
     public function store(StoreRoleData $storeRoleData, Business $business): Role
     {
         $role = $this->model->newInstance();
@@ -42,6 +49,11 @@ final readonly class RoleRepository implements RoleRepositoryInterface
         return $role;
     }
 
+    /**
+     * Partially updates a role. Only fields that are not Optional are applied,
+     * allowing PATCH semantics where omitted fields are left unchanged.
+     * Permissions are synced via pivot table when provided.
+     */
     public function update(Role $role, UpdateRoleData $updateRoleData, Business $business): Role
     {
 
@@ -66,11 +78,17 @@ final readonly class RoleRepository implements RoleRepositoryInterface
         return $role;
     }
 
+    /**
+     * Finds a role by its primary key. Returns null if not found.
+     */
     public function findById(int|string $roleId): ?Role
     {
         return $this->model::query()->find($roleId);
     }
 
+    /**
+     * Hard-deletes the given role from the database.
+     */
     public function delete(Role $role, Business $business): void
     {
         $role->delete();

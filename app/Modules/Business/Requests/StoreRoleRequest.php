@@ -9,6 +9,10 @@ use Domain\Business\Data\StoreRoleData;
 
 class StoreRoleRequest extends BaseFormRequest
 {
+    /**
+     * Validation rules for creating a role.
+     * All fields are required; permissions must reference existing permission IDs.
+     */
     public function rules(): array
     {
         return [
@@ -19,6 +23,10 @@ class StoreRoleRequest extends BaseFormRequest
         ];
     }
 
+    /**
+     * Maps validated input to a StoreRoleData DTO.
+     * The slug name is computed from display_name at this stage.
+     */
     public function toDto(): StoreRoleData
     {
         return new StoreRoleData(

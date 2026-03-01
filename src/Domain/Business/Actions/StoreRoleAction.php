@@ -20,7 +20,10 @@ final readonly class StoreRoleAction extends BaseAction
     ) {}
 
     /**
-     * @throws BusinessException
+     * Creates a new role for the given business.
+     * Ensures no role with the same slug name already exists before persisting.
+     *
+     * @throws BusinessException 409 if a role with the same name already exists
      */
     public function handle(StoreRoleData $storeRoleData, Business $business): Role
     {

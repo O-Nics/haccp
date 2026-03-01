@@ -13,6 +13,10 @@ use Illuminate\Http\Request;
  */
 class BusinessRoleResource extends BaseJsonResource
 {
+    /**
+     * Transforms a Role model into an API response array.
+     * Relations (members, permissions) are included only when explicitly eager-loaded.
+     */
     public function toArray(Request $request): array
     {
         return [

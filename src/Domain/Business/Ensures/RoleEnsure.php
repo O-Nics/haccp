@@ -13,7 +13,9 @@ use Domain\Business\Models\Role;
 class RoleEnsure extends BaseEnsure
 {
     /**
-     * @throws BusinessException
+     * Ensures no role with the given slug name already exists in the business.
+     *
+     * @throws BusinessException 409 if a role with the same name exists
      */
     public function itDoesNotExist(string $roleName, Business $business): void
     {
@@ -23,7 +25,10 @@ class RoleEnsure extends BaseEnsure
     }
 
     /**
-     * @throws NotFoundException
+     * Ensures the role belongs to the given business.
+     * Returns 404 instead of 403 to avoid leaking resource existence across tenants.
+     *
+     * @throws NotFoundException 404 if the role belongs to a different business
      */
     public function itBelongsToBusiness(Role $role, Business $business, ?string $customMessage = null): void
     {

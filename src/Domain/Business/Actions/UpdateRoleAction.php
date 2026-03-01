@@ -22,8 +22,12 @@ final readonly class UpdateRoleAction extends BaseAction
     ) {}
 
     /**
-     * @throws NotFoundException
-     * @throws BusinessException
+     * Partially updates a role. Only provided fields (non-Optional) are applied.
+     * Verifies the role belongs to the business, and checks for name conflicts
+     * only when display_name is included in the request.
+     *
+     * @throws NotFoundException  404 if the role belongs to a different business
+     * @throws BusinessException  409 if the new name conflicts with an existing role
      */
     public function handle(Role $role, UpdateRoleData $updateRoleData, Business $business): Role
     {

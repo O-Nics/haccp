@@ -19,7 +19,12 @@ final readonly class DeleteRoleAction extends BaseAction
     ) {}
 
     /**
-     * @throws NotFoundException
+     * Bulk-deletes roles for the given business using a two-pass strategy:
+     * first all roles are validated (ownership check), then all are deleted.
+     * This ensures no partial deletion occurs if any role fails validation.
+     * Non-existent role IDs are silently ignored.
+     *
+     * @throws NotFoundException 404 if any role belongs to a different business
      */
     public function handle(DeleteRoleData $deleteRoleData, Business $business): void
     {
