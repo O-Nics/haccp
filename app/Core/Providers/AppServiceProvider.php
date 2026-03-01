@@ -55,7 +55,6 @@ class AppServiceProvider extends ServiceProvider
         Gate::policy(Business::class, BusinessPolicy::class);
         Gate::policy(Role::class, RolePolicy::class);
 
-
         // Register event listeners
         Event::listen(MemberInvitedEvent::class, SendMemberInvitationListener::class);
         Event::listen(NewDeviceDetectedEvent::class, NewDeviceDetectedListener::class);

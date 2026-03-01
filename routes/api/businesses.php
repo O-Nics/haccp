@@ -42,6 +42,8 @@ Route::prefix('businesses')
                             ->can('create', [Role::class, 'business']);
                         Route::patch('{role}', 'update')->name('update')
                             ->can('update', [Role::class, 'business']);
+                        Route::delete('', 'delete')->name('delete')
+                            ->can('delete', [Role::class, 'business']);
                     });
             });
     });

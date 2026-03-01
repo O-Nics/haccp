@@ -17,6 +17,7 @@ use App\Core\Exceptions\NotFoundException;
  * HTTP exception when the condition is violated.
  *
  * Available guards:
+ *
  * @see fail()        409 Conflict  — business rule violation (duplicate, constraint)
  * @see failNotFound() 404 Not Found — resource does not exist or does not belong to tenant
  * @see failGone()    410 Gone      — resource existed but has been soft-deleted

@@ -11,7 +11,7 @@ use Domain\Business\Interfaces\RoleRepositoryInterface;
 use Domain\Business\Models\Business;
 use Domain\Business\Models\Role;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Optional;
+use Spatie\LaravelData\Optional;
 
 final readonly class RoleRepository implements RoleRepositoryInterface
 {
@@ -42,9 +42,9 @@ final readonly class RoleRepository implements RoleRepositoryInterface
         return $role;
     }
 
-
     public function update(Role $role, UpdateRoleData $updateRoleData, Business $business): Role
     {
+
         if (! ($updateRoleData->name instanceof Optional)) {
             $role->name = $updateRoleData->name;
         }
@@ -57,12 +57,22 @@ final readonly class RoleRepository implements RoleRepositoryInterface
             $role->description = $updateRoleData->description;
         }
 
-        if(! ($updateRoleData->permissionIds instanceof Optional)) {
+        if (! ($updateRoleData->permissionIds instanceof Optional)) {
             $role->permissions()->sync($updateRoleData->permissionIds);
         }
 
         $role->save();
 
         return $role;
+    }
+
+    public function findById(int|string $roleId): ?Role
+    {
+        return $this->model::query()->find($roleId);
+    }
+
+    public function delete(Role $role, Business $business): void
+    {
+        $role->delete();
     }
 }

@@ -23,22 +23,12 @@ class RoleEnsure extends BaseEnsure
     }
 
     /**
-     * @throws BusinessException
-     */
-    public function hasNoAssignedMembers(Role $role, Business $business): void
-    {
-        if ($role->members()->where('business_id', $business->id)->exists()) {
-            $this->fail('Ce rôle ne peut pas être supprimé car il est assigné à des membres.');
-        }
-    }
-
-    /**
      * @throws NotFoundException
      */
-    public function itBelongsToBusiness(Role $role, Business $business): void
+    public function itBelongsToBusiness(Role $role, Business $business, ?string $customMessage = null): void
     {
         if ($role->business_id !== $business->id) {
-            $this->failNotFound('Ce rôle n\'appartient pas à cette entreprise.');
+            $this->failNotFound($customMessage ?? 'Ce rôle n\'appartient pas à cette entreprise.');
         }
     }
 }

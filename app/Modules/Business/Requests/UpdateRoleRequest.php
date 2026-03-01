@@ -14,9 +14,9 @@ class UpdateRoleRequest extends BaseFormRequest
     {
         return [
             'display_name' => ['sometimes', 'string', 'max:255'],
-            'description' => ['sometimes','nullable', 'string', 'max:1000'],
+            'description' => ['sometimes', 'nullable', 'string', 'max:1000'],
             'permissions' => ['sometimes', 'array'],
-            'permissions.*.id' => ['sometimes', 'string', 'exists:permissions,id'],
+            'permissions.*.id' => ['required', 'string', 'exists:permissions,id'],
         ];
     }
 

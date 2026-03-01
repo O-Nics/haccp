@@ -2686,7 +2686,8 @@ namespace PHPSTORM_META {
 'sanctum.csrf-cookie','health','app.init','auth.register','auth.login',
 'auth.refresh','auth.logout','auth.check-auth','auth.password.forgot','auth.password.confirm',
 'auth.password.reset','user.show','businesses.index','businesses.members.index','businesses.members.store',
-'businesses.roles.store','storage.local','scramble.docs.ui','scramble.docs.document',);
+'businesses.roles.index','businesses.roles.store','businesses.roles.update','businesses.roles.delete',
+'storage.local','scramble.docs.ui','scramble.docs.document',);
         registerArgumentsSet('views', 
 'emails.password.confirmed','emails.password.reset','emails.passwordReset','layouts.mails','notifications::email',
 'scramble::docs','vendor.mail.html.button','vendor.mail.html.footer','vendor.mail.html.header','vendor.mail.html.layout',
