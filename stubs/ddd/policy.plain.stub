@@ -1,16 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace {{ namespace }};
 
-use {{ namespacedUserModel }};
+use App\Core\Policy\BasePolicy;
+use Domain\Auth\Models\User;
 
-class {{ class }}
+final class {{ class }} extends BasePolicy
 {
-    /**
-     * Create a new policy instance.
-     */
-    public function __construct()
-    {
-        //
-    }
+    //
 }
