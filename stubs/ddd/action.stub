@@ -1,12 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace {{ namespace }};
 
-final readonly class {{ class }}{{ extends }}
-{
-    public function __construct(){}
+use App\Core\Actions\BaseAction;
 
-    public function handle()
+final readonly class {{ class }} extends BaseAction
+{
+    public function __construct() {}
+
+    public function handle(): void
     {
         //
     }

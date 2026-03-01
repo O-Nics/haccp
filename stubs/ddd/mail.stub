@@ -1,53 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 namespace {{ namespace }};
 
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Mail\Mailable;
-use Illuminate\Mail\Mailables\Content;
-use Illuminate\Mail\Mailables\Envelope;
-use Illuminate\Queue\SerializesModels;
+use App\Core\Mail\BaseMail;
 
-class {{ class }} extends Mailable
+final class {{ class }} extends BaseMail
 {
-    use Queueable, SerializesModels;
-
-    /**
-     * Create a new message instance.
-     */
     public function __construct()
     {
         //
     }
 
-    /**
-     * Get the message envelope.
-     */
-    public function envelope(): Envelope
+    public function content(): \Illuminate\Mail\Mailables\Content
     {
-        return new Envelope(
-            subject: '{{ subject }}',
+        return new \Illuminate\Mail\Mailables\Content(
+            view: '',
         );
-    }
-
-    /**
-     * Get the message content definition.
-     */
-    public function content(): Content
-    {
-        return new Content(
-            view: 'view.name',
-        );
-    }
-
-    /**
-     * Get the attachments for the message.
-     *
-     * @return array<int, \Illuminate\Mail\Mailables\Attachment>
-     */
-    public function attachments(): array
-    {
-        return [];
     }
 }

@@ -4,13 +4,10 @@ declare(strict_types=1);
 
 namespace {{ namespace }};
 
-use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Queue\SerializesModels;
+use App\Core\Events\BaseEvent;
 
-final readonly class {{ class }}
+final readonly class {{ class }} extends BaseEvent
 {
-    use Dispatchable, SerializesModels;
-
     public function __construct()
     {
         //

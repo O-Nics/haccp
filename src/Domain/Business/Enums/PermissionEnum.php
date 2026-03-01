@@ -4,8 +4,12 @@ declare(strict_types=1);
 
 namespace Domain\Business\Enums;
 
+use App\Core\Enums\Enumerations;
+
 enum PermissionEnum: string
 {
+    use Enumerations;
+
     // Members
     case MEMBERS_VIEW_ANY = 'members.view-any';
     case MEMBERS_VIEW = 'members.view';

@@ -1,26 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace {{ namespace }};
 
 use {{ eventNamespace }};
+use App\Core\Listeners\BaseListener;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
 
-class {{ class }} implements ShouldQueue
+final readonly class {{ class }} extends BaseListener implements ShouldQueue
 {
-    use InteractsWithQueue;
+    public function __construct() {}
 
-    /**
-     * Create the event listener.
-     */
-    public function __construct()
-    {
-        //
-    }
-
-    /**
-     * Handle the event.
-     */
     public function handle({{ event }} $event): void
     {
         //
