@@ -73,8 +73,9 @@ class Role extends BaseModel
         return $this->belongsTo(Business::class);
     }
 
-    public function members(): HasMany
+    public function members(): BelongsToMany
     {
-        return $this->hasMany(Member::class);
+        return $this->belongsToMany(Member::class, 'member_role', 'role_id', 'member_id')
+            ->using(MemberRole::class);
     }
 }

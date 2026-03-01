@@ -11,9 +11,11 @@ use Domain\Business\Enums\MemberStatusEnum;
 use Domain\Business\Enums\PermissionEnum;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 
@@ -22,7 +24,6 @@ use Illuminate\Support\Carbon;
  * @property string $business_id
  * @property string $user_id
  * @property string|null $invited_by
- * @property string|null $role_id
  * @property Carbon|null $invited_at
  * @property Carbon|null $joined_at
  * @property MemberStatusEnum $status
@@ -30,7 +31,7 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $updated_at
  * @property-read Business $business
  * @property-read User|null $invitedBy
- * @property-read Role|null $role
+ * @property-read Collection<int, Role> $roles
  * @property-read User $user
  *
  * @method static Builder<static>|Member betweenDates($column, ?string $startAt = null, ?string $endAt = null, $boolean = 'and', $not = false)
@@ -65,7 +66,7 @@ class Member extends BaseModel
         return MemberFactory::new();
     }
 
-    protected $with = ['role', 'invitedBy'];
+    protected $with = ['roles', 'invitedBy'];
 
     protected function casts(): array
     {
@@ -91,13 +92,18 @@ class Member extends BaseModel
         return $this->belongsTo(User::class, 'invited_by');
     }
 
-    public function role(): BelongsTo
+
+
+    public function roles(): BelongsToMany
     {
-        return $this->belongsTo(Role::class);
+        return $this->belongsToMany(Role::class, 'member_role', 'member_id', 'role_id')
+            ->using(MemberRole::class);
     }
 
     public function hasPermission(PermissionEnum $permission): bool
     {
-        return $this->role?->permissions->contains('can', $permission->value) ?? false;
+        return $this->roles->some(function (Role $role) use ($permission): bool {
+            return $role->permissions->contains('can', $permission->value);
+        });
     }
 }
