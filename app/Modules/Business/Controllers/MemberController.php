@@ -32,6 +32,7 @@ final class MemberController extends BaseController
 
     /**
      * Invites a new member to the given business. Returns 201 on success.
+     *
      * @throws BusinessException 409 if the user is already a member of the business
      */
     public function store(InviteMemberRequest $request, Business $business, InviteMemberAction $inviteMemberAction): MemberResource
@@ -41,9 +42,9 @@ final class MemberController extends BaseController
         return new MemberResource($memberInvited)->status(Response::HTTP_CREATED);
     }
 
-
     /**
      * Deletes a member from the given business. Returns 204 on success.
+     *
      * @throws NotFoundException 404 if the member does not belong to the business
      * @throws BusinessException 409 if the member is the owner of the business
      */

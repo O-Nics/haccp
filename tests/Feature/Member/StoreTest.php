@@ -11,7 +11,6 @@ use Domain\Business\Models\Business;
 use Domain\Business\Models\Member;
 use Domain\Business\Models\Role;
 use Domain\Business\Notifications\MemberInvitedNotification;
-use Domain\Business\Notifications\MemberInvitedWithPasswordNotification;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Notification;

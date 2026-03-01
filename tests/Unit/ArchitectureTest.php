@@ -57,6 +57,10 @@ it('all domain models use HasUuids trait', function () {
             continue;
         }
 
+        if (str_contains($content, 'extends BasePivot')) {
+            continue;
+        }
+
         if (! str_contains($content, 'HasUuids')) {
             $violations[] = $file->getRealPath();
         }

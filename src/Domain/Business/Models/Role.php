@@ -13,7 +13,6 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 
 /**
@@ -27,9 +26,9 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property-read Business $business
+ * @property-read RolePermission|MemberRole|null $pivot
  * @property-read Collection<int, Member> $members
  * @property-read int|null $members_count
- * @property-read RolePermission|null $pivot
  * @property-read Collection<int, Permission> $permissions
  * @property-read int|null $permissions_count
  *

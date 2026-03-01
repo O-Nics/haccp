@@ -20,7 +20,7 @@ final readonly class NotificationSentRepository implements NotificationSentRepos
     /**
      * Returns all notification sent records with optional eager-loaded relations.
      *
-     * @param  array $relations Optional relations to eager load.
+     * @param  array  $relations  Optional relations to eager load.
      * @return Collection<int, NotificationSent>
      */
     public function index(array $relations = []): Collection
@@ -33,8 +33,8 @@ final readonly class NotificationSentRepository implements NotificationSentRepos
     /**
      * Returns a filtered and paginated list of notification sent records.
      *
-     * @param  IndexNotificationSentRequestData $data      Pagination, filtering, and sorting parameters.
-     * @param  array                            $relations Optional relations to eager load.
+     * @param  IndexNotificationSentRequestData  $data  Pagination, filtering, and sorting parameters.
+     * @param  array  $relations  Optional relations to eager load.
      * @return LengthAwarePaginator<NotificationSent>
      */
     public function getFilteredPaginated(IndexNotificationSentRequestData $data, array $relations = []): LengthAwarePaginator
@@ -55,8 +55,7 @@ final readonly class NotificationSentRepository implements NotificationSentRepos
     /**
      * Persists a new notification sent record and returns the created instance.
      *
-     * @param  StoreNotificationSentData $data The data used to create the record.
-     * @return NotificationSent
+     * @param  StoreNotificationSentData  $data  The data used to create the record.
      */
     public function store(StoreNotificationSentData $data): NotificationSent
     {

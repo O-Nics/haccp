@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 pest()->group('unit');
 
 beforeEach(function () {
-    $this->memberEnsure = new MemberEnsure();
+    $this->memberEnsure = new MemberEnsure;
 });
 
 it('throws NotFoundException when the member does not belong to the business', function () {

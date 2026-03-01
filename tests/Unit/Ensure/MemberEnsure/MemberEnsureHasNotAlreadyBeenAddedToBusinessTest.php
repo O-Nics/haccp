@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 pest()->group('unit');
 
 beforeEach(function () {
-    $this->memberEnsure = new MemberEnsure();
+    $this->memberEnsure = new MemberEnsure;
 });
 
 it('throws BusinessException when user is already a member of the business', function () {

@@ -12,7 +12,7 @@ use Domain\Business\Models\Role;
 pest()->group('unit');
 
 beforeEach(function () {
-    $this->roleEnsure = new RoleEnsure();
+    $this->roleEnsure = new RoleEnsure;
 });
 
 it('throws NotFoundException when the role belongs to a different business', function () {

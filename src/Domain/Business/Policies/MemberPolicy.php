@@ -50,6 +50,7 @@ final class MemberPolicy extends BasePolicy
         if ($user->id === $member->user_id) {
             return $this->deny('Vous ne pouvez pas vous supprimer vous même.');
         }
+
         return $this->hasPermission($user, $business, PermissionEnum::MEMBERS_REMOVE);
     }
 }

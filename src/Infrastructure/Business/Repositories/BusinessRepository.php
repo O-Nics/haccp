@@ -19,9 +19,9 @@ final readonly class BusinessRepository implements BusinessRepositoryInterface
      * Returns a paginated list of businesses the given user belongs to as a member,
      * with optional filtering, sorting, and eager-loaded relations.
      *
-     * @param  User              $user              The authenticated user.
-     * @param  IndexBusinessData $indexBusinessData Pagination, filtering, and sorting parameters.
-     * @param  array|null        $relations         Optional relations to eager load.
+     * @param  User  $user  The authenticated user.
+     * @param  IndexBusinessData  $indexBusinessData  Pagination, filtering, and sorting parameters.
+     * @param  array|null  $relations  Optional relations to eager load.
      * @return LengthAwarePaginator<Business>
      */
     public function indexBusinessPaginated(User $user, IndexBusinessData $indexBusinessData, ?array $relations = []): LengthAwarePaginator
@@ -42,9 +42,8 @@ final readonly class BusinessRepository implements BusinessRepositoryInterface
     /**
      * Finds a business by its primary key with optional eager-loaded relations. Returns null if not found.
      *
-     * @param  int|string $id        The primary key of the business.
-     * @param  array|null $relations Optional relations to eager load.
-     * @return Business|null
+     * @param  int|string  $id  The primary key of the business.
+     * @param  array|null  $relations  Optional relations to eager load.
      */
     public function findById(string|int $id, ?array $relations = []): ?Business
     {

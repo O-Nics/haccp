@@ -17,11 +17,10 @@ final readonly class TokenRepository extends BaseRepository implements TokenRepo
      * Issues a Sanctum access+refresh token pair for the user.
      * The refresh expiration is extended when rememberMe is true.
      *
-     * @param  User     $user             The user to issue tokens for.
-     * @param  string[] $accessAbilities  Abilities to assign to the access token.
-     * @param  string[] $refreshAbilities Abilities to assign to the refresh token.
-     * @param  bool     $rememberMe       Whether to use the extended refresh expiration.
-     * @return TokenPair
+     * @param  User  $user  The user to issue tokens for.
+     * @param  string[]  $accessAbilities  Abilities to assign to the access token.
+     * @param  string[]  $refreshAbilities  Abilities to assign to the refresh token.
+     * @param  bool  $rememberMe  Whether to use the extended refresh expiration.
      */
     public function issueFor(
         User $user,
@@ -58,9 +57,8 @@ final readonly class TokenRepository extends BaseRepository implements TokenRepo
     /**
      * Issues a single Sanctum access token for the user (used during token rotation).
      *
-     * @param  User     $user      The user to issue a token for.
-     * @param  string[] $abilities Abilities to assign to the token.
-     * @return AccessToken
+     * @param  User  $user  The user to issue a token for.
+     * @param  string[]  $abilities  Abilities to assign to the token.
      */
     public function issueAccessTokenFor(
         User $user,

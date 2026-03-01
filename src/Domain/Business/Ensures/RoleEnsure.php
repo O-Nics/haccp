@@ -15,8 +15,9 @@ class RoleEnsure extends BaseEnsure
     /**
      * Ensures no role with the given slug name already exists in the business.
      *
-     * @param  string   $roleName The slug name to check for uniqueness.
-     * @param  Business $business The business to check within.
+     * @param  string  $roleName  The slug name to check for uniqueness.
+     * @param  Business  $business  The business to check within.
+     *
      * @throws BusinessException 409 if a role with the same name exists
      */
     public function itDoesNotExist(string $roleName, Business $business): void
@@ -30,9 +31,10 @@ class RoleEnsure extends BaseEnsure
      * Ensures the role belongs to the given business.
      * Returns 404 instead of 403 to avoid leaking resource existence across tenants.
      *
-     * @param  Role         $role          The role to verify.
-     * @param  Business     $business      The expected owner business.
-     * @param  string|null  $customMessage Optional message to override the default error.
+     * @param  Role  $role  The role to verify.
+     * @param  Business  $business  The expected owner business.
+     * @param  string|null  $customMessage  Optional message to override the default error.
+     *
      * @throws NotFoundException 404 if the role belongs to a different business
      */
     public function itBelongsToBusiness(Role $role, Business $business, ?string $customMessage = null): void

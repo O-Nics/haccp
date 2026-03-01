@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 pest()->group('unit');
 
 beforeEach(function () {
-    $this->roleEnsure = new RoleEnsure();
+    $this->roleEnsure = new RoleEnsure;
 });
 
 it('throws BusinessException when a role with the same name already exists in the business', function () {

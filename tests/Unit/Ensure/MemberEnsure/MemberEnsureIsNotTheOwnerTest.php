@@ -13,7 +13,7 @@ use Domain\Business\Models\Organisation;
 pest()->group('unit');
 
 beforeEach(function () {
-    $this->memberEnsure = new MemberEnsure();
+    $this->memberEnsure = new MemberEnsure;
 });
 
 it('throws BusinessException when the member is the owner of the business', function () {

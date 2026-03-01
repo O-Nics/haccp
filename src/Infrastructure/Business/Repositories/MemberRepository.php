@@ -19,9 +19,9 @@ final readonly class MemberRepository extends BaseRepository implements MemberRe
      * Returns a paginated list of members for the given business,
      * with optional eager-loaded relations and full-name/email filtering.
      *
-     * @param  IndexMemberData $data      Pagination, filtering, and sorting parameters.
-     * @param  Business        $business  The business to list members for.
-     * @param  array|null      $relations Optional relations to eager load.
+     * @param  IndexMemberData  $data  Pagination, filtering, and sorting parameters.
+     * @param  Business  $business  The business to list members for.
+     * @param  array|null  $relations  Optional relations to eager load.
      * @return LengthAwarePaginator<Member>
      */
     public function indexPaginated(IndexMemberData $data, Business $business, ?array $relations = []): LengthAwarePaginator
@@ -48,7 +48,7 @@ final readonly class MemberRepository extends BaseRepository implements MemberRe
     /**
      * Soft-deletes the given member record.
      *
-     * @param  Member $member The member to delete.
+     * @param  Member  $member  The member to delete.
      */
     public function delete(Member $member): void
     {

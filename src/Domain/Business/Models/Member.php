@@ -24,6 +24,7 @@ use Illuminate\Support\Carbon;
  * @property string $business_id
  * @property string $user_id
  * @property string|null $invited_by
+ * @property string|null $role_id
  * @property Carbon|null $invited_at
  * @property Carbon|null $joined_at
  * @property MemberStatusEnum $status
@@ -31,7 +32,9 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $updated_at
  * @property-read Business $business
  * @property-read User|null $invitedBy
+ * @property-read MemberRole|null $pivot
  * @property-read Collection<int, Role> $roles
+ * @property-read int|null $roles_count
  * @property-read User $user
  *
  * @method static Builder<static>|Member betweenDates($column, ?string $startAt = null, ?string $endAt = null, $boolean = 'and', $not = false)
@@ -40,6 +43,7 @@ use Illuminate\Support\Carbon;
  * @method static Builder<static>|Member forPeriod(?string $startAt = null, ?string $endAt = null, ?string $columnStart = 'start_at', ?string $columnEnd = 'end_at')
  * @method static Builder<static>|Member newModelQuery()
  * @method static Builder<static>|Member newQuery()
+ * @method static Builder<static>|Member onlyTrashed()
  * @method static Builder<static>|Member order(?string $sort, ?string $order)
  * @method static Builder<static>|Member query()
  * @method static Builder<static>|Member whereBusinessId($value)
@@ -52,6 +56,8 @@ use Illuminate\Support\Carbon;
  * @method static Builder<static>|Member whereStatus($value)
  * @method static Builder<static>|Member whereUpdatedAt($value)
  * @method static Builder<static>|Member whereUserId($value)
+ * @method static Builder<static>|Member withTrashed(bool $withTrashed = true)
+ * @method static Builder<static>|Member withoutTrashed()
  *
  * @mixin Eloquent
  */
@@ -91,8 +97,6 @@ class Member extends BaseModel
     {
         return $this->belongsTo(User::class, 'invited_by');
     }
-
-
 
     public function roles(): BelongsToMany
     {

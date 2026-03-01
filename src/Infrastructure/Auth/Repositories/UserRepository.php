@@ -19,8 +19,7 @@ final readonly class UserRepository extends BaseRepository implements UserReposi
     /**
      * Finds a user by their email address. Returns null if not found.
      *
-     * @param  string $email The email address to search for.
-     * @return User|null
+     * @param  string  $email  The email address to search for.
      */
     public function findByEmail(string $email): ?User
     {
@@ -30,8 +29,7 @@ final readonly class UserRepository extends BaseRepository implements UserReposi
     /**
      * Persists a new user from the given data and returns the created instance.
      *
-     * @param  StoreUserData $registerData The data used to create the user.
-     * @return User
+     * @param  StoreUserData  $registerData  The data used to create the user.
      */
     public function store(StoreUserData $registerData): User
     {
@@ -49,7 +47,7 @@ final readonly class UserRepository extends BaseRepository implements UserReposi
     /**
      * Updates the last_login_at timestamp for the given user to the current time.
      *
-     * @param  User $user The user to update.
+     * @param  User  $user  The user to update.
      */
     public function updateLastLogin(User $user): void
     {
@@ -60,8 +58,8 @@ final readonly class UserRepository extends BaseRepository implements UserReposi
     /**
      * Hashes and stores a new password for the given user.
      *
-     * @param  User   $user     The user whose password to update.
-     * @param  string $password The new plain-text password to hash and store.
+     * @param  User  $user  The user whose password to update.
+     * @param  string  $password  The new plain-text password to hash and store.
      */
     public function updatePassword(User $user, string $password): void
     {

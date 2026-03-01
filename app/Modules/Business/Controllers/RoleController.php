@@ -50,8 +50,8 @@ final class RoleController extends BaseController
     /**
      * Partially updates a role (PATCH semantics). Returns 200 on success.
      *
-     * @throws NotFoundException  404 if the role belongs to a different business
-     * @throws BusinessException  409 if the new name conflicts with an existing role
+     * @throws NotFoundException 404 if the role belongs to a different business
+     * @throws BusinessException 409 if the new name conflicts with an existing role
      */
     public function update(UpdateRoleRequest $updateRoleRequest, Business $business, Role $role, UpdateRoleAction $updateRoleAction): BusinessRoleResource
     {
