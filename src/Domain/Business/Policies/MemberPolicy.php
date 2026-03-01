@@ -45,7 +45,7 @@ final class MemberPolicy extends BasePolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Business $business,Member $member): Response
+    public function delete(User $user, Member $member, Business $business): Response
     {
         if ($user->id === $member->user_id) {
             return $this->deny('Vous ne pouvez pas vous supprimer vous même.');
