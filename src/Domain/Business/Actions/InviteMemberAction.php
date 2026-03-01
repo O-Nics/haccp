@@ -51,9 +51,10 @@ final readonly class InviteMemberAction extends BaseAction
         $member->user_id = $user->id;
         $member->invited_by = auth()->id();
         $member->invited_at = now();
-        $member->role_id = $data->roleId;
         $member->status = MemberStatusEnum::INVITED;
         $member->save();
+
+        $member->roles()->attach($data->roleIds);
 
         event(new MemberInvitedEvent(
             new MemberInvitedData(

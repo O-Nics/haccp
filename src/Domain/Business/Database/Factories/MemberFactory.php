@@ -62,7 +62,9 @@ class MemberFactory extends Factory
             ? $role
             : Role::factory()->withBusiness()->create(is_array($role) ? $role : []);
 
-        return $this->for($instance, 'role');
+        return $this->afterCreating(function (Member $member) use ($instance): void {
+            $member->roles()->attach($instance->id);
+        });
     }
 
     public function invited(): static

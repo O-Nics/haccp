@@ -148,7 +148,7 @@ class User extends BaseAuthenticable implements MustVerifyEmail
             ->where('business_id', $business->id)
             ->first();
 
-        $member?->load('role.permissions');
+        $member?->load('roles.permissions');
 
         return $member;
     }
