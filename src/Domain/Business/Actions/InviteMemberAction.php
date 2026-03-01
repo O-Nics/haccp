@@ -10,9 +10,11 @@ use Domain\Auth\Data\StoreUserData;
 use Domain\Auth\Interfaces\UserRepositoryInterface;
 use Domain\Business\Data\InviteMemberData;
 use Domain\Business\Data\MemberInvitedData;
+use Domain\Business\Data\StoreMemberData;
 use Domain\Business\Ensures\MemberEnsure;
 use Domain\Business\Enums\MemberStatusEnum;
 use Domain\Business\Events\MemberInvitedEvent;
+use Domain\Business\Interfaces\MemberRepositoryInterface;
 use Domain\Business\Models\Business;
 use Domain\Business\Models\Member;
 use Illuminate\Support\Str;
@@ -21,10 +23,12 @@ final readonly class InviteMemberAction extends BaseAction
 {
     public function __construct(
         private UserRepositoryInterface $userRepository,
+        private MemberRepositoryInterface $memberRepository,
         private MemberEnsure $memberEnsure,
     ) {}
 
     /**
+     * This method handles the invitation of a member to a business. It checks if the user already exists, creates a new user if necessary, ensures that the user has not already been added to the business, creates a new member record, attaches roles to the member, and triggers an event for the invited member.
      * @throws BusinessException
      */
     public function handle(InviteMemberData $data, Business $business): Member
@@ -33,7 +37,7 @@ final readonly class InviteMemberAction extends BaseAction
         $temporaryPassword = null;
 
         if (! $user) {
-            $temporaryPassword = Str::random(12);
+            $temporaryPassword = Str::password();
 
             $user = $this->userRepository->store(new StoreUserData(
                 firstName: $data->firstName,
@@ -46,15 +50,15 @@ final readonly class InviteMemberAction extends BaseAction
 
         $this->memberEnsure->hasNotAlreadyBeenAddedToBusiness($user, $business);
 
-        $member = new Member;
-        $member->business_id = $business->id;
-        $member->user_id = $user->id;
-        $member->invited_by = auth()->id();
-        $member->invited_at = now();
-        $member->status = MemberStatusEnum::INVITED;
-        $member->save();
-
-        $member->roles()->attach($data->roleIds);
+        $member = $this->memberRepository->store(
+            new StoreMemberData(
+                businessId: $business->id,
+                userId: $user->id,
+                invitedBy: auth()->id(),
+                status: MemberStatusEnum::INVITED,
+                roleIds: $data->roleIds,
+            )
+        );
 
         event(new MemberInvitedEvent(
             new MemberInvitedData(

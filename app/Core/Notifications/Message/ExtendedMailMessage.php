@@ -14,21 +14,25 @@ class ExtendedMailMessage extends MailMessage
      * Suitable for displaying OTP codes, temporary passwords, or any short code
      * that needs to stand out visually.
      */
-    public function box(string $code): static
+    public function box(
+        string $code,
+        ?int $fontSize = 28,
+        ?string $fontWeight = 'bold',
+        ?string $backgroundColor = '#f9fafb',
+        ?string $textColor = '#111827'
+    ): static
     {
         $html = <<<HTML
         <div style="text-align: center; margin: 24px 0;">
             <span style="
                 display: inline-block;
-                padding: 14px 32px;
-                font-size: 28px;
-                font-weight: 700;
-                letter-spacing: 6px;
-                font-family: 'Courier New', Courier, monospace;
-                color: #111827;
-                background-color: #f9fafb;
-                border: 2px solid #e5e7eb;
-                border-radius: 10px;
+                padding: 12px 24px;
+                font-size: {$fontSize}px;
+                font-weight: {$fontWeight};
+                color: {$textColor};
+                background-color: {$backgroundColor};
+                border-radius: 8px;
+                letter-spacing: 2px;
             ">{$code}</span>
         </div>
         HTML;
