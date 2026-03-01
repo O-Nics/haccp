@@ -23,16 +23,19 @@ class ExtendedMailMessage extends MailMessage
     ): static
     {
         $html = <<<HTML
-        <div style="text-align: center; margin: 24px 0;">
+        <div style="text-align: center; margin: 16px 0;">
             <span style="
                 display: inline-block;
-                padding: 12px 24px;
+                max-width: 100%;
+                box-sizing: border-box;
+                padding: 10px 16px;
                 font-size: {$fontSize}px;
                 font-weight: {$fontWeight};
                 color: {$textColor};
                 background-color: {$backgroundColor};
                 border-radius: 8px;
                 letter-spacing: 2px;
+                word-break: break-all;
             ">{$code}</span>
         </div>
         HTML;
