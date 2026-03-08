@@ -36,6 +36,8 @@ use Illuminate\Support\Carbon;
  * @property-read Collection<int, Member> $members
  * @property-read int|null $members_count
  * @property-read Organisation $organisation
+ * @property-read Collection<int, Product> $products
+ * @property-read int|null $products_count
  * @property-read Collection<int, Role> $roles
  * @property-read int|null $roles_count
  *

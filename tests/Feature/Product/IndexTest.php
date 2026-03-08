@@ -106,7 +106,7 @@ it('returns 200 with paginated structure on products index', function () {
         ->assertJsonStructure([
             'data',
             'links' => ['first', 'last', 'prev', 'next'],
-            'meta'  => ['current_page', 'per_page', 'total'],
+            'meta' => ['current_page', 'per_page', 'total'],
         ]);
 });
 

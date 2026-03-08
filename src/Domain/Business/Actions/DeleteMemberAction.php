@@ -16,7 +16,7 @@ final readonly class DeleteMemberAction extends BaseAction
 {
     public function __construct(
         private MemberRepositoryInterface $memberRepository,
-        private MemberEnsure              $memberEnsure,
+        private MemberEnsure $memberEnsure,
     ) {}
 
     /**

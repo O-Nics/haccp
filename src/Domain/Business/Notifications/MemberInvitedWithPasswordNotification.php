@@ -23,7 +23,7 @@ class MemberInvitedWithPasswordNotification extends UserMailNotification
             ->subject('Vous avez été invité à rejoindre '.$this->data->member->business->name)
             ->line('Vous avez été invité à rejoindre l\'entreprise '.$this->data->member->business->name.'.')
             ->line('Un compte a été créé pour vous. Votre mot de passe temporaire est :')
-            ->box($this->data->temporaryPassword,15, 'medium')
+            ->box($this->data->temporaryPassword, 15, 'medium')
             ->line('Cliquez sur le bouton ci-dessous pour accepter l\'invitation et vous connecter.')
             ->action('Accepter l\'invitation', $acceptInvitationUrl)
             ->line('Nous vous recommandons de changer votre mot de passe après votre première connexion.')

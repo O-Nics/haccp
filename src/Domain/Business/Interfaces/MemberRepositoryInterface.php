@@ -26,7 +26,7 @@ interface MemberRepositoryInterface
     /**
      * This method creates a new member for a specific business using the provided data.
      *
-     * @param StoreMemberData $storeMemberData The data containing information for creating a new member.
+     * @param  StoreMemberData  $storeMemberData  The data containing information for creating a new member.
      * @return Member The newly created member instance.
      */
     public function store(StoreMemberData $storeMemberData): Member;

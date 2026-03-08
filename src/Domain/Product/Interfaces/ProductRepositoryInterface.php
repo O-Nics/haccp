@@ -14,15 +14,14 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 interface ProductRepositoryInterface
 {
-
-        /**
-        * Retrieves a paginated list of products based on the provided filter and pagination data.
-        *
-        * @param IndexProductData $indexProductData The data containing filter and pagination information.
-        * @param Business $business The business to which the products belong.
-        * @param array|null $relations Optional relations to eager load with the products.
-        * @return LengthAwarePaginator A paginated collection of products matching the criteria.
-        */
+    /**
+     * Retrieves a paginated list of products based on the provided filter and pagination data.
+     *
+     * @param  IndexProductData  $indexProductData  The data containing filter and pagination information.
+     * @param  Business  $business  The business to which the products belong.
+     * @param  array|null  $relations  Optional relations to eager load with the products.
+     * @return LengthAwarePaginator A paginated collection of products matching the criteria.
+     */
     public function getFilteredPaginated(IndexProductData $indexProductData, Business $business, ?array $relations = []): LengthAwarePaginator;
 
     /**
@@ -36,8 +35,8 @@ interface ProductRepositoryInterface
     /**
      * This method creates a new product for a specific business using the provided data.
      *
-     * @param StoreProductData $storeProductData The data containing information for creating a new product.
-     * @param Business $business The business to which the product belongs.
+     * @param  StoreProductData  $storeProductData  The data containing information for creating a new product.
+     * @param  Business  $business  The business to which the product belongs.
      * @return Product The newly created product instance.
      */
     public function store(StoreProductData $storeProductData, Business $business): Product;
@@ -45,7 +44,7 @@ interface ProductRepositoryInterface
     /**
      * This method updates an existing product with new data.
      *
-     * @param Product $product The product instance to be updated.
+     * @param  Product  $product  The product instance to be updated.
      * @return Product The updated product instance.
      */
     public function update(UpdateProductData $updateProductData, Product $product): Product;
@@ -72,5 +71,4 @@ interface ProductRepositoryInterface
      * @param  Collection<int, Product>  $products  The products to delete.
      */
     public function deleteMany(Collection $products): void;
-
 }

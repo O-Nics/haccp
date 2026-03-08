@@ -20,8 +20,7 @@ class ExtendedMailMessage extends MailMessage
         ?string $fontWeight = 'bold',
         ?string $backgroundColor = '#f9fafb',
         ?string $textColor = '#111827'
-    ): static
-    {
+    ): static {
         $html = <<<HTML
         <div style="text-align: center; margin: 16px 0;">
             <span style="

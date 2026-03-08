@@ -16,7 +16,7 @@ final readonly class UpdateProductAction extends BaseAction
 {
     public function __construct(
         private ProductRepositoryInterface $productRepository,
-        private ProductEnsure              $productEnsure,
+        private ProductEnsure $productEnsure,
     ) {}
 
     /**

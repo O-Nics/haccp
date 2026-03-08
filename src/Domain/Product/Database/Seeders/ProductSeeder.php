@@ -6,7 +6,6 @@ namespace Domain\Product\Database\Seeders;
 
 use Domain\Business\Models\Business;
 use Domain\Product\Models\Product;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class ProductSeeder extends Seeder

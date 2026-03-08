@@ -8,8 +8,6 @@ use App\Core\Policy\BasePolicy;
 use Domain\Auth\Models\User;
 use Domain\Business\Enums\PermissionEnum;
 use Domain\Business\Models\Business;
-use Domain\Business\Models\Member;
-use Domain\Product\Models\Product;
 use Illuminate\Auth\Access\Response;
 
 final class ProductPolicy extends BasePolicy

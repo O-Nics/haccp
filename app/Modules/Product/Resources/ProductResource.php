@@ -17,7 +17,7 @@ class ProductResource extends BaseJsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id'   => $this->id,
+            'id' => $this->id,
             'name' => $this->name,
 
             // Relationships

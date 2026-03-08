@@ -12,7 +12,7 @@ final class DeleteMemberRequest extends BaseFormRequest
     public function rules(): array
     {
         return [
-            'member_ids'   => ['required', 'array'],
+            'member_ids' => ['required', 'array'],
             'member_ids.*' => ['string', 'exists:members,id'],
         ];
     }

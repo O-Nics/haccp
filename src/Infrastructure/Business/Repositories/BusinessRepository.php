@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Infrastructure\Business\Repositories;
 
+use App\Core\Repositories\BaseRepository;
 use Domain\Auth\Models\User;
 use Domain\Business\Data\IndexBusinessData;
 use Domain\Business\Interfaces\BusinessRepositoryInterface;
-use App\Core\Repositories\BaseRepository;
 use Domain\Business\Models\Business;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;

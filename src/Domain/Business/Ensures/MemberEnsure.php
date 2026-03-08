@@ -65,7 +65,7 @@ class MemberEnsure extends BaseEnsure
      * Throws 404 if any ID is missing or belongs to a different business.
      *
      * @param  Collection<int, Member>  $foundMembers
-     * @param  array  $requestedIds
+     *
      * @throws NotFoundException
      */
     public function areAllMembersInBusiness(Collection $foundMembers, array $requestedIds, ?string $customMessage = null): void
@@ -75,12 +75,13 @@ class MemberEnsure extends BaseEnsure
         }
     }
 
-
     /**
      * Ensures the member being deleted is not the currently authenticated user.
      * This prevents users from accidentally removing their own access to the business.
+     *
      * @param  Member  $member  The member to check.
      * @param  User  $user  The currently authenticated user.
+     *
      * @throws BusinessException
      */
     public function isNotThemselves(Member $member, User $user): void
@@ -95,6 +96,7 @@ class MemberEnsure extends BaseEnsure
      * Loads organisation lazily if not already loaded.
      *
      * @param  Collection<int, Member>  $members
+     *
      * @throws BusinessException 409 if any member is the organisation owner
      */
     public function noneAreOwner(Collection $members, Business $business, ?string $customMessage = null): void

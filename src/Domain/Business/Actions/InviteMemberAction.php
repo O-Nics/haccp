@@ -29,6 +29,7 @@ final readonly class InviteMemberAction extends BaseAction
 
     /**
      * This method handles the invitation of a member to a business. It checks if the user already exists, creates a new user if necessary, ensures that the user has not already been added to the business, creates a new member record, attaches roles to the member, and triggers an event for the invited member.
+     *
      * @throws BusinessException
      */
     public function handle(InviteMemberData $data, Business $business): Member

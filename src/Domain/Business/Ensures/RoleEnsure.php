@@ -50,7 +50,7 @@ class RoleEnsure extends BaseEnsure
      * Throws 404 if any ID is missing or belongs to a different business.
      *
      * @param  Collection<int, Role>  $foundRoles
-     * @param  array  $requestedIds
+     *
      * @throws NotFoundException
      */
     public function areAllRolesInBusiness(Collection $foundRoles, array $requestedIds, ?string $customMessage = null): void

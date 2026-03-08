@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Domain\Product\Ensures;
 
 use App\Core\Ensures\BaseEnsure;
-use App\Core\Exceptions\BusinessException;
 use App\Core\Exceptions\NotFoundException;
 use Domain\Business\Models\Business;
 use Domain\Product\Models\Product;
@@ -28,7 +27,7 @@ class ProductEnsure extends BaseEnsure
      * Throws a 404 if any ID is missing or belongs to a different business.
      *
      * @param  Collection<int, Product>  $foundProducts
-     * @param  array  $requestedIds
+     *
      * @throws NotFoundException
      */
     public function areAllProductsInBusiness(Collection $foundProducts, array $requestedIds, ?string $customMessage = null): void

@@ -12,7 +12,7 @@ final class DeleteProductRequest extends BaseFormRequest
     public function rules(): array
     {
         return [
-            'product_ids'   => ['required', 'array'],
+            'product_ids' => ['required', 'array'],
             'product_ids.*' => ['string', 'exists:products,id'],
         ];
     }

@@ -15,7 +15,7 @@ final readonly class DeleteProductAction extends BaseAction
 {
     public function __construct(
         private ProductRepositoryInterface $productRepository,
-        private ProductEnsure              $productEnsure,
+        private ProductEnsure $productEnsure,
     ) {}
 
     /**
@@ -24,6 +24,7 @@ final readonly class DeleteProductAction extends BaseAction
      *
      * @param  DeleteProductData  $deleteProductData  The data containing the IDs of products to delete.
      * @param  Business  $business  The business the products belong to.
+     *
      * @throws NotFoundException
      */
     public function handle(DeleteProductData $deleteProductData, Business $business): void
