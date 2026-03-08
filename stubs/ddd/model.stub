@@ -4,14 +4,13 @@ declare(strict_types=1);
 
 namespace {{ namespace }};
 
-{{ factoryImport }}use App\Core\Models\BaseModel;
+use App\Core\Models\BaseModel;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class {{ class }} extends BaseModel
 {
-    {{ factory }}
     use HasFactory, HasUuids, SoftDeletes;
 
     protected $table = '{{ table }}';
