@@ -7,27 +7,39 @@ namespace Domain\Business\Actions;
 use App\Core\Actions\BaseAction;
 use App\Core\Exceptions\BusinessException;
 use App\Core\Exceptions\NotFoundException;
+use Domain\Business\Data\DeleteMemberData;
 use Domain\Business\Ensures\MemberEnsure;
 use Domain\Business\Interfaces\MemberRepositoryInterface;
 use Domain\Business\Models\Business;
-use Domain\Business\Models\Member;
 
 final readonly class DeleteMemberAction extends BaseAction
 {
     public function __construct(
         private MemberRepositoryInterface $memberRepository,
-        private MemberEnsure $memberEnsure,
+        private MemberEnsure              $memberEnsure,
     ) {}
 
     /**
-     * @throws BusinessException
-     * @throws NotFoundException
+     * Bulk-deletes members for the given business.
+     * Validates all IDs belong to the business and none is the owner, then bulk soft-deletes.
+     *
+     * @throws NotFoundException 404 if any member does not belong to the business
+     * @throws BusinessException 409 if any member is the organisation owner
      */
-    public function handle(Member $member, Business $business): void
+    public function handle(DeleteMemberData $deleteMemberData, Business $business): void
     {
-        $this->memberEnsure->isNotTheOwner($member, $business);
-        $this->memberEnsure->isMemberOfBusiness($member, $business);
+        $members = $this->memberRepository->findByIdsForBusiness($deleteMemberData->memberIds, $business);
 
-        $this->memberRepository->delete($member);
+        foreach ($members as $member) {
+            $this->memberEnsure->isNotThemselves($member, auth()->user());
+        }
+        $this->memberEnsure->areAllMembersInBusiness(
+            $members,
+            $deleteMemberData->memberIds,
+        );
+
+        $this->memberEnsure->noneAreOwner($members, $business);
+
+        $this->memberRepository->deleteMany($members);
     }
 }

@@ -7,7 +7,7 @@ namespace App\Modules\Business\Requests;
 use App\Core\Requests\BaseFormRequest;
 use Domain\Business\Data\DeleteRoleData;
 
-class DeleteRoleRequest extends BaseFormRequest
+final class DeleteRoleRequest extends BaseFormRequest
 {
     public function rules(): array
     {

@@ -44,9 +44,9 @@ final class ProductPolicy extends BasePolicy
     }
 
     /**
-     * Determine whether the user can delete the model.
+     * Determines whether the user can bulk-delete products for the given business.
      */
-    public function delete(User $user, Business $business): Response
+    public function deleteMany(User $user, Business $business): Response
     {
         return $this->hasPermission($user, $business, PermissionEnum::PRODUCT_DELETE);
     }

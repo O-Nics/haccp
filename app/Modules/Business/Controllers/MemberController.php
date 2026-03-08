@@ -8,6 +8,7 @@ use App\Core\Controllers\BaseController;
 use App\Core\Exceptions\BusinessException;
 use App\Core\Exceptions\NotFoundException;
 use App\Core\Resources\BaseAnonymousCollection;
+use App\Modules\Business\Requests\DeleteMemberRequest;
 use App\Modules\Business\Requests\IndexMemberRequest;
 use App\Modules\Business\Requests\InviteMemberRequest;
 use App\Modules\Business\Resources\MemberResource;
@@ -15,7 +16,6 @@ use Domain\Business\Actions\DeleteMemberAction;
 use Domain\Business\Actions\InviteMemberAction;
 use Domain\Business\Interfaces\MemberRepositoryInterface;
 use Domain\Business\Models\Business;
-use Domain\Business\Models\Member;
 use Symfony\Component\HttpFoundation\Response;
 
 final class MemberController extends BaseController
@@ -43,14 +43,14 @@ final class MemberController extends BaseController
     }
 
     /**
-     * Deletes a member from the given business. Returns 204 on success.
+     * Deletes one or more members from the given business. Returns 204 on success.
      *
-     * @throws NotFoundException 404 if the member does not belong to the business
-     * @throws BusinessException 409 if the member is the owner of the business
+     * @throws NotFoundException 404 if any member does not belong to the business
+     * @throws BusinessException 409 if any member is the organisation owner
      */
-    public function delete(Business $business, Member $member, DeleteMemberAction $deleteMemberAction): \Illuminate\Http\Response
+    public function deleteMany(DeleteMemberRequest $deleteMemberRequest, Business $business, DeleteMemberAction $deleteMemberAction): \Illuminate\Http\Response
     {
-        $deleteMemberAction->handle($member, $business);
+        $deleteMemberAction->handle($deleteMemberRequest->toDto(), $business);
 
         return response()->noContent();
     }

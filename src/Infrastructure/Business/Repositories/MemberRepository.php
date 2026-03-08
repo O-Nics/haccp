@@ -11,6 +11,7 @@ use Domain\Business\Interfaces\MemberRepositoryInterface;
 use Domain\Business\Models\Business;
 use Domain\Business\Models\Member;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Collection;
 
 final readonly class MemberRepository extends BaseRepository implements MemberRepositoryInterface
 {
@@ -53,6 +54,19 @@ final readonly class MemberRepository extends BaseRepository implements MemberRe
     public function delete(Member $member): void
     {
         $member->delete();
+    }
+
+    /**
+     * @return Collection<int, Member>
+     */
+    public function findByIdsForBusiness(array $ids, Business $business): Collection
+    {
+        return $business->members()->whereIn('id', $ids)->get();
+    }
+
+    public function deleteMany(Collection $members): void
+    {
+        $this->model::whereIn('id', $members->pluck('id'))->delete();
     }
 
     public function store(StoreMemberData $storeMemberData): Member

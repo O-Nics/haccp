@@ -9,13 +9,6 @@ use Spatie\LaravelData\Data;
 class DeleteRoleData extends Data
 {
     public function __construct(
-        public array $roleIds
+        public array $roleIds,
     ) {}
-
-    public function toDto(): DeleteRoleData
-    {
-        return new DeleteRoleData(
-            roleIds: $this->roleIds,
-        );
-    }
 }

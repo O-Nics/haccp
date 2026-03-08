@@ -61,11 +61,11 @@ final class RoleController extends BaseController
     }
 
     /**
-     * Bulk-deletes roles by ID for the given business. Returns 204 on success.
+     * Bulk-deletes roles for the given business. Validates all IDs belong to the business, then bulk deletes.
      *
      * @throws NotFoundException 404 if any role belongs to a different business
      */
-    public function delete(DeleteRoleRequest $deleteRoleRequest, Business $business, DeleteRoleAction $deleteRoleAction): Response
+    public function deleteMany(DeleteRoleRequest $deleteRoleRequest, Business $business, DeleteRoleAction $deleteRoleAction): Response
     {
         $deleteRoleAction->handle($deleteRoleRequest->toDto(), $business);
 

@@ -152,6 +152,42 @@ Each endpoint file tests these layers **in order**:
 5. **Action behavior** — happy path + DB state + business logic
 6. **Events & Notifications** — dispatched with correct data
 
+## PHPDoc (MANDATORY on every public method)
+
+Every public method **must** have a PHPDoc block. Format:
+
+```php
+/**
+ * One-line summary of what the method does. Returns HTTP status when relevant.
+ *
+ * @throws SomeException  Condition that causes it (include HTTP code: 404/409/etc.)
+ */
+public function handle(SomeData $data): Result { ... }
+```
+
+**Rules:**
+- Summary line is **required** — one sentence, action-oriented (`Creates`, `Returns`, `Validates`, etc.)
+- `@throws` is required when the method can throw — include HTTP code (e.g. `404 if not found`)
+- **NO `@param`** — types are already in the signature
+- **NO `@return`** — return type is already in the signature
+- No Laravel boilerplate (`Display a listing`, `Store a newly created`, etc.)
+
+**Bad:**
+```php
+/**
+ * Display a listing of the resource.
+ * @param IndexRequest $request The request object.
+ * @return Collection The collection.
+ */
+```
+
+**Good:**
+```php
+/**
+ * Returns a paginated list of products for the given business.
+ */
+```
+
 ## Code Style (STRICT)
 
 **Typing — always explicit:**
@@ -187,6 +223,42 @@ Event::assertDispatched(UserRegisteredEvent::class, fn($e) => $e->user->id === $
 ->where(fn($q) => $q->where('access_token_id', $token->id))
 ->where(function ($q) use ($t) { $q->where('access_token_id', $t->id); })
 ```
+
+## Homogeneity Rules (STRICT)
+
+These conventions exist across all domains — **never introduce exceptions**:
+
+**Namespaces:**
+- Actions: `Domain\{Domain}\Actions\` (plural — never `Action\`)
+- All other DDD layers follow the same plural pattern
+
+**Repository methods — standard names across all interfaces:**
+| Method | Signature pattern |
+|--------|------------------|
+| `getFilteredPaginated` | `(IndexData, Business, ?array): LengthAwarePaginator` |
+| `findById` | `(int\|string, ?array): ?Model` |
+| `findByIdsForBusiness` | `(array, Business): Collection` |
+| `store` | `(StoreData, Business): Model` |
+| `update` | `(UpdateData, Model): Model` |
+| `delete` | `(Model): void` |
+| `deleteMany` | `(Collection): void` |
+
+**Request field naming for bulk operations:**
+- `{model}_ids` → e.g. `product_ids`, `role_ids`, `member_ids`
+- Flat array of strings, never nested (`products.*.id` is wrong)
+
+**Controller methods — standard names:**
+- `index`, `store`, `update`, `deleteMany` (bulk — used for all delete routes)
+
+**Route abilities — standard names:**
+- `view-any`, `create`, `update`, `delete-many`
+
+**Requests — always `final class`**
+
+**Repositories — always `extends BaseRepository`**
+
+**Data classes (DTOs) — never add `toDto()`**
+- DTOs are already the DTO — `toDto()` that returns itself is an anti-pattern
 
 ## Critical Gotchas
 

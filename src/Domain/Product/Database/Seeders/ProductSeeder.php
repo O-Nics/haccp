@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Domain\Product\Database\Seeders;
 
 use Domain\Business\Models\Business;

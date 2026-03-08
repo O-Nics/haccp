@@ -9,6 +9,7 @@ use App\Core\Exceptions\BusinessException;
 use App\Core\Exceptions\NotFoundException;
 use Domain\Business\Models\Business;
 use Domain\Business\Models\Role;
+use Illuminate\Database\Eloquent\Collection;
 
 class RoleEnsure extends BaseEnsure
 {
@@ -41,6 +42,21 @@ class RoleEnsure extends BaseEnsure
     {
         if ($role->business_id !== $business->id) {
             $this->failNotFound($customMessage ?? 'Ce rôle n\'appartient pas à cette entreprise.');
+        }
+    }
+
+    /**
+     * Ensures all requested role IDs were found within the business.
+     * Throws 404 if any ID is missing or belongs to a different business.
+     *
+     * @param  Collection<int, Role>  $foundRoles
+     * @param  array  $requestedIds
+     * @throws NotFoundException
+     */
+    public function areAllRolesInBusiness(Collection $foundRoles, array $requestedIds, ?string $customMessage = null): void
+    {
+        if ($foundRoles->count() !== count($requestedIds)) {
+            $this->failNotFound($customMessage ?? 'Un des rôles spécifiés n\'appartient pas à cette entreprise.');
         }
     }
 }

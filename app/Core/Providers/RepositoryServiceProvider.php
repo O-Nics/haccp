@@ -13,6 +13,7 @@ use Domain\Business\Interfaces\BusinessRepositoryInterface;
 use Domain\Business\Interfaces\MemberRepositoryInterface;
 use Domain\Business\Interfaces\RoleRepositoryInterface;
 use Domain\Notification\Interfaces\NotificationSentRepositoryInterface;
+use Domain\Product\Interfaces\ProductRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 use Infrastructure\Auth\Repositories\DeviceRepository;
 use Infrastructure\Auth\Repositories\PasswordResetRepository;
@@ -23,6 +24,7 @@ use Infrastructure\Business\Repositories\BusinessRepository;
 use Infrastructure\Business\Repositories\MemberRepository;
 use Infrastructure\Business\Repositories\RoleRepository;
 use Infrastructure\Notification\Repositories\NotificationSentRepository;
+use Infrastructure\Product\Repositories\ProductRepository;
 
 class RepositoryServiceProvider extends ServiceProvider
 {
@@ -42,6 +44,9 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->singleton(BusinessRepositoryInterface::class, BusinessRepository::class);
         $this->app->singleton(RoleRepositoryInterface::class, RoleRepository::class);
         $this->app->singleton(MemberRepositoryInterface::class, MemberRepository::class);
+
+        // Product domain
+        $this->app->singleton(ProductRepositoryInterface::class, ProductRepository::class);
 
         // Notification domain
         $this->app->singleton(NotificationSentRepositoryInterface::class, NotificationSentRepository::class);

@@ -31,8 +31,8 @@ Route::prefix('businesses')
                             ->can('view-any', [Member::class, 'business']);
                         Route::post('', 'store')->name('store')
                             ->can('create', [Member::class, 'business']);
-                        Route::post('{member}', 'delete')->name('delete')
-                            ->can('delete', ['member', 'business']);
+                        Route::delete('', 'deleteMany')->name('delete')
+                            ->can('delete-many', [Member::class, 'business']);
                     });
 
                 // Roles
@@ -46,8 +46,8 @@ Route::prefix('businesses')
                             ->can('create', [Role::class, 'business']);
                         Route::patch('{role}', 'update')->name('update')
                             ->can('update', [Role::class, 'business']);
-                        Route::delete('', 'delete')->name('delete')
-                            ->can('delete', [Role::class, 'business']);
+                        Route::delete('', 'deleteMany')->name('delete')
+                            ->can('delete-many', [Role::class, 'business']);
                     });
 
                 // Products
@@ -61,8 +61,8 @@ Route::prefix('businesses')
                             ->can('create', [Product::class, 'business']);
                         Route::patch('{product}', 'update')->name('update')
                             ->can('update', [Product::class, 'business']);
-                        Route::delete('', 'delete')->name('delete')
-                            ->can('delete', [Product::class, 'business']);
+                        Route::delete('', 'deleteMany')->name('delete')
+                            ->can('delete-many', [Product::class, 'business']);
                     });
             });
     });

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Domain\Product\Interfaces;
 
 use Domain\Business\Models\Business;
@@ -7,6 +9,7 @@ use Domain\Product\Data\IndexProductData;
 use Domain\Product\Data\StoreProductData;
 use Domain\Product\Data\UpdateProductData;
 use Domain\Product\Models\Product;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 interface ProductRepositoryInterface
@@ -47,11 +50,27 @@ interface ProductRepositoryInterface
      */
     public function update(UpdateProductData $updateProductData, Product $product): Product;
 
-        /**
-        * This method deletes a product from the database.
-        *
-        * @param  Product  $product  The product instance to be deleted.
-        */
-        public function delete(Product $product): void;
+    /**
+     * This method deletes a product from the database.
+     *
+     * @param  Product  $product  The product instance to be deleted.
+     */
+    public function delete(Product $product): void;
+
+    /**
+     * Retrieves all products matching the given IDs that belong to the specified business.
+     *
+     * @param  array  $ids  The list of product IDs to retrieve.
+     * @param  Business  $business  The business the products must belong to.
+     * @return Collection<int, Product>
+     */
+    public function findByIdsForBusiness(array $ids, Business $business): Collection;
+
+    /**
+     * Soft-deletes all products in the given collection in a single query.
+     *
+     * @param  Collection<int, Product>  $products  The products to delete.
+     */
+    public function deleteMany(Collection $products): void;
 
 }

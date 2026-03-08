@@ -10,6 +10,7 @@ use App\Core\Exceptions\NotFoundException;
 use Domain\Auth\Models\User;
 use Domain\Business\Models\Business;
 use Domain\Business\Models\Member;
+use Illuminate\Database\Eloquent\Collection;
 
 class MemberEnsure extends BaseEnsure
 {
@@ -56,6 +57,56 @@ class MemberEnsure extends BaseEnsure
     {
         if (! $business->members()->where('id', $member->id)->exists()) {
             $this->failNotFound('Cette entreprise n\'a pas de membre avec cet utilisateur.');
+        }
+    }
+
+    /**
+     * Ensures all requested member IDs were found within the business.
+     * Throws 404 if any ID is missing or belongs to a different business.
+     *
+     * @param  Collection<int, Member>  $foundMembers
+     * @param  array  $requestedIds
+     * @throws NotFoundException
+     */
+    public function areAllMembersInBusiness(Collection $foundMembers, array $requestedIds, ?string $customMessage = null): void
+    {
+        if ($foundMembers->count() !== count($requestedIds)) {
+            $this->failNotFound($customMessage ?? 'Un des membres spécifiés n\'appartient pas à cette entreprise.');
+        }
+    }
+
+
+    /**
+     * Ensures the member being deleted is not the currently authenticated user.
+     * This prevents users from accidentally removing their own access to the business.
+     * @param  Member  $member  The member to check.
+     * @param  User  $user  The currently authenticated user.
+     * @throws BusinessException
+     */
+    public function isNotThemselves(Member $member, User $user): void
+    {
+        if ($member->user_id === $user->id) {
+            $this->fail('Vous ne pouvez pas supprimer votre propre accès à l\'entreprise.');
+        }
+    }
+
+    /**
+     * Ensures none of the given members is the owner of the business organisation.
+     * Loads organisation lazily if not already loaded.
+     *
+     * @param  Collection<int, Member>  $members
+     * @throws BusinessException 409 if any member is the organisation owner
+     */
+    public function noneAreOwner(Collection $members, Business $business, ?string $customMessage = null): void
+    {
+        $ownerId = $business->organisation->owner_id;
+
+        $hasOwner = $members->contains(function (Member $member) use ($ownerId): bool {
+            return $member->user_id === $ownerId;
+        });
+
+        if ($hasOwner) {
+            $this->fail($customMessage ?? 'Vous ne pouvez pas supprimer le propriétaire de l\'entreprise.');
         }
     }
 }

@@ -19,25 +19,21 @@ final readonly class DeleteRoleAction extends BaseAction
     ) {}
 
     /**
-     * Bulk-deletes roles for the given business using a two-pass strategy:
-     * first all roles are validated (ownership check), then all are deleted.
-     * This ensures no partial deletion occurs if any role fails validation.
-     * Non-existent role IDs are silently ignored.
+     * Bulk-deletes roles for the given business.
+     * Validates all IDs belong to the business in a single query, then bulk hard-deletes.
      *
      * @throws NotFoundException 404 if any role belongs to a different business
      */
     public function handle(DeleteRoleData $deleteRoleData, Business $business): void
     {
-        $roles = collect();
+        $roles = $this->roleRepository->findByIdsForBusiness($deleteRoleData->roleIds, $business);
 
-        foreach ($deleteRoleData->roleIds as $roleId) {
-            $role = $this->roleRepository->findById($roleId);
-            $this->roleEnsure->itBelongsToBusiness($role, $business, 'Un des rôles spécifiés n\'appartient pas à cetteentreprise.');
-            $roles->push($role);
-        }
+        $this->roleEnsure->areAllRolesInBusiness(
+            $roles,
+            $deleteRoleData->roleIds,
+            'Un des rôles spécifiés n\'appartient pas à cette entreprise.',
+        );
 
-        foreach ($roles as $role) {
-            $this->roleRepository->delete($role);
-        }
+        $this->roleRepository->deleteMany($roles);
     }
 }

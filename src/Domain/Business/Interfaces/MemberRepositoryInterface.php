@@ -9,6 +9,7 @@ use Domain\Business\Data\StoreMemberData;
 use Domain\Business\Models\Business;
 use Domain\Business\Models\Member;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Collection;
 
 interface MemberRepositoryInterface
 {
@@ -36,4 +37,20 @@ interface MemberRepositoryInterface
      * @param  Member  $member  The member instance to be deleted.
      */
     public function delete(Member $member): void;
+
+    /**
+     * Retrieves all members matching the given IDs that belong to the specified business.
+     *
+     * @param  array  $ids  The list of member IDs to retrieve.
+     * @param  Business  $business  The business the members must belong to.
+     * @return Collection<int, Member>
+     */
+    public function findByIdsForBusiness(array $ids, Business $business): Collection;
+
+    /**
+     * Soft-deletes all members in the given collection in a single query.
+     *
+     * @param  Collection<int, Member>  $members  The members to delete.
+     */
+    public function deleteMany(Collection $members): void;
 }
