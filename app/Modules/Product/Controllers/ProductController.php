@@ -19,6 +19,7 @@ use Domain\Product\Actions\UpdateProductAction;
 use Domain\Product\Interfaces\ProductRepositoryInterface;
 use Domain\Product\Models\Product;
 use Illuminate\Http\Response;
+use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 final class ProductController extends BaseController
 {
@@ -39,7 +40,7 @@ final class ProductController extends BaseController
     {
         $product = $storeProductAction->handle($storeProductRequest->toDto(), $business);
 
-        return new ProductResource($product)->status(Response::HTTP_CREATED);
+        return new ProductResource($product)->status(201);
     }
 
     /**
