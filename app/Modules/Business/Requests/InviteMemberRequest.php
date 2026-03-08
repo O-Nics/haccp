@@ -7,7 +7,7 @@ namespace App\Modules\Business\Requests;
 use App\Core\Requests\BaseFormRequest;
 use Domain\Business\Data\InviteMemberData;
 
-class InviteMemberRequest extends BaseFormRequest
+final class InviteMemberRequest extends BaseFormRequest
 {
     public function rules(): array
     {

@@ -7,11 +7,12 @@ namespace Infrastructure\Business\Repositories;
 use Domain\Auth\Models\User;
 use Domain\Business\Data\IndexBusinessData;
 use Domain\Business\Interfaces\BusinessRepositoryInterface;
+use App\Core\Repositories\BaseRepository;
 use Domain\Business\Models\Business;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 
-final readonly class BusinessRepository implements BusinessRepositoryInterface
+final readonly class BusinessRepository extends BaseRepository implements BusinessRepositoryInterface
 {
     public function __construct(private Business $model) {}
 

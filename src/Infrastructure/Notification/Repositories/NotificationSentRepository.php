@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Infrastructure\Notification\Repositories;
 
+use App\Core\Repositories\BaseRepository;
 use Domain\Notification\Data\IndexNotificationSentRequestData;
 use Domain\Notification\Data\StoreNotificationSentData;
 use Domain\Notification\Interfaces\NotificationSentRepositoryInterface;
@@ -11,7 +12,7 @@ use Domain\Notification\Models\NotificationSent;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 
-final readonly class NotificationSentRepository implements NotificationSentRepositoryInterface
+final readonly class NotificationSentRepository extends BaseRepository implements NotificationSentRepositoryInterface
 {
     public function __construct(
         private NotificationSent $model

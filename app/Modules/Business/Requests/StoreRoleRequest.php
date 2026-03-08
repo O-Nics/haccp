@@ -7,7 +7,7 @@ namespace App\Modules\Business\Requests;
 use App\Core\Requests\BaseFormRequest;
 use Domain\Business\Data\StoreRoleData;
 
-class StoreRoleRequest extends BaseFormRequest
+final class StoreRoleRequest extends BaseFormRequest
 {
     /**
      * Validation rules for creating a role.

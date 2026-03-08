@@ -154,39 +154,35 @@ Each endpoint file tests these layers **in order**:
 
 ## PHPDoc (MANDATORY on every public method)
 
-Every public method **must** have a PHPDoc block. Format:
+Every public method **must** have a full PHPDoc block with:
+1. **Short description** — one line, action-oriented verb (`Creates`, `Returns`, `Validates`, `Bulk-deletes`, etc.)
+2. **Long description** — one or more sentences explaining business rules, edge cases, or important behaviour. Required unless the method is trivially obvious.
+3. **`@param`** — one per parameter, describing what it represents (not just restating the type)
+4. **`@return`** — describes what is returned and under what condition
+5. **`@throws`** — one per exception with the HTTP code and the triggering condition
 
 ```php
 /**
- * One-line summary of what the method does. Returns HTTP status when relevant.
+ * Bulk-deletes products for the given business.
+ * Validates that all IDs belong to the business in a single query before deletion.
+ * No product is deleted if any ID fails the ownership check.
  *
- * @throws SomeException  Condition that causes it (include HTTP code: 404/409/etc.)
+ * @param  DeleteProductData  $deleteProductData  The data containing the IDs of products to delete.
+ * @param  Business           $business           The business the products must belong to.
+ * @return void
+ * @throws NotFoundException  404 if any product ID does not belong to the business.
  */
-public function handle(SomeData $data): Result { ... }
+public function handle(DeleteProductData $deleteProductData, Business $business): void { ... }
 ```
 
 **Rules:**
-- Summary line is **required** — one sentence, action-oriented (`Creates`, `Returns`, `Validates`, etc.)
-- `@throws` is required when the method can throw — include HTTP code (e.g. `404 if not found`)
-- **NO `@param`** — types are already in the signature
-- **NO `@return`** — return type is already in the signature
-- No Laravel boilerplate (`Display a listing`, `Store a newly created`, etc.)
-
-**Bad:**
-```php
-/**
- * Display a listing of the resource.
- * @param IndexRequest $request The request object.
- * @return Collection The collection.
- */
-```
-
-**Good:**
-```php
-/**
- * Returns a paginated list of products for the given business.
- */
-```
+- Summary is **required** — one sentence max, no trailing period
+- Long description is **required** unless the method is a trivial getter/delegator
+- `@param` is **required** for every parameter
+- `@return` is **required** — use `void` when applicable
+- `@throws` is **required** for every exception the method can raise
+- No Laravel boilerplate (`Display a listing of the resource`, `Store a newly created resource`, etc.)
+- Align `@param` type columns for readability when there are multiple params
 
 ## Code Style (STRICT)
 

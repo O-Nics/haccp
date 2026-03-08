@@ -7,7 +7,7 @@ namespace App\Modules\Business\Requests;
 use App\Core\Requests\BaseFormRequest;
 use Domain\Business\Data\IndexBusinessData;
 
-class IndexBusinessRequest extends BaseFormRequest
+final class IndexBusinessRequest extends BaseFormRequest
 {
     public function rules(): array
     {

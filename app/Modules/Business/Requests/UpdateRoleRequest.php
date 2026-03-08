@@ -8,7 +8,7 @@ use App\Core\Requests\BaseFormRequest;
 use Domain\Business\Data\UpdateRoleData;
 use Spatie\LaravelData\Optional;
 
-class UpdateRoleRequest extends BaseFormRequest
+final class UpdateRoleRequest extends BaseFormRequest
 {
     /**
      * Validation rules for partially updating a role (PATCH semantics).

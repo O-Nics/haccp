@@ -7,7 +7,7 @@ namespace App\Modules\Business\Requests;
 use App\Core\Requests\BaseFormRequest;
 use Domain\Business\Data\DeleteMemberData;
 
-class DeleteMemberRequest extends BaseFormRequest
+final class DeleteMemberRequest extends BaseFormRequest
 {
     public function rules(): array
     {
