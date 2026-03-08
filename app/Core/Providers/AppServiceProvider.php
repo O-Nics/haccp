@@ -23,6 +23,8 @@ use Domain\Business\Models\Role;
 use Domain\Business\Policies\BusinessPolicy;
 use Domain\Business\Policies\MemberPolicy;
 use Domain\Business\Policies\RolePolicy;
+use Domain\Product\Models\Product;
+use Domain\Product\Policies\ProductPolicy;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
@@ -54,6 +56,7 @@ class AppServiceProvider extends ServiceProvider
         Gate::policy(Member::class, MemberPolicy::class);
         Gate::policy(Business::class, BusinessPolicy::class);
         Gate::policy(Role::class, RolePolicy::class);
+        Gate::policy(Product::class, ProductPolicy::class);
 
         // Register event listeners
         Event::listen(MemberInvitedEvent::class, SendMemberInvitationListener::class);

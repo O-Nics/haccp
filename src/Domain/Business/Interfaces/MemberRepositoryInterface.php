@@ -13,14 +13,14 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 interface MemberRepositoryInterface
 {
     /**
-     * This method retrieves a paginated list of members for a specific business, with optional eager loading of related models.
+     * This method retrieves a paginated list of members for a specific business, with optional filtering by full name or email, sorting, and eager loading of related models.
      *
      * @param  IndexMemberData  $indexMemberData  The data containing pagination and filtering information.
      * @param  Business  $business  The business for which to retrieve members.
      * @param  array|null  $relations  Optional array of related models to eager load.
      * @return LengthAwarePaginator<Member> A paginated list of members.
      */
-    public function indexPaginated(IndexMemberData $indexMemberData, Business $business, ?array $relations = []): LengthAwarePaginator;
+    public function getFilteredPaginated(IndexMemberData $indexMemberData, Business $business, ?array $relations = []): LengthAwarePaginator;
 
     /**
      * This method creates a new member for a specific business using the provided data.

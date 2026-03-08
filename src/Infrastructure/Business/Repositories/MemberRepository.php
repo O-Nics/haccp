@@ -17,15 +17,14 @@ final readonly class MemberRepository extends BaseRepository implements MemberRe
     public function __construct(private Member $model) {}
 
     /**
-     * Returns a paginated list of members for the given business,
-     * with optional eager-loaded relations and full-name/email filtering.
+     * Retrieves a paginated list of members for a specific business, with optional filtering by full name or email, sorting, and eager loading of related models.
      *
      * @param  IndexMemberData  $indexMemberData  Pagination, filtering, and sorting parameters.
      * @param  Business  $business  The business to list members for.
      * @param  array|null  $relations  Optional relations to eager load.
      * @return LengthAwarePaginator<Member>
      */
-    public function indexPaginated(IndexMemberData $indexMemberData, Business $business, ?array $relations = []): LengthAwarePaginator
+    public function getFilteredPaginated(IndexMemberData $indexMemberData, Business $business, ?array $relations = []): LengthAwarePaginator
     {
         return $this->model->query()
             ->where('business_id', $business->id)

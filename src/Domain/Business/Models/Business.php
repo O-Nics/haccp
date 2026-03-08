@@ -6,6 +6,7 @@ namespace Domain\Business\Models;
 
 use App\Core\Models\BaseModel;
 use Domain\Business\Database\Factories\BusinessFactory;
+use Domain\Product\Models\Product;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -93,5 +94,10 @@ class Business extends BaseModel
     public function organisation(): BelongsTo
     {
         return $this->belongsTo(Organisation::class, 'organisation_id');
+    }
+
+    public function products(): HasMany
+    {
+        return $this->hasMany(Product::class);
     }
 }

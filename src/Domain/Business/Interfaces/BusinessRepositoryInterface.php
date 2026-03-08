@@ -20,13 +20,12 @@ interface BusinessRepositoryInterface
     public function findById(int|string $id, ?array $relations = []): ?Business;
 
     /**
-     * Returns a paginated list of businesses the given user belongs to as a member,
-     * with optional filtering, sorting, and eager-loaded relations.
+     * Returns a filtered and paginated list of businesses that the authenticated user has access to, with optional eager-loaded relations.
      *
      * @param  User  $user  The authenticated user.
      * @param  IndexBusinessData  $indexBusinessData  Pagination, filtering, and sorting parameters.
      * @param  array|null  $relations  Optional relations to eager load.
      * @return LengthAwarePaginator<Business>
      */
-    public function indexBusinessPaginated(User $user, IndexBusinessData $indexBusinessData, ?array $relations = []): LengthAwarePaginator;
+    public function getFilteredPaginated(User $user, IndexBusinessData $indexBusinessData, ?array $relations = []): LengthAwarePaginator;
 }

@@ -18,10 +18,13 @@ final readonly class RoleRepository implements RoleRepositoryInterface
     public function __construct(private Role $model) {}
 
     /**
-     * Returns a paginated list of roles for the given business,
-     * with optional eager-loaded relations, filtering and sorting.
+     * Retrieves a paginated list of roles for a specific business, with optional filtering by display name or description, sorting, and eager loading of related models.
+     * @param  IndexRoleData  $indexRoleData  Pagination, filtering, and sorting parameters.
+     * @param  Business  $business  The business to list roles for.
+     * @param  array|null  $relation  Optional relations to eager load.
+     * @return LengthAwarePaginator<Role>
      */
-    public function indexPaginated(IndexRoleData $indexRoleData, Business $business, ?array $relation = []): LengthAwarePaginator
+    public function getFilteredPaginated(IndexRoleData $indexRoleData, Business $business, ?array $relation = []): LengthAwarePaginator
     {
         return $this->model::query()
             ->with($relation)
