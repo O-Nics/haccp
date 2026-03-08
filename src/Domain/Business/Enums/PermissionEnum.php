@@ -23,4 +23,11 @@ enum PermissionEnum: string
     case ROLES_CREATE = 'roles.create';
     case ROLES_EDIT = 'roles.edit';
     case ROLES_DELETE = 'roles.delete';
+
+    // Product
+    case PRODUCT_VIEW_ANY = 'product.view-any';
+    case PRODUCT_VIEW = 'product.view';
+    case PRODUCT_CREATE = 'product.create';
+    case PRODUCT_EDIT = 'product.edit';
+    case PRODUCT_DELETE = 'product.delete';
 }
