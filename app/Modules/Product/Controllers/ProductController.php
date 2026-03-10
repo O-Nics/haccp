@@ -19,7 +19,6 @@ use Domain\Product\Actions\UpdateProductAction;
 use Domain\Product\Interfaces\ProductRepositoryInterface;
 use Domain\Product\Models\Product;
 use Illuminate\Http\Response;
-use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 final class ProductController extends BaseController
 {

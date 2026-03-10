@@ -24,12 +24,12 @@ use Illuminate\Support\Carbon;
  * @property string $business_id
  * @property string $user_id
  * @property string|null $invited_by
- * @property string|null $role_id
  * @property Carbon|null $invited_at
  * @property Carbon|null $joined_at
  * @property MemberStatusEnum $status
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
+ * @property Carbon|null $deleted_at
  * @property-read Business $business
  * @property-read User|null $invitedBy
  * @property-read MemberRole|null $pivot
@@ -48,11 +48,11 @@ use Illuminate\Support\Carbon;
  * @method static Builder<static>|Member query()
  * @method static Builder<static>|Member whereBusinessId($value)
  * @method static Builder<static>|Member whereCreatedAt($value)
+ * @method static Builder<static>|Member whereDeletedAt($value)
  * @method static Builder<static>|Member whereId($value)
  * @method static Builder<static>|Member whereInvitedAt($value)
  * @method static Builder<static>|Member whereInvitedBy($value)
  * @method static Builder<static>|Member whereJoinedAt($value)
- * @method static Builder<static>|Member whereRoleId($value)
  * @method static Builder<static>|Member whereStatus($value)
  * @method static Builder<static>|Member whereUpdatedAt($value)
  * @method static Builder<static>|Member whereUserId($value)
@@ -102,6 +102,11 @@ class Member extends BaseModel
     {
         return $this->belongsToMany(Role::class, 'member_role', 'member_id', 'role_id')
             ->using(MemberRole::class);
+    }
+
+    public function isOwner(): bool
+    {
+        return $this->roles->contains('name', 'owner');
     }
 
     public function hasPermission(PermissionEnum $permission): bool

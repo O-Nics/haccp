@@ -25,6 +25,7 @@ class UserFactory extends Factory
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
+            'temporary_password' => false,
             'pin_code' => fake()->optional()->numerify('######'),
             'notify_email' => fake()->boolean(),
             'notify_sms' => fake()->boolean(),
