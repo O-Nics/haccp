@@ -17,13 +17,13 @@ use Symfony\Component\HttpFoundation\Response;
  */
 abstract class BaseJsonResource extends JsonResource
 {
-    protected int $status = Response::HTTP_OK;
+    protected int $httpStatus = Response::HTTP_OK;
 
     protected ?string $message = null;
 
     public function withResponse($request, $response): void
     {
-        $response->setStatusCode($this->status);
+        $response->setStatusCode($this->httpStatus);
     }
 
     public function with($request): array
@@ -35,7 +35,7 @@ abstract class BaseJsonResource extends JsonResource
 
     public function status(int $status): static
     {
-        $this->status = $status;
+        $this->httpStatus = $status;
 
         return $this;
     }

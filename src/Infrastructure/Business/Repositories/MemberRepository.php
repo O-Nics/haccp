@@ -28,7 +28,9 @@ final readonly class MemberRepository extends BaseRepository implements MemberRe
     public function getFilteredPaginated(IndexMemberData $indexMemberData, Business $business, ?array $relations = []): LengthAwarePaginator
     {
         return $this->model->query()
-            ->where('business_id', $business->id)
+            ->select('members.*')
+            ->leftJoin('users', 'users.id', '=', 'members.user_id')
+            ->where('members.business_id', $business->id)
             ->with($relations)
             ->whereHas('user', function ($query) use ($indexMemberData) {
                 if ($indexMemberData->filterQuery) {
@@ -39,7 +41,7 @@ final readonly class MemberRepository extends BaseRepository implements MemberRe
                     });
                 }
             })
-            ->orderBy($indexMemberData->sort ?? 'created_at', $indexMemberData->order ?? 'asc')
+            ->orderBy($indexMemberData->sort, $indexMemberData->order ?? 'asc')
             ->paginate(
                 perPage: $indexMemberData->perPage,
                 page: $indexMemberData->page,

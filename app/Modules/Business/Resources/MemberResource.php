@@ -23,7 +23,7 @@ class MemberResource extends BaseJsonResource
             'invited_at' => $this->invited_at,
             'joined_at' => $this->joined_at,
             'status' => $this->status,
-            'role' => new BusinessRoleResource($this->whenLoaded('role')),
+            'roles' => RoleResource::collection($this->whenLoaded('roles')),
         ];
     }
 }

@@ -25,13 +25,13 @@ class PermissionSeeder extends Seeder
                 'category'       => 'members',
                 'category_label' => 'Membres',
                 'can'            => PermissionEnum::MEMBERS_VIEW_ANY->value,
-                'display_name'   => 'Voir tous les membres',
+                'display_name'   => 'Voir la liste des membres',
             ],
             [
                 'category'       => 'members',
                 'category_label' => 'Membres',
                 'can'            => PermissionEnum::MEMBERS_VIEW->value,
-                'display_name'   => 'Voir un membre',
+                'display_name'   => 'Voir les détails d\'un membre',
             ],
             [
                 'category'       => 'members',
@@ -45,25 +45,19 @@ class PermissionSeeder extends Seeder
                 'can'            => PermissionEnum::MEMBERS_REMOVE->value,
                 'display_name'   => 'Retirer un membre',
             ],
-            [
-                'category'       => 'members',
-                'category_label' => 'Membres',
-                'can'            => PermissionEnum::MEMBERS_EDIT->value,
-                'display_name'   => 'Modifier un membre',
-            ],
 
             // Roles
             [
                 'category'       => 'roles',
                 'category_label' => 'Rôles',
                 'can'            => PermissionEnum::ROLES_VIEW_ANY->value,
-                'display_name'   => 'Voir tous les rôles',
+                'display_name'   => 'Voir la liste des rôles',
             ],
             [
                 'category'       => 'roles',
                 'category_label' => 'Rôles',
                 'can'            => PermissionEnum::ROLES_VIEW->value,
-                'display_name'   => 'Voir un rôle',
+                'display_name'   => 'Voir les détails d\'un rôle',
             ],
             [
                 'category'       => 'roles',
@@ -89,13 +83,13 @@ class PermissionSeeder extends Seeder
                 'category'       => 'product',
                 'category_label' => 'Produits',
                 'can'            => PermissionEnum::PRODUCT_VIEW_ANY->value,
-                'display_name'   => 'Voir tous les produits',
+                'display_name'   => 'Voir la liste des produits',
             ],
             [
                 'category'       => 'product',
                 'category_label' => 'Produits',
                 'can'            => PermissionEnum::PRODUCT_VIEW->value,
-                'display_name'   => 'Voir un produit',
+                'display_name'   => 'Voir les détails d\'un produit',
             ],
             [
                 'category'       => 'product',

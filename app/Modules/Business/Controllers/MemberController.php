@@ -25,7 +25,8 @@ final class MemberController extends BaseController
      */
     public function index(IndexMemberRequest $request, Business $business, MemberRepositoryInterface $memberRepository): BaseAnonymousCollection
     {
-        $memberPaginated = $memberRepository->getFilteredPaginated($request->toDto(), $business);
+        $relations = ['user', 'roles'];
+        $memberPaginated = $memberRepository->getFilteredPaginated($request->toDto(), $business, $relations);
 
         return MemberResource::collection($memberPaginated);
     }
@@ -39,7 +40,7 @@ final class MemberController extends BaseController
     {
         $memberInvited = $inviteMemberAction->handle($request->toDto(), $business);
 
-        return new MemberResource($memberInvited)->status(Response::HTTP_CREATED);
+        return new MemberResource($memberInvited)->status(201);
     }
 
     /**

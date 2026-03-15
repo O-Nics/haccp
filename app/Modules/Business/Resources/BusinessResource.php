@@ -21,7 +21,7 @@ class BusinessResource extends BaseJsonResource
             'name' => $this->name,
 
             // Relationships
-            'members' => $this->whenLoaded('members', MemberResource::collection($this->members)),
+            'members' =>MemberResource::collection($this->whenLoaded('members')),
         ];
     }
 }

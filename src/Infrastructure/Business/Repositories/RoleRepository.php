@@ -50,6 +50,7 @@ final readonly class RoleRepository extends BaseRepository implements RoleReposi
         $role->name = $storeRoleData->name;
         $role->display_name = $storeRoleData->displayName;
         $role->description = $storeRoleData->description;
+        $role->is_system = false;
         $role->save();
 
         return $role;

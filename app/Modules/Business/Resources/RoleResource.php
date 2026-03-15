@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 /**
  * @mixin Role
  */
-class BusinessRoleResource extends BaseJsonResource
+class RoleResource extends BaseJsonResource
 {
     /**
      * Transforms a Role model into an API response array.
@@ -24,7 +24,7 @@ class BusinessRoleResource extends BaseJsonResource
             'name' => $this->name,
             'display_name' => $this->display_name,
             'description' => $this->description,
-
+            'is_system' => $this->is_system,
             // Relation
             'members' => $this->whenLoaded('members', function () {
                 return MemberResource::collection($this->members);

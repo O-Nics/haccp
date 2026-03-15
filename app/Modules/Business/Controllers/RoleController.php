@@ -12,7 +12,7 @@ use App\Modules\Business\Requests\DeleteRoleRequest;
 use App\Modules\Business\Requests\IndexRoleRequest;
 use App\Modules\Business\Requests\StoreRoleRequest;
 use App\Modules\Business\Requests\UpdateRoleRequest;
-use App\Modules\Business\Resources\BusinessRoleResource;
+use App\Modules\Business\Resources\RoleResource;
 use Domain\Business\Actions\DeleteRoleAction;
 use Domain\Business\Actions\StoreRoleAction;
 use Domain\Business\Actions\UpdateRoleAction;
@@ -30,9 +30,10 @@ final class RoleController extends BaseController
      */
     public function index(IndexRoleRequest $indexRoleRequest, Business $business): BaseAnonymousCollection
     {
-        $rolePaginated = $this->roleRepository->getFilteredPaginated($indexRoleRequest->toDto(), $business);
+        $relations = ['members', 'permissions'];
+        $rolePaginated = $this->roleRepository->getFilteredPaginated($indexRoleRequest->toDto(), $business, $relations);
 
-        return BusinessRoleResource::collection($rolePaginated);
+        return RoleResource::collection($rolePaginated);
     }
 
     /**
@@ -40,11 +41,11 @@ final class RoleController extends BaseController
      *
      * @throws BusinessException 409 if a role with the same name already exists
      */
-    public function store(StoreRoleRequest $storeRoleRequest, Business $business, StoreRoleAction $storeRoleAction): BusinessRoleResource
+    public function store(StoreRoleRequest $storeRoleRequest, Business $business, StoreRoleAction $storeRoleAction): RoleResource
     {
         $role = $storeRoleAction->handle($storeRoleRequest->toDto(), $business);
 
-        return new BusinessRoleResource($role)->status(201);
+        return new RoleResource($role)->status(201);
     }
 
     /**
@@ -53,11 +54,11 @@ final class RoleController extends BaseController
      * @throws NotFoundException 404 if the role belongs to a different business
      * @throws BusinessException 409 if the new name conflicts with an existing role
      */
-    public function update(UpdateRoleRequest $updateRoleRequest, Business $business, Role $role, UpdateRoleAction $updateRoleAction): BusinessRoleResource
+    public function update(UpdateRoleRequest $updateRoleRequest, Business $business, Role $role, UpdateRoleAction $updateRoleAction): RoleResource
     {
         $role = $updateRoleAction->handle($role, $updateRoleRequest->toDto(), $business);
 
-        return new BusinessRoleResource($role);
+        return new RoleResource($role);
     }
 
     /**

@@ -22,9 +22,18 @@ final class IndexMemberRequest extends BaseFormRequest
 
     public function toDto(): IndexMemberData
     {
+        $sortable = [
+            'first_name' => 'users.first_name',
+            'last_name' => 'users.last_name',
+            'email' => 'users.email',
+            'invited_at' => 'members.invited_at',
+            'joined_at' => 'members.joined_at',
+            'status' => 'members.status',
+            'created_at' => 'members.created_at',
+        ];
         return new IndexMemberData(
             filterQuery: $this->input('filter_query'),
-            sort: $this->input('sort') ?? 'created_at',
+            sort: $sortable[$this->input('sort') ?? 'created_at'] ?? 'members.created_at',
             order: $this->input('order') ?? 'asc',
             perPage: (int) ($this->input('per_page') ?? 15),
             page: (int) ($this->input('page') ?? 1),

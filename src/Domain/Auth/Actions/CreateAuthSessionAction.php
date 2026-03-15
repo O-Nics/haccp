@@ -15,6 +15,7 @@ use Domain\Auth\Interfaces\SessionRepositoryInterface;
 use Domain\Auth\Interfaces\TokenRepositoryInterface;
 use Domain\Auth\Interfaces\UserRepositoryInterface;
 use Domain\Auth\Models\User;
+use Throwable;
 
 final readonly class CreateAuthSessionAction extends BaseAction
 {
@@ -25,6 +26,9 @@ final readonly class CreateAuthSessionAction extends BaseAction
         private UserRepositoryInterface $userRepository,
     ) {}
 
+    /**
+     * @throws Throwable
+     */
     public function handle(
         User $user,
         DeviceData $deviceInfo,
@@ -63,7 +67,15 @@ final readonly class CreateAuthSessionAction extends BaseAction
                 $business = $businessesQuery->first();
             }
         } else {
+            $relations=  ['members' => function ($query) use ($user) {
+                $query->where('user_id', $user->id);
+            },
+                'members.user',
+                'members.roles',
+            ];
+
             $business = $businessesQuery
+                ->with($relations)
                 ->where('businesses.id', $activeBusinessId)
                 ->first();
         }

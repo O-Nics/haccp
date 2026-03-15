@@ -18,8 +18,8 @@ final class StoreRoleRequest extends BaseFormRequest
         return [
             'display_name' => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string', 'max:1000'],
-            'permissions' => ['required', 'array'],
-            'permissions.*.id' => ['required', 'string', 'exists:permissions,id'],
+            'permission_ids' => ['required', 'array', 'min:1'],
+            'permission_ids.*' => ['string', 'exists:permissions,id'],
         ];
     }
 
@@ -33,9 +33,7 @@ final class StoreRoleRequest extends BaseFormRequest
             name: to_slug($this->input('display_name')),
             displayName: $this->input('display_name'),
             description: $this->input('description'),
-            permissionIds: array_map(function ($permission) {
-                return $permission['id'];
-            }, $this->input('permissions')),
+            permissionIds: $this->input('permission_ids'),
         );
     }
 }

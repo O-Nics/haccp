@@ -28,6 +28,7 @@ final class BusinessController extends BaseController
                 return $query->where('user_id', $user->id);
             },
             'members.user',
+            'members.roles',
         ]);
 
         return BusinessResource::collection($paginatedBusinesses);
