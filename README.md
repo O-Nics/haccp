@@ -1,193 +1,127 @@
-# 🚀 Laravel 12 Auth Starter
+# HACCP — Restaurant Food Safety Management API
 
-Production-ready authentication API built with **Laravel 12** and **PHP 8.4**.
+A multi-tenant API for managing HACCP (Hazard Analysis and Critical Control Points) compliance in restaurants: organisations, businesses, team roles/permissions and product tracking, built on a strict Domain-Driven Design architecture.
+
+Built with **Laravel 12** and **PHP 8.4**.
 
 ## ✨ Features
 
-- ✅ **Multi-device support** with UUIDs v7 (better DB indexing)
-- ✅ **Access + Refresh tokens** (with automatic rotation)
-- ✅ **Rate limiting** (5 attempts per 15 min)
-- ✅ **Device fingerprinting** (SHA-256)
-- ✅ **Carbon 3** (latest)
-- ✅ **PHP 8.4** (all modern features)
-- ✅ **Type-safe** (strict types, enums, DTOs, readonly classes)
-- ✅ **Fully tested** (PHPUnit)
+### Multi-device authentication
+- Access + refresh tokens (Sanctum) with automatic rotation
+- Device fingerprinting and per-device session tracking (`auth_sessions`)
+- Rate limiting on auth endpoints (brute-force protection)
+- Revoke a single device or all other devices at once
+
+### Multi-tenant business management
+- Organisations → Businesses hierarchy
+- Per-business team members with custom **roles & permissions**
+- Fine-grained authorization via policies (`view-any`, `create`, `update`, `delete-many`)
+
+### Product tracking
+- Per-business product catalog, foundation for HACCP traceability (expiry, temperature, critical control points)
+
+### Engineering
+- Domain-Driven Design: clean separation between `app/` (HTTP layer), `src/Domain` (business logic) and `src/Infrastructure` (repositories)
+- DTOs via Spatie Laravel Data, Actions as use cases, Repository pattern
+- Strict typing everywhere, UUID v7 primary keys, soft deletes (regulatory requirement)
+- Tested with Pest/PHPUnit
+- OpenAPI documentation generated with [Scramble](https://scramble.dedoc.co/)
 
 ## 📋 Requirements
 
 - PHP 8.3 or 8.4
-- Laravel 12
 - MySQL 8.0+ / PostgreSQL 14+ / SQLite 3.35+
-- Redis 6.0+ (recommended for caching)
+- Redis 6.0+ (recommended for caching/rate limiting)
 
 ## 🚀 Installation
+
 ```bash
-# Clone
-git clone https://github.com/onicks/laravel-auth.git
-cd laravel-auth-starter
+git clone git@github.com:O-Nics/haccp.git
+cd haccp
 
-# Install dependencies
 composer install
-
-# Setup environment
 cp .env.example .env
 php artisan key:generate
 
-# Configure database in .env
-# DB_CONNECTION=mysql
-# DB_DATABASE=laravel_auth
-# ...
-
-# Run migrations
+# Configure your database in .env, then:
 php artisan migrate
 
-# Serve
 php artisan serve
 ```
 
-## 📡 API Endpoints
+## 📡 Main API Endpoints
 
-### Register
-```bash
-POST /api/auth/register
-Content-Type: application/json
-
-{
-  "name": "Nicolas",
-  "email": "nicolas@example.com",
-  "password": "SecurePass123!",
-  "password_confirmation": "SecurePass123!",
-  "device_name": "iPhone 14"
-}
+### Auth
 ```
-
-### Login
-```bash
-POST /api/auth/login
-Content-Type: application/json
-
-{
-  "email": "nicolas@example.com",
-  "password": "SecurePass123!",
-  "device_name": "MacBook Pro",
-  "remember_me": false
-}
-```
-
-### Refresh Token
-```bash
-POST /api/auth/refresh
-Content-Type: application/json
-
-{
-  "refresh_token": "...",
-  "device_id": "uuid"
-}
-```
-
-### Me
-```bash
-GET /api/auth/me
-Authorization: Bearer {access_token}
-```
-
-### Logout
-```bash
-POST /api/auth/logout
-Authorization: Bearer {access_token}
-Content-Type: application/json
-
-{
-  "device_id": "uuid"
-}
-```
-
-### List Devices
-```bash
-GET /api/devices
-Authorization: Bearer {access_token}
-```
-
-### Revoke Device
-```bash
+POST   /api/auth/register
+POST   /api/auth/login
+POST   /api/auth/refresh
+GET    /api/auth/me
+POST   /api/auth/logout
+GET    /api/devices
 DELETE /api/devices/{deviceId}
-Authorization: Bearer {access_token}
+POST   /api/devices/revoke-others
 ```
 
-### Revoke All Other Devices
-```bash
-POST /api/devices/revoke-others
-Authorization: Bearer {access_token}
-Content-Type: application/json
+### Businesses
+```
+GET    /api/businesses
+GET    /api/businesses/{business}/members
+POST   /api/businesses/{business}/members
+DELETE /api/businesses/{business}/members
 
-{
-  "current_device_id": "uuid"
-}
+GET    /api/businesses/{business}/roles
+POST   /api/businesses/{business}/roles
+PATCH  /api/businesses/{business}/roles/{role}
+DELETE /api/businesses/{business}/roles
+
+GET    /api/businesses/{business}/products
+POST   /api/businesses/{business}/products
+PATCH  /api/businesses/{business}/products/{product}
+DELETE /api/businesses/{business}/products
 ```
 
-## 🎯 Laravel 12 Features Used
+## 🏗️ Architecture
 
-### UUIDs v7
-Better database performance with time-sortable UUIDs.
+```
+app/                     Presentation layer (Controllers, Requests, Resources)
+├── Core/                Shared infrastructure (base classes, middlewares, providers)
+└── Modules/{Domain}/    HTTP layer per domain (Auth, Business, User, Product)
 
-### Carbon 3
-Latest Carbon version with improved performance.
-
-### xxHash
-Laravel 12 uses xxHash internally for better hashing performance.
-
-### Per-second Rate Limiting
-More granular rate limiting control.
-
-## 🧪 Testing
-```bash
-php artisan test
+src/
+├── Domain/{Domain}/     Business logic — framework-agnostic
+│   ├── Actions/         Use cases
+│   ├── Data/            DTOs (Spatie Laravel Data)
+│   ├── Models/          Eloquent models
+│   └── Interfaces/      Repository contracts
+└── Infrastructure/{Domain}/
+    └── Repositories/    Concrete repository implementations
 ```
 
 ## 🔒 Security
 
-- ✅ Refresh tokens hashed with SHA-256
-- ✅ Device fingerprinting
-- ✅ Rate limiting (brute-force protection)
-- ✅ IP tracking
-- ✅ Automatic device limit enforcement
-- ✅ Token rotation on refresh
+- Refresh tokens hashed (SHA-256)
+- Device fingerprinting & IP tracking
+- Rate limiting on auth-sensitive routes
+- Automatic device limit enforcement per user
+- Token rotation on refresh
+- Soft deletes on regulated entities (audit trail)
 
-## 📈 Performance Optimizations
+## 🧪 Testing
 
-- ✅ UUIDs v7 for better DB indexing
-- ✅ Optimized database indexes
-- ✅ Redis caching ready
-- ✅ Eager loading relationships
-- ✅ Query optimization
-
-## 🛠️ Configuration
-
-Edit `config/auth.php`:
-```php
-'tokens' => [
-    'access' => [
-        'expiration' => 15, // minutes
-    ],
-    'refresh' => [
-        'expiration' => 43200, // 30 days
-        'rotation' => true,
-    ],
-],
-'devices' => [
-    'max_per_user' => 5,
-],
+```bash
+composer test
+# or a specific suite
+php artisan test --filter=Business
 ```
 
 ## 📚 Documentation
 
+- API docs generated via Scramble at `/docs/api` once the app is running
 - [Laravel 12 Docs](https://laravel.com/docs/12.x)
-- [Sanctum Docs](https://laravel.com/docs/12.x/sanctum)
+- [Spatie Laravel Data](https://spatie.be/docs/laravel-data)
+- [Pest PHP](https://pestphp.com/)
 
 ## 📝 License
 
-MIT License
-
----
-
-**Built with ❤️ using Laravel 12 + PHP 8.4**
+MIT
